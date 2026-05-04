@@ -1,0 +1,177 @@
+# Japanese localisation workflow
+
+This repository is maintained as a Japanese-only fork of Self-hosted LiveSync.
+Future translation work is expected to be done with help from an LLM (large language model), so this document records the branch policy, update checks, and release steps in a form that is easy to follow in later sessions.
+
+## Goals
+
+- Keep the plugin usable as a Japanese-only build.
+- Keep the cost of tracking upstream releases low.
+- Detect upstream message additions and changes with as little manual inspection as possible.
+- Release Japanese builds from this fork for installation via Obsidian BRAT.
+
+## Repository roles
+
+- `upstream`: original repository, `https://github.com/vrtmrz/obsidian-livesync`.
+- `origin`: this Japanese fork, `https://github.com/Charahiro/obsidian-livesync-ja`.
+- `ja-localization`: working branch for Japanese localisation and releases.
+- `src/lib`: Git submodule for `livesync-commonlib`; this contains the main i18n resources.
+
+Do not assume that checking the parent repository is enough. Translation resources live in the `src/lib` submodule, so upstream updates can include important message changes only through a submodule commit change.
+
+## Localisation policy
+
+Use a pragmatic Japanese-only policy.
+
+- Existing i18n messages: translate in `src/lib/src/common/messagesYAML/ja.yaml`.
+- Generated i18n files: regenerate with `npm run bakei18n`.
+- Svelte screens with hard-coded English: direct Japanese replacement is acceptable.
+- If a hard-coded message has dynamic values or is reused in many places, `$msg(...)` is still acceptable, but it is not required for this fork.
+- Keep translation edits grouped in clearly named commits so future upstream merges are easier to review.
+
+Important files:
+
+- `src/lib/src/common/messagesYAML/en.yaml`: upstream English i18n source.
+- `src/lib/src/common/messagesYAML/ja.yaml`: Japanese i18n source to edit.
+- `src/lib/src/common/i18n.ts`: `$t` and `$msg` implementation.
+- `src/lib/src/common/rosetta.ts`: supported language list and message aggregation.
+- `src/lib/src/common/settingConstants.ts`: many settings labels and descriptions.
+- `src/modules/features/SetupWizard/dialogs/*.svelte`: setup wizard screens with hard-coded UI text.
+- `src/features/P2PSync/P2PReplicator/*.svelte`: P2P pane UI text.
+- `src/features/ConfigSync/*.svelte`: customisation sync UI text.
+- `src/modules/features/GlobalHistory/GlobalHistory.svelte`: global history UI text.
+
+## Upstream release update workflow
+
+Use upstream release tags as the update unit.
+
+1. Fetch upstream tags.
+
+```powershell
+git fetch upstream --tags
+```
+
+2. Pick the previous upstream tag and the new upstream tag.
+
+Use exact tag names from upstream. In examples below:
+
+```powershell
+$OLD = "<previous-upstream-tag>"
+$NEW = "<new-upstream-tag>"
+```
+
+3. Inspect parent repository changes.
+
+```powershell
+git diff --name-status $OLD..$NEW
+git diff $OLD..$NEW -- src/modules/features src/features src/modules
+```
+
+Focus on files that contain user-visible messages. New English text can be added without causing a Git conflict, so this step is important.
+
+4. Inspect the `src/lib` submodule pointer.
+
+```powershell
+git diff --submodule=log $OLD..$NEW -- src/lib
+```
+
+If the submodule commit changed, compare the submodule contents too. Get the old and new submodule commit IDs from the diff above or from `git ls-tree`.
+
+```powershell
+git -C src/lib fetch --tags
+git -C src/lib diff <old-src-lib-commit>..<new-src-lib-commit> -- src/common/messagesYAML src/common/messagesJson src/common/settingConstants.ts
+```
+
+5. Merge the upstream tag into the Japanese branch.
+
+```powershell
+git switch ja-localization
+git merge $NEW
+```
+
+Resolve conflicts as Japanese text. If the same conflict recurs across releases, enable Git's conflict-resolution reuse feature:
+
+```powershell
+git config rerere.enabled true
+```
+
+`rerere` means "reuse recorded resolution"; Git can reuse previously recorded conflict resolutions.
+
+6. Update translations.
+
+- Fill missing keys in `src/lib/src/common/messagesYAML/ja.yaml`.
+- Translate newly added hard-coded Svelte UI text directly to Japanese.
+- Preserve placeholders such as `${name}`, `${value}`, `%{key}`, and URLs unless the surrounding code says otherwise.
+- Keep product and technical names consistent: `Self-hosted LiveSync`, `Obsidian`, `Vault`, `CouchDB`, `MinIO`, `S3`, `R2`, `P2P`.
+
+7. Regenerate i18n files.
+
+```powershell
+npm run bakei18n
+```
+
+8. Check missing i18n keys.
+
+```powershell
+node -e "const fs=require('fs');const en=JSON.parse(fs.readFileSync('src/lib/src/common/messagesJson/en.json','utf8'));const ja=JSON.parse(fs.readFileSync('src/lib/src/common/messagesJson/ja.json','utf8'));const missing=Object.keys(en).filter(k=>!(k in ja));console.log(missing.join('\n'));process.exit(missing.length?1:0);"
+```
+
+9. Check remaining English UI text.
+
+This is a heuristic check. It will produce false positives, but it is useful after upstream merges.
+
+```powershell
+rg -n '>[A-Za-z][^<]*<|title="[A-Za-z]|setButtonText\("[A-Za-z]|setName\("[A-Za-z]|setDesc\("[A-Za-z]' src
+```
+
+Review likely user-visible strings. Ignore code identifiers, tests, external names, and intentionally untranslated product names.
+
+10. Build and test.
+
+```powershell
+npm run build
+```
+
+Run narrower checks if the touched area has tests. For broad localisation-only changes, build success and manual UI inspection are usually the main checks.
+
+## Release workflow for BRAT
+
+Release from `ja-localization`, not necessarily from `main`.
+
+Recommended Japanese release tag format:
+
+```text
+ja-<upstream-version>
+```
+
+Examples:
+
+```text
+ja-0.25.60
+ja-0.25.61
+```
+
+Before creating a GitHub Release, confirm that the built release assets expected by Obsidian BRAT are present. Typically these are:
+
+- `manifest.json`
+- `main.js`
+- `styles.css`
+
+If the upstream release process changes, follow upstream's asset set and keep this fork's release assets compatible with BRAT.
+
+## LLM handoff checklist
+
+At the beginning of a future localisation session, the assistant should:
+
+1. Read this document.
+2. Check `git status --short --branch`.
+3. Check remotes with `git remote -v`.
+4. Fetch upstream tags if the user asks to update from upstream.
+5. Identify the previous Japanese release tag and corresponding upstream tag.
+6. Compare upstream tag to upstream tag, not Japanese branch to upstream branch, when looking for upstream message changes.
+7. Check `src/lib` submodule changes separately.
+8. Preserve user changes and never reset or discard local edits without explicit permission.
+9. Translate in Japanese, keeping placeholders and technical terms intact.
+10. Run `npm run bakei18n` after editing i18n YAML.
+11. Run the missing-key and remaining-English checks before release.
+
