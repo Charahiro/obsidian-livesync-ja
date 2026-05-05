@@ -60,67 +60,61 @@
     }
 </script>
 
-<DialogHeader title="Final Confirmation: Overwrite Server Data with This Device's Files" />
+<DialogHeader title="最終確認: サーバーデータをこのデバイスのファイルで上書き" />
 <Guidance
-    >This procedure will first delete all existing synchronisation data from the server. Following this, the server data
-    will be completely rebuilt, using the current state of your Vault on this device (including its local database) as
-    <strong>the single, authoritative master copy</strong>.</Guidance
+    >この手順では、まずサーバー上の既存の同期データをすべて削除します。その後、このデバイス上のVaultの現在の状態（ローカルデータベースを含む）を<strong>唯一の正本</strong>として、サーバーデータを完全に再構築します。</Guidance
 >
 <InfoNote>
-    You should perform this operation only in exceptional circumstances, such as when the server data is completely
-    corrupted, when changes on all other devices are no longer needed, or when the database size has become unusually
-    large in comparison to the Vault size.
+    この操作は、サーバーデータが完全に破損している、他のすべてのデバイス上の変更が不要になった、Vaultサイズに比べてデータベースサイズが異常に大きくなった、などの例外的な場合にのみ実行してください。
 </InfoNote>
-<Guidance important title="⚠️ Please Confirm the Following">
+<Guidance important title="⚠️ 以下を確認してください">
     <Check
-        title="I understand that all changes made on other smartphones or computers possibly could be lost."
+        title="他のスマートフォンやパソコンで行ったすべての変更が失われる可能性があることを理解しました。"
         bind:value={confirmationCheck1}
     >
-        <InfoNote>There is a way to resolve this on other devices.</InfoNote>
-        <InfoNote>Of course, we can back up the data before proceeding.</InfoNote>
+        <InfoNote>他のデバイス側で解決する方法はあります。</InfoNote>
+        <InfoNote>もちろん、続行前にデータをバックアップできます。</InfoNote>
     </Check>
     <Check
-        title="I understand that other devices will no longer be able to synchronise, and will need to be reset the synchronisation information."
+        title="他のデバイスは同期できなくなり、同期情報のリセットが必要になることを理解しました。"
         bind:value={confirmationCheck2}
     >
-        <InfoNote>by resetting the remote, you will be informed on other devices.</InfoNote>
+        <InfoNote>リモートをリセットすると、他のデバイスにも通知されます。</InfoNote>
     </Check>
-    <Check title="I understand that this action is irreversible once performed." bind:value={confirmationCheck3} />
+    <Check title="この操作は一度実行すると元に戻せないことを理解しました。" bind:value={confirmationCheck3} />
 </Guidance>
 <hr />
 <Instruction>
-    <Question>Have you created a backup before proceeding?</Question>
+    <Question>続行前にバックアップを作成しましたか？</Question>
     <InfoNote warning>
-        This is an extremely powerful operation. We strongly recommend that you copy your Vault folder to a safe
-        location.
+        これは非常に強力な操作です。Vaultフォルダーを安全な場所へコピーしておくことを強く推奨します。
     </InfoNote>
     <Options>
-        <Option selectedValue={TYPE_BACKUP_DONE} title="I have created a backup of my Vault." bind:value={backupType} />
+        <Option selectedValue={TYPE_BACKUP_DONE} title="Vaultのバックアップを作成しました。" bind:value={backupType} />
         <Option
             selectedValue={TYPE_BACKUP_SKIPPED}
-            title="I understand the risks and will proceed without a backup."
+            title="リスクを理解したうえで、バックアップなしで続行します。"
             bind:value={backupType}
         />
         <Option
             selectedValue={TYPE_UNABLE_TO_BACKUP}
-            title="I am unable to create a backup of my Vaults."
+            title="Vaultのバックアップを作成できません。"
             bind:value={backupType}
         >
             <InfoNote error visible={backupType === TYPE_UNABLE_TO_BACKUP}>
                 <strong
-                    >You should create a new synchronisation destination and rebuild your data there. <br /> After that,
-                    synchronise to a brand new vault on each other device with the new remote one by one.</strong
+                    >新しい同期先を作成し、そこへデータを再構築するべきです。<br />その後、他の各デバイスで新しいリモートを使い、新しいVaultへ1台ずつ同期してください。</strong
                 >
             </InfoNote>
         </Option>
     </Options>
 </Instruction>
 <Instruction>
-    <ExtraItems title="Advanced">
-        <Check title="Prevent fetching configuration from server" bind:value={preventFetchingConfig} />
+    <ExtraItems title="詳細設定">
+        <Check title="サーバーから設定を取得しない" bind:value={preventFetchingConfig} />
     </ExtraItems>
 </Instruction>
 <UserDecisions>
-    <Decision title="I Understand, Overwrite Server" important disabled={!canProceed} commit={() => commit()} />
-    <Decision title="Cancel" commit={() => setResult(TYPE_CANCEL)} />
+    <Decision title="理解しました。サーバーを上書きします" important disabled={!canProceed} commit={() => commit()} />
+    <Decision title="キャンセル" commit={() => setResult(TYPE_CANCEL)} />
 </UserDecisions>

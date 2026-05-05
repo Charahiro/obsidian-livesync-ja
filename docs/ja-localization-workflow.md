@@ -15,9 +15,17 @@ Future translation work is expected to be done with help from an LLM (large lang
 - `upstream`: original repository, `https://github.com/vrtmrz/obsidian-livesync`.
 - `origin`: this Japanese fork, `https://github.com/Charahiro/obsidian-livesync-ja`.
 - `ja-localization`: working branch for Japanese localisation and releases.
-- `src/lib`: Git submodule for `livesync-commonlib`; this contains the main i18n resources.
+- `src/lib`: Git submodule for this fork's `livesync-commonlib-ja`; this contains the main i18n resources.
 
 Do not assume that checking the parent repository is enough. Translation resources live in the `src/lib` submodule, so upstream updates can include important message changes only through a submodule commit change.
+
+The parent repository's `.gitmodules` intentionally points `src/lib` to:
+
+```text
+https://github.com/Charahiro/livesync-commonlib-ja
+```
+
+When translation resources inside `src/lib` are changed, commit and push them in the submodule repository first. Then commit the updated `src/lib` pointer in the parent repository.
 
 ## Localisation policy
 
@@ -38,8 +46,31 @@ Important files:
 - `src/lib/src/common/settingConstants.ts`: many settings labels and descriptions.
 - `src/modules/features/SetupWizard/dialogs/*.svelte`: setup wizard screens with hard-coded UI text.
 - `src/features/P2PSync/P2PReplicator/*.svelte`: P2P pane UI text.
+- `src/features/P2PSync/P2PReplicator/*View.ts`: P2P pane titles, menus, and confirmation dialogues.
 - `src/features/ConfigSync/*.svelte`: customisation sync UI text.
+- `src/features/ConfigSync/*.ts`: customisation sync modal titles, menus, confirmations, and notices.
 - `src/modules/features/GlobalHistory/GlobalHistory.svelte`: global history UI text.
+- `src/modules/features/GlobalHistory/GlobalHistoryView.ts`: global history pane title.
+
+## Current Japanese translation pass
+
+As of 2026-05-05, this fork has translated the main i18n gaps and the following hard-coded UI areas:
+
+- Setup Wizard dialogs under `src/modules/features/SetupWizard/dialogs`.
+- P2P Replicator pane and peer rows under `src/features/P2PSync/P2PReplicator`.
+- Config Sync pane, modal, and related notices under `src/features/ConfigSync`.
+- Global History pane under `src/modules/features/GlobalHistory`.
+
+Known validation notes:
+
+- `npm run build` runs `npm run bakei18n` first and should be used before release.
+- After `npm run bakei18n` or `npm run build`, run this command to avoid noisy generated-file line-ending diffs on this workspace:
+
+```powershell
+.\node_modules\.bin\prettier.cmd --config .\.prettierrc.mjs --end-of-line lf "src/lib/src/common/messagesJson/*.json" "src/lib/src/common/messages/*.ts" --write --log-level error
+```
+
+- `npm run svelte-check` currently reports one pre-existing error in `src/modules/features/ModuleSetupObsidian.ts` around the `Setup.QRCode` message parameter. Treat this as unrelated unless that file is changed.
 
 ## Upstream release update workflow
 
@@ -174,4 +205,3 @@ At the beginning of a future localisation session, the assistant should:
 9. Translate in Japanese, keeping placeholders and technical terms intact.
 10. Run `npm run bakei18n` after editing i18n YAML.
 11. Run the missing-key and remaining-English checks before release.
-

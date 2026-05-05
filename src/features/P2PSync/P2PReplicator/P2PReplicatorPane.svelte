@@ -271,7 +271,7 @@
 </script>
 
 <article>
-    <h1>Peer to Peer Replicator</h1>
+    <h1>Peer-to-Peerレプリケーター</h1>
     <details bind:open={isNoticeOpened}>
         <summary>{_msg("P2P.Note.Summary")}</summary>
         <p class="important">{_msg("P2P.Note.important_note")}</p>
@@ -282,23 +282,23 @@
             <p>{paragraph}</p>
         {/each}
     </details>
-    <h2>Connection Settings</h2>
+    <h2>接続設定</h2>
     {#if isObsidian}
-        You can configure in the Obsidian Plugin Settings.
+        Obsidianのプラグイン設定から構成できます。
     {:else}
         <details bind:open={isSettingOpened}>
             <summary>{eRelay}</summary>
             <table class="settings">
                 <tbody>
                     <tr>
-                        <th> Enable P2P Replicator </th>
+                        <th> P2Pレプリケーターを有効化 </th>
                         <td>
                             <label class={{ "is-dirty": isP2PEnabledModified }}>
                                 <input type="checkbox" bind:checked={eP2PEnabled} />
                             </label>
                         </td>
                     </tr><tr>
-                        <th> Relay settings </th>
+                        <th> リレー設定 </th>
                         <td>
                             <label class={{ "is-dirty": isRelayModified }}>
                                 <input
@@ -307,47 +307,46 @@
                                     bind:value={eRelay}
                                     autocomplete="off"
                                 />
-                                <button onclick={() => useDefaultRelay()}> Use vrtmrz's relay </button>
+                                <button onclick={() => useDefaultRelay()}> vrtmrzのリレーを使用 </button>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th> Room ID </th>
+                        <th> ルームID </th>
                         <td>
                             <label class={{ "is-dirty": isRoomIdModified }}>
                                 <input
                                     type="text"
-                                    placeholder="anything-you-like"
+                                    placeholder="room-id"
                                     bind:value={eRoomId}
                                     autocomplete="off"
                                     spellcheck="false"
                                     autocorrect="off"
                                 />
-                                <button onclick={() => chooseRandom()}> Use Random Number </button>
+                                <button onclick={() => chooseRandom()}> ランダム番号を使用 </button>
                             </label>
                             <span>
                                 <small>
-                                    This can isolate your connections between devices. Use the same Room ID for the same
-                                    devices.</small
+                                    デバイス間の接続を分離できます。同じデバイス間では同じルームIDを使用してください。</small
                                 >
                             </span>
                         </td>
                     </tr>
                     <tr>
-                        <th> Password </th>
+                        <th> パスワード </th>
                         <td>
                             <label class={{ "is-dirty": isPasswordModified }}>
-                                <input type="password" placeholder="password" bind:value={ePassword} />
+                                <input type="password" placeholder="パスワード" bind:value={ePassword} />
                             </label>
                             <span>
                                 <small>
-                                    This password is used to encrypt the connection. Use something long enough.
+                                    このパスワードは接続の暗号化に使用されます。十分に長いものを使用してください。
                                 </small>
                             </span>
                         </td>
                     </tr>
                     <tr>
-                        <th> This device name </th>
+                        <th> このデバイス名 </th>
                         <td>
                             <label class={{ "is-dirty": isDeviceNameModified }}>
                                 <input
@@ -359,14 +358,13 @@
                             </label>
                             <span>
                                 <small>
-                                    Device name to identify the device. Please use shorter one for the stable peer
-                                    detection, i.e., "iphone-16" or "macbook-2021".
+                                    デバイスを識別するための名前です。安定したピア検出のため、"iphone-16" や "macbook-2021" のような短めの名前を使用してください。
                                 </small>
                             </span>
                         </td>
                     </tr>
                     <tr>
-                        <th> Auto Connect </th>
+                        <th> 自動接続 </th>
                         <td>
                             <label class={{ "is-dirty": isAutoStartModified }}>
                                 <input type="checkbox" bind:checked={eAutoStart} />
@@ -374,7 +372,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th> Start change-broadcasting on Connect </th>
+                        <th> 接続時に変更ブロードキャストを開始 </th>
                         <td>
                             <label class={{ "is-dirty": isAutoBroadcastModified }}>
                                 <input type="checkbox" bind:checked={eAutoBroadcast} />
@@ -382,7 +380,7 @@
                         </td>
                     </tr>
                     <!-- <tr>
-                <th> Auto Accepting </th>
+                <th> 自動承認 </th>
                 <td>
                     <label class={{ "is-dirty": isAutoAcceptModified }}>
                         <input type="checkbox" bind:checked={eAutoAccept} />
@@ -391,39 +389,38 @@
             </tr> -->
                 </tbody>
             </table>
-            <button disabled={!isAnyModified} class="button mod-cta" onclick={saveAndApply}>Save and Apply</button>
-            <button disabled={!isAnyModified} class="button" onclick={revert}>Revert changes</button>
+            <button disabled={!isAnyModified} class="button mod-cta" onclick={saveAndApply}>保存して適用</button>
+            <button disabled={!isAnyModified} class="button" onclick={revert}>変更を戻す</button>
         </details>
     {/if}
 
     <div>
-        <h2>Signaling Server Connection</h2>
+        <h2>シグナリングサーバー接続</h2>
         <div>
             {#if !isConnected}
-                <p>No Connection</p>
+                <p>未接続</p>
             {:else}
-                <p>Connected to Signaling Server (as Peer ID: {serverPeerId})</p>
+                <p>シグナリングサーバーへ接続中（ピアID: {serverPeerId}）</p>
             {/if}
         </div>
         <div>
             {#if !isConnected}
-                <button onclick={openServer}>Connect</button>
+                <button onclick={openServer}>接続</button>
             {:else}
-                <button onclick={closeServer}>Disconnect</button>
+                <button onclick={closeServer}>切断</button>
                 {#if replicatorInfo?.isBroadcasting !== undefined}
                     {#if replicatorInfo?.isBroadcasting}
-                        <button onclick={stopBroadcasting}>Stop Broadcasting</button>
+                        <button onclick={stopBroadcasting}>ブロードキャストを停止</button>
                     {:else}
-                        <button onclick={startBroadcasting}>Start Broadcasting</button>
+                        <button onclick={startBroadcasting}>ブロードキャストを開始</button>
                     {/if}
                 {/if}
                 <details>
-                    <summary>Broadcasting?</summary>
+                    <summary>ブロードキャストとは？</summary>
                     <p>
                         <small>
-                            If you want to use `LiveSync`, you should broadcast changes. All `watching` peers which
-                            detects this will start the replication for fetching. <br />
-                            However, This should not be enabled if you want to increase your secrecy more.
+                            `LiveSync` を使う場合は、変更をブロードキャストする必要があります。これを検出したすべての `watching` ピアは、取得のためのレプリケーションを開始します。<br />
+                            ただし、秘匿性をさらに高めたい場合は有効にしないでください。
                         </small>
                     </p>
                 </details>
@@ -432,13 +429,13 @@
     </div>
 
     <div>
-        <h2>Peers</h2>
+        <h2>ピア</h2>
         <table class="peers">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Action</th>
-                    <th>Command</th>
+                    <th>名前</th>
+                    <th>操作</th>
+                    <th>コマンド</th>
                 </tr>
             </thead>
             <tbody>

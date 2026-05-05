@@ -65,90 +65,82 @@
     }
 </script>
 
-<DialogHeader title="Reset Synchronisation on This Device" />
+<DialogHeader title="このデバイスの同期をリセット" />
 <Guidance
-    >This will rebuild the local database on this device using the most recent data from the server. This action is
-    designed to resolve synchronisation inconsistencies and restore correct functionality.</Guidance
+    >サーバー上の最新データを使って、このデバイスのローカルデータベースを再構築します。この操作は同期の不整合を解消し、正しい動作を復旧するためのものです。</Guidance
 >
-<Guidance important title="⚠️ Important Notice">
+<Guidance important title="⚠️ 重要なお知らせ">
     <strong
-        >If you have unsynchronised changes in your Vault on this device, they will likely diverge from the server's
-        versions after the reset. This may result in a large number of file conflicts.</strong
+        >このデバイスのVaultに未同期の変更がある場合、リセット後にサーバー上のバージョンと食い違う可能性があります。その結果、大量のファイル競合が発生することがあります。</strong
     ><br />
-    Furthermore, if conflicts are already present in the server data, they will be synchronised to this device as they are,
-    and you will need to resolve them locally.
+    また、サーバーデータに既に競合がある場合、それらはそのままこのデバイスへ同期されるため、ローカルで解決する必要があります。
 </Guidance>
 <hr />
 <Instruction>
     <Question
-        ><strong>To minimise the creation of new conflicts</strong>, please select the option that best describes the
-        current state of your Vault. The application will then check your files in the most appropriate way based on
-        your selection.</Question
+        ><strong>新しい競合の発生を最小限に抑えるため</strong>、現在のVaultの状態に最も近いものを選択してください。選択内容に基づいて、最も適切な方法でファイルを確認します。</Question
     >
     <Options>
         <Option
             selectedValue={TYPE_IDENTICAL}
-            title="The files in this Vault are almost identical to the server's."
+            title="このVaultのファイルはサーバー上のものとほぼ同一です。"
             bind:value={vaultType}
         >
-            (e.g., immediately after restoring on another computer, or having recovered from a backup)
+            （例: 別のパソコンで復元した直後、またはバックアップから復旧した直後）
         </Option>
         <Option
             selectedValue={TYPE_INDEPENDENT}
-            title="This Vault is empty, or contains only new files that are not on the server."
+            title="このVaultは空、またはサーバーに存在しない新規ファイルのみを含んでいます。"
             bind:value={vaultType}
         >
-            (e.g., setting up for the first time on a new smartphone, starting from a clean slate)
+            （例: 新しいスマートフォンで初めて設定する、まっさらな状態から始める）
         </Option>
         <Option
             selectedValue={TYPE_UNBALANCED}
-            title="There may be differences between the files in this Vault and the server."
+            title="このVaultとサーバー上のファイルに差異がある可能性があります。"
             bind:value={vaultType}
         >
-            (e.g., after editing many files whilst offline)
+            （例: オフライン中に多くのファイルを編集した後）
             <InfoNote info>
-                In this scenario, Self-hosted LiveSync will recreate metadata for every file and deliberately generate
-                conflicts. Where the file content is identical, these conflicts will be resolved automatically.
+                この場合、Self-hosted LiveSyncはすべてのファイルのメタデータを再作成し、意図的に競合を生成します。ファイル内容が同一であれば、それらの競合は自動的に解決されます。
             </InfoNote>
         </Option>
     </Options>
 </Instruction>
 <hr />
 <Instruction>
-    <Question>Have you created a backup before proceeding?</Question>
+    <Question>続行前にバックアップを作成しましたか？</Question>
     <InfoNote>
-        We recommend that you copy your Vault folder to a safe location. This will provide a safeguard in case a large
-        number of conflicts arise, or if you accidentally synchronise with an incorrect destination.
+        Vaultフォルダーを安全な場所へコピーしておくことを推奨します。大量の競合が発生した場合や、誤った同期先と同期してしまった場合の保険になります。
     </InfoNote>
     <Options>
-        <Option selectedValue={TYPE_BACKUP_DONE} title="I have created a backup of my Vault." bind:value={backupType} />
+        <Option selectedValue={TYPE_BACKUP_DONE} title="Vaultのバックアップを作成しました。" bind:value={backupType} />
         <Option
             selectedValue={TYPE_BACKUP_SKIPPED}
-            title="I understand the risks and will proceed without a backup."
+            title="リスクを理解したうえで、バックアップなしで続行します。"
             bind:value={backupType}
         />
         <Option
             selectedValue={TYPE_UNABLE_TO_BACKUP}
-            title="I am unable to create a backup of my Vault."
+            title="Vaultのバックアップを作成できません。"
             bind:value={backupType}
         >
             <InfoNote error visible={backupType === TYPE_UNABLE_TO_BACKUP}>
                 <strong
-                    >It is strongly advised to create a backup before proceeding. Continuing without a backup may lead
-                    to data loss.
+                    >続行前にバックアップを作成することを強く推奨します。バックアップなしで続行すると、データ損失につながる可能性があります。
                 </strong>
                 <br />
-                If you understand the risks and still wish to proceed, select so.
+                リスクを理解したうえで続行する場合は、その選択肢を選んでください。
             </InfoNote>
         </Option>
     </Options>
 </Instruction>
 <Instruction>
-    <ExtraItems title="Advanced">
-        <Check title="Prevent fetching configuration from server" bind:value={preventFetchingConfig} />
+    <ExtraItems title="詳細設定">
+        <Check title="サーバーから設定を取得しない" bind:value={preventFetchingConfig} />
     </ExtraItems>
 </Instruction>
 <UserDecisions>
-    <Decision title="Reset and Resume Synchronisation" important disabled={!canProceed} commit={() => commit()} />
-    <Decision title="Cancel" commit={() => setResult(TYPE_CANCEL)} />
+    <Decision title="リセットして同期を再開" important disabled={!canProceed} commit={() => commit()} />
+    <Decision title="キャンセル" commit={() => setResult(TYPE_CANCEL)} />
 </UserDecisions>

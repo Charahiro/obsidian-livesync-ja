@@ -20,32 +20,34 @@
 
     let statusChips = $derived.by(() =>
         [
-            peer.isWatching ? ["WATCHING"] : [],
-            peer.isFetching ? ["FETCHING"] : [],
-            peer.isSending ? ["SENDING"] : [],
+            peer.isWatching ? ["監視中"] : [],
+            peer.isFetching ? ["取得中"] : [],
+            peer.isSending ? ["送信中"] : [],
         ].flat()
     );
     let acceptedStatusChip = $derived.by(() =>
         select(
             peer.accepted.toString(),
             {
-                [AcceptedStatus.ACCEPTED]: "ACCEPTED",
-                [AcceptedStatus.ACCEPTED_IN_SESSION]: "ACCEPTED (in session)",
-                [AcceptedStatus.DENIED_IN_SESSION]: "DENIED (in session)",
-                [AcceptedStatus.DENIED]: "DENIED",
-                [AcceptedStatus.UNKNOWN]: "NEW",
+                [AcceptedStatus.ACCEPTED]: "承認済み",
+                [AcceptedStatus.ACCEPTED_IN_SESSION]: "承認済み（このセッションのみ）",
+                [AcceptedStatus.DENIED_IN_SESSION]: "拒否（このセッションのみ）",
+                [AcceptedStatus.DENIED]: "拒否",
+                [AcceptedStatus.UNKNOWN]: "新規",
             },
             ""
         )
     );
     const classList = {
-        ["SENDING"]: "connected",
-        ["FETCHING"]: "connected",
-        ["WATCHING"]: "connected-live",
-        ["WAITING"]: "waiting",
-        ["ACCEPTED"]: "accepted",
-        ["DENIED"]: "denied",
-        ["NEW"]: "unknown",
+        ["送信中"]: "connected",
+        ["取得中"]: "connected",
+        ["監視中"]: "connected-live",
+        ["待機中"]: "waiting",
+        ["承認済み"]: "accepted",
+        ["承認済み（このセッションのみ）"]: "accepted",
+        ["拒否"]: "denied",
+        ["拒否（このセッションのみ）"]: "denied",
+        ["新規"]: "unknown",
     };
     let isAccepted = $derived.by(
         () => peer.accepted === AcceptedStatus.ACCEPTED || peer.accepted === AcceptedStatus.ACCEPTED_IN_SESSION
@@ -75,13 +77,13 @@
     const peerAttrLabels = $derived.by(() => {
         const attrs = [];
         if (peer.syncOnConnect) {
-            attrs.push("✔ SYNC");
+            attrs.push("✔ 同期");
         }
         if (peer.watchOnConnect) {
-            attrs.push("✔ WATCH");
+            attrs.push("✔ 監視");
         }
         if (peer.syncOnReplicationCommand) {
-            attrs.push("✔ SELECT");
+            attrs.push("✔ 選択");
         }
         return attrs;
     });
@@ -134,15 +136,15 @@
             <div class="row">
                 {#if isNew}
                     {#if !isAccepted}
-                        <button class="button" onclick={() => makeDecision(true, true)}>Accept in session</button>
-                        <button class="button mod-cta" onclick={() => makeDecision(true, false)}>Accept</button>
+                        <button class="button" onclick={() => makeDecision(true, true)}>このセッションのみ承認</button>
+                        <button class="button mod-cta" onclick={() => makeDecision(true, false)}>承認</button>
                     {/if}
                     {#if !isDenied}
-                        <button class="button" onclick={() => makeDecision(false, true)}>Deny in session</button>
-                        <button class="button mod-warning" onclick={() => makeDecision(false, false)}>Deny</button>
+                        <button class="button" onclick={() => makeDecision(false, true)}>このセッションのみ拒否</button>
+                        <button class="button mod-warning" onclick={() => makeDecision(false, false)}>拒否</button>
                     {/if}
                 {:else}
-                    <button class="button mod-warning" onclick={() => revokeDecision()}>Revoke</button>
+                    <button class="button mod-warning" onclick={() => revokeDecision()}>取り消し</button>
                 {/if}
             </div>
         </div>
@@ -155,9 +157,9 @@
                     <!-- <button class="button" onclick={replicateFrom} disabled={peer.isFetching}>📥</button>
                     <button class="button" onclick={replicateTo} disabled={peer.isSending}>📤</button> -->
                     {#if peer.isWatching}
-                        <button class="button" onclick={stopWatching}>Stop ⚡</button>
+                        <button class="button" onclick={stopWatching}>停止 ⚡</button>
                     {:else}
-                        <button class="button" onclick={startWatching} title="live">⚡</button>
+                        <button class="button" onclick={startWatching} title="ライブ監視">⚡</button>
                     {/if}
                     <button class="button" onclick={moreMenu}>...</button>
                 </div>

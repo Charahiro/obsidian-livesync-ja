@@ -35,6 +35,6 @@ export class GlobalHistoryView extends SvelteItemView {
     }
 
     getDisplayText() {
-        return "Vault history";
+        return "Vault履歴";
     }
 }

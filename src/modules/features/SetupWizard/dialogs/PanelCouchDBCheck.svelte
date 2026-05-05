@@ -19,7 +19,7 @@
             detectedIssues = fixResults;
         } catch (e) {
             console.error("Error during testAndFixSettings:", e);
-            detectedIssues.push({ message: `Error during testAndFixSettings: ${e}`, result: "error", classes: [] });
+            detectedIssues.push({ message: `設定チェック中にエラーが発生しました: ${e}`, result: "error", classes: [] });
         }
     }
     function isErrorResult(result: ConfigCheckResult): result is ResultError | ResultErrorMessage {
@@ -58,27 +58,27 @@
         </div>
         {#if isFixableError(issue)}
             <div class="operations">
-                <button onclick={() => fixIssue(issue)} class="mod-cta" disabled={processing}>Fix</button>
+                <button onclick={() => fixIssue(issue)} class="mod-cta" disabled={processing}>修正</button>
             </div>
         {/if}
     </div>
 {/snippet}
 <UserDecisions>
-    <Decision title="Detect and Fix CouchDB Issues" important={true} commit={testAndFixSettings} />
+    <Decision title="CouchDBの問題を検出して修正" important={true} commit={testAndFixSettings} />
 </UserDecisions>
 <div class="check-results">
     <details open={!isAllSuccess}>
         <summary>
             {#if detectedIssues.length === 0}
-                No checks have been performed yet.
+                まだチェックは実行されていません。
             {:else if isAllSuccess}
-                All checks passed successfully!
+                すべてのチェックに成功しました！
             {:else}
-                {errorIssueCount} issue(s) detected!
+                {errorIssueCount} 件の問題が検出されました！
             {/if}
         </summary>
         {#if detectedIssues.length > 0}
-            <h3>Issue detection log:</h3>
+            <h3>問題検出ログ:</h3>
             {#each detectedIssues as issue}
                 {@render result(issue)}
             {/each}

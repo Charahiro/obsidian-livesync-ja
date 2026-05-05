@@ -199,37 +199,37 @@
 </script>
 
 <div class="globalhistory">
-    <h1>Vault history</h1>
+    <h1>Vault履歴</h1>
     <div class="control">
         <div class="row">
-            <label for="">From:</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
+            <label for="">開始:</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
         </div>
-        <div class="row"><label for="">To:</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
+        <div class="row"><label for="">終了:</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
         <div class="row">
-            <label for="">Info:</label>
-            <label><input type="checkbox" bind:checked={showDiffInfo} disabled={loading} /><span>Diff</span></label>
+            <label for="">情報:</label>
+            <label><input type="checkbox" bind:checked={showDiffInfo} disabled={loading} /><span>差分</span></label>
             <label
-                ><input type="checkbox" bind:checked={showChunkCorrected} disabled={loading} /><span>Chunks</span
+                ><input type="checkbox" bind:checked={showChunkCorrected} disabled={loading} /><span>チャンク</span
                 ></label
             >
             <label
-                ><input type="checkbox" bind:checked={checkStorageDiff} disabled={loading} /><span>File integrity</span
+                ><input type="checkbox" bind:checked={checkStorageDiff} disabled={loading} /><span>ファイル整合性</span
                 ></label
             >
         </div>
     </div>
     {#if loading}
-        <div class="">Gathering information...</div>
+        <div class="">情報を収集中...</div>
     {/if}
     <table>
         <tbody>
             <tr>
-                <th> Date </th>
-                <th> Path </th>
-                <th> Rev </th>
-                <th> Stat </th>
+                <th> 日時 </th>
+                <th> パス </th>
+                <th> リビジョン </th>
+                <th> 状態 </th>
                 {#if showChunkCorrected}
-                    <th> Chunks </th>
+                    <th> チャンク </th>
                 {/if}
             </tr>
             <tr>
@@ -237,7 +237,7 @@
                     {#if loading}
                         <div class=""></div>
                     {:else}
-                        <div><button on:click={() => nextWeek()}>+1 week</button></div>
+                        <div><button on:click={() => nextWeek()}>+1週間</button></div>
                     {/if}
                 </td>
             </tr>
@@ -286,7 +286,7 @@
                     {#if loading}
                         <div class=""></div>
                     {:else}
-                        <div><button on:click={() => prevWeek()}>+1 week</button></div>
+                        <div><button on:click={() => prevWeek()}>+1週間</button></div>
                     {/if}
                 </td>
             </tr>

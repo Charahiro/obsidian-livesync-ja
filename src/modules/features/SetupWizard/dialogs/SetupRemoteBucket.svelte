@@ -83,17 +83,17 @@
             const trialRemoteSetting = generateSetting();
             const replicator = await context.services.replicator.getNewReplicator(trialRemoteSetting);
             if (!replicator) {
-                return "Failed to create replicator instance.";
+                return "レプリケーターインスタンスを作成できませんでした。";
             }
             try {
                 const result = await replicator.tryConnectRemote(trialRemoteSetting, false);
                 if (result) {
                     return "";
                 } else {
-                    return "Failed to connect to the server. Please check your settings.";
+                    return "サーバーに接続できませんでした。設定を確認してください。";
                 }
             } catch (e) {
-                return `Failed to connect to the server: ${e}`;
+                return `サーバーに接続できませんでした: ${e}`;
             }
         } finally {
             processing = false;
@@ -110,7 +110,7 @@
                 return;
             }
         } catch (e) {
-            error = `Error during connection test: ${e}`;
+            error = `接続テスト中にエラーが発生しました: ${e}`;
             return;
         }
     }
@@ -123,9 +123,9 @@
     }
 </script>
 
-<DialogHeader title="S3/MinIO/R2 Configuration" />
-<Guidance>Please enter the details required to connect to your S3/MinIO/R2 compatible object storage service.</Guidance>
-<InputRow label="Endpoint URL">
+<DialogHeader title="S3/MinIO/R2設定" />
+<Guidance>S3/MinIO/R2互換オブジェクトストレージサービスへ接続するために必要な情報を入力してください。</Guidance>
+<InputRow label="エンドポイントURL">
     <input
         type="text"
         name="s3-endpoint"
@@ -138,13 +138,13 @@
         bind:value={syncSetting.endpoint}
     />
 </InputRow>
-<InfoNote warning visible={isEndpointInsecure}>We can use only Secure (HTTPS) connections on Obsidian Mobile.</InfoNote>
+<InfoNote warning visible={isEndpointInsecure}>Obsidian Mobileでは安全な接続（HTTPS）のみ使用できます。</InfoNote>
 
-<InputRow label="Access Key ID">
+<InputRow label="アクセスキーID">
     <input
         type="text"
         name="s3-access-key-id"
-        placeholder="Enter your Access Key ID"
+        placeholder="アクセスキーIDを入力"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -153,19 +153,19 @@
     />
 </InputRow>
 
-<InputRow label="Secret Access Key">
+<InputRow label="シークレットアクセスキー">
     <Password
         name="s3-secret-access-key"
-        placeholder="Enter your Secret Access Key"
+        placeholder="シークレットアクセスキーを入力"
         required
         bind:value={syncSetting.secretKey}
     />
 </InputRow>
-<InputRow label="Bucket Name">
+<InputRow label="バケット名">
     <input
         type="text"
         name="s3-bucket-name"
-        placeholder="Enter your Bucket Name"
+        placeholder="バケット名を入力"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -173,26 +173,26 @@
         bind:value={syncSetting.bucket}
     /></InputRow
 >
-<InputRow label="Region">
+<InputRow label="リージョン">
     <input
         type="text"
         name="s3-region"
-        placeholder="Enter your Region (e.g., us-east-1, auto for R2)"
+        placeholder="リージョンを入力（例: us-east-1、R2ではauto）"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
         bind:value={syncSetting.region}
     />
 </InputRow>
-<InputRow label="Use Path-Style Access">
+<InputRow label="パス形式アクセスを使用">
     <input type="checkbox" name="s3-use-path-style" bind:checked={syncSetting.forcePathStyle} />
 </InputRow>
 
-<InputRow label="Folder Prefix">
+<InputRow label="フォルダー接頭辞">
     <input
         type="text"
         name="s3-folder-prefix"
-        placeholder="Enter a folder prefix (optional)"
+        placeholder="フォルダー接頭辞を入力（任意）"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -200,23 +200,20 @@
     />
 </InputRow>
 <InfoNote>
-    If you want to store the data in a specific folder within the bucket, you can specify a folder prefix here.
-    Otherwise, leave it blank to store data at the root of the bucket.
+    バケット内の特定フォルダーにデータを保存したい場合は、ここでフォルダー接頭辞を指定できます。バケットのルートに保存する場合は空欄のままにしてください。
 </InfoNote>
-<InputRow label="Use internal API">
+<InputRow label="内部APIを使用">
     <input type="checkbox" name="s3-use-internal-api" bind:checked={syncSetting.useCustomRequestHandler} />
 </InputRow>
 <InfoNote>
-    If you cannot avoid CORS issues, you might want to try this option. It uses Obsidian's internal API to communicate
-    with the S3 server. Not compliant with web standards, but works. Note that this might break in future Obsidian
-    versions.
+    CORSの問題を回避できない場合は、このオプションを試せます。Obsidianの内部APIを使ってS3サーバーと通信します。Web標準には準拠していませんが動作します。将来のObsidianバージョンで動かなくなる可能性があります。
 </InfoNote>
 
-<ExtraItems title="Advanced Settings">
-    <InputRow label="Custom Headers">
+<ExtraItems title="詳細設定">
+    <InputRow label="カスタムヘッダー">
         <textarea
             name="bucket-custom-headers"
-            placeholder="e.g., x-example-header: value\n another-header: value2"
+            placeholder="例: x-example-header: value\n another-header: value2"
             bind:value={syncSetting.bucketCustomHeaders}
             autocapitalize="off"
             spellcheck="false"
@@ -230,11 +227,11 @@
 </InfoNote>
 
 {#if processing}
-    Checking connection... Please wait.
+    接続を確認しています。しばらくお待ちください。
 {:else}
     <UserDecisions>
-        <Decision title="Test Settings and Continue" important disabled={!canProceed} commit={() => checkAndCommit()} />
-        <Decision title="Continue anyway" commit={() => commit()} />
-        <Decision title="Cancel" commit={() => cancel()} />
+        <Decision title="設定をテストして続行" important disabled={!canProceed} commit={() => checkAndCommit()} />
+        <Decision title="このまま続行" commit={() => commit()} />
+        <Decision title="キャンセル" commit={() => cancel()} />
     </UserDecisions>
 {/if}

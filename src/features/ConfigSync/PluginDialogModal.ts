@@ -19,7 +19,7 @@ export class PluginDialogModal extends Modal {
         this.contentEl.style.overflow = "auto";
         this.contentEl.style.display = "flex";
         this.contentEl.style.flexDirection = "column";
-        this.titleEl.setText("Customization Sync (Beta3)");
+        this.titleEl.setText("カスタマイズ同期 (Beta3)");
         if (!this.component) {
             this.component = mount(PluginPane, {
                 target: contentEl,

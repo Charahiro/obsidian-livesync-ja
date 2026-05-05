@@ -51,31 +51,31 @@ export class P2PReplicatorPaneView extends SvelteItemView {
     }
     async getRemoteConfig(peer: PeerStatus) {
         Logger(
-            `Requesting remote config for ${peer.name}. Please input the passphrase on the remote device`,
+            `${peer.name} のリモート構成を要求しています。リモートデバイスでパスフレーズを入力してください`,
             LOG_LEVEL_NOTICE
         );
         const remoteConfig = await this.replicator.getRemoteConfig(peer.peerId);
         if (remoteConfig) {
-            Logger(`Remote config for ${peer.name} is retrieved successfully`);
-            const DROP = "Yes, and drop local database";
-            const KEEP = "Yes, but keep local database";
-            const CANCEL = "No, cancel";
+            Logger(`${peer.name} のリモート構成を取得しました`);
+            const DROP = "はい、ローカルデータベースを破棄します";
+            const KEEP = "はい、ローカルデータベースは保持します";
+            const CANCEL = "いいえ、キャンセルします";
             const yn = await this.core.confirm.askSelectStringDialogue(
-                `Do you really want to apply the remote config? This will overwrite your current config immediately and restart.
-And you can also drop the local database to rebuild from the remote device.`,
+                `リモート構成を本当に適用しますか？現在の構成はすぐに上書きされ、再起動します。
+リモートデバイスから再構築するため、ローカルデータベースを破棄することもできます。`,
                 [DROP, KEEP, CANCEL] as const,
                 {
                     defaultAction: CANCEL,
-                    title: "Apply Remote Config ",
+                    title: "リモート構成を適用",
                 }
             );
             if (yn === DROP || yn === KEEP) {
                 if (yn === DROP) {
                     if (remoteConfig.remoteType !== REMOTE_P2P) {
                         const yn2 = await this.core.confirm.askYesNoDialog(
-                            `Do you want to set the remote type to "P2P Sync" to rebuild by "P2P replication"?`,
+                            `リモート種別を "P2P Sync" に設定し、"P2P replication" で再構築しますか？`,
                             {
-                                title: "Rebuild from remote device",
+                                title: "リモートデバイスから再構築",
                             }
                         );
                         if (yn2 === "yes") {
@@ -94,10 +94,10 @@ And you can also drop the local database to rebuild from the remote device.`,
                     this.core.services.appLifecycle.scheduleRestart();
                 }
             } else {
-                Logger(`Cancelled\nRemote config for ${peer.name} is not applied`, LOG_LEVEL_NOTICE);
+                Logger(`キャンセルしました\n${peer.name} のリモート構成は適用されません`, LOG_LEVEL_NOTICE);
             }
         } else {
-            Logger(`Cannot retrieve remote config for ${peer.peerId}`);
+            Logger(`${peer.peerId} のリモート構成を取得できません`);
         }
     }
 
@@ -132,18 +132,18 @@ And you can also drop the local database to rebuild from the remote device.`,
                 this.m.hide();
             }
             this.m = new Menu()
-                .addItem((item) => item.setTitle("📥 Only Fetch").onClick(() => this.replicateFrom(peer)))
-                .addItem((item) => item.setTitle("📤 Only Send").onClick(() => this.replicateTo(peer)))
+                .addItem((item) => item.setTitle("📥 取得のみ").onClick(() => this.replicateFrom(peer)))
+                .addItem((item) => item.setTitle("📤 送信のみ").onClick(() => this.replicateTo(peer)))
                 .addSeparator()
                 .addItem((item) => {
-                    item.setTitle("🔧 Get Configuration").onClick(async () => {
+                    item.setTitle("🔧 構成を取得").onClick(async () => {
                         await this.getRemoteConfig(peer);
                     });
                 })
                 .addSeparator()
                 .addItem((item) => {
                     const mark = peer.syncOnConnect ? "checkmark" : null;
-                    item.setTitle("Toggle Sync on connect")
+                    item.setTitle("接続時の同期を切り替え")
                         .onClick(async () => {
                             await this.toggleProp(peer, "syncOnConnect");
                         })
@@ -151,7 +151,7 @@ And you can also drop the local database to rebuild from the remote device.`,
                 })
                 .addItem((item) => {
                     const mark = peer.watchOnConnect ? "checkmark" : null;
-                    item.setTitle("Toggle Watch on connect")
+                    item.setTitle("接続時の監視を切り替え")
                         .onClick(async () => {
                             await this.toggleProp(peer, "watchOnConnect");
                         })
@@ -159,7 +159,7 @@ And you can also drop the local database to rebuild from the remote device.`,
                 })
                 .addItem((item) => {
                     const mark = peer.syncOnReplicationCommand ? "checkmark" : null;
-                    item.setTitle("Toggle Sync on `Replicate now` command")
+                    item.setTitle("`Replicate now` コマンドでの同期を切り替え")
                         .onClick(async () => {
                             await this.toggleProp(peer, "syncOnReplicationCommand");
                         })
@@ -174,7 +174,7 @@ And you can also drop the local database to rebuild from the remote device.`,
     }
 
     getDisplayText() {
-        return "Peer-to-Peer Replicator";
+        return "Peer-to-Peerレプリケーター";
     }
 
     override async onClose(): Promise<void> {

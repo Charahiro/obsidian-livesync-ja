@@ -18,11 +18,11 @@
     let userType = $state<ResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_NEW_USER) {
-            return "Yes, I want to set up a new synchronisation";
+            return "はい、新しい同期をセットアップします";
         } else if (userType === TYPE_EXISTING_USER) {
-            return "Yes, I want to add this device to my existing synchronisation";
+            return "はい、このデバイスを既存の同期に追加します";
         } else {
-            return "Please select an option to proceed";
+            return "続行するには選択してください";
         }
     });
     const canProceed = $derived.by(() => {
@@ -30,26 +30,24 @@
     });
 </script>
 
-<DialogHeader title="Welcome to Self-hosted LiveSync" />
-<Guidance>We will now guide you through a few questions to simplify the synchronisation setup.</Guidance>
+<DialogHeader title="Self-hosted LiveSync へようこそ" />
+<Guidance>同期設定を簡単に行うため、いくつかの質問に沿って案内します。</Guidance>
 <Instruction>
-    <Question>First, please select the option that best describes your current situation.</Question>
+    <Question>まず、現在の状況に最も近いものを選択してください。</Question>
     <Options>
-        <Option selectedValue={TYPE_NEW_USER} title="I am setting this up for the first time" bind:value={userType}>
-            (Select this if you are configuring this device as the first synchronisation device.) This option is
-            suitable if you are new to LiveSync and want to set it up from scratch.
+        <Option selectedValue={TYPE_NEW_USER} title="初めてセットアップします" bind:value={userType}>
+            このデバイスを最初の同期デバイスとして設定する場合に選択してください。LiveSyncを初めて使い、最初から設定する場合に適しています。
         </Option>
         <Option
             selectedValue={TYPE_EXISTING_USER}
-            title="I am adding a device to an existing synchronisation setup"
+            title="既存の同期設定にこのデバイスを追加します"
             bind:value={userType}
         >
-            (Select this if you are already using synchronisation on another computer or smartphone.) This option is
-            suitable if you are new to LiveSync and want to set it up from scratch.
+            別のパソコンやスマートフォンで既に同期を使用している場合に選択してください。このデバイスを既存の同期環境に参加させます。
         </Option>
     </Options>
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="いいえ、戻ります" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

@@ -18,13 +18,13 @@
     let userType = $state<ResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_COUCHDB) {
-            return "Continue to CouchDB setup";
+            return "CouchDB設定へ進む";
         } else if (userType === TYPE_BUCKET) {
-            return "Continue to S3/MinIO/R2 setup";
+            return "S3/MinIO/R2設定へ進む";
         } else if (userType === TYPE_P2P) {
-            return "Continue to Peer-to-Peer only setup";
+            return "Peer-to-Peer専用設定へ進む";
         } else {
-            return "Please select an option to proceed";
+            return "続行するには選択してください";
         }
     });
     const canProceed = $derived.by(() => {
@@ -32,25 +32,22 @@
     });
 </script>
 
-<DialogHeader title="Enter Server Information" />
+<DialogHeader title="サーバー情報の入力" />
 <Instruction>
-    <Question>Please select the type of server to which you are connecting.</Question>
+    <Question>接続先サーバーの種類を選択してください。</Question>
     <Options>
         <Option selectedValue={TYPE_COUCHDB} title="CouchDB" bind:value={userType}>
-            This is the most suitable synchronisation method for the design. All functions are available. You must have
-            set up a CouchDB instance.
+            設計上、最も適した同期方式です。すべての機能を利用できます。CouchDBインスタンスをセットアップしておく必要があります。
         </Option>
-        <Option selectedValue={TYPE_BUCKET} title="S3/MinIO/R2 Object Storage" bind:value={userType}>
-            Synchronisation utilising journal files. You must have set up an S3/MinIO/R2 compatible object storage.
+        <Option selectedValue={TYPE_BUCKET} title="S3/MinIO/R2オブジェクトストレージ" bind:value={userType}>
+            ジャーナルファイルを利用した同期です。S3/MinIO/R2互換のオブジェクトストレージをセットアップしておく必要があります。
         </Option>
-        <Option selectedValue={TYPE_P2P} title="Peer-to-Peer only" bind:value={userType}>
-            This feature enables direct synchronisation between devices. No server is required, but both devices must be
-            online at the same time for synchronisation to occur, and some features may be limited. Internet connection
-            is only required to signalling (detecting peers) and not for data transfer.
+        <Option selectedValue={TYPE_P2P} title="Peer-to-Peerのみ" bind:value={userType}>
+            デバイス間で直接同期します。サーバーは不要ですが、同期時には両方のデバイスが同時にオンラインである必要があり、一部機能は制限される場合があります。インターネット接続はシグナリング（ピア検出）にのみ必要で、データ転送には使用されません。
         </Option>
     </Options>
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="いいえ、戻ります" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

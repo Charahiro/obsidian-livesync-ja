@@ -33,14 +33,14 @@
     const addOn = core.getAddOn<ConfigSync>(ConfigSync.name)!;
     if (!addOn) {
         const msg =
-            "AddOn Module (ConfigSync) has not been loaded. This is very unexpected situation. Please report this issue.";
+            "アドオンモジュール (ConfigSync) が読み込まれていません。想定外の状態です。この問題を報告してください。";
         Logger(msg, LOG_LEVEL_NOTICE);
         throw new Error(msg);
     }
     const addOnHiddenFileSync = core.getAddOn<HiddenFileSync>(HiddenFileSync.name) as HiddenFileSync;
     if (!addOnHiddenFileSync) {
         const msg =
-            "AddOn Module (HiddenFileSync) has not been loaded. This is very unexpected situation. Please report this issue.";
+            "アドオンモジュール (HiddenFileSync) が読み込まれていません。想定外の状態です。この問題を報告してください。";
         Logger(msg, LOG_LEVEL_NOTICE);
         throw new Error(msg);
     }
@@ -92,9 +92,9 @@
     }
 
     const displays = {
-        CONFIG: "Configuration",
-        THEME: "Themes",
-        SNIPPET: "Snippets",
+        CONFIG: "設定",
+        THEME: "テーマ",
+        SNIPPET: "CSSスニペット",
     };
     async function scanAgain() {
         await addOn.scanAllConfigFiles(true);
@@ -156,20 +156,20 @@
     }
     function askOverwriteModeForAutomatic(evt: MouseEvent, key: string) {
         const menu = new Menu();
-        menu.addItem((item) => item.setTitle("Initial Action").setIsLabel(true));
+        menu.addItem((item) => item.setTitle("初回の動作").setIsLabel(true));
         menu.addSeparator();
         menu.addItem((item) => {
-            item.setTitle(`↑: Overwrite Remote`).onClick((e) => {
+            item.setTitle(`↑: リモートを上書き`).onClick((e) => {
                 applyAutomaticSync(key, "pushForce");
             });
         })
             .addItem((item) => {
-                item.setTitle(`↓: Overwrite Local`).onClick((e) => {
+                item.setTitle(`↓: ローカルを上書き`).onClick((e) => {
                     applyAutomaticSync(key, "pullForce");
                 });
             })
             .addItem((item) => {
-                item.setTitle(`⇅: Use newer`).onClick((e) => {
+                item.setTitle(`⇅: 新しい方を使用`).onClick((e) => {
                     applyAutomaticSync(key, "safe");
                 });
             });
@@ -201,10 +201,10 @@
         [MODE_SHINY]: ICON_EMOJI_FLAGGED,
     };
     const TITLES: { [key: number]: string } = {
-        [MODE_SELECTIVE]: "Selective",
-        [MODE_PAUSED]: "Ignore",
-        [MODE_AUTOMATIC]: "Automatic",
-        [MODE_SHINY]: "Flagged Selective",
+        [MODE_SELECTIVE]: "選択",
+        [MODE_PAUSED]: "無視",
+        [MODE_AUTOMATIC]: "自動",
+        [MODE_SHINY]: "フラグ付き選択",
     };
     const PREFIX_PLUGIN_ALL = "PLUGIN_ALL";
     const PREFIX_PLUGIN_DATA = "PLUGIN_DATA";
@@ -329,28 +329,28 @@
 
 <div class="buttonsWrap">
     <div class="buttons">
-        <button on:click={() => scanAgain()}>Scan changes</button>
-        <button on:click={() => replicate()}>Sync once</button>
-        <button on:click={() => requestUpdate()}>Refresh</button>
+        <button on:click={() => scanAgain()}>変更をスキャン</button>
+        <button on:click={() => replicate()}>一度だけ同期</button>
+        <button on:click={() => requestUpdate()}>更新</button>
         {#if isMaintenanceMode}
-            <button on:click={() => requestReload()}>Reload</button>
+            <button on:click={() => requestReload()}>再読み込み</button>
         {/if}
     </div>
     <div class="buttons">
-        <button on:click={() => selectAllNewest(true)}>Select All Shiny</button>
-        <button on:click={() => selectAllNewest(false)}>{ICON_EMOJI_FLAGGED} Select Flagged Shiny</button>
-        <button on:click={() => resetSelectNewest()}>Deselect all</button>
-        <button on:click={() => applyAll()} class="mod-cta">Apply All Selected</button>
+        <button on:click={() => selectAllNewest(true)}>すべての新しい項目を選択</button>
+        <button on:click={() => selectAllNewest(false)}>{ICON_EMOJI_FLAGGED} フラグ付きの新しい項目を選択</button>
+        <button on:click={() => resetSelectNewest()}>すべて解除</button>
+        <button on:click={() => applyAll()} class="mod-cta">選択した項目をすべて適用</button>
     </div>
 </div>
 <div class="loading">
     {#if loading || $pluginV2Progress !== 0}
-        <span>Updating list...{$pluginV2Progress == 0 ? "" : ` (${$pluginV2Progress})`}</span>
+        <span>一覧を更新中...{$pluginV2Progress == 0 ? "" : ` (${$pluginV2Progress})`}</span>
     {/if}
 </div>
 <div class="list">
     {#if list.length == 0}
-        <div class="center">No Items.</div>
+        <div class="center">項目がありません。</div>
     {:else}
         {#each displayEntries as [key, label]}
             <div>
@@ -382,7 +382,7 @@
             </div>
         {/each}
         <div>
-            <h3>Plugins</h3>
+            <h3>プラグイン</h3>
             {#each pluginEntries as [name, listX]}
                 {@const bindKeyAll = `${PREFIX_PLUGIN_ALL}/${name}`}
                 {@const modeAll = automaticListDisp.get(bindKeyAll) ?? MODE_SELECTIVE}
@@ -417,7 +417,7 @@
                             >
                                 {getIcon(modeMain)}
                             </button>
-                            <span class="name">MAIN</span>
+                            <span class="name">本体</span>
                         </div>
                         <div class="body">
                             {#if modeMain == MODE_SELECTIVE || modeMain == MODE_SHINY}
@@ -440,7 +440,7 @@
                             >
                                 {getIcon(modeData)}
                             </button>
-                            <span class="name">DATA</span>
+                            <span class="name">データ</span>
                         </div>
                         <div class="body">
                             {#if modeData == MODE_SELECTIVE || modeData == MODE_SHINY}
@@ -464,7 +464,7 @@
                                 >
                                     {getIcon(modeEtc)}
                                 </button>
-                                <span class="name">Other files</span>
+                                <span class="name">その他のファイル</span>
                             </div>
                             <div class="body">
                                 {#if modeEtc == MODE_SELECTIVE || modeEtc == MODE_SHINY}
@@ -492,9 +492,9 @@
 {#if isMaintenanceMode}
     <div class="buttons">
         <div>
-            <h3>Maintenance Commands</h3>
+            <h3>メンテナンスコマンド</h3>
             <div class="maintenancerow">
-                <label for="">Delete All of </label>
+                <label for="">すべて削除: </label>
                 <select bind:value={deleteTerm}>
                     {#each allTerms as term}
                         <option value={term}>{term}</option>
@@ -513,10 +513,10 @@
     </div>
 {/if}
 <div class="buttons">
-    <label><span>Hide not applicable items</span><input type="checkbox" bind:checked={hideEven} /></label>
+    <label><span>適用不要な項目を非表示</span><input type="checkbox" bind:checked={hideEven} /></label>
 </div>
 <div class="buttons">
-    <label><span>Maintenance mode</span><input type="checkbox" bind:checked={isMaintenanceMode} /></label>
+    <label><span>メンテナンスモード</span><input type="checkbox" bind:checked={isMaintenanceMode} /></label>
 </div>
 
 <style>

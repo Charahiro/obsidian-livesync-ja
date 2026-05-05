@@ -5,7 +5,7 @@
     import Question from "@/lib/src/UI/components/Question.svelte";
     import Instruction from "@/lib/src/UI/components/Instruction.svelte";
     import UserDecisions from "@/lib/src/UI/components/UserDecisions.svelte";
-        const TYPE_APPLY = "apply";
+    const TYPE_APPLY = "apply";
     const TYPE_CANCELLED = "cancelled";
     type ResultType = typeof TYPE_APPLY | typeof TYPE_CANCELLED;
     type Props = {
@@ -14,24 +14,23 @@
     const { setResult }: Props = $props();
 </script>
 
-<DialogHeader title="Setup Complete: Preparing to Fetch Synchronisation Data" />
+<DialogHeader title="セットアップ完了: 同期データ取得の準備" />
 <Guidance>
     <p>
-        The connection to the server has been configured successfully. As the next step, <strong
-            >the latest synchronisation data will be downloaded from the server to this device.</strong
+        サーバーへの接続設定が完了しました。次の手順では、<strong
+            >サーバーからこのデバイスへ最新の同期データをダウンロードします。</strong
         >
     </p>
     <p>
-        <strong>PLEASE NOTE</strong>
+        <strong>注意</strong>
         <br />
-        After restarting, the database on this device will be rebuilt using data from the server. If there are any unsynchronised
-        files in this vault, conflicts may occur with the server data.
+        再起動後、このデバイスのデータベースはサーバー上のデータを使って再構築されます。このVaultに未同期のファイルがある場合、サーバーデータとの競合が発生する可能性があります。
     </p>
 </Guidance>
 <Instruction>
-    <Question>Please select the button below to restart and proceed to the data fetching confirmation.</Question>
+    <Question>再起動してデータ取得の確認へ進むには、下のボタンを選択してください。</Question>
 </Instruction>
 <UserDecisions>
-    <Decision title="Restart and Fetch Data" important={true} commit={() => setResult(TYPE_APPLY)} />
-    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="再起動してデータを取得" important={true} commit={() => setResult(TYPE_APPLY)} />
+    <Decision title="いいえ、戻ります" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

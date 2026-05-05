@@ -125,11 +125,11 @@
                 // context.holdingSettings = trialRemoteSetting;
 
                 if (replicator.knownAdvertisements.length === 0) {
-                    return "Your settings seem correct, but no other peers were found.";
+                    return "設定は正しいようですが、他のピアが見つかりませんでした。";
                 }
                 return "";
             } catch (e) {
-                return `Failed to connect to other peers: ${e}`;
+                return `他のピアに接続できませんでした: ${e}`;
             } finally {
                 try {
                     replicator.close();
@@ -171,7 +171,7 @@
                 return;
             }
         } catch (e) {
-            error = `Error during connection test: ${e}`;
+            error = `接続テスト中にエラーが発生しました: ${e}`;
             return;
         }
     }
@@ -192,24 +192,24 @@
     });
 </script>
 
-<DialogHeader title="P2P Configuration" />
-<Guidance>Please enter the Peer-to-Peer Synchronisation information below.</Guidance>
-<InputRow label="Enabled">
+<DialogHeader title="P2P設定" />
+<Guidance>Peer-to-Peer同期情報を入力してください。</Guidance>
+<InputRow label="有効">
     <input type="checkbox" name="p2p-enabled" bind:checked={syncSetting.P2P_Enabled} />
 </InputRow>
-<InputRow label="Relay URL">
+<InputRow label="リレーURL">
     <input
         type="text"
         name="p2p-relay-url"
-        placeholder="Enter the Relay URL)"
+        placeholder="リレーURLを入力"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
         bind:value={syncSetting.P2P_relays}
     />
-    <button class="button" onclick={() => setDefaultRelay()}>Use vrtmrz's relay</button>
+    <button class="button" onclick={() => setDefaultRelay()}>vrtmrzのリレーを使用</button>
 </InputRow>
-<InputRow label="Group ID">
+<InputRow label="グループID">
     <input
         type="text"
         name="p2p-room-id"
@@ -219,17 +219,16 @@
         spellcheck="false"
         bind:value={syncSetting.P2P_roomID}
     />
-    <button class="button" onclick={() => generateDefaultGroupId()}>Generate Random ID</button>
+    <button class="button" onclick={() => generateDefaultGroupId()}>ランダムIDを生成</button>
 </InputRow>
-<InputRow label="Passphrase">
-    <Password name="p2p-password" placeholder="Enter your passphrase" bind:value={syncSetting.P2P_passphrase} />
+<InputRow label="パスフレーズ">
+    <Password name="p2p-password" placeholder="パスフレーズを入力" bind:value={syncSetting.P2P_passphrase} />
 </InputRow>
 <InfoNote>
-    The Group ID and passphrase are used to identify your group of devices. Make sure to use the same Group ID and
-    passphrase on all devices you want to synchronise.<br />
-    Note that the Group ID is not limited to the generated format; you can use any string as the Group ID.
+    グループIDとパスフレーズは、同期するデバイスのグループを識別するために使用されます。同期したいすべてのデバイスで同じグループIDとパスフレーズを使用してください。<br />
+    グループIDは生成された形式に限定されません。任意の文字列をグループIDとして使用できます。
 </InfoNote>
-<InputRow label="Device Peer ID">
+<InputRow label="デバイスピアID">
     <input
         type="text"
         name="p2p-device-peer-id"
@@ -240,32 +239,26 @@
         bind:value={syncSetting.P2P_DevicePeerName}
     />
 </InputRow>
-<InputRow label="Auto Start P2P Connection">
+<InputRow label="P2P接続を自動開始">
     <input type="checkbox" name="p2p-auto-start" bind:checked={syncSetting.P2P_AutoStart} />
 </InputRow>
 <InfoNote>
-    If "Auto Start P2P Connection" is enabled, the P2P connection will be started automatically when the plug-in
-    launches.
+    「P2P接続を自動開始」を有効にすると、プラグイン起動時にP2P接続が自動的に開始されます。
 </InfoNote>
-<InputRow label="Auto Broadcast Changes">
+<InputRow label="変更を自動ブロードキャスト">
     <input type="checkbox" name="p2p-auto-broadcast" bind:checked={syncSetting.P2P_AutoBroadcast} />
 </InputRow>
 <InfoNote>
-    If "Auto Broadcast Changes" is enabled, changes will be automatically broadcasted to connected peers without
-    requiring manual intervention. This requests peers to fetch this device's changes.
+    「変更を自動ブロードキャスト」を有効にすると、手動操作なしで接続済みピアへ変更が自動的に通知されます。通知を受けたピアは、このデバイスの変更を取得します。
 </InfoNote>
-<ExtraItems title="Advanced Settings">
+<ExtraItems title="詳細設定">
     <InfoNote>
-        TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P
-        connections. In most cases, you can leave these fields blank.
+        TURNサーバー設定は、直接P2P接続を妨げる厳格なNATやファイアウォールの内側にいる場合にのみ必要です。ほとんどの場合、これらの項目は空欄のままで構いません。
     </InfoNote>
     <InfoNote warning>
-        Using public TURN servers may have privacy implications, as your data will be relayed through third-party
-        servers. Even if your data are encrypted, your existence may be known to them. Please ensure you trust the TURN
-        server provider before using their services. Also your `network administrator` too. You should consider setting
-        up your own TURN server for your FQDN, if possible.
+        公開TURNサーバーを使用すると、データが第三者のサーバーを経由するため、プライバシー上の影響があります。データが暗号化されていても、あなたの存在は知られる可能性があります。利用前にTURNサーバー提供者を信頼できることを確認してください。ネットワーク管理者についても同様です。可能であれば、自分のFQDN用にTURNサーバーを用意することを検討してください。
     </InfoNote>
-    <InputRow label="TURN Server URLs (comma-separated)">
+    <InputRow label="TURNサーバーURL（カンマ区切り）">
         <textarea
             name="p2p-turn-servers"
             placeholder="turn:turn.example.com:3478,turn:turn.example.com:443"
@@ -275,21 +268,21 @@
             rows="5"
         ></textarea>
     </InputRow>
-    <InputRow label="TURN Username">
+    <InputRow label="TURNユーザー名">
         <input
             type="text"
             name="p2p-turn-username"
-            placeholder="Enter TURN username"
+            placeholder="TURNユーザー名を入力"
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
             bind:value={syncSetting.P2P_turnUsername}
         />
     </InputRow>
-    <InputRow label="TURN Credential">
+    <InputRow label="TURN認証情報">
         <Password
             name="p2p-turn-credential"
-            placeholder="Enter TURN credential"
+            placeholder="TURN認証情報を入力"
             bind:value={syncSetting.P2P_turnCredential}
         />
     </InputRow>
@@ -298,11 +291,11 @@
     {error}
 </InfoNote>
 {#if processing}
-    Checking connection... Please wait.
+    接続を確認しています。しばらくお待ちください。
 {:else}
     <UserDecisions>
-        <Decision title="Test Settings and Continue" important disabled={!canProceed} commit={() => checkAndCommit()} />
-        <Decision title="Continue anyway" commit={() => commit()} />
-        <Decision title="Cancel" commit={() => cancel()} />
+        <Decision title="設定をテストして続行" important disabled={!canProceed} commit={() => checkAndCommit()} />
+        <Decision title="このまま続行" commit={() => commit()} />
+        <Decision title="キャンセル" commit={() => cancel()} />
     </UserDecisions>
 {/if}

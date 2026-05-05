@@ -61,25 +61,25 @@
             // NO OP. what's happened?
             freshness = "";
         } else if (local && !remote) {
-            freshness = "Local only";
+            freshness = "ローカルのみ";
         } else if (remote && !local) {
-            freshness = "Remote only";
+            freshness = "リモートのみ";
             canApply = true;
         } else {
             const dtDiff = (local?.mtime ?? 0) - (remote?.mtime ?? 0);
             const diff = timeDeltaToHumanReadable(Math.abs(dtDiff));
             if (dtDiff / 1000 < -10) {
                 // freshness = "✓ Newer";
-                freshness = `Newer (${diff})`;
+                freshness = `新しい (${diff})`;
                 canApply = true;
                 contentCheck = true;
             } else if (dtDiff / 1000 > 10) {
                 // freshness = "⚠ Older";
-                freshness = `Older (${diff})`;
+                freshness = `古い (${diff})`;
                 canApply = true;
                 contentCheck = true;
             } else {
-                freshness = "Same";
+                freshness = "同じ";
                 canApply = false;
                 contentCheck = true;
             }
@@ -89,11 +89,11 @@
         if (local?.version || remote?.version) {
             const compare = `${localVersionStr}`.localeCompare(remoteVersionStr, undefined, { numeric: true });
             if (compare == 0) {
-                version = "Same";
+                version = "同じ";
             } else if (compare < 0) {
-                version = `Lower (${localVersionStr} < ${remoteVersionStr})`;
+                version = `低い (${localVersionStr} < ${remoteVersionStr})`;
             } else if (compare > 0) {
-                version = `Higher (${localVersionStr} > ${remoteVersionStr})`;
+                version = `高い (${localVersionStr} > ${remoteVersionStr})`;
             }
         }
 
@@ -135,19 +135,19 @@
             })
             .reduce((p, c) => p | (c as number), 0 as number);
         if (matchingStatus == 0b0000100) {
-            equivalency = "Same";
+            equivalency = "同じ";
             canApply = false;
         } else if (matchingStatus <= 0b0000100) {
-            equivalency = "Same or local only";
+            equivalency = "同じ、またはローカルのみ";
             canApply = false;
         } else if (matchingStatus == 0b0010000) {
             canApply = true;
             canCompare = true;
-            equivalency = "Different";
+            equivalency = "差分あり";
         } else {
             canApply = true;
             canCompare = true;
-            equivalency = "Mixed";
+            equivalency = "混在";
         }
         return { equivalency, canApply, canCompare };
     }
@@ -244,7 +244,7 @@
         if (selected == "") {
             // NO OP.
         } else if (selected == thisTerm) {
-            freshness = "This device";
+            freshness = "このデバイス";
             canApply = false;
         } else {
             const local = list.find((e) => e.term == thisTerm);
@@ -289,11 +289,11 @@
             return;
         } else {
             if (!remote && !local) {
-                Logger(`Could not find both remote and local item`, LOG_LEVEL_INFO);
+                Logger(`リモート項目とローカル項目の両方が見つかりません`, LOG_LEVEL_INFO);
             } else if (!remote) {
-                Logger(`Could not find remote item`, LOG_LEVEL_INFO);
+                Logger(`リモート項目が見つかりません`, LOG_LEVEL_INFO);
             } else if (!local) {
-                Logger(`Could not locally item`, LOG_LEVEL_INFO);
+                Logger(`ローカル項目が見つかりません`, LOG_LEVEL_INFO);
             }
         }
     }
@@ -304,11 +304,11 @@
         if (!local) return;
         if (!selectedItem) return;
         const menu = new Menu();
-        menu.addItem((item) => item.setTitle("Compare file").setIsLabel(true));
+        menu.addItem((item) => item.setTitle("ファイルを比較").setIsLabel(true));
         menu.addSeparator();
         const files = unique(local.files.map((e) => e.filename).concat(selectedItem.files.map((e) => e.filename)));
         const convDate = (dt: PluginDataExFile | undefined) => {
-            if (!dt) return "(Missing)";
+            if (!dt) return "(なし)";
             const d = new Date(dt.mtime);
             return d.toLocaleString();
         };
@@ -332,13 +332,13 @@
     async function duplicateItem() {
         const local = list.find((e) => e.term == thisTerm);
         if (!local) {
-            Logger(`Could not find local item`, LOG_LEVEL_VERBOSE);
+            Logger(`ローカル項目が見つかりません`, LOG_LEVEL_VERBOSE);
             return;
         }
-        const duplicateTermName = await core.confirm.askString("Duplicate", "device name", "");
+        const duplicateTermName = await core.confirm.askString("複製", "デバイス名", "");
         if (duplicateTermName) {
             if (duplicateTermName.contains("/")) {
-                Logger(`We can not use "/" to the device name`, LOG_LEVEL_NOTICE);
+                Logger(`デバイス名に "/" は使用できません`, LOG_LEVEL_NOTICE);
                 return;
             }
             const key = `${plugin.core.services.API.getSystemConfigDir()}/${local.files[0].filename}`;
@@ -391,7 +391,7 @@
     {/if}
 {:else}
     <span class="spacer"></span>
-    <span class="message even">All the same or non-existent</span>
+    <span class="message even">すべて同じ、または存在しません</span>
     <!-- svelte-ignore a11y_consider_explicit_label -->
     <button disabled></button>
     <!-- svelte-ignore a11y_consider_explicit_label -->

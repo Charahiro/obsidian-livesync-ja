@@ -34,7 +34,7 @@
         error = "";
         if (!seemsValid) return;
         if (!passphrase) {
-            error = "Passphrase is required.";
+            error = "パスフレーズが必要です。";
             return;
         }
         try {
@@ -47,7 +47,7 @@
             // Logger("Settings imported successfully", LOG_LEVEL_NOTICE);
             return;
         } catch (e) {
-            error = "Failed to parse Setup-URI.";
+            error = "セットアップURIを解析できませんでした。";
             return;
         }
     }
@@ -56,14 +56,13 @@
     }
 </script>
 
-<DialogHeader title="Enter Setup URI" />
+<DialogHeader title="セットアップURIの入力" />
 <Guidance
-    >Please enter the Setup URI that was generated during server installation or on another device, along with the vault
-    passphrase.<br />
-    Note that you can generate a new Setup URI by running the "Copy settings as a new Setup URI" command in the command palette.</Guidance
+    >サーバーのインストール時、または別のデバイスで生成したセットアップURIと、Vaultのパスフレーズを入力してください。<br />
+    コマンドパレットから「設定を新しいセットアップURIとしてコピー」を実行すると、新しいセットアップURIを生成できます。</Guidance
 >
 
-<InputRow label="Setup-URI">
+<InputRow label="セットアップURI">
     <input
         type="text"
         placeholder="obsidian://setuplivesync?settings=...."
@@ -74,12 +73,12 @@
         required
     />
 </InputRow>
-<InfoNote visible={seemsValid}>The Setup-URI is valid and ready to use.</InfoNote>
+<InfoNote visible={seemsValid}>セットアップURIは有効で、使用できます。</InfoNote>
 <InfoNote warning visible={!seemsValid && setupURI.trim() != ""}>
-    The Setup-URI does not appear to be valid. Please check that you have copied it correctly.
+    セットアップURIが有効ではないようです。正しくコピーされているか確認してください。
 </InfoNote>
-<InputRow label="Passphrase">
-    <Password placeholder="Enter your passphrase" bind:value={passphrase} required />
+<InputRow label="パスフレーズ">
+    <Password placeholder="パスフレーズを入力" bind:value={passphrase} required />
 </InputRow>
 <InfoNote error visible={error.trim() != ""}>
     {error}
@@ -87,10 +86,10 @@
 
 <UserDecisions>
     <Decision
-        title="Test Settings and Continue"
+        title="設定をテストして続行"
         important={true}
         disabled={!canProceed}
         commit={() => processSetupURI()}
     />
-    <Decision title="Cancel" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="キャンセル" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

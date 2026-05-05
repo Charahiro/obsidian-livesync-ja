@@ -5,7 +5,7 @@
     import Question from "@/lib/src/UI/components/Question.svelte";
     import Instruction from "@/lib/src/UI/components/Instruction.svelte";
     import UserDecisions from "@/lib/src/UI/components/UserDecisions.svelte";
-        const TYPE_APPLY = "apply";
+    const TYPE_APPLY = "apply";
     const TYPE_CANCELLED = "cancelled";
     type ResultType = typeof TYPE_APPLY | typeof TYPE_CANCELLED;
     type Props = {
@@ -15,24 +15,23 @@
     // let userType = $state<ResultType>(TYPE_CANCELLED);
 </script>
 
-<DialogHeader title="Setup Complete: Preparing to Initialise Server" />
+<DialogHeader title="セットアップ完了: サーバー初期化の準備" />
 <Guidance>
     <p>
-        The connection to the server has been configured successfully. As the next step, <strong
-            >the synchronisation data on the server will be built based on the current data on this device.</strong
+        サーバーへの接続設定が完了しました。次の手順では、<strong
+            >このデバイス上の現在のデータを元に、サーバー上の同期データを構築します。</strong
         >
     </p>
     <p>
-        <strong>IMPORTANT</strong>
+        <strong>重要</strong>
         <br />
-        After restarting, the data on this device will be uploaded to the server as the 'master copy'. Please be aware that
-        any unintended data currently on the server will be completely overwritten.
+        再起動後、このデバイス上のデータが「正本」としてサーバーへアップロードされます。現在サーバー上にある意図しないデータは完全に上書きされるため注意してください。
     </p>
 </Guidance>
 <Instruction>
-    <Question>Please select the button below to restart and proceed to the final confirmation.</Question>
+    <Question>再起動して最終確認へ進むには、下のボタンを選択してください。</Question>
 </Instruction>
 <UserDecisions>
-    <Decision title="Restart and Initialise Server" important={true} commit={() => setResult(TYPE_APPLY)} />
-    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="再起動してサーバーを初期化" important={true} commit={() => setResult(TYPE_APPLY)} />
+    <Decision title="いいえ、戻ります" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

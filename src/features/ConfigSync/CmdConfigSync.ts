@@ -494,11 +494,11 @@ export class ConfigSync extends LiveSyncCommands {
     private async _everyOnDatabaseInitialized(showNotice: boolean) {
         if (!this.isThisModuleEnabled()) return true;
         try {
-            this._log("Scanning customizations...");
+            this._log("カスタマイズをスキャンしています...");
             await this.scanAllConfigFiles(showNotice);
-            this._log("Scanning customizations : done");
+            this._log("カスタマイズのスキャンが完了しました");
         } catch (ex) {
-            this._log("Scanning customizations : failed");
+            this._log("カスタマイズのスキャンに失敗しました");
             this._log(ex, LOG_LEVEL_VERBOSE);
         }
         return true;
@@ -591,7 +591,7 @@ export class ConfigSync extends LiveSyncCommands {
                 // Failed to load
                 return [];
             } catch (ex) {
-                this._log(`Something happened at enumerating customization :${path}`, LOG_LEVEL_NOTICE);
+                this._log(`カスタマイズの列挙中に問題が発生しました: ${path}`, LOG_LEVEL_NOTICE);
                 this._log(ex, LOG_LEVEL_VERBOSE);
             }
             return [];
@@ -625,7 +625,7 @@ export class ConfigSync extends LiveSyncCommands {
                 // Failed to load
                 return [];
             } catch (ex) {
-                this._log(`Something happened at enumerating customization :${path}`, LOG_LEVEL_NOTICE);
+                this._log(`カスタマイズの列挙中に問題が発生しました: ${path}`, LOG_LEVEL_NOTICE);
                 this._log(ex, LOG_LEVEL_VERBOSE);
             }
             return [];
@@ -1254,14 +1254,14 @@ export class ConfigSync extends LiveSyncCommands {
                     }
                 } catch (ex) {
                     this._log(
-                        `Configuration sync data: ${path} looks like manifest, but could not read the version`,
+                        `構成同期データ ${path} は manifest のようですが、バージョンを読み取れませんでした`,
                         LOG_LEVEL_INFO
                     );
                     this._log(ex, LOG_LEVEL_VERBOSE);
                 }
             }
         } catch (ex) {
-            this._log(`The file ${path} could not be encoded`);
+            this._log(`ファイル ${path} をエンコードできませんでした`);
             this._log(ex, LOG_LEVEL_VERBOSE);
             return false;
         }
@@ -1356,7 +1356,7 @@ export class ConfigSync extends LiveSyncCommands {
     async storeCustomizationFiles(path: FilePath, termOverRide?: string) {
         const term = termOverRide || this.services.setting.getDeviceAndVaultName();
         if (term == "") {
-            this._log("We have to configure the device name", LOG_LEVEL_NOTICE);
+            this._log("デバイス名を設定する必要があります", LOG_LEVEL_NOTICE);
             return;
         }
         if (this.useV2) {
@@ -1543,10 +1543,10 @@ export class ConfigSync extends LiveSyncCommands {
     async scanAllConfigFiles(showMessage: boolean) {
         await shareRunningResult("scanAllConfigFiles", async () => {
             const logLevel = showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO;
-            this._log("Scanning customizing files.", logLevel, "scan-all-config");
+            this._log("カスタマイズファイルをスキャンしています。", logLevel, "scan-all-config");
             const term = this.services.setting.getDeviceAndVaultName();
             if (term == "") {
-                this._log("We have to configure the device name", LOG_LEVEL_NOTICE);
+                this._log("デバイス名を設定する必要があります", LOG_LEVEL_NOTICE);
                 return;
             }
             const filesAll = await this.scanInternalFiles();
@@ -1690,17 +1690,17 @@ export class ConfigSync extends LiveSyncCommands {
         return true;
     }
     private async __askHiddenFileConfiguration(opt: { enableFetch?: boolean; enableOverwrite?: boolean }) {
-        const message = `Would you like to enable **Customization sync**?
+        const message = `**カスタマイズ同期**を有効にしますか？
 
 > [!DETAILS]-
-> This feature allows you to sync your customisations -- such as configurations, themes, snippets, and plugins -- across your devices in a fully controlled manner, unlike the fully automatic behaviour of hidden file synchronisation.
+> この機能では、設定、テーマ、スニペット、プラグインなどのカスタマイズを、隠しファイル同期の完全自動の動作とは異なり、制御しながらデバイス間で同期できます。
 > 
-> You may use this feature alongside hidden file synchronisation. When both features are enabled, items configured as \`Automatic\` in this feature will be managed by **hidden file synchronisation**.
-> Do not worry, you will be prompted to enable or keep disabled **hidden file synchronisation** after this dialogue.
+> この機能は隠しファイル同期と併用できます。両方を有効にした場合、この機能で \`自動\` に設定された項目は **隠しファイル同期** によって管理されます。
+> このダイアログの後で、**隠しファイル同期**を有効にするか無効のままにするかを確認します。
 `;
-        const CHOICE_CUSTOMIZE = "Yes, Enable it";
-        const CHOICE_DISABLE = "No, Disable it";
-        const CHOICE_DISMISS = "Later";
+        const CHOICE_CUSTOMIZE = "はい、有効にします";
+        const CHOICE_DISABLE = "いいえ、無効にします";
+        const CHOICE_DISMISS = "後で";
         const choices = [];
 
         choices.push(CHOICE_CUSTOMIZE);
@@ -1710,7 +1710,7 @@ export class ConfigSync extends LiveSyncCommands {
         const ret = await this.core.confirm.askSelectStringDialogue(message, choices, {
             defaultAction: CHOICE_DISMISS,
             timeout: 40,
-            title: "Customisation sync",
+            title: "カスタマイズ同期",
         });
         if (ret == CHOICE_CUSTOMIZE) {
             await this.configureHiddenFileSync("CUSTOMIZE");
@@ -1732,7 +1732,7 @@ export class ConfigSync extends LiveSyncCommands {
     private _allSuspendExtraSync(): Promise<boolean> {
         if (this.core.settings.usePluginSync || this.core.settings.autoSweepPlugins) {
             this._log(
-                "Customisation sync have been temporarily disabled. Please enable them after the fetching, if you need them.",
+                "カスタマイズ同期は一時的に無効化されました。必要な場合は取得完了後に再度有効化してください。",
                 LOG_LEVEL_NOTICE
             );
             this.core.settings.usePluginSync = false;
@@ -1760,7 +1760,7 @@ export class ConfigSync extends LiveSyncCommands {
 
         if (mode == "CUSTOMIZE") {
             if (!this.services.setting.getDeviceAndVaultName()) {
-                let name = await this.core.confirm.askString("Device name", "Please set this device name", `desktop`);
+                let name = await this.core.confirm.askString("デバイス名", "このデバイス名を設定してください", `desktop`);
                 if (!name) {
                     if (Platform.isAndroidApp) {
                         name = "android-app";

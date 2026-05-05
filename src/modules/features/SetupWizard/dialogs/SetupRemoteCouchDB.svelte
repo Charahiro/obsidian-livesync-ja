@@ -67,17 +67,17 @@
             const trialRemoteSetting = generateSetting();
             const replicator = await context.services.replicator.getNewReplicator(trialRemoteSetting);
             if (!replicator) {
-                return "Failed to create replicator instance.";
+                return "レプリケーターインスタンスを作成できませんでした。";
             }
             try {
                 const result = await replicator.tryConnectRemote(trialRemoteSetting, false);
                 if (result) {
                     return "";
                 } else {
-                    return "Failed to connect to the server. Please check your settings.";
+                    return "サーバーに接続できませんでした。設定を確認してください。";
                 }
             } catch (e) {
-                return `Failed to connect to the server: ${e}`;
+                return `サーバーに接続できませんでした: ${e}`;
             }
         } finally {
             processing = false;
@@ -94,7 +94,7 @@
                 return;
             }
         } catch (e) {
-            error = `Error during connection test: ${e}`;
+            error = `接続テスト中にエラーが発生しました: ${e}`;
             return;
         }
     }
@@ -135,8 +135,8 @@
     });
 </script>
 
-<DialogHeader title="CouchDB Configuration" />
-<Guidance>Please enter the CouchDB server information below.</Guidance>
+<DialogHeader title="CouchDB設定" />
+<Guidance>CouchDBサーバー情報を入力してください。</Guidance>
 <InputRow label="URL">
     <input
         type="text"
@@ -150,12 +150,12 @@
         pattern="^https?://.+"
     />
 </InputRow>
-<InfoNote warning visible={isURIInsecure}>We can use only Secure (HTTPS) connections on Obsidian Mobile.</InfoNote>
-<InputRow label="Username">
+<InfoNote warning visible={isURIInsecure}>Obsidian Mobileでは安全な接続（HTTPS）のみ使用できます。</InfoNote>
+<InputRow label="ユーザー名">
     <input
         type="text"
         name="couchdb-username"
-        placeholder="Enter your username"
+        placeholder="ユーザー名を入力"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -163,20 +163,20 @@
         bind:value={syncSetting.couchDB_USER}
     />
 </InputRow>
-<InputRow label="Password">
+<InputRow label="パスワード">
     <Password
         name="couchdb-password"
-        placeholder="Enter your password"
+        placeholder="パスワードを入力"
         bind:value={syncSetting.couchDB_PASSWORD}
         required
     />
 </InputRow>
 
-<InputRow label="Database Name">
+<InputRow label="データベース名">
     <input
         type="text"
         name="couchdb-database"
-        placeholder="Enter your database name"
+        placeholder="データベース名を入力"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -186,23 +186,20 @@
     />
 </InputRow>
 <InfoNote>
-    You cannot use capital letters, spaces, or special characters in the database name. And not allowed to start with an
-    underscore (_).
+    データベース名には大文字、空白、特殊文字は使用できません。また、アンダースコア（_）で始めることもできません。
 </InfoNote>
-<InputRow label="Use Internal API">
+<InputRow label="内部APIを使用">
     <input type="checkbox" name="couchdb-use-internal-api" bind:checked={syncSetting.useRequestAPI} />
 </InputRow>
 <InfoNote>
-    If you cannot avoid CORS issues, you might want to try this option. It uses Obsidian's internal API to communicate
-    with the CouchDB server. Not compliant with web standards, but works. Note that this might break in future Obsidian
-    versions.
+    CORSの問題を回避できない場合は、このオプションを試せます。Obsidianの内部APIを使ってCouchDBサーバーと通信します。Web標準には準拠していませんが動作します。将来のObsidianバージョンで動かなくなる可能性があります。
 </InfoNote>
 
-<ExtraItems title="Advanced Settings">
-    <InputRow label="Custom Headers">
+<ExtraItems title="詳細設定">
+    <InputRow label="カスタムヘッダー">
         <textarea
             name="couchdb-custom-headers"
-            placeholder="e.g., x-example-header: value\n another-header: value2"
+            placeholder="例: x-example-header: value\n another-header: value2"
             bind:value={syncSetting.couchDB_CustomHeaders}
             autocapitalize="off"
             spellcheck="false"
@@ -210,11 +207,11 @@
         ></textarea>
     </InputRow>
 </ExtraItems>
-<ExtraItems title="Experimental Settings">
-    <InputRow label="Use JWT Authentication">
+<ExtraItems title="実験的な設定">
+    <InputRow label="JWT認証を使用">
         <input type="checkbox" name="couchdb-use-jwt" bind:checked={syncSetting.useJWT} />
     </InputRow>
-    <InputRow label="JWT Algorithm">
+    <InputRow label="JWTアルゴリズム">
         <select bind:value={syncSetting.jwtAlgorithm} disabled={!isUseJWT}>
             <option value="HS256">HS256</option>
             <option value="HS512">HS512</option>
@@ -222,7 +219,7 @@
             <option value="ES512">ES512</option>
         </select>
     </InputRow>
-    <InputRow label="JWT Expiration Duration (minutes)">
+    <InputRow label="JWT有効期間（分）">
         <input
             type="text"
             name="couchdb-jwt-exp-duration"
@@ -231,13 +228,13 @@
             disabled={!isUseJWT}
         />
     </InputRow>
-    <InputRow label="JWT Key">
+    <InputRow label="JWTキー">
         <textarea
             name="couchdb-jwt-key"
             rows="5"
             autocapitalize="off"
             spellcheck="false"
-            placeholder="Enter your JWT secret or private key"
+            placeholder="JWTシークレットまたは秘密鍵を入力"
             bind:value={syncSetting.jwtKey}
             disabled={!isUseJWT}
         ></textarea>
@@ -246,28 +243,26 @@
         For HS256/HS512 algorithms, provide the shared secret key. For ES256/ES512 algorithms, provide the pkcs8
         PEM-formatted private key.
     </InfoNote>
-    <InputRow label="JWT Key ID (kid)">
+    <InputRow label="JWTキーID (kid)">
         <input
             type="text"
             name="couchdb-jwt-kid"
-            placeholder="Enter your JWT Key ID"
+            placeholder="JWTキーIDを入力"
             bind:value={syncSetting.jwtKid}
             disabled={!isUseJWT}
         />
     </InputRow>
-    <InputRow label="JWT Subject (sub)">
+    <InputRow label="JWTサブジェクト (sub)">
         <input
             type="text"
             name="couchdb-jwt-sub"
-            placeholder="Enter your JWT Subject (CouchDB Username)"
+            placeholder="JWTサブジェクト（CouchDBユーザー名）を入力"
             bind:value={syncSetting.jwtSub}
             disabled={!isUseJWT}
         />
     </InputRow>
     <InfoNote warning>
-        JWT (JSON Web Token) authentication allows you to securely authenticate with the CouchDB server using tokens.
-        Ensure that your CouchDB server is configured to accept JWTs and that the provided key and settings match the
-        server's configuration. Incidentally, I have not verified it very thoroughly.
+        JWT認証では、トークンを使ってCouchDBサーバーへ安全に認証できます。CouchDBサーバーがJWTを受け入れるよう設定されており、指定したキーと設定がサーバー設定と一致していることを確認してください。なお、この機能は十分には検証されていません。
     </InfoNote>
 </ExtraItems>
 
@@ -279,11 +274,11 @@
 </InfoNote>
 
 {#if processing}
-    Checking connection... Please wait.
+    接続を確認しています。しばらくお待ちください。
 {:else}
     <UserDecisions>
-        <Decision title="Test Settings and Continue" important disabled={!canProceed} commit={() => checkAndCommit()} />
-        <Decision title="Continue anyway" commit={() => commit()} />
-        <Decision title="Cancel" commit={() => cancel()} />
+        <Decision title="設定をテストして続行" important disabled={!canProceed} commit={() => checkAndCommit()} />
+        <Decision title="このまま続行" commit={() => commit()} />
+        <Decision title="キャンセル" commit={() => cancel()} />
     </UserDecisions>
 {/if}
