@@ -190,6 +190,28 @@ Before creating a GitHub Release, confirm that the built release assets expected
 
 If the upstream release process changes, follow upstream's asset set and keep this fork's release assets compatible with BRAT.
 
+This fork has a GitHub Actions release workflow at `.github/workflows/release.yml`.
+
+The workflow runs when a tag matching `ja-*` is pushed. It checks out submodules, runs `npm ci`, runs `npm run build`, verifies `main.js`, `manifest.json`, and `styles.css`, then creates a draft GitHub Release with these assets:
+
+- `main.js`
+- `manifest.json`
+- `styles.css`
+- `obsidian-livesync-ja-<tag>.zip`
+
+Recommended release command sequence:
+
+```powershell
+git switch ja-localization
+git status --short --branch
+git tag ja-<upstream-version>
+git push origin ja-<upstream-version>
+```
+
+After the workflow completes, open the draft Release on GitHub, inspect the attached assets, then publish it manually.
+
+The workflow also supports manual dispatch with a `tag` input, but the tag should already exist.
+
 ## LLM handoff checklist
 
 At the beginning of a future localisation session, the assistant should:
