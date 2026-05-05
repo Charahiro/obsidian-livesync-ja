@@ -83,3 +83,5 @@ NDAや類似の契約や義務、倫理を守る必要のある、研究者、�
 ## License
 
 Licensed under the MIT License.
+
+この日本語化フォークは、上流の Self-hosted LiveSync の MIT License と著作権表示を維持しています。日本語化およびフォーク固有の変更は Charahiro により保守されています。

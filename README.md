@@ -103,3 +103,5 @@ Please refer to [Development Guide](devs.md) for development setup, testing infr
 ## License
 
 Licensed under the MIT License.
+
+This Japanese localisation fork preserves the upstream Self-hosted LiveSync MIT License and copyright notices. Japanese localisation and fork-specific changes are maintained by Charahiro.
