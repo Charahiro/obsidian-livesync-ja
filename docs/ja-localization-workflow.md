@@ -205,3 +205,14 @@ At the beginning of a future localisation session, the assistant should:
 9. Translate in Japanese, keeping placeholders and technical terms intact.
 10. Run `npm run bakei18n` after editing i18n YAML.
 11. Run the missing-key and remaining-English checks before release.
+
+Before pushing localisation work, the assistant must:
+
+1. Check whether `src/lib` has changes with `git -C src/lib status --short --branch`.
+2. If `src/lib` has changes, commit them inside the submodule first.
+3. Push the submodule branch to `https://github.com/Charahiro/livesync-commonlib-ja`.
+4. Only after the submodule push succeeds, commit the updated `src/lib` pointer in the parent repository.
+5. Push the parent repository branch to `https://github.com/Charahiro/obsidian-livesync-ja`.
+6. Verify both repositories are clean with `git status --short --branch` in the parent and in `src/lib`.
+
+Never leave a parent repository commit pointing to a submodule commit that exists only locally.
