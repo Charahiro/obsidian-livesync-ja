@@ -192,7 +192,17 @@ If the upstream release process changes, follow upstream's asset set and keep th
 
 This fork has a GitHub Actions release workflow at `.github/workflows/release.yml`.
 
-The workflow runs when a tag matching `ja-*` is pushed. It checks out submodules, runs `npm ci`, runs `npm run build`, verifies `main.js`, `manifest.json`, and `styles.css`, then creates a draft GitHub Release with these assets:
+The workflow runs when a tag matching `ja-*` is pushed. It checks out submodules, runs `npm ci`, runs `npm run build`, verifies `main.js`, `manifest.json`, and `styles.css`, then creates a draft GitHub Release.
+
+The Release description is read from:
+
+```text
+.github/release-notes/ja-release.md
+```
+
+Update this file for each release before creating the tag. The workflow checks out the tagged commit, so release note edits made after pushing the tag will not be reflected automatically in that Release.
+
+The workflow uploads these assets:
 
 - `main.js`
 - `manifest.json`
@@ -204,6 +214,10 @@ Recommended release command sequence:
 ```powershell
 git switch ja-localization
 git status --short --branch
+notepad .github/release-notes/ja-release.md
+git add .github/release-notes/ja-release.md
+git commit -m "Update release notes for ja-<upstream-version>"
+git push
 git tag ja-<upstream-version>
 git push origin ja-<upstream-version>
 ```
