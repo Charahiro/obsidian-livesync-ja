@@ -10,7 +10,7 @@ export function paneCustomisationSync(
 ): void {
     // With great respect, thank you TfTHacker!
     // Refer: https://github.com/TfTHacker/obsidian42-brat/blob/main/src/features/BetaPlugins.ts
-    void addPanel(paneEl, "Customization Sync").then((paneEl) => {
+    void addPanel(paneEl, "カスタマイズ同期").then((paneEl) => {
         const enableOnlyOnPluginSyncIsNotEnabled = enableOnly(() => this.isConfiguredAs("usePluginSync", false));
         const visibleOnlyOnPluginSyncEnabled = visibleOnly(() => this.isConfiguredAs("usePluginSync", true));
 
@@ -18,7 +18,7 @@ export function paneCustomisationSync(
             paneEl,
             "div",
             {
-                text: "Please set device name to identify this device. This name should be unique among your devices. While not configured, we cannot enable this feature.",
+                text: "このデバイスを識別するためにデバイス名を設定してください。この名前は各デバイス間で一意にする必要があります。未設定の間は、この機能を有効化できません。",
                 cls: "op-warn",
             },
             (c) => {},
@@ -28,7 +28,7 @@ export function paneCustomisationSync(
             paneEl,
             "div",
             {
-                text: "We cannot change the device name while this feature is enabled. Please disable this feature to change the device name.",
+                text: "この機能が有効な間はデバイス名を変更できません。デバイス名を変更するには、この機能を無効にしてください。",
                 cls: "op-warn-info",
             },
             (c) => {},
@@ -60,11 +60,11 @@ export function paneCustomisationSync(
         });
 
         new Setting(paneEl)
-            .setName("Open")
-            .setDesc("Open the dialog")
+            .setName("詳細設定を開く")
+            .setDesc("カスタマイズ同期の詳細ダイアログを開きます")
             .addButton((button) => {
                 button
-                    .setButtonText("Open")
+                    .setButtonText("開く")
                     .setDisabled(false)
                     .onClick(() => {
                         // this.plugin.getAddOn<ConfigSync>(ConfigSync.name)?.showPluginSyncModal();
