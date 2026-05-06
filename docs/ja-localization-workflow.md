@@ -53,6 +53,7 @@ Important files:
 - `src/modules/features/GlobalHistory/GlobalHistoryView.ts`: global history pane title.
 - `updates_ja.md`: Japanese Markdown shown in the settings Change Log pane. `esbuild.config.mjs` uses this file when present, while keeping upstream `updates.md` unchanged.
 - `docs/troubleshooting_ja.md`: Japanese Markdown fetched by the Setup tab's Online Tips pane. `PaneSetup.ts` intentionally fetches this from the `ja-localization` branch of this fork.
+- `.prettierrc.mjs`: keeps `endOfLine: "lf"` in this branch. The generated i18n files in `src/lib` are committed with LF line endings, and using CR causes `npm run bakei18n` / `npm run build` to dirty the submodule on Windows without changing message content.
 
 ## Current Japanese translation pass
 
