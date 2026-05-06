@@ -840,7 +840,7 @@ export class ObsidianLiveSyncSettingTab extends PluginSettingTab {
             bindPane(paneCustomisationSync)
         );
 
-        void addPane(containerEl, "Hatch", "🧰", 50, true).then(bindPane(paneHatch));
+        void addPane(containerEl, "修復", "🧰", 50, true).then(bindPane(paneHatch));
         void addPane(containerEl, "Advanced", "🔧", 46, false, LEVEL_ADVANCED).then(bindPane(paneAdvanced));
         void addPane(containerEl, "Power users", "💪", 47, true, LEVEL_POWER_USER).then(bindPane(panePowerUsers));
 

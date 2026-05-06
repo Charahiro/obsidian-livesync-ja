@@ -61,7 +61,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             .setDesc($msg("Setting.TroubleShooting.ScanBrokenFiles.Desc"))
             .addButton((button) =>
                 button
-                    .setButtonText("Scan for Broken files")
+                    .setButtonText("破損ファイルをスキャン")
                     .setCta()
                     .setDisabled(false)
                     .onClick(() => {
@@ -196,7 +196,7 @@ ${stringifyYaml({
     ...pluginConfig,
 })}`;
                     console.log(msgConfig);
-                    if ((await this.services.UI.promptCopyToClipboard("Generated report", msgConfig)) == true) {
+                    if ((await this.services.UI.promptCopyToClipboard("生成されたレポート", msgConfig)) == true) {
                         // await navigator.clipboard.writeText(msgConfig);
                         // Logger(
                         //     `Generated report has been copied to clipboard. Please report the issue with this! Thank you for your cooperation!`,
@@ -228,7 +228,7 @@ ${stringifyYaml({
         new Setting(paneEl).autoWireToggle("writeLogToTheFile");
     });
 
-    void addPanel(paneEl, "Scram Switches").then((paneEl) => {
+    void addPanel(paneEl, "緊急停止").then((paneEl) => {
         new Setting(paneEl).autoWireToggle("suspendFileWatching");
         this.addOnSaved("suspendFileWatching", () => this.services.appLifecycle.askRestart());
 
@@ -236,7 +236,7 @@ ${stringifyYaml({
         this.addOnSaved("suspendParseReplicationResult", () => this.services.appLifecycle.askRestart());
     });
 
-    void addPanel(paneEl, "Recovery and Repair").then((paneEl) => {
+    void addPanel(paneEl, "復旧と修復").then((paneEl) => {
         const addResult = async (path: string, file: FilePathWithPrefix | false, fileOnDB: LoadedEntry | false) => {
             const storageFileStat = file ? await this.core.storageAccess.statHidden(file) : null;
             resultArea.appendChild(
@@ -246,19 +246,19 @@ ${stringifyYaml({
                         this.createEl(el, "div", {}, (infoGroupEl) => {
                             infoGroupEl.appendChild(
                                 this.createEl(infoGroupEl, "div", {
-                                    text: `Storage : Modified: ${!storageFileStat ? `Missing:` : `${new Date(storageFileStat.mtime).toLocaleString()}, Size:${storageFileStat.size}`}`,
+                                    text: `ストレージ: 更新日時: ${!storageFileStat ? `見つかりません:` : `${new Date(storageFileStat.mtime).toLocaleString()}, サイズ:${storageFileStat.size}`}`,
                                 })
                             );
                             infoGroupEl.appendChild(
                                 this.createEl(infoGroupEl, "div", {
-                                    text: `Database: Modified: ${!fileOnDB ? `Missing:` : `${new Date(fileOnDB.mtime).toLocaleString()}, Size:${fileOnDB.size} (actual size:${readAsBlob(fileOnDB).size})`}`,
+                                    text: `データベース: 更新日時: ${!fileOnDB ? `見つかりません:` : `${new Date(fileOnDB.mtime).toLocaleString()}, サイズ:${fileOnDB.size} (実サイズ:${readAsBlob(fileOnDB).size})`}`,
                                 })
                             );
                         })
                     );
                     if (fileOnDB && file) {
                         el.appendChild(
-                            this.createEl(el, "button", { text: "Show history" }, (buttonEl) => {
+                            this.createEl(el, "button", { text: "履歴を表示" }, (buttonEl) => {
                                 buttonEl.onClickEvent(() => {
                                     eventHub.emitEvent(EVENT_REQUEST_SHOW_HISTORY, {
                                         file: file,
@@ -270,7 +270,7 @@ ${stringifyYaml({
                     }
                     if (file) {
                         el.appendChild(
-                            this.createEl(el, "button", { text: "Storage -> Database" }, (buttonEl) => {
+                            this.createEl(el, "button", { text: "ストレージ → データベース" }, (buttonEl) => {
                                 buttonEl.onClickEvent(async () => {
                                     if (file.startsWith(".")) {
                                         const addOn = this.core.getAddOn<HiddenFileSync>(HiddenFileSync.name);
@@ -307,7 +307,7 @@ ${stringifyYaml({
                     }
                     if (fileOnDB) {
                         el.appendChild(
-                            this.createEl(el, "button", { text: "Database -> Storage" }, (buttonEl) => {
+                            this.createEl(el, "button", { text: "データベース → ストレージ" }, (buttonEl) => {
                                 buttonEl.onClickEvent(async () => {
                                     if (fileOnDB.path.startsWith(ICHeader)) {
                                         const addOn = this.core.getAddOn<HiddenFileSync>(HiddenFileSync.name);
@@ -358,24 +358,24 @@ ${stringifyYaml({
             }
         };
         new Setting(paneEl)
-            .setName("Recreate missing chunks for all files")
-            .setDesc("This will recreate chunks for all files. If there were missing chunks, this may fix the errors.")
+            .setName("すべてのファイルの不足チャンクを再作成")
+            .setDesc("すべてのファイルのチャンクを再作成します。不足しているチャンクがある場合、エラーを修復できる可能性があります。")
             .addButton((button) =>
                 button
-                    .setButtonText("Recreate all")
+                    .setButtonText("すべて再作成")
                     .setCta()
                     .onClick(async () => {
                         await this.core.fileHandler.createAllChunks(true);
                     })
             );
         new Setting(paneEl)
-            .setName("Resolve All conflicted files by the newer one")
+            .setName("すべての競合ファイルを新しい方で解決")
             .setDesc(
-                "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
+                "すべての競合ファイルを新しい方で解決します。注意: 古い方は上書きされ、上書きされた内容は復元できません。"
             )
             .addButton((button) =>
                 button
-                    .setButtonText("Resolve All")
+                    .setButtonText("すべて解決")
                     .setCta()
                     .onClick(async () => {
                         await this.services.conflict.resolveAllConflictedFilesByNewerOnes();
@@ -383,13 +383,13 @@ ${stringifyYaml({
             );
 
         new Setting(paneEl)
-            .setName("Verify and repair all files")
+            .setName("すべてのファイルを検証して修復")
             .setDesc(
-                "Compare the content of files between on local database and storage. If not matched, you will be asked which one you want to keep."
+                "ローカルデータベースとストレージ上のファイル内容を比較します。一致しない場合、どちらを残すか確認されます。"
             )
             .addButton((button) =>
                 button
-                    .setButtonText("Verify all")
+                    .setButtonText("すべて検証")
                     .setDisabled(false)
                     .setCta()
                     .onClick(async () => {
@@ -475,11 +475,11 @@ ${stringifyYaml({
             );
         const resultArea = paneEl.createDiv({ text: "" });
         new Setting(paneEl)
-            .setName("Check and convert non-path-obfuscated files")
+            .setName("パス難読化されていないファイルを確認して変換")
             .setDesc("")
             .addButton((button) =>
                 button
-                    .setButtonText("Perform")
+                    .setButtonText("実行")
                     .setDisabled(false)
                     .setWarning()
                     .onClick(async () => {
@@ -553,10 +553,10 @@ ${stringifyYaml({
                     })
             );
     });
-    void addPanel(paneEl, "Reset").then((paneEl) => {
-        new Setting(paneEl).setName("Back to non-configured").addButton((button) =>
+    void addPanel(paneEl, "リセット").then((paneEl) => {
+        new Setting(paneEl).setName("未設定状態に戻す").addButton((button) =>
             button
-                .setButtonText("Back")
+                .setButtonText("戻す")
                 .setDisabled(false)
                 .onClick(async () => {
                     this.editingSettings.isConfigured = false;
@@ -565,9 +565,9 @@ ${stringifyYaml({
                 })
         );
 
-        new Setting(paneEl).setName("Delete all customization sync data").addButton((button) =>
+        new Setting(paneEl).setName("すべてのカスタマイズ同期データを削除").addButton((button) =>
             button
-                .setButtonText("Delete")
+                .setButtonText("削除")
                 .setDisabled(false)
                 .setWarning()
                 .onClick(async () => {
