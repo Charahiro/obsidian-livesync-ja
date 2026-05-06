@@ -31,26 +31,26 @@
         <!-- svelte-ignore a11y-label-has-associated-control -->
         <li>
             <label>{modified[idx]}{statusName[idx]}</label>
-            <span class="chip">{isInvertedExp[idx] ? "INVERTED" : ""}</span>
+            <span class="chip">{isInvertedExp[idx] ? "反転" : ""}</span>
             <input type="text" bind:value={pattern} class={modified[idx]} />
             <button class="iconbutton" on:click={() => remove(idx)}>🗑</button>
         </li>
     {/each}
     <li>
         <label>
-            <button on:click={() => add()}>Add</button>
+            <button on:click={() => add()}>追加</button>
         </label>
     </li>
     <li class="buttons">
         <button
             on:click={() => apply(patterns)}
             disabled={statusName.some((e) => e === CHECK_NG) || modified.every((e) => e === "")}
-            >Apply
+            >適用
         </button>
         <button
             on:click={() => revert()}
             disabled={statusName.some((e) => e === CHECK_NG) || modified.every((e) => e === "")}
-            >Revert
+            >戻す
         </button>
     </li>
 </ul>

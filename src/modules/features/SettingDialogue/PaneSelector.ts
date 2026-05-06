@@ -7,14 +7,12 @@ import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts
 import type { PageFunctions } from "./SettingPane.ts";
 import { visibleOnly } from "./SettingPane.ts";
 export function paneSelector(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, { addPanel }: PageFunctions): void {
-    void addPanel(paneEl, "Normal Files").then((paneEl) => {
+    void addPanel(paneEl, "通常ファイル").then((paneEl) => {
         paneEl.addClass("wizardHidden");
 
         const syncFilesSetting = new Setting(paneEl)
-            .setName("Synchronising files")
-            .setDesc(
-                "(RegExp) Empty to sync all files. Set filter as a regular expression to limit synchronising files."
-            )
+            .setName("同期対象ファイル")
+            .setDesc("（正規表現）空にするとすべてのファイルを同期します。同期対象を制限する場合は正規表現を設定します。")
             .setClass("wizardHidden");
         mount(MultipleRegExpControl, {
             target: syncFilesSetting.controlEl,
@@ -30,8 +28,8 @@ export function paneSelector(this: ObsidianLiveSyncSettingTab, paneEl: HTMLEleme
         });
 
         const nonSyncFilesSetting = new Setting(paneEl)
-            .setName("Non-Synchronising files")
-            .setDesc("(RegExp) If this is set, any changes to local and remote files that match this will be skipped.")
+            .setName("同期しないファイル")
+            .setDesc("（正規表現）設定すると、一致するローカルファイルとリモートファイルの変更はスキップされます。")
             .setClass("wizardHidden");
 
         mount(MultipleRegExpControl, {
@@ -53,11 +51,11 @@ export function paneSelector(this: ObsidianLiveSyncSettingTab, paneEl: HTMLEleme
             onUpdate: visibleOnly(() => this.isConfiguredAs("useIgnoreFiles", true)),
         });
     });
-    void addPanel(paneEl, "Hidden Files", undefined, undefined, LEVEL_ADVANCED).then((paneEl) => {
+    void addPanel(paneEl, "隠しファイル", undefined, undefined, LEVEL_ADVANCED).then((paneEl) => {
         const targetPatternSetting = new Setting(paneEl)
-            .setName("Target patterns")
+            .setName("対象パターン")
             .setClass("wizardHidden")
-            .setDesc("Patterns to match files for syncing");
+            .setDesc("同期対象にするファイルに一致させるパターン");
         const patTarget = splitCustomRegExpList(this.editingSettings.syncInternalFilesTargetPatterns, ",");
         mount(MultipleRegExpControl, {
             target: targetPatternSetting.controlEl,
@@ -77,7 +75,7 @@ export function paneSelector(this: ObsidianLiveSyncSettingTab, paneEl: HTMLEleme
             defaultSkipPattern + ",\\/workspace$ ,\\/workspace.json$,\\/workspace-mobile.json$";
 
         const pat = splitCustomRegExpList(this.editingSettings.syncInternalFilesIgnorePatterns, ",");
-        const patSetting = new Setting(paneEl).setName("Ignore patterns").setClass("wizardHidden").setDesc("");
+        const patSetting = new Setting(paneEl).setName("除外パターン").setClass("wizardHidden").setDesc("");
 
         mount(MultipleRegExpControl, {
             target: patSetting.controlEl,
@@ -105,23 +103,23 @@ export function paneSelector(this: ObsidianLiveSyncSettingTab, paneEl: HTMLEleme
         };
 
         new Setting(paneEl)
-            .setName("Add default patterns")
+            .setName("既定パターンを追加")
             .setClass("wizardHidden")
             .addButton((button) => {
-                button.setButtonText("Default").onClick(async () => {
+                button.setButtonText("標準").onClick(async () => {
                     await addDefaultPatterns(defaultSkipPattern);
                 });
             })
             .addButton((button) => {
-                button.setButtonText("Cross-platform").onClick(async () => {
+                button.setButtonText("クロスプラットフォーム").onClick(async () => {
                     await addDefaultPatterns(defaultSkipPatternXPlat);
                 });
             });
 
         const overwritePatterns = new Setting(paneEl)
-            .setName("Overwrite patterns")
+            .setName("上書きパターン")
             .setClass("wizardHidden")
-            .setDesc("Patterns to match files for overwriting instead of merging");
+            .setDesc("マージせず上書きするファイルに一致させるパターン");
         const patTarget2 = splitCustomRegExpList(this.editingSettings.syncInternalFileOverwritePatterns, ",");
         mount(MultipleRegExpControl, {
             target: overwritePatterns.controlEl,
