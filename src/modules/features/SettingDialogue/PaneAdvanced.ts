@@ -4,11 +4,11 @@ import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts
 import type { PageFunctions } from "./SettingPane.ts";
 
 export function paneAdvanced(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, { addPanel }: PageFunctions): void {
-    void addPanel(paneEl, "Memory cache").then((paneEl) => {
+    void addPanel(paneEl, "メモリキャッシュ").then((paneEl) => {
         new Setting(paneEl).autoWireNumeric("hashCacheMaxCount", { clampMin: 10 });
         // new Setting(paneEl).autoWireNumeric("hashCacheMaxAmount", { clampMin: 1 });
     });
-    void addPanel(paneEl, "Local Database Tweak").then((paneEl) => {
+    void addPanel(paneEl, "ローカルデータベース調整").then((paneEl) => {
         paneEl.addClass("wizardHidden");
 
         const items = ChunkAlgorithmNames;
@@ -18,7 +18,7 @@ export function paneAdvanced(this: ObsidianLiveSyncSettingTab, paneEl: HTMLEleme
         new Setting(paneEl).autoWireNumeric("customChunkSize", { clampMin: 0, acceptZero: true });
     });
 
-    void addPanel(paneEl, "Transfer Tweak").then((paneEl) => {
+    void addPanel(paneEl, "転送調整").then((paneEl) => {
         new Setting(paneEl)
             .setClass("wizardHidden")
             .autoWireToggle("readChunksOnline", { onUpdate: this.onlyOnCouchDB });
