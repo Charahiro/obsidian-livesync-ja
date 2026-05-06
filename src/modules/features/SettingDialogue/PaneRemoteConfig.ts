@@ -85,13 +85,13 @@ function suggestRemoteConfigurationName(parsed: RemoteConfigurationResult): stri
             const url = new URL(parsed.settings.couchDB_URI);
             return `CouchDB ${url.host}`;
         } catch {
-            return "Imported CouchDB";
+            return "インポートした CouchDB";
         }
     }
     if (parsed.type === "s3") {
         return `S3 ${parsed.settings.bucket || parsed.settings.endpoint}`;
     }
-    return `P2P ${parsed.settings.P2P_roomID || "Remote"}`;
+    return `P2P ${parsed.settings.P2P_roomID || "リモート"}`;
 }
 
 export function paneRemoteConfig(
@@ -110,9 +110,9 @@ export function paneRemoteConfig(
                 info: getE2EEConfigSummary(this.editingSettings),
             });
         };
-        void addPanel(paneEl, "E2EE Configuration", () => {}).then((paneEl) => {
+        void addPanel(paneEl, "エンドツーエンド暗号化設定", () => {}).then((paneEl) => {
             new SveltePanel(InfoPanel, paneEl, E2EESummaryWritable);
-            const setupButton = new Setting(paneEl).setName("Configure E2EE");
+            const setupButton = new Setting(paneEl).setName("エンドツーエンド暗号化を設定");
             setupButton
                 .addButton((button) =>
                     button
@@ -122,7 +122,7 @@ export function paneRemoteConfig(
                             await setupManager.onlyE2EEConfiguration(UserMode.Update, originalSettings);
                             updateE2EESummary();
                         })
-                        .setButtonText("Configure")
+                        .setButtonText("設定")
                         .setWarning()
                 )
                 .addButton((button) =>
@@ -133,7 +133,7 @@ export function paneRemoteConfig(
                             await setupManager.onConfigureManually(originalSettings, UserMode.Update);
                             updateE2EESummary();
                         })
-                        .setButtonText("Configure And Change Remote")
+                        .setButtonText("設定してリモートも変更")
                         .setWarning()
                 );
             updateE2EESummary();
@@ -142,7 +142,7 @@ export function paneRemoteConfig(
     {
         // TODO: very WIP. need to refactor the UI.
         void addPanel(paneEl, $msg("obsidianLiveSyncSettingTab.titleRemoteServer"), () => {}).then((paneEl) => {
-            const actions = new Setting(paneEl).setName("Remote Databases");
+            const actions = new Setting(paneEl).setName("リモートデータベース");
             // actions.addButton((button) =>
             //     button
             //         .setButtonText("Change Remote and Setup")
@@ -246,7 +246,7 @@ export function paneRemoteConfig(
                 configPassphraseStore: this.editingSettings.configPassphraseStore,
             });
             const addRemoteConfiguration = async () => {
-                const name = await this.services.UI.confirm.askString("Remote name", "Display name", "New Remote");
+                const name = await this.services.UI.confirm.askString("リモート名", "表示名", "新しいリモート");
                 if (name === false) {
                     return;
                 }
@@ -258,7 +258,7 @@ export function paneRemoteConfig(
                 const configs = cloneRemoteConfigurations(this.editingSettings.remoteConfigurations);
                 configs[id] = {
                     id,
-                    name: name.trim() || "New Remote",
+                    name: name.trim() || "新しいリモート",
                     uri: serializeRemoteConfiguration(nextSettings),
                     isEncrypted: false,
                 };
@@ -271,8 +271,8 @@ export function paneRemoteConfig(
             };
             const importRemoteConfiguration = async () => {
                 const importedURI = await this.services.UI.confirm.askString(
-                    "Import connection",
-                    "Paste a connection string",
+                    "接続をインポート",
+                    "接続文字列を貼り付け",
                     ""
                 );
                 if (importedURI === false) {
@@ -293,7 +293,7 @@ export function paneRemoteConfig(
                 }
 
                 const defaultName = suggestRemoteConfigurationName(parsed);
-                const name = await this.services.UI.confirm.askString("Remote name", "Display name", defaultName);
+                const name = await this.services.UI.confirm.askString("リモート名", "表示名", defaultName);
                 if (name === false) {
                     return;
                 }
@@ -314,12 +314,12 @@ export function paneRemoteConfig(
                 refreshList();
             };
             actions.addButton((button) =>
-                setEmojiButton(button, "➕", "Add new connection").onClick(async () => {
+                setEmojiButton(button, "➕", "新しい接続を追加").onClick(async () => {
                     await addRemoteConfiguration();
                 })
             );
             actions.addButton((button) =>
-                setEmojiButton(button, "📥", "Import connection").onClick(async () => {
+                setEmojiButton(button, "📥", "接続をインポート").onClick(async () => {
                     await importRemoteConfiguration();
                 })
             );
@@ -333,11 +333,11 @@ export function paneRemoteConfig(
 
                     if (config.id === this.editingSettings.activeConfigurationId) {
                         row.nameEl.addClass("sls-active-remote-name");
-                        row.nameEl.appendText(" (Active)");
+                        row.nameEl.appendText("（有効）");
                     }
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "🔧", "Configure").onClick(async () => {
+                        setEmojiButton(btn, "🔧", "設定").onClick(async () => {
                             let parsed: RemoteConfigurationResult;
                             try {
                                 parsed = ConnectionStringParser.parse(config.uri);
@@ -377,7 +377,7 @@ export function paneRemoteConfig(
                     row.addButton((btn) =>
                         btn
                             .setButtonText("✅")
-                            .setTooltip("Activate", { delay: 10, placement: "top" })
+                            .setTooltip("有効化", { delay: 10, placement: "top" })
                             .setDisabled(config.id === this.editingSettings.activeConfigurationId)
                             .onClick(async () => {
                                 this.editingSettings.activeConfigurationId = config.id;
@@ -387,13 +387,13 @@ export function paneRemoteConfig(
                     );
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "…", "More actions").onClick(() => {
+                        setEmojiButton(btn, "…", "その他の操作").onClick(() => {
                             const menu = new Menu()
                                 .addItem((item) => {
-                                    item.setTitle("🪪 Rename").onClick(async () => {
+                                    item.setTitle("🪪 名前を変更").onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            "Remote name",
-                                            "Display name",
+                                            "リモート名",
+                                            "表示名",
                                             config.name
                                         );
                                         if (nextName === false) {
@@ -412,19 +412,19 @@ export function paneRemoteConfig(
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle("📤 Export").onClick(async () => {
+                                    item.setTitle("📤 エクスポート").onClick(async () => {
                                         await this.services.UI.promptCopyToClipboard(
-                                            `Remote configuration: ${config.name}`,
+                                            `リモート設定: ${config.name}`,
                                             config.uri
                                         );
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle("🧬 Duplicate").onClick(async () => {
+                                    item.setTitle("🧬 複製").onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            "Duplicate remote",
-                                            "Display name",
-                                            `${config.name} (Copy)`
+                                            "リモートを複製",
+                                            "表示名",
+                                            `${config.name} のコピー`
                                         );
                                         if (nextName === false) {
                                             return;
@@ -437,7 +437,7 @@ export function paneRemoteConfig(
                                         nextConfigs[nextId] = {
                                             ...config,
                                             id: nextId,
-                                            name: nextName.trim() || `${config.name} (Copy)`,
+                                            name: nextName.trim() || `${config.name} のコピー`,
                                         };
                                         this.editingSettings.remoteConfigurations = nextConfigs;
                                         await persistRemoteConfigurations();
@@ -446,7 +446,7 @@ export function paneRemoteConfig(
                                 })
                                 .addSeparator()
                                 .addItem((item) => {
-                                    item.setTitle("📡 Fetch remote settings").onClick(async () => {
+                                    item.setTitle("📡 リモート設定を取得").onClick(async () => {
                                         let parsed: RemoteConfigurationResult;
                                         try {
                                             parsed = ConnectionStringParser.parse(config.uri);
@@ -478,10 +478,10 @@ export function paneRemoteConfig(
                                 })
                                 .addSeparator()
                                 .addItem((item) => {
-                                    item.setTitle("🗑 Delete").onClick(async () => {
+                                    item.setTitle("🗑 削除").onClick(async () => {
                                         const confirmed = await this.services.UI.confirm.askYesNoDialog(
-                                            `Delete remote configuration '${config.name}'?`,
-                                            { title: "Delete Remote Configuration", defaultOption: "No" }
+                                            `リモート設定「${config.name}」を削除しますか？`,
+                                            { title: "リモート設定の削除", defaultOption: "No" }
                                         );
                                         if (confirmed !== "yes") {
                                             return;
