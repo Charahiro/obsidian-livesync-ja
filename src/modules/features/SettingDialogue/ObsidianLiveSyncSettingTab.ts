@@ -846,7 +846,7 @@ export class ObsidianLiveSyncSettingTab extends PluginSettingTab {
 
         void addPane(containerEl, "Patches", "🩹", 51, false, LEVEL_EDGE_CASE).then(bindPane(panePatches));
 
-        void addPane(containerEl, "Maintenance", "🎛️", 70, true).then(bindPane(paneMaintenance));
+        void addPane(containerEl, "メンテナンス", "🎛️", 70, true).then(bindPane(paneMaintenance));
 
         void yieldNextAnimationFrame().then(() => {
             if (this.selectedScreen == "") {
