@@ -17,7 +17,8 @@ const keepTest = true; //!prod;
 
 const manifestJson = JSON.parse(fs.readFileSync("./manifest.json") + "");
 const packageJson = JSON.parse(fs.readFileSync("./package.json") + "");
-const updateInfo = JSON.stringify(fs.readFileSync("./updates.md") + "");
+const updateInfoPath = fs.existsSync("./updates_ja.md") ? "./updates_ja.md" : "./updates.md";
+const updateInfo = JSON.stringify(fs.readFileSync(updateInfoPath) + "");
 
 const PATHS_TEST_INSTALL = process.env?.PATHS_TEST_INSTALL || "";
 const PATH_TEST_INSTALL = PATHS_TEST_INSTALL.split(path.delimiter).map(p => p.trim()).filter(p => p.length);

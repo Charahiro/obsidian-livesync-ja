@@ -51,6 +51,7 @@ Important files:
 - `src/features/ConfigSync/*.ts`: customisation sync modal titles, menus, confirmations, and notices.
 - `src/modules/features/GlobalHistory/GlobalHistory.svelte`: global history UI text.
 - `src/modules/features/GlobalHistory/GlobalHistoryView.ts`: global history pane title.
+- `updates_ja.md`: Japanese Markdown shown in the settings Change Log pane. `esbuild.config.mjs` uses this file when present, while keeping upstream `updates.md` unchanged.
 
 ## Current Japanese translation pass
 
