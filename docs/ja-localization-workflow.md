@@ -52,6 +52,7 @@ Important files:
 - `src/modules/features/GlobalHistory/GlobalHistory.svelte`: global history UI text.
 - `src/modules/features/GlobalHistory/GlobalHistoryView.ts`: global history pane title.
 - `updates_ja.md`: Japanese Markdown shown in the settings Change Log pane. `esbuild.config.mjs` uses this file when present, while keeping upstream `updates.md` unchanged.
+- `docs/troubleshooting_ja.md`: Japanese Markdown fetched by the Setup tab's Online Tips pane. `PaneSetup.ts` intentionally fetches this from the `ja-localization` branch of this fork.
 
 ## Current Japanese translation pass
 

@@ -118,15 +118,16 @@ export function paneSetup(
 
     void addPanel(paneEl, $msg("obsidianLiveSyncSettingTab.titleOnlineTips")).then((paneEl) => {
         // this.createEl(paneEl, "h3", { text: $msg("obsidianLiveSyncSettingTab.titleOnlineTips") });
-        const repo = "vrtmrz/obsidian-livesync";
-        const topPath = $msg("obsidianLiveSyncSettingTab.linkTroubleshooting");
-        const rawRepoURI = `https://raw.githubusercontent.com/${repo}/main`;
+        const repo = "Charahiro/obsidian-livesync-ja";
+        const branch = "ja-localization";
+        const topPath = "/docs/troubleshooting_ja.md";
+        const rawRepoURI = `https://raw.githubusercontent.com/${repo}/${branch}`;
         this.createEl(
             paneEl,
             "div",
             "",
             (el) =>
-                (el.innerHTML = `<a href='https://github.com/${repo}/blob/main${topPath}' target="_blank">${$msg("obsidianLiveSyncSettingTab.linkOpenInBrowser")}</a>`)
+                (el.innerHTML = `<a href='https://github.com/${repo}/blob/${branch}${topPath}' target="_blank">${$msg("obsidianLiveSyncSettingTab.linkOpenInBrowser")}</a>`)
         );
         const troubleShootEl = this.createEl(paneEl, "div", {
             text: "",
