@@ -1,10 +1,10 @@
 {
     "id": "obsidian-livesync",
-    "name": "Self-hosted LiveSync",
+    "name": "Self-hosted LiveSync 日本語版",
     "version": "0.25.60",
     "minAppVersion": "0.9.12",
-    "description": "Community implementation of self-hosted livesync. Reflect your vault changes to some other devices immediately. Please make sure to disable other synchronize solutions to avoid content corruption or duplication.",
-    "author": "vorotamoroz",
-    "authorUrl": "https://github.com/vrtmrz",
+    "description": "Self-hosted LiveSync の日本語化フォークです。Vaultの変更を複数デバイス間で同期します。破損や重複を避けるため、他の同期ソリューションとの併用は避けてください。",
+    "author": "vorotamoroz / Charahiro",
+    "authorUrl": "https://github.com/Charahiro/obsidian-livesync-ja",
     "isDesktopOnly": false
 }

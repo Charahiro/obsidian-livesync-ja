@@ -190,6 +190,8 @@ Before creating a GitHub Release, confirm that the built release assets expected
 
 If the upstream release process changes, follow upstream's asset set and keep this fork's release assets compatible with BRAT.
 
+The plugin listing shown in Obsidian is controlled by `manifest.json`. For this Japanese fork, keep `id` unchanged for compatibility, but keep `name`, `author`, `authorUrl`, and `description` set to Japanese-fork appropriate values.
+
 This fork has a GitHub Actions release workflow at `.github/workflows/release.yml`.
 
 The workflow runs when a tag matching `ja-*` is pushed. It checks out submodules, runs `npm ci`, runs `npm run build`, verifies `main.js`, `manifest.json`, and `styles.css`, then creates a draft GitHub Release.
