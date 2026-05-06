@@ -160,7 +160,7 @@ export function paneMaintenance(
                             receivedFiles: new Set(),
                             knownIDs: new Set(),
                         }));
-                        Logger(`ジャーナル受信履歴をクリアしました。`, LOG_LEVEL_NOTICE);
+                        Logger(`Journal received history has been cleared.`, LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -182,7 +182,7 @@ export function paneMaintenance(
                             sentIDs: new Set(),
                             sentFiles: new Set(),
                         }));
-                        Logger(`ジャーナル送信履歴をクリアしました。`, LOG_LEVEL_NOTICE);
+                        Logger(`Journal sent history has been cleared.`, LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -300,11 +300,11 @@ export function paneMaintenance(
                     .setDisabled(false)
                     .onClick(async () => {
                         const replicator = this.core.replicator as LiveSyncCouchDBReplicator;
-                        Logger(`クリーンアップを開始しました`, LOG_LEVEL_NOTICE, "compaction");
+                        Logger(`Cleanup has been began`, LOG_LEVEL_NOTICE, "compaction");
                         if (await replicator.compactRemote(this.editingSettings)) {
-                            Logger(`クリーンアップが完了しました。`, LOG_LEVEL_NOTICE, "compaction");
+                            Logger(`Cleanup has been completed!`, LOG_LEVEL_NOTICE, "compaction");
                         } else {
-                            Logger(`クリーンアップに失敗しました。`, LOG_LEVEL_NOTICE, "compaction");
+                            Logger(`Cleanup has been failed!`, LOG_LEVEL_NOTICE, "compaction");
                         }
                     })
             )
@@ -333,7 +333,7 @@ export function paneMaintenance(
                     .setDisabled(false)
                     .onClick(async () => {
                         await this.getMinioJournalSyncClient().resetCheckpointInfo();
-                        Logger(`ジャーナル交換履歴をクリアしました。`, LOG_LEVEL_NOTICE);
+                        Logger(`Journal exchange history has been cleared.`, LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -348,7 +348,7 @@ export function paneMaintenance(
                     .setDisabled(false)
                     .onClick(async () => {
                         await this.getMinioJournalSyncClient().resetAllCaches();
-                        Logger(`ジャーナルのダウンロード/アップロードキャッシュをクリアしました。`, LOG_LEVEL_NOTICE);
+                        Logger(`Journal download/upload cache has been cleared.`, LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -371,7 +371,7 @@ export function paneMaintenance(
                             sentFiles: new Set(),
                         }));
                         await this.resetRemoteBucket();
-                        Logger(`リモートサーバー上のすべてのデータを削除しました`, LOG_LEVEL_NOTICE);
+                        Logger(`Deleted all data on remote server`, LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
