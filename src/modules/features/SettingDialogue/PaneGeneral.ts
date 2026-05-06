@@ -31,9 +31,9 @@ export function paneGeneral(
         new Setting(paneEl).autoWireToggle("hideFileWarningNotice");
         new Setting(paneEl).autoWireDropDown("networkWarningStyle", {
             options: {
-                [NetworkWarningStyles.BANNER]: "Show full banner",
-                [NetworkWarningStyles.ICON]: "Show icon only",
-                [NetworkWarningStyles.HIDDEN]: "Hide completely",
+                [NetworkWarningStyles.BANNER]: "バナー全体を表示",
+                [NetworkWarningStyles.ICON]: "アイコンのみ表示",
+                [NetworkWarningStyles.HIDDEN]: "完全に非表示",
             },
         });
         this.addOnSaved("networkWarningStyle", () => {
