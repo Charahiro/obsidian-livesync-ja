@@ -98,16 +98,16 @@ export class DocumentHistoryModal extends Modal {
             this.revs_info = w._revs_info?.filter((e) => e?.status == "available") ?? [];
             this.range.max = `${Math.max(this.revs_info.length - 1, 0)}`;
             this.range.value = this.range.max;
-            this.fileInfo.setText(`${this.file} / ${this.revs_info.length} revisions`);
+            this.fileInfo.setText(`${this.file} / ${this.revs_info.length} 件のリビジョン`);
             await this.loadRevs(initialRev);
         } catch (ex) {
             if (isErrorOfMissingDoc(ex)) {
                 this.range.max = "0";
                 this.range.value = "";
                 this.range.disabled = true;
-                this.contentView.setText(`We don't have any history for this note.`);
+                this.contentView.setText(`このノートの履歴はありません。`);
             } else {
-                this.contentView.setText(`Error while loading file.`);
+                this.contentView.setText(`ファイルの読み込み中にエラーが発生しました。`);
                 Logger(ex, LOG_LEVEL_VERBOSE);
             }
         }
@@ -148,10 +148,10 @@ export class DocumentHistoryModal extends Modal {
         if (w === false) {
             this.currentDeleted = true;
             this.info.innerHTML = "";
-            this.contentView.innerHTML = `Could not read this revision<br>(${rev})`;
+            this.contentView.innerHTML = `このリビジョンを読み取れませんでした<br>(${rev})`;
         } else {
             this.currentDoc = w;
-            this.info.innerHTML = `Modified:${new Date(w.mtime).toLocaleString()}`;
+            this.info.innerHTML = `更新日時: ${new Date(w.mtime).toLocaleString()}`;
             let result = undefined;
             const w1data = readDocument(w);
             this.currentDeleted = !!w.deleted;
@@ -212,15 +212,16 @@ export class DocumentHistoryModal extends Modal {
                     result = escapeStringToHTML(w1data);
                 }
             }
-            if (result == undefined) result = typeof w1data == "string" ? escapeStringToHTML(w1data) : "Binary file";
+            if (result == undefined)
+                result = typeof w1data == "string" ? escapeStringToHTML(w1data) : "バイナリファイル";
             this.contentView.innerHTML =
-                (this.currentDeleted ? "(At this revision, the file has been deleted)\n" : "") + result;
+                (this.currentDeleted ? "(このリビジョンではファイルは削除されています)\n" : "") + result;
         }
     }
 
     override onOpen() {
         const { contentEl } = this;
-        this.titleEl.setText("Document History");
+        this.titleEl.setText("ドキュメント履歴");
         contentEl.empty();
         this.fileInfo = contentEl.createDiv("");
         this.fileInfo.addClass("op-info");
@@ -251,19 +252,19 @@ export class DocumentHistoryModal extends Modal {
                             });
                         })
                     );
-                    label.appendText("Highlight diff");
+                    label.appendText("差分を強調表示");
                 });
             })
             .addClass("op-info");
         this.info = contentEl.createDiv("");
         this.info.addClass("op-info");
         fireAndForget(async () => await this.loadFile(this.initialRev));
-        const div = contentEl.createDiv({ text: "Loading old revisions..." });
+        const div = contentEl.createDiv({ text: "古いリビジョンを読み込んでいます..." });
         this.contentView = div;
         div.addClass("op-scrollable");
         div.addClass("op-pre");
         const buttons = contentEl.createDiv("");
-        buttons.createEl("button", { text: "Copy to clipboard" }, (e) => {
+        buttons.createEl("button", { text: "クリップボードにコピー" }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
@@ -281,7 +282,7 @@ export class DocumentHistoryModal extends Modal {
                 Logger("Unable to display the file in the editor", LOG_LEVEL_NOTICE);
             }
         };
-        buttons.createEl("button", { text: "Back to this revision" }, (e) => {
+        buttons.createEl("button", { text: "このリビジョンに戻す" }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {

@@ -8,14 +8,14 @@ export function panePowerUsers(
     paneEl: HTMLElement,
     { addPanel }: PageFunctions
 ): void {
-    void addPanel(paneEl, "CouchDB Connection Tweak", undefined, this.onlyOnCouchDB).then((paneEl) => {
+    void addPanel(paneEl, "CouchDB 接続調整", undefined, this.onlyOnCouchDB).then((paneEl) => {
         paneEl.addClass("wizardHidden");
 
         this.createEl(
             paneEl,
             "div",
             {
-                text: `If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.`,
+                text: `IBM Cloudant の使用時にペイロードサイズの上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。`,
             },
             undefined,
             this.onlyOnCouchDB
@@ -30,15 +30,15 @@ export function panePowerUsers(
         });
         new Setting(paneEl).setClass("wizardHidden").autoWireToggle("useTimeouts", { onUpdate: this.onlyOnCouchDB });
     });
-    void addPanel(paneEl, "Configuration Encryption").then((paneEl) => {
+    void addPanel(paneEl, "設定の暗号化").then((paneEl) => {
         const passphrase_options: Record<ConfigPassphraseStore, string> = {
-            "": "Default",
-            LOCALSTORAGE: "Use a custom passphrase",
-            ASK_AT_LAUNCH: "Ask an passphrase at every launch",
+            "": "既定",
+            LOCALSTORAGE: "カスタムパスフレーズを使用",
+            ASK_AT_LAUNCH: "起動ごとにパスフレーズを確認",
         };
 
         new Setting(paneEl)
-            .setName("Encrypting sensitive configuration items")
+            .setName("機密性の高い設定項目を暗号化")
             .autoWireDropDown("configPassphraseStore", {
                 options: passphrase_options,
                 holdValue: true,
@@ -53,7 +53,7 @@ export function panePowerUsers(
             }));
         new Setting(paneEl).addApplyButton(["configPassphrase", "configPassphraseStore"]).setClass("wizardHidden");
     });
-    void addPanel(paneEl, "Developer").then((paneEl) => {
+    void addPanel(paneEl, "開発者").then((paneEl) => {
         new Setting(paneEl).autoWireToggle("enableDebugTools").setClass("wizardHidden");
     });
 }

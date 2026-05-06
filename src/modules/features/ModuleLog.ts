@@ -358,12 +358,12 @@ export class ModuleLog extends AbstractObsidianModule {
 
         const statusBarLabels = reactive(() => {
             const scheduleMessage = this.services.appLifecycle.isReloadingScheduled()
-                ? `WARNING! RESTARTING OBSIDIAN IS SCHEDULED!\n`
+                ? `警告: Obsidian の再起動が予約されています\n`
                 : "";
             const { message } = statusLineLabel();
             const fileStatus = this.activeFileStatus.value;
             const status = scheduleMessage + this.statusLog.value;
-            const fileStatusIcon = `${fileStatus && this.settings.hideFileWarningNotice ? " ⛔ SKIP" : ""}`;
+            const fileStatusIcon = `${fileStatus && this.settings.hideFileWarningNotice ? " ⛔ 除外" : ""}`;
             return {
                 message: `${message}${fileStatusIcon}`,
                 status,
@@ -403,7 +403,7 @@ export class ModuleLog extends AbstractObsidianModule {
         if (!thisFile) return "";
         const validPath = isValidPath(thisFile.path);
         if (!validPath) {
-            reason.push("This file has an invalid path under the current settings");
+            reason.push("現在の設定では、このファイルのパスは無効です");
         } else {
             // The most narrow check: Filename validity on Windows
             const validOnWindows = isValidFilenameInWidows(thisFile.name);
@@ -414,7 +414,9 @@ export class ModuleLog extends AbstractObsidianModule {
             if (!validOnDarwin) labels.push("🍎");
             if (!validOnAndroid) labels.push("🤖");
             if (labels.length > 0) {
-                reasonWarn.push("Some platforms may be unable to process this file correctly: " + labels.join(" "));
+                reasonWarn.push(
+                    "一部のプラットフォームでこのファイルを正しく処理できない可能性があります: " + labels.join(" ")
+                );
             }
         }
         // Case Sensitivity
@@ -423,17 +425,17 @@ export class ModuleLog extends AbstractObsidianModule {
                 .map((e) => e.path)
                 .filter((e) => e.toLowerCase() == thisFile.path.toLowerCase());
             if (f.length > 1) {
-                reason.push("There are multiple files with the same name (case-insensitive match)");
+                reason.push("大文字小文字を区別しない比較で同名のファイルが複数あります");
             }
         }
         if (!(await this.services.vault.isTargetFile(thisFile.path))) {
-            reason.push("This file is ignored by the ignore rules");
+            reason.push("このファイルは除外ルールにより無視されています");
         }
         if (this.services.vault.isFileSizeTooLarge(thisFile.stat.size)) {
-            reason.push("This file size exceeds the configured limit");
+            reason.push("このファイルサイズは設定された上限を超えています");
         }
-        const result = reason.length > 0 ? "Not synchronised: " + reason.join(", ") : "";
-        const warnResult = reasonWarn.length > 0 ? "Warning: " + reasonWarn.join(", ") : "";
+        const result = reason.length > 0 ? "同期されません: " + reason.join(", ") : "";
+        const warnResult = reasonWarn.length > 0 ? "警告: " + reasonWarn.join(", ") : "";
         return [result, warnResult].filter((e) => e).join("\n");
     }
     async setFileStatus() {
@@ -550,7 +552,7 @@ export class ModuleLog extends AbstractObsidianModule {
 
         this.addCommand({
             id: "view-log",
-            name: "Show log",
+            name: "ログを表示",
             callback: () => {
                 void this.services.API.showWindow(VIEW_TYPE_LOG);
             },

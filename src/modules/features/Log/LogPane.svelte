@@ -57,7 +57,7 @@
               <span>{msg("logPane.pause", {}, lang)}</span>
           </label>
             <span class="spacer"></span>
-            <button onclick={() => closeDialogue()}>Close</button>
+            <button onclick={() => closeDialogue()}>閉じる</button>
       </div>
   </div>
   <div class="log" bind:this={scroll}>

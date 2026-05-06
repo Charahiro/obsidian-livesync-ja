@@ -842,9 +842,9 @@ export class ObsidianLiveSyncSettingTab extends PluginSettingTab {
 
         void addPane(containerEl, "修復", "🧰", 50, true).then(bindPane(paneHatch));
         void addPane(containerEl, "高度な設定", "🔧", 46, false, LEVEL_ADVANCED).then(bindPane(paneAdvanced));
-        void addPane(containerEl, "Power users", "💪", 47, true, LEVEL_POWER_USER).then(bindPane(panePowerUsers));
+        void addPane(containerEl, "パワーユーザー", "💪", 47, true, LEVEL_POWER_USER).then(bindPane(panePowerUsers));
 
-        void addPane(containerEl, "Patches", "🩹", 51, false, LEVEL_EDGE_CASE).then(bindPane(panePatches));
+        void addPane(containerEl, "パッチ", "🩹", 51, false, LEVEL_EDGE_CASE).then(bindPane(panePatches));
 
         void addPane(containerEl, "メンテナンス", "🎛️", 70, true).then(bindPane(paneMaintenance));
 

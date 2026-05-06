@@ -22,11 +22,11 @@ export class ConflictResolveModal extends Modal {
     isClosed = false;
     consumed = false;
 
-    title: string = "Conflicting changes";
+    title: string = "競合している変更";
 
     pluginPickMode: boolean = false;
-    localName: string = "Base";
-    remoteName: string = "Conflicted";
+    localName: string = "ベース";
+    remoteName: string = "競合側";
     offEvent?: ReturnType<typeof eventHub.onEvent>;
 
     constructor(app: App, filename: string, diff: diff_result, pluginPickMode?: boolean, remoteName?: string) {
@@ -35,9 +35,9 @@ export class ConflictResolveModal extends Modal {
         this.filename = filename;
         this.pluginPickMode = pluginPickMode || false;
         if (this.pluginPickMode) {
-            this.title = "Pick a version";
-            this.remoteName = `${remoteName || "Remote"}`;
-            this.localName = "Local";
+            this.title = "バージョンを選択";
+            this.remoteName = `${remoteName || "リモート"}`;
+            this.localName = "ローカル";
         }
         // Send cancel signal for the previous merge dialogue
         // if not there, simply be ignored.
@@ -89,28 +89,28 @@ export class ConflictResolveModal extends Modal {
         const div2 = contentEl.createDiv("");
         div2.addClass("ls-dialog");
         const date1 =
-            new Date(this.result.left.mtime).toLocaleString() + (this.result.left.deleted ? " (Deleted)" : "");
+            new Date(this.result.left.mtime).toLocaleString() + (this.result.left.deleted ? " (削除済み)" : "");
         const date2 =
-            new Date(this.result.right.mtime).toLocaleString() + (this.result.right.deleted ? " (Deleted)" : "");
+            new Date(this.result.right.mtime).toLocaleString() + (this.result.right.deleted ? " (削除済み)" : "");
         div2.innerHTML = `<span class='deleted'><span class='conflict-dev-name'>${this.localName}</span>: ${date1}</span><br>
 <span class='added'><span class='conflict-dev-name'>${this.remoteName}</span>: ${date2}</span><br>`;
-        contentEl.createEl("button", { text: `Use ${this.localName}` }, (e) =>
+        contentEl.createEl("button", { text: `${this.localName}を使用` }, (e) =>
             e.addEventListener("click", () => this.sendResponse(this.result.right.rev))
         ).style.marginRight = "4px";
-        contentEl.createEl("button", { text: `Use ${this.remoteName}` }, (e) =>
+        contentEl.createEl("button", { text: `${this.remoteName}を使用` }, (e) =>
             e.addEventListener("click", () => this.sendResponse(this.result.left.rev))
         ).style.marginRight = "4px";
         if (!this.pluginPickMode) {
-            contentEl.createEl("button", { text: "Concat both" }, (e) =>
+            contentEl.createEl("button", { text: "両方を結合" }, (e) =>
                 e.addEventListener("click", () => this.sendResponse(LEAVE_TO_SUBSEQUENT))
             ).style.marginRight = "4px";
         }
-        contentEl.createEl("button", { text: !this.pluginPickMode ? "Not now" : "Cancel" }, (e) =>
+        contentEl.createEl("button", { text: !this.pluginPickMode ? "今はしない" : "キャンセル" }, (e) =>
             e.addEventListener("click", () => this.sendResponse(CANCELLED))
         ).style.marginRight = "4px";
         diff = diff.replace(/\n/g, "<br>");
         if (diff.length > 100 * 1024) {
-            div.innerText = "(Too large diff to display)";
+            div.innerText = "(差分が大きすぎるため表示できません)";
         } else {
             div.innerHTML = diff;
         }
