@@ -84,19 +84,19 @@ export class ModuleRedFlag extends AbstractModule {
      */
     async adjustSettingToRemote(config: ObsidianLiveSyncSettings) {
         // Fetch remote configuration unless prevented.
-        const SKIP_FETCH = "Skip and proceed";
-        const RETRY_FETCH = "Retry (recommended)";
+        const SKIP_FETCH = "スキップして続行";
+        const RETRY_FETCH = "再試行 (推奨)";
         let canProceed = false;
         do {
             const remoteTweaks = await this.services.tweakValue.fetchRemotePreferred(config);
             if (!remoteTweaks) {
                 const choice = await this.core.confirm.askSelectStringDialogue(
-                    "Could not fetch configuration from remote. If you are new to the Self-hosted LiveSync, this might be expected. If not, you should check your network or server settings.",
+                    "リモートから構成を取得できませんでした。Self-hosted LiveSync を初めて使う場合、これは想定どおりの場合があります。そうでない場合は、ネットワークまたはサーバー設定を確認してください。",
                     [SKIP_FETCH, RETRY_FETCH] as const,
                     {
                         defaultAction: RETRY_FETCH,
                         timeout: 0,
-                        title: "Fetch Remote Configuration Failed",
+                        title: "リモート構成の取得に失敗",
                     }
                 );
                 if (choice === SKIP_FETCH) {
@@ -115,7 +115,7 @@ export class ModuleRedFlag extends AbstractModule {
                     );
                 } else {
                     await this.core.confirm.askSelectStringDialogue(
-                        "Your settings differed slightly from the server's. The plug-in has supplemented the incompatible parts with the server settings!",
+                        "設定がサーバー側と少し異なっていました。互換性のない部分は、プラグインがサーバー設定で補完しました。",
                         ["OK"] as const,
                         {
                             defaultAction: "OK",
@@ -270,7 +270,7 @@ export class ModuleRedFlag extends AbstractModule {
         }
         if (
             (await this.core.confirm.askYesNoDialog(
-                "Do you want to resume file and database processing, and restart obsidian now?",
+                "ファイル処理とデータベース処理を再開し、今すぐ Obsidian を再起動しますか？",
                 { defaultOption: "Yes", timeout: 15 }
             )) != "yes"
         ) {

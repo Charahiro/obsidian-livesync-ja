@@ -15,7 +15,7 @@ export class JsonResolveModal extends Modal {
     defaultSelect: string;
     keepOrder: boolean;
     hideLocal: boolean;
-    title: string = "Conflicted Setting";
+    title: string = "競合した設定";
 
     constructor(
         app: App,
@@ -27,7 +27,7 @@ export class JsonResolveModal extends Modal {
         defaultSelect?: string,
         keepOrder?: boolean,
         hideLocal?: boolean,
-        title: string = "Conflicted Setting"
+        title: string = "競合した設定"
     ) {
         super(app);
         this.callback = callback;

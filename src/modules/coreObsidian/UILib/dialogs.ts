@@ -58,7 +58,7 @@ export class InputStringDialog extends AutoClosableModal {
         new Setting(formEl)
             .addButton((btn) =>
                 btn
-                    .setButtonText("Ok")
+                    .setButtonText("OK")
                     .setCta()
                     .onClick(() => {
                         this.isManuallyClosed = true;
@@ -67,7 +67,7 @@ export class InputStringDialog extends AutoClosableModal {
             )
             .addButton((btn) =>
                 btn
-                    .setButtonText("Cancel")
+                    .setButtonText("キャンセル")
                     .setCta()
                     .onClick(() => {
                         this.close();
@@ -194,7 +194,9 @@ export class MessageBox<T extends readonly string[]> extends AutoClosableModal {
         const buttonSetting = new Setting(contentEl);
         const labelWrapper = contentEl.createDiv();
         labelWrapper.addClass("sls-dialogue-note-wrapper");
-        const labelEl = labelWrapper.createEl("label", { text: "To stop the countdown, tap anywhere on the dialogue" });
+        const labelEl = labelWrapper.createEl("label", {
+            text: "カウントダウンを停止するには、ダイアログ内の任意の場所をクリックしてください",
+        });
         labelEl.addClass("sls-dialogue-note-countdown");
         if (!this.timeout || !this.timer) {
             labelWrapper.empty();

@@ -452,7 +452,7 @@ export class ConfigSync extends LiveSyncCommands {
         );
         this.services.API.addCommand({
             id: "livesync-plugin-dialog-ex",
-            name: "Show customization sync dialog",
+            name: "カスタマイズ同期ダイアログを表示",
             callback: () => {
                 this.showPluginSyncModal();
             },
@@ -954,12 +954,12 @@ export class ConfigSync extends LiveSyncCommands {
                                     res(false);
                                 }
                             },
-                            "Local",
+                            "ローカル",
                             `${dataB.term}`,
                             "B",
                             true,
                             true,
-                            "Difference between local and remote"
+                            "ローカルとリモートの差分"
                         );
                         modal.open();
                     })
@@ -1760,7 +1760,11 @@ export class ConfigSync extends LiveSyncCommands {
 
         if (mode == "CUSTOMIZE") {
             if (!this.services.setting.getDeviceAndVaultName()) {
-                let name = await this.core.confirm.askString("デバイス名", "このデバイス名を設定してください", `desktop`);
+                let name = await this.core.confirm.askString(
+                    "デバイス名",
+                    "このデバイス名を設定してください",
+                    `desktop`
+                );
                 if (!name) {
                     if (Platform.isAndroidApp) {
                         name = "android-app";

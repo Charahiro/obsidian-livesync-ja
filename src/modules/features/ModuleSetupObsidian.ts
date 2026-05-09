@@ -45,24 +45,24 @@ export class ModuleSetupObsidian extends AbstractModule {
         }
         this.addCommand({
             id: "livesync-setting-qr",
-            name: "Show settings as a QR code",
+            name: "設定をQRコードとして表示",
             callback: () => fireAndForget(this.encodeQR()),
         });
 
         this.addCommand({
             id: "livesync-copysetupuri",
-            name: "Copy settings as a new setup URI",
+            name: "設定を新しいセットアップURIとしてコピー",
             callback: () => fireAndForget(this.command_copySetupURI()),
         });
         this.addCommand({
             id: "livesync-copysetupuri-short",
-            name: "Copy settings as a new setup URI (With customization sync)",
+            name: "設定を新しいセットアップURIとしてコピー (カスタマイズ同期付き)",
             callback: () => fireAndForget(this.command_copySetupURIWithSync()),
         });
 
         this.addCommand({
             id: "livesync-copysetupurifull",
-            name: "Copy settings as a new setup URI (Full)",
+            name: "設定を新しいセットアップURIとしてコピー (完全)",
             callback: () => fireAndForget(this.command_copySetupURIFull()),
         });
 
@@ -89,7 +89,7 @@ export class ModuleSetupObsidian extends AbstractModule {
             return "";
         }
         const msg = $msg("Setup.QRCode", { qr_image: codeSVG });
-        await this.core.confirm.confirmWithMessage("Settings QR Code", msg, ["OK"], "OK");
+        await this.core.confirm.confirmWithMessage("設定QRコード", msg, ["OK"], "OK");
         return await Promise.resolve(codeSVG);
     }
 

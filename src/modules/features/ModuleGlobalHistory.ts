@@ -5,7 +5,7 @@ export class ModuleObsidianGlobalHistory extends AbstractObsidianModule {
     _everyOnloadStart(): Promise<boolean> {
         this.addCommand({
             id: "livesync-global-history",
-            name: "Show vault history",
+            name: "Vault履歴を表示",
             callback: () => {
                 this.showGlobalHistory();
             },

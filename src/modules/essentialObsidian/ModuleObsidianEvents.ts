@@ -173,11 +173,11 @@ export class ModuleObsidianEvents extends AbstractObsidianModule {
             return;
         }
         scheduleTask("configReload", 250, async () => {
-            const RESTART_NOW = "Yes, restart immediately";
-            const RESTART_AFTER_STABLE = "Yes, schedule a restart after stabilisation";
-            const RETRY_LATER = "No, Leave it to me";
+            const RESTART_NOW = "はい、今すぐ再起動";
+            const RESTART_AFTER_STABLE = "はい、安定後に再起動を予約";
+            const RETRY_LATER = "いいえ、自分で対応します";
             const ret = await this.core.confirm.askSelectStringDialogue(
-                message || "Do you want to restart and reload Obsidian now?",
+                message || "今すぐ Obsidian を再起動して再読み込みしますか？",
                 [RESTART_AFTER_STABLE, RESTART_NOW, RETRY_LATER],
                 { defaultAction: RETRY_LATER }
             );

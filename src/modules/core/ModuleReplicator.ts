@@ -112,16 +112,16 @@ export class ModuleReplicator extends AbstractModule {
         Logger(`The remote database has been cleaned.`, showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
         await skipIfDuplicated("cleanup", async () => {
             const count = await purgeUnreferencedChunks(this.localDatabase.localDatabase, true);
-            const message = `The remote database has been cleaned up.
-To synchronize, this device must be also cleaned up. ${count} chunk(s) will be erased from this device.
-However, If there are many chunks to be deleted, maybe fetching again is faster.
-We will lose the history of this device if we fetch the remote database again.
-Even if you choose to clean up, you will see this option again if you exit Obsidian and then synchronise again.`;
-            const CHOICE_FETCH = "Fetch again";
-            const CHOICE_CLEAN = "Cleanup";
-            const CHOICE_DISMISS = "Dismiss";
+            const message = `リモートデータベースはクリーンアップされています。
+同期するには、このデバイス側もクリーンアップする必要があります。このデバイスから ${count} 個のチャンクが削除されます。
+ただし、削除対象のチャンクが多い場合は、リモートデータベースを再取得する方が速い場合があります。
+リモートデータベースを再取得すると、このデバイスの履歴は失われます。
+クリーンアップを選択しても、Obsidian を終了してから再度同期すると、この選択肢は再び表示されます。`;
+            const CHOICE_FETCH = "再取得";
+            const CHOICE_CLEAN = "クリーンアップ";
+            const CHOICE_DISMISS = "閉じる";
             const ret = await this.core.confirm.confirmWithMessage(
-                "Cleaned",
+                "クリーンアップ済み",
                 message,
                 [CHOICE_FETCH, CHOICE_CLEAN, CHOICE_DISMISS],
                 CHOICE_DISMISS,

@@ -1771,23 +1771,23 @@ Offline Changed files: ${files.length}`;
         return true;
     }
     private async __askHiddenFileConfiguration(opt: { enableFetch?: boolean; enableOverwrite?: boolean }) {
-        const messageFetch = `${opt.enableFetch ? `> - Fetch: Use the files stored from other devices. Choose this option if you have already configured hidden file synchronization on those devices and wish to accept their files.\n` : ""}`;
-        const messageOverwrite = `${opt.enableOverwrite ? `> - Overwrite: Use the files from this device. Select this option if you want to overwrite the files stored on other devices.\n` : ""}`;
-        const messageMerge = `> - Merge: Merge the files from this device with those on other devices. Choose this option if you wish to combine files from multiple sources.
->  However, please be reminded that merging may cause conflicts if the files are not identical. Additionally, this process may occur within the same folder, potentially breaking your plug-in or theme settings that comprise multiple files.\n`;
-        const message = `Would you like to enable **Hidden File Synchronization**?
+        const messageFetch = `${opt.enableFetch ? `> - 取得: 他のデバイスに保存されているファイルを使用します。他のデバイスで隠しファイル同期を設定済みで、そのファイルを受け入れたい場合に選択します。\n` : ""}`;
+        const messageOverwrite = `${opt.enableOverwrite ? `> - 上書き: このデバイスのファイルを使用します。他のデバイスに保存されているファイルを上書きしたい場合に選択します。\n` : ""}`;
+        const messageMerge = `> - マージ: このデバイスのファイルと他のデバイスのファイルを結合します。複数のソースのファイルを組み合わせたい場合に選択します。
+>  ただし、ファイルが同一でない場合は競合が発生する可能性があります。また、同じフォルダ内で処理される場合があり、複数ファイルで構成されるプラグインやテーマの設定が壊れる可能性があります。\n`;
+        const message = `**隠しファイル同期**を有効にしますか？
 
 > [!DETAILS]-
-> This feature allows you to synchronize all hidden files without any user interaction.
-> To enable this feature, you should choose one of the following options:
+> この機能では、すべての隠しファイルをユーザー操作なしで同期できます。
+> 有効にするには、次のいずれかの選択肢を選んでください:
 ${messageFetch}${messageOverwrite}${messageMerge}
 
 > [!IMPORTANT]
-> Please keep in mind that enabling this feature alongside customisation sync may override certain behaviors.`;
-        const CHOICE_FETCH = "Fetch";
-        const CHOICE_OVERWRITE = "Overwrite";
-        const CHOICE_MERGE = "Merge";
-        const CHOICE_DISABLE = "Disable";
+> この機能をカスタマイズ同期と併用すると、一部の動作が上書きされる可能性があることに注意してください。`;
+        const CHOICE_FETCH = "取得";
+        const CHOICE_OVERWRITE = "上書き";
+        const CHOICE_MERGE = "マージ";
+        const CHOICE_DISABLE = "無効化";
         const choices = [];
         if (opt?.enableFetch) {
             choices.push(CHOICE_FETCH);
@@ -1799,7 +1799,7 @@ ${messageFetch}${messageOverwrite}${messageMerge}
         choices.push(CHOICE_DISABLE);
 
         const ret = await this.core.confirm.confirmWithMessage(
-            "Hidden file sync",
+            "隠しファイル同期",
             message,
             choices,
             CHOICE_DISABLE,

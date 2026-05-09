@@ -69,7 +69,7 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
         this.localDatabase.clearCaches();
     }
 
-    async confirm(title: string, message: string, affirmative = "Yes", negative = "No") {
+    async confirm(title: string, message: string, affirmative = "はい", negative = "いいえ") {
         return (
             (await this.core.confirm.askSelectStringDialogue(message, [affirmative, negative], {
                 title,
@@ -79,11 +79,15 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
     }
     isAvailable() {
         if (!this.settings.doNotUseFixedRevisionForChunks) {
-            this._notice("Please enable 'Compute revisions for chunks' in settings to use Garbage Collection.");
+            this._notice(
+                "ガベージコレクションを使用するには、設定で「チャンクのリビジョンを計算」を有効にしてください。"
+            );
             return false;
         }
         if (this.settings.readChunksOnline) {
-            this._notice("Please disable 'Read chunks online' in settings to use Garbage Collection.");
+            this._notice(
+                "ガベージコレクションを使用するには、設定で「チャンクをオンラインで読み取る」を無効にしてください。"
+            );
             return false;
         }
         return true;
@@ -133,22 +137,22 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
         const resurrectChunks = excessiveDeletions.filter((e) => e.data !== "").map((e) => ({ ...e, _deleted: false }));
 
         if (resurrectChunks.length == 0) {
-            this._notice("No chunks are found to be resurrected.");
+            this._notice("復元できるチャンクは見つかりませんでした。");
             return;
         }
-        const message = `We have following chunks that are deleted but still used in the database.
+        const message = `削除済みですが、データベース内でまだ使用されているチャンクがあります。
 
-- Completely lost chunks: ${completelyLostChunks.length}
-- Resurrectable chunks: ${resurrectChunks.length}
+- 完全に失われたチャンク: ${completelyLostChunks.length}
+- 復元可能なチャンク: ${resurrectChunks.length}
 
-Do you want to resurrect these chunks?`;
-        if (await this.confirm("Resurrect Chunks", message, "Resurrect", "Cancel")) {
+これらのチャンクを復元しますか？`;
+        if (await this.confirm("チャンクの復元", message, "復元", "キャンセル")) {
             const result = await this.database.bulkDocs(resurrectChunks);
             this.clearHash();
             const resurrectedChunks = result.filter((e) => "ok" in e).map((e) => e.id);
-            this._notice(`Resurrected chunks: ${resurrectedChunks.length} / ${resurrectChunks.length}`);
+            this._notice(`復元したチャンク: ${resurrectedChunks.length} / ${resurrectChunks.length}`);
         } else {
-            this._notice("Resurrect operation is cancelled.");
+            this._notice("復元操作はキャンセルされました。");
         }
     }
     /**
@@ -165,31 +169,31 @@ Do you want to resurrect these chunks?`;
             (e) => (e.doc?.type == "newnote" || e.doc?.type == "plain") && e.doc?.deleted
         );
         if (deletedDocs.length == 0) {
-            p.done("No deleted files found.");
+            p.done("削除済みファイルは見つかりませんでした。");
             return;
         }
-        p.log(`Found ${deletedDocs.length} deleted files.`);
+        p.log(`${deletedDocs.length} 件の削除済みファイルが見つかりました。`);
 
-        const message = `We have following files that are marked as deleted.
+        const message = `削除済みとしてマークされているファイルがあります。
 
-- Deleted files: ${deletedDocs.length}
+- 削除済みファイル: ${deletedDocs.length}
 
-Are you sure to delete these files permanently?
+これらのファイルを完全に削除してよろしいですか？
 
-Note: **Make sure to synchronise all devices before deletion.**
+注意: **削除前に、すべてのデバイスを必ず同期してください。**
 
 > [!Note]
-> This operation affects the database permanently. Deleted files will not be recovered after this operation.
-> And, the chunks that are used in the deleted files will be ready for compaction.`;
+> この操作はデータベースへ永続的に影響します。この操作後、削除したファイルは復元できません。
+> また、削除したファイルで使用されていたチャンクはコンパクション可能になります。`;
 
         const deletingDocs = deletedDocs.map((e) => ({ ...e.doc, _deleted: true }) as MetaEntry);
 
-        if (await this.confirm("Delete Files", message, "Delete", "Cancel")) {
+        if (await this.confirm("ファイルの削除", message, "削除", "キャンセル")) {
             const result = await this.database.bulkDocs(deletingDocs);
             this.clearHash();
-            p.done(`Deleted ${result.filter((e) => "ok" in e).length} / ${deletedDocs.length} files.`);
+            p.done(`${result.filter((e) => "ok" in e).length} / ${deletedDocs.length} 件のファイルを削除しました。`);
         } else {
-            p.done("Deletion operation is cancelled.");
+            p.done("削除操作はキャンセルされました。");
         }
     }
     /**
@@ -205,29 +209,29 @@ Note: **Make sure to synchronise all devices before deletion.**
         const deletedNotVacantChunks = deletedChunks.map((e) => ({ ...e, data: "", _deleted: true }));
         const size = deletedChunks.reduce((acc, e) => acc + e.data.length, 0);
         const humanSize = sizeToHumanReadable(size);
-        const message = `We have following chunks that are marked as deleted.
+        const message = `削除済みとしてマークされているチャンクがあります。
 
-- Deleted chunks: ${deletedNotVacantChunks.length} (${humanSize})
+- 削除済みチャンク: ${deletedNotVacantChunks.length} (${humanSize})
 
-Are you sure to delete these chunks permanently?
+これらのチャンクを完全に削除してよろしいですか？
 
-Note: **Make sure to synchronise all devices before deletion.**
+注意: **削除前に、すべてのデバイスを必ず同期してください。**
 
 > [!Note]
-> This operation finally reduces the capacity of the remote.`;
+> この操作により、最終的にリモートの使用容量が削減されます。`;
 
         if (deletedNotVacantChunks.length == 0) {
-            this._notice("No deleted chunks found.");
+            this._notice("削除済みチャンクは見つかりませんでした。");
             return;
         }
-        if (await this.confirm("Delete Chunks", message, "Delete", "Cancel")) {
+        if (await this.confirm("チャンクの削除", message, "削除", "キャンセル")) {
             const result = await this.database.bulkDocs(deletedNotVacantChunks);
             this.clearHash();
             this._notice(
-                `Deleted chunks: ${result.filter((e) => "ok" in e).length} / ${deletedNotVacantChunks.length}`
+                `削除したチャンク: ${result.filter((e) => "ok" in e).length} / ${deletedNotVacantChunks.length}`
             );
         } else {
-            this._notice("Deletion operation is cancelled.");
+            this._notice("削除操作はキャンセルされました。");
         }
     }
     /**
@@ -247,24 +251,24 @@ Note: **Make sure to synchronise all devices before deletion.**
         const size = deleteChunks.reduce((acc, e) => acc + e.data.length, 0);
         const humanSize = sizeToHumanReadable(size);
         if (deleteChunks.length == 0) {
-            this._notice("No unused chunks found.");
+            this._notice("未使用チャンクは見つかりませんでした。");
             return;
         }
-        const message = `We have following chunks that are not used from any files.
+        const message = `どのファイルからも使用されていないチャンクがあります。
 
-- Chunks: ${deleteChunks.length} (${humanSize})
+- チャンク: ${deleteChunks.length} (${humanSize})
 
-Are you sure to mark these chunks to be deleted?
+これらのチャンクを削除対象としてマークしてよろしいですか？
 
-Note: **Make sure to synchronise all devices before deletion.**
+注意: **削除前に、すべてのデバイスを必ず同期してください。**
 
 > [!Note]
-> This operation will not reduces the capacity of the remote until permanent deletion.`;
+> この操作だけでは、完全削除するまでリモートの使用容量は削減されません。`;
 
-        if (await this.confirm("Mark unused chunks", message, "Mark", "Cancel")) {
+        if (await this.confirm("未使用チャンクのマーク", message, "マーク", "キャンセル")) {
             const result = await this.database.bulkDocs(deleteChunks);
             this.clearHash();
-            this._notice(`Marked chunks: ${result.filter((e) => "ok" in e).length} / ${deleteChunks.length}`);
+            this._notice(`マークしたチャンク: ${result.filter((e) => "ok" in e).length} / ${deleteChunks.length}`);
         }
     }
 
@@ -280,23 +284,23 @@ Note: **Make sure to synchronise all devices before deletion.**
         const size = unusedChunks.reduce((acc, e) => acc + e.data.length, 0);
         const humanSize = sizeToHumanReadable(size);
         if (deleteChunks.length == 0) {
-            this._notice("No unused chunks found.");
+            this._notice("未使用チャンクは見つかりませんでした。");
             return;
         }
-        const message = `We have following chunks that are not used from any files.
+        const message = `どのファイルからも使用されていないチャンクがあります。
 
-- Chunks: ${deleteChunks.length} (${humanSize})
+- チャンク: ${deleteChunks.length} (${humanSize})
 
-Are you sure to delete these chunks?
+これらのチャンクを削除してよろしいですか？
 
-Note: **Make sure to synchronise all devices before deletion.**
+注意: **削除前に、すべてのデバイスを必ず同期してください。**
 
 > [!Note]
-> Chunks referenced from deleted files are not deleted. Please run "Commit File Deletion" before this operation.`;
+> 削除済みファイルから参照されているチャンクは削除されません。この操作の前に「ファイル削除を確定」を実行してください。`;
 
-        if (await this.confirm("Mark unused chunks", message, "Mark", "Cancel")) {
+        if (await this.confirm("未使用チャンクのマーク", message, "マーク", "キャンセル")) {
             const result = await this.database.bulkDocs(deleteChunks);
-            this._notice(`Deleted chunks: ${result.filter((e) => "ok" in e).length} / ${deleteChunks.length}`);
+            this._notice(`削除したチャンク: ${result.filter((e) => "ok" in e).length} / ${deleteChunks.length}`);
             this.clearHash();
         }
     }
@@ -444,18 +448,18 @@ Note: **Make sure to synchronise all devices before deletion.**
     async performGC(showingNotice = false) {
         if (!this.isAvailable()) return;
         await this.trackChanges(false, showingNotice);
-        const title = "Are all devices synchronised?";
-        const confirmMessage = `This function deletes unused chunks from the device. If there are differences between devices, some chunks may be missing when resolving conflicts.
-Be sure to synchronise before executing.
+        const title = "すべてのデバイスは同期済みですか？";
+        const confirmMessage = `この機能は、このデバイスから未使用チャンクを削除します。デバイス間に差分がある場合、競合解決時に一部のチャンクが不足する可能性があります。
+実行前に必ず同期してください。
 
-However, if you have deleted them, you may be able to recover them by performing Hatch -> Recreate missing chunks for all files.
+ただし、削除してしまった場合でも、修復 -> すべてのファイルで不足チャンクを再作成 を実行すると復元できる可能性があります。
 
-Are you ready to delete unused chunks?`;
+未使用チャンクを削除してよろしいですか？`;
 
         const logLevel = showingNotice ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO;
 
-        const BUTTON_OK = `Yes, delete chunks`;
-        const BUTTON_CANCEL = "Cancel";
+        const BUTTON_OK = `はい、チャンクを削除します`;
+        const BUTTON_CANCEL = "キャンセル";
 
         const result = await this.core.confirm.askSelectStringDialogue(
             confirmMessage,
@@ -838,7 +842,7 @@ Success: ${successCount}, Errored: ${errored}`;
         const OPTION_CANCEL = "Cancel Garbage Collection";
         const info = await this.core.replicator.getConnectedDeviceList();
         if (!info) {
-            this._notice("No connected device information found. Cancelling Garbage Collection.");
+            this._notice("接続済みデバイス情報が見つかりません。ガベージコレクションをキャンセルします。");
             return;
         }
         const { accepted_nodes, node_info } = info;
@@ -850,21 +854,21 @@ Success: ${successCount}, Errored: ${errored}`;
             }
         }
         if (infoMissingNodes.length > 0) {
-            const message = `The following accepted nodes are missing its node information:\n- ${infoMissingNodes.join("\n- ")}\n\nThis indicates that they have not been connected for some time or have been left on an older version.
-It is preferable to update all devices if possible. If you have any devices that are no longer in use, you can clear all accepted nodes by locking the remote once.`;
+            const message = `次の承認済みノードのノード情報が見つかりません:\n- ${infoMissingNodes.join("\n- ")}\n\nしばらく接続されていないか、古いバージョンのままになっている可能性があります。
+可能であれば、すべてのデバイスを更新することをお勧めします。使用していないデバイスがある場合は、リモートを一度ロックすることで承認済みノードをすべてクリアできます。`;
 
-            const OPTION_IGNORE = "Ignore and Proceed";
+            const OPTION_IGNORE = "無視して続行";
             // const OPTION_DELETE = "Delete them and proceed";
             const buttons = [OPTION_CANCEL, OPTION_IGNORE] as const;
             const result = await this.core.confirm.askSelectStringDialogue(message, buttons, {
-                title: "Node Information Missing",
+                title: "ノード情報が見つかりません",
                 defaultAction: OPTION_CANCEL,
             });
             if (result === OPTION_CANCEL) {
-                this._notice("Garbage Collection cancelled by user.");
+                this._notice("ガベージコレクションはユーザーによりキャンセルされました。");
                 return;
             } else if (result === OPTION_IGNORE) {
-                this._notice("Proceeding with Garbage Collection, ignoring missing nodes.");
+                this._notice("不足しているノードを無視してガベージコレクションを続行します。");
             }
         }
 
@@ -875,37 +879,37 @@ It is preferable to update all devices if possible. If you have any devices that
         const maxProgress = Math.max(...progressValues);
         const minProgress = Math.min(...progressValues);
         const progressDifference = maxProgress - minProgress;
-        const OPTION_PROCEED = "Proceed Garbage Collection";
+        const OPTION_PROCEED = "ガベージコレクションを続行";
         //   - If they differ significantly, the node may not have completed synchronisation, potentially causing conflicts. Display a confirmation dialog as a precaution.
         // - If they are not significantly different, display the standard confirmation dialogue message.
 
-        const detail = `> [!INFO]- The connected devices have been detected as follows:
+        const detail = `> [!INFO]- 接続済みデバイスは次のように検出されました:
 ${Object.entries(node_info)
     .map(
         ([nodeId, nodeData]) =>
-            `> - Device: ${nodeData.device_name} (Node ID: ${nodeId})
->   - Obsidian version: ${nodeData.app_version}
->   - Plug-in version: ${nodeData.plugin_version}
->   - Progress: ${nodeData.progress.split("-")[0]}`
+            `> - デバイス: ${nodeData.device_name} (ノードID: ${nodeId})
+>   - Obsidian バージョン: ${nodeData.app_version}
+>   - プラグインバージョン: ${nodeData.plugin_version}
+>   - 進捗: ${nodeData.progress.split("-")[0]}`
     )
     .join("\n")}
 `;
         const message =
             progressDifference != 0
-                ? `Some devices have differing progress values (max: ${maxProgress}, min: ${minProgress}).
-This may indicate that some devices have not completed synchronisation, which could lead to conflicts. Strongly recommend confirming that all devices are synchronised before proceeding.`
-                : `All devices have the same progress value (${maxProgress}). Your devices seem to be synchronised. And be able to proceed with Garbage Collection.`;
+                ? `一部のデバイスで進捗値が異なります (最大: ${maxProgress}, 最小: ${minProgress})。
+一部のデバイスで同期が完了しておらず、競合につながる可能性があります。続行前に、すべてのデバイスが同期済みであることを確認することを強くお勧めします。`
+                : `すべてのデバイスの進捗値は同じです (${maxProgress})。デバイスは同期済みと見なせるため、ガベージコレクションを続行できます。`;
         const buttons = [OPTION_PROCEED, OPTION_CANCEL] as const;
         const defaultAction = progressDifference != 0 ? OPTION_CANCEL : OPTION_PROCEED;
         const result = await this.core.confirm.askSelectStringDialogue(message + "\n\n" + detail, buttons, {
-            title: "Garbage Collection Confirmation",
+            title: "ガベージコレクションの確認",
             defaultAction,
         });
         if (result !== OPTION_PROCEED) {
-            this._notice("Garbage Collection cancelled by user.");
+            this._notice("ガベージコレクションはユーザーによりキャンセルされました。");
             return;
         }
-        this._notice("Proceeding with Garbage Collection.");
+        this._notice("ガベージコレクションを続行します。");
         //-  3. Once OK is confirmed in the dialogue, execute the chunk deletion. This is performed on the local database and immediately reflected on the remote. After reflecting on the remote, perform compaction.
         const gcStartTime = Date.now();
         // Perform Garbage Collection (new implementation).

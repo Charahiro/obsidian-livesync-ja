@@ -10,7 +10,7 @@ export class ModuleObsidianDocumentHistory extends AbstractObsidianModule {
     _everyOnloadStart(): Promise<boolean> {
         this.addCommand({
             id: "livesync-history",
-            name: "Show history",
+            name: "履歴を表示",
             callback: () => {
                 const file = this.services.vault.getActiveFilePath();
                 if (file) this.showHistory(file, undefined);
@@ -19,7 +19,7 @@ export class ModuleObsidianDocumentHistory extends AbstractObsidianModule {
 
         this.addCommand({
             id: "livesync-filehistory",
-            name: "Pick a file to show history",
+            name: "履歴を表示するファイルを選択",
             callback: () => {
                 fireAndForget(async () => await this.fileHistory());
             },
@@ -44,7 +44,7 @@ export class ModuleObsidianDocumentHistory extends AbstractObsidianModule {
         }
         notes.sort((a, b) => b.mtime - a.mtime);
         const notesList = notes.map((e) => e.dispPath);
-        const target = await this.core.confirm.askSelectString("File to view History", notesList);
+        const target = await this.core.confirm.askSelectString("履歴を表示するファイル", notesList);
         if (target) {
             const targetId = notes.find((e) => e.dispPath == target)!;
             this.showHistory(targetId.path, targetId.id);

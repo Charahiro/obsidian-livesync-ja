@@ -21,8 +21,8 @@
             Promise.resolve();
         }) as (keepRev?: string, mergedStr?: string) => Promise<void>),
         filename = $bindable("" as FilePath),
-        nameA = $bindable("A"),
-        nameB = $bindable("B"),
+        nameA = $bindable("候補A"),
+        nameB = $bindable("候補B"),
         defaultSelect = $bindable("" as string),
         keepOrder = $bindable(false),
         hideLocal = $bindable(false),
@@ -115,21 +115,21 @@
         let newModes = [] as typeof modesSrc;
 
         if (!hideLocal) {
-            newModes.push(["", "Not now"]);
-            newModes.push(["A", nameA || "A"]);
+            newModes.push(["", "今はしない"]);
+            newModes.push(["A", nameA || "候補A"]);
         }
-        newModes.push(["B", nameB || "B"]);
-        newModes.push(["AB", `${nameA || "A"} + ${nameB || "B"}`]);
-        newModes.push(["BA", `${nameB || "B"} + ${nameA || "A"}`]);
+        newModes.push(["B", nameB || "候補B"]);
+        newModes.push(["AB", `${nameA || "候補A"} + ${nameB || "候補B"}`]);
+        newModes.push(["BA", `${nameB || "候補B"} + ${nameA || "候補A"}`]);
         return newModes;
     });
 </script>
 
 <h2>{filename}</h2>
 {#if !docA || !docB}
-    <div class="message">Just for a minute, please!</div>
+    <div class="message">少しお待ちください。</div>
     <div class="buttons">
-        <button onclick={apply}>Dismiss</button>
+        <button onclick={apply}>閉じる</button>
     </div>
 {:else}
     <div class="options">
@@ -152,7 +152,7 @@
             {/each}
         </div>
     {:else}
-        NO PREVIEW
+        プレビューはありません
     {/if}
 
     <div class="infos">
@@ -162,24 +162,24 @@
                     <th>{nameA}</th>
                     <td
                         >{#if docA._id == docB._id}
-                            Rev:{revStringToRevNumber(docA._rev)}
+                            リビジョン:{revStringToRevNumber(docA._rev)}
                         {/if}
                         {new Date(docA.mtime).toLocaleString()}</td
                     >
                     <td>
-                        {docAContent && docAContent.length} letters
+                        {docAContent && docAContent.length} 文字
                     </td>
                 </tr>
                 <tr>
                     <th>{nameB}</th>
                     <td
                         >{#if docA._id == docB._id}
-                            Rev:{revStringToRevNumber(docB._rev)}
+                            リビジョン:{revStringToRevNumber(docB._rev)}
                         {/if}
                         {new Date(docB.mtime).toLocaleString()}</td
                     >
                     <td>
-                        {docBContent && docBContent.length} letters
+                        {docBContent && docBContent.length} 文字
                     </td>
                 </tr>
             </tbody>
@@ -188,9 +188,9 @@
 
     <div class="buttons">
         {#if hideLocal}
-            <button onclick={cancel}>Cancel</button>
+            <button onclick={cancel}>キャンセル</button>
         {/if}
-        <button onclick={apply}>Apply</button>
+        <button onclick={apply}>適用</button>
     </div>
 {/if}
 
