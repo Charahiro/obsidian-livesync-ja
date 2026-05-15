@@ -122,13 +122,13 @@ export function paneSetup(
         const branch = "ja-localization";
         const topPath = "/docs/troubleshooting_ja.md";
         const rawRepoURI = `https://raw.githubusercontent.com/${repo}/${branch}`;
-        this.createEl(
-            paneEl,
-            "div",
-            "",
-            (el) =>
-                (el.innerHTML = `<a href='https://github.com/${repo}/blob/${branch}${topPath}' target="_blank">${$msg("obsidianLiveSyncSettingTab.linkOpenInBrowser")}</a>`)
-        );
+        this.createEl(paneEl, "div", "", (el) => {
+            el.createEl("a", { text: $msg("obsidianLiveSyncSettingTab.linkOpenInBrowser") }, (anchor) => {
+                anchor.href = `https://github.com/${repo}/blob/${branch}${topPath}`;
+                anchor.target = "_blank";
+                anchor.rel = "noopener";
+            });
+        });
         const troubleShootEl = this.createEl(paneEl, "div", {
             text: "",
             cls: "sls-troubleshoot-preview",

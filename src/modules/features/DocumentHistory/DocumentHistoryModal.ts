@@ -1,6 +1,6 @@
 import { TFile, Modal, App, DIFF_DELETE, DIFF_EQUAL, DIFF_INSERT, diff_match_patch } from "../../../deps.ts";
 import { getPathFromTFile, isValidPath } from "../../../common/utils.ts";
-import { decodeBinary, escapeStringToHTML, readString } from "../../../lib/src/string_and_binary/convert.ts";
+import { decodeBinary, readString } from "../../../lib/src/string_and_binary/convert.ts";
 import ObsidianLiveSyncPlugin from "../../../main.ts";
 import {
     type DocumentID,
@@ -65,6 +65,11 @@ export class DocumentHistoryModal extends Modal {
     currentText = "";
     currentDeleted = false;
     initialRev?: string;
+
+    // Diff navigation state
+    currentDiffIndex = -1;
+    diffNavContainer!: HTMLDivElement;
+    diffNavIndicator!: HTMLSpanElement;
 
     constructor(
         app: App,
@@ -140,22 +145,66 @@ export class DocumentHistoryModal extends Modal {
         return v;
     }
 
+    prepareContentView(usePreformatted = true) {
+        this.contentView.empty();
+        this.contentView.toggleClass("op-pre", usePreformatted);
+    }
+
+    appendTextDiff(diff: [number, string][]) {
+        for (const [operation, text] of diff) {
+            if (operation == DIFF_DELETE) {
+                this.contentView.createSpan({ text, cls: "history-deleted" });
+            } else if (operation == DIFF_EQUAL) {
+                this.contentView.createSpan({ text, cls: "history-normal" });
+            } else if (operation == DIFF_INSERT) {
+                this.contentView.createSpan({ text, cls: "history-added" });
+            }
+        }
+    }
+
+    appendImageDiff(baseSrc: string, overlaySrc?: string) {
+        const wrap = this.contentView.createDiv({ cls: "ls-imgdiff-wrap" });
+        const overlay = wrap.createDiv({ cls: "overlay" });
+        overlay.createEl("img", { cls: "img-base" }, (img) => {
+            img.src = baseSrc;
+        });
+        if (overlaySrc) {
+            overlay.createEl("img", { cls: "img-overlay" }, (img) => {
+                img.src = overlaySrc;
+            });
+        }
+    }
+
+    appendDeletedNotice(usePreformatted = true) {
+        const notice = "(At this revision, the file has been deleted)";
+        if (usePreformatted) {
+            this.contentView.appendText(`${notice}\n`);
+        } else {
+            this.contentView.createDiv({ text: notice });
+        }
+    }
+
     async showExactRev(rev: string) {
         const db = this.core.localDatabase;
         const w = await db.getDBEntry(this.file, { rev: rev }, false, false, true);
         this.currentText = "";
         this.currentDeleted = false;
+        this.prepareContentView();
         if (w === false) {
             this.currentDeleted = true;
-            this.info.innerHTML = "";
-            this.contentView.innerHTML = `このリビジョンを読み取れませんでした<br>(${rev})`;
+            this.info.empty();
+            this.contentView.appendText("このリビジョンを読み取れませんでした");
+            this.contentView.createEl("br");
+            this.contentView.appendText(`(${rev})`);
         } else {
             this.currentDoc = w;
-            this.info.innerHTML = `更新日時: ${new Date(w.mtime).toLocaleString()}`;
-            let result = undefined;
+            this.info.setText(`更新日時: ${new Date(w.mtime).toLocaleString()}`);
             const w1data = readDocument(w);
             this.currentDeleted = !!w.deleted;
-            // this.currentText = w1data;
+            if (typeof w1data == "string") {
+                this.currentText = w1data;
+            }
+            let rendered = false;
             if (this.showDiff) {
                 const prevRevIdx = this.revs_info.length - 1 - ((this.range.value as any) / 1 - 1);
                 if (prevRevIdx >= 0 && prevRevIdx < this.revs_info.length) {
@@ -163,59 +212,112 @@ export class DocumentHistoryModal extends Modal {
                     const w2 = await db.getDBEntry(this.file, { rev: oldRev }, false, false, true);
                     if (w2 != false) {
                         if (typeof w1data == "string") {
-                            result = "";
-                            const dmp = new diff_match_patch();
-                            const w2data = readDocument(w2) as string;
-                            const diff = dmp.diff_main(w2data, w1data);
-                            dmp.diff_cleanupSemantic(diff);
-                            for (const v of diff) {
-                                const x1 = v[0];
-                                const x2 = v[1];
-                                if (x1 == DIFF_DELETE) {
-                                    result += "<span class='history-deleted'>" + escapeStringToHTML(x2) + "</span>";
-                                } else if (x1 == DIFF_EQUAL) {
-                                    result += "<span class='history-normal'>" + escapeStringToHTML(x2) + "</span>";
-                                } else if (x1 == DIFF_INSERT) {
-                                    result += "<span class='history-added'>" + escapeStringToHTML(x2) + "</span>";
+                            const w2data = readDocument(w2);
+                            if (typeof w2data == "string") {
+                                const dmp = new diff_match_patch();
+                                const diff = dmp.diff_main(w2data, w1data);
+                                dmp.diff_cleanupSemantic(diff);
+                                if (this.currentDeleted) {
+                                    this.appendDeletedNotice();
                                 }
+                                this.appendTextDiff(diff);
+                                rendered = true;
                             }
-                            result = result.replace(/\n/g, "<br>");
                         } else if (isImage(this.file)) {
                             const src = this.generateBlobURL("base", w1data);
                             const overlay = this.generateBlobURL(
                                 "overlay",
                                 readDocument(w2) as Uint8Array<ArrayBuffer>
                             );
-                            result = `<div class='ls-imgdiff-wrap'>
-    <div class='overlay'>
-        <img class='img-base' src="${src}">
-        <img class='img-overlay' src='${overlay}'>
-    </div>
-</div>`;
-                            this.contentView.removeClass("op-pre");
+                            this.prepareContentView(false);
+                            if (this.currentDeleted) {
+                                this.appendDeletedNotice(false);
+                            }
+                            this.appendImageDiff(src, overlay);
+                            rendered = true;
                         }
                     }
                 }
             }
-            if (result == undefined) {
+            if (!rendered) {
                 if (typeof w1data != "string") {
                     if (isImage(this.file)) {
                         const src = this.generateBlobURL("base", w1data);
-                        result = `<div class='ls-imgdiff-wrap'>
-<div class='overlay'>
-<img class='img-base' src="${src}">
-</div>
-</div>`;
-                        this.contentView.removeClass("op-pre");
+                        this.prepareContentView(false);
+                        if (this.currentDeleted) {
+                            this.appendDeletedNotice(false);
+                        }
+                        this.appendImageDiff(src);
+                    } else {
+                        if (this.currentDeleted) {
+                            this.appendDeletedNotice();
+                        }
+                        this.contentView.appendText("Binary file");
                     }
                 } else {
-                    result = escapeStringToHTML(w1data);
+                    if (this.currentDeleted) {
+                        this.appendDeletedNotice();
+                    }
+                    this.contentView.appendText(w1data);
                 }
             }
-            if (result == undefined)
-                result = typeof w1data == "string" ? escapeStringToHTML(w1data) : "バイナリファイル";
-            this.contentView.innerHTML =
-                (this.currentDeleted ? "(このリビジョンではファイルは削除されています)\n" : "") + result;
+        }
+        // Reset diff navigation after content changes
+        this.resetDiffNavigation();
+        if (this.showDiff) {
+            this.navigateDiff("next");
+        }
+    }
+
+    /**
+     * Navigate to the previous or next diff block in the content view.
+     * Only effective when diff highlighting is enabled.
+     */
+    navigateDiff(direction: "prev" | "next") {
+        const diffElements = this.contentView.querySelectorAll(".history-added, .history-deleted");
+        if (diffElements.length === 0) return;
+
+        // Remove previous focus highlight
+        const prevFocused = this.contentView.querySelector(".diff-focused");
+        if (prevFocused) {
+            prevFocused.classList.remove("diff-focused");
+        }
+
+        if (direction === "next") {
+            this.currentDiffIndex = (this.currentDiffIndex + 1) % diffElements.length;
+        } else {
+            this.currentDiffIndex = this.currentDiffIndex <= 0 ? diffElements.length - 1 : this.currentDiffIndex - 1;
+        }
+
+        const target = diffElements[this.currentDiffIndex];
+        target.classList.add("diff-focused");
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        this.diffNavIndicator.textContent = `${this.currentDiffIndex + 1}/${diffElements.length}`;
+    }
+
+    /**
+     * Reset the diff navigation index and update the indicator.
+     */
+    resetDiffNavigation() {
+        this.currentDiffIndex = -1;
+        if (this.diffNavIndicator) {
+            if (this.showDiff) {
+                const diffElements = this.contentView.querySelectorAll(".history-added, .history-deleted");
+                this.diffNavIndicator.textContent = diffElements.length > 0 ? `0/${diffElements.length}` : "\u2014";
+            } else {
+                this.diffNavIndicator.textContent = "\u2014";
+            }
+        }
+        this.updateDiffNavVisibility();
+    }
+
+    /**
+     * Show or hide the diff navigation buttons based on the showDiff state.
+     */
+    updateDiffNavVisibility() {
+        if (this.diffNavContainer) {
+            this.diffNavContainer.style.display = this.showDiff ? "flex" : "none";
         }
     }
 
@@ -237,25 +339,46 @@ export class DocumentHistoryModal extends Modal {
                 void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
             });
         });
-        contentEl
-            .createDiv("", (e) => {
-                e.createEl("label", {}, (label) => {
-                    label.appendChild(
-                        createEl("input", { type: "checkbox" }, (checkbox) => {
-                            if (this.showDiff) {
-                                checkbox.checked = true;
-                            }
-                            checkbox.addEventListener("input", (evt: any) => {
-                                this.showDiff = checkbox.checked;
-                                localStorage.setItem("ols-history-highlightdiff", this.showDiff == true ? "1" : "");
-                                void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
-                            });
-                        })
-                    );
-                    label.appendText("差分を強調表示");
-                });
-            })
-            .addClass("op-info");
+        const diffOptionsRow = contentEl.createDiv("");
+        diffOptionsRow.addClass("op-info");
+        diffOptionsRow.addClass("diff-options-row");
+
+        diffOptionsRow.createEl("label", {}, (label) => {
+            label.appendChild(
+                createEl("input", { type: "checkbox" }, (checkbox) => {
+                    if (this.showDiff) {
+                        checkbox.checked = true;
+                    }
+                    checkbox.addEventListener("input", (evt: any) => {
+                        this.showDiff = checkbox.checked;
+                        localStorage.setItem("ols-history-highlightdiff", this.showDiff == true ? "1" : "");
+                        this.updateDiffNavVisibility();
+                        void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
+                    });
+                })
+            );
+            label.appendText("差分を強調表示");
+        });
+
+        // Diff navigation buttons
+        this.diffNavContainer = diffOptionsRow.createDiv("");
+        this.diffNavContainer.addClass("diff-nav");
+        this.diffNavContainer.style.display = this.showDiff ? "flex" : "none";
+
+        this.diffNavContainer.createEl("button", { text: "\u25B2 前へ" }, (e) => {
+            e.addClass("diff-nav-btn");
+            e.addEventListener("click", () => {
+                this.navigateDiff("prev");
+            });
+        });
+        this.diffNavContainer.createEl("button", { text: "\u25BC 次へ" }, (e) => {
+            e.addClass("diff-nav-btn");
+            e.addEventListener("click", () => {
+                this.navigateDiff("next");
+            });
+        });
+        this.diffNavIndicator = this.diffNavContainer.createEl("span", { text: "\u2014" });
+        this.diffNavIndicator.addClass("diff-nav-indicator");
         this.info = contentEl.createDiv("");
         this.info.addClass("op-info");
         fireAndForget(async () => await this.loadFile(this.initialRev));

@@ -7,7 +7,7 @@
     const TYPE_CLOSE = "close";
     type ResultType = typeof TYPE_CLOSE;
     type Props = {
-        setResult: (result: ResultType) => void;
+        setResult: (_result: ResultType) => void;
     };
     const { setResult }: Props = $props();
 </script>
