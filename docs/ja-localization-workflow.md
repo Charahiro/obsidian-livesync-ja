@@ -53,6 +53,7 @@ Important files:
 - `src/modules/features/GlobalHistory/GlobalHistoryView.ts`: global history pane title.
 - `updates_ja.md`: Japanese Markdown shown in the settings Change Log pane. `esbuild.config.mjs` uses this file when present, while keeping upstream `updates.md` unchanged.
 - `docs/troubleshooting_ja.md`: Japanese Markdown fetched by the Setup tab's Online Tips pane. `PaneSetup.ts` intentionally fetches this from the `ja-localization` branch of this fork.
+- Plugin-read documents: Markdown files that are rendered or fetched from the plugin UI must be checked on every upstream update, not only i18n strings and Svelte text. Search for `MarkdownRenderer`, `request(`, `updates.md`, `updates_ja.md`, and `docs/` references to find them. If upstream changes the source document, update the Japanese counterpart such as `updates_ja.md` or `docs/*_ja.md`, and keep the plugin pointing to the Japanese-fork document where applicable.
 - `.prettierrc.mjs`: keeps `endOfLine: "lf"` in this branch. The generated i18n files in `src/lib` are committed with LF line endings, and using CR causes `npm run bakei18n` / `npm run build` to dirty the submodule on Windows without changing message content.
 
 ## Current Japanese translation pass
@@ -135,6 +136,7 @@ git config rerere.enabled true
 
 - Fill missing keys in `src/lib/src/common/messagesYAML/ja.yaml`.
 - Translate newly added hard-coded Svelte UI text directly to Japanese.
+- Translate or refresh plugin-read Markdown documents. At minimum, compare upstream changes to `updates.md` and docs referenced from plugin UI, then update `updates_ja.md`, `docs/troubleshooting_ja.md`, or any other Japanese document used by the plugin. Do this before creating the release tag because GitHub Releases read release notes and built plugin assets from the tagged commit.
 - Preserve placeholders such as `${name}`, `${value}`, `%{key}`, and URLs unless the surrounding code says otherwise.
 - Keep product and technical names consistent: `Self-hosted LiveSync`, `Obsidian`, `Vault`, `CouchDB`, `MinIO`, `S3`, `R2`, `P2P`.
 
@@ -244,8 +246,9 @@ At the beginning of a future localisation session, the assistant should:
 7. Check `src/lib` submodule changes separately.
 8. Preserve user changes and never reset or discard local edits without explicit permission.
 9. Translate in Japanese, keeping placeholders and technical terms intact.
-10. Run `npm run bakei18n` after editing i18n YAML.
-11. Run the missing-key and remaining-English checks before release.
+10. Check plugin-read documents, especially `updates_ja.md` and `docs/troubleshooting_ja.md`, against the upstream documents used by the plugin UI.
+11. Run `npm run bakei18n` after editing i18n YAML.
+12. Run the missing-key and remaining-English checks before release.
 
 Before pushing localisation work, the assistant must:
 
