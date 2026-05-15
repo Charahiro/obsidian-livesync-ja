@@ -1,18 +1,18 @@
 # Self-hosted LiveSync 日本語化フォーク
 
-Self-hosted LiveSync 0.25.61 をベースにした日本語化フォークです。
+Self-hosted LiveSync 0.25.62 をベースにした日本語化フォークです。
 
-この Release は、上流 0.25.61 への追従と日本語化フォーク側の翻訳を含む更新版です。
+この Release は、上流 0.25.62 への追従と日本語化フォーク側の翻訳を含む更新版です。
 
 ## 主な内容
 
-- 上流 Self-hosted LiveSync 0.25.61 の変更を取り込み
-- CLI 関連の更新とテスト追加を取り込み
-- P2P/RPC 関連の更新を含む commonlib の変更を取り込み
-- 0.25.61 で追加・変更された i18n メッセージを日本語化
-- ドキュメント履歴画面の差分ナビゲーション表示を日本語化
-- 競合解決ダイアログの新しい表示処理に日本語文言を反映
-- セットアップタブのオンラインヒントは日本語フォークの `docs/troubleshooting_ja.md` を参照するよう維持
+- 上流 Self-hosted LiveSync 0.25.62 の変更を取り込み
+- commonlib の更新を取り込み
+  - salt 更新時のデータベースセットアップ修正
+  - コード整形変更
+- `manifest.json`、`package.json`、`package-lock.json` を 0.25.62 に更新
+- 上流の `updates.md` 更新を取り込み
+- 上流の `version-bump.mjs` を追加
 - BRAT 向けに Release へ必要な成果物を添付
 
 ## インストール
