@@ -46,7 +46,8 @@
             title="サーバー情報を手動で入力する"
             bind:value={userType}
         >
-            URIがない場合や、詳細な設定を自分で行いたい場合の上級者向けオプションです。
+            URIがない場合や、詳細な設定を自分で行いたい場合の上級者向けオプションです。CouchDB/S3サーバーではなく
+            <strong>P2P（Peer-to-Peer）同期</strong>を使用する場合も、このオプションを選択できます。P2Pではサーバー設定は不要です。
         </Option>
     </Options>
 </Instruction>
