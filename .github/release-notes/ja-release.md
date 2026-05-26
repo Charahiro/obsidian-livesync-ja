@@ -1,18 +1,18 @@
 # Self-hosted LiveSync 日本語化フォーク
 
-Self-hosted LiveSync 0.25.67 をベースにした日本語化フォークです。
+Self-hosted LiveSync 0.25.68 をベースにした日本語化フォークです。
 
-この Release は、上流 0.25.67 への追従と日本語化フォーク側の翻訳を含む更新版です。0.25.66 は上流で不具合があったためスキップしています。
+この Release は、上流 0.25.68 への追従と日本語化フォーク側の翻訳を含む更新版です。
 
 ## 主な内容
 
-- 上流 Self-hosted LiveSync 0.25.67 の変更を取り込み
-- 0.25.66 は上流の自動受け入れロジック不具合によりスキップ
-- 互換性のある Tweak 設定不一致を自動受け入れする設定を追加
-- Tweak 設定不一致の解決ロジックと関連メッセージ改善を取り込み
-- CLI の remote configuration 操作用コマンドを取り込み
-- 追加された Tweak 関連メッセージと設定名を日本語化
-- 変更履歴タブ用の `updates_ja.md` を 0.25.67 まで更新
+- 上流 Self-hosted LiveSync 0.25.68 の変更を取り込み
+- P2P 接続まわりの改善を取り込み
+- `trystero` v0.24.0 への更新を取り込み
+- P2P のイベントハンドラー割り当て修正を取り込み
+- 一部環境のランタイムエラーを避けるための terser 設定緩和を取り込み
+- Release workflow に provenance attestation を追加
+- 変更履歴タブ用の `updates_ja.md` を 0.25.68 まで更新
 - BRAT 向けに Release へ必要な成果物を添付
 
 ## インストール
