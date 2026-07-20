@@ -104,5 +104,5 @@ jobs:
           name: ${{ steps.version.outputs.tag }}
           tag_name: ${{ steps.version.outputs.tag }}
           body_path: .github/release-notes/ja-release.md
-          draft: true
+          draft: false
           fail_on_unmatched_files: true
