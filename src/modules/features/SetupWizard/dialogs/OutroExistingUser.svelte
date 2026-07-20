@@ -1,36 +1,36 @@
 <script lang="ts">
-    import DialogHeader from "@/lib/src/UI/components/DialogHeader.svelte";
-    import Guidance from "@/lib/src/UI/components/Guidance.svelte";
-    import Decision from "@/lib/src/UI/components/Decision.svelte";
-    import Question from "@/lib/src/UI/components/Question.svelte";
-    import Instruction from "@/lib/src/UI/components/Instruction.svelte";
-    import UserDecisions from "@/lib/src/UI/components/UserDecisions.svelte";
-    const TYPE_APPLY = "apply";
-    const TYPE_CANCELLED = "cancelled";
-    type ResultType = typeof TYPE_APPLY | typeof TYPE_CANCELLED;
+    import DialogHeader from "@lib/UI/components/DialogHeader.svelte";
+    import Guidance from "@lib/UI/components/Guidance.svelte";
+    import Decision from "@lib/UI/components/Decision.svelte";
+    import Question from "@lib/UI/components/Question.svelte";
+    import Instruction from "@lib/UI/components/Instruction.svelte";
+    import UserDecisions from "@lib/UI/components/UserDecisions.svelte";
+
+    import { TYPE_CANCELLED, TYPE_APPLY, type OutroExistingUserResultType } from "./setupDialogTypes";
     type Props = {
-        setResult: (result: ResultType) => void;
+        setResult: (result: OutroExistingUserResultType) => void;
     };
     const { setResult }: Props = $props();
 </script>
 
-<DialogHeader title="セットアップ完了: 同期データ取得の準備" />
+<DialogHeader title="Setup Complete: Preparing to Fetch Synchronisation Data" />
 <Guidance>
     <p>
-        サーバーへの接続設定が完了しました。次の手順では、<strong
-            >サーバーからこのデバイスへ最新の同期データをダウンロードします。</strong
+        The connection to the server has been configured successfully. As the next step, <strong
+            >the latest synchronisation data will be downloaded from the server to this device.</strong
         >
     </p>
     <p>
-        <strong>注意</strong>
+        <strong>PLEASE NOTE</strong>
         <br />
-        再起動後、このデバイスのデータベースはサーバー上のデータを使って再構築されます。このVaultに未同期のファイルがある場合、サーバーデータとの競合が発生する可能性があります。
+        After restarting, the database on this device will be rebuilt using data from the server. If there are any unsynchronised
+        files in this vault, conflicts may occur with the server data.
     </p>
 </Guidance>
 <Instruction>
-    <Question>再起動してデータ取得の確認へ進むには、下のボタンを選択してください。</Question>
+    <Question>Please select the button below to restart and proceed to the data fetching confirmation.</Question>
 </Instruction>
 <UserDecisions>
-    <Decision title="再起動してデータを取得" important={true} commit={() => setResult(TYPE_APPLY)} />
-    <Decision title="いいえ、戻ります" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="Restart and Fetch Data" important={true} commit={() => setResult(TYPE_APPLY)} />
+    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

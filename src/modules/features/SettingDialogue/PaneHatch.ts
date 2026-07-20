@@ -6,11 +6,11 @@ import {
     type LoadedEntry,
     type MetaEntry,
     type FilePath,
-} from "../../../lib/src/common/types.ts";
-import { createBlob, getFileRegExp, isDocContentSame, readAsBlob } from "../../../lib/src/common/utils.ts";
-import { Logger } from "../../../lib/src/common/logger.ts";
-import { addPrefix, shouldBeIgnored, stripAllPrefixes } from "../../../lib/src/string_and_binary/path.ts";
-import { $msg } from "../../../lib/src/common/i18n.ts";
+} from "@lib/common/types.ts";
+import { createBlob, getFileRegExp, isDocContentSame, readAsBlob } from "@lib/common/utils.ts";
+import { Logger } from "@lib/common/logger.ts";
+import { addPrefix, shouldBeIgnored, stripAllPrefixes } from "@lib/string_and_binary/path.ts";
+import { $msg } from "@lib/common/i18n.ts";
 import { Semaphore } from "octagonal-wheels/concurrency/semaphore";
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
 import {
@@ -19,12 +19,13 @@ import {
     EVENT_REQUEST_RUN_DOCTOR,
     EVENT_REQUEST_RUN_FIX_INCOMPLETE,
     eventHub,
-} from "../../../common/events.ts";
-import { ICHeader, ICXHeader, PSCHeader } from "../../../common/types.ts";
-import { HiddenFileSync } from "../../../features/HiddenFileSync/CmdHiddenFileSync.ts";
-import { EVENT_REQUEST_SHOW_HISTORY } from "../../../common/obsidianEvents.ts";
+} from "@/common/events.ts";
+import { ICHeader, ICXHeader, PSCHeader } from "@/common/types.ts";
+import { HiddenFileSync } from "@/features/HiddenFileSync/CmdHiddenFileSync.ts";
+import { EVENT_REQUEST_SHOW_HISTORY } from "@/common/obsidianEvents.ts";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts";
 import type { PageFunctions } from "./SettingPane.ts";
+import { isNotFoundError } from "@lib/common/utils.doc.ts";
 export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, { addPanel }: PageFunctions): void {
     // const hatchWarn = this.createEl(paneEl, "div", { text: `To stop the boot up sequence for fixing problems on databases, you can put redflag.md on top of your vault (Rebooting obsidian is required).` });
     // hatchWarn.addClass("op-warn-info");
@@ -47,7 +48,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             .setDesc($msg("Setting.TroubleShooting.ScanBrokenFiles.Desc"))
             .addButton((button) =>
                 button
-                    .setButtonText("破損ファイルをスキャン")
+                    .setButtonText("Scan for Broken files")
                     .setCta()
                     .setDisabled(false)
                     .onClick(() => {
@@ -88,7 +89,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
         new Setting(paneEl).autoWireToggle("writeLogToTheFile");
     });
 
-    void addPanel(paneEl, "緊急停止").then((paneEl) => {
+    void addPanel(paneEl, "Scram Switches").then((paneEl) => {
         new Setting(paneEl).autoWireToggle("suspendFileWatching");
         this.addOnSaved("suspendFileWatching", () => this.services.appLifecycle.askRestart());
 
@@ -96,7 +97,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
         this.addOnSaved("suspendParseReplicationResult", () => this.services.appLifecycle.askRestart());
     });
 
-    void addPanel(paneEl, "復旧と修復").then((paneEl) => {
+    void addPanel(paneEl, "Recovery and Repair").then((paneEl) => {
         const addResult = async (path: string, file: FilePathWithPrefix | false, fileOnDB: LoadedEntry | false) => {
             const storageFileStat = file ? await this.core.storageAccess.statHidden(file) : null;
             resultArea.appendChild(
@@ -106,19 +107,19 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                         this.createEl(el, "div", {}, (infoGroupEl) => {
                             infoGroupEl.appendChild(
                                 this.createEl(infoGroupEl, "div", {
-                                    text: `ストレージ: 更新日時: ${!storageFileStat ? `見つかりません:` : `${new Date(storageFileStat.mtime).toLocaleString()}, サイズ:${storageFileStat.size}`}`,
+                                    text: `Storage : Modified: ${!storageFileStat ? `Missing:` : `${new Date(storageFileStat.mtime).toLocaleString()}, Size:${storageFileStat.size}`}`,
                                 })
                             );
                             infoGroupEl.appendChild(
                                 this.createEl(infoGroupEl, "div", {
-                                    text: `データベース: 更新日時: ${!fileOnDB ? `見つかりません:` : `${new Date(fileOnDB.mtime).toLocaleString()}, サイズ:${fileOnDB.size} (実サイズ:${readAsBlob(fileOnDB).size})`}`,
+                                    text: `Database: Modified: ${!fileOnDB ? `Missing:` : `${new Date(fileOnDB.mtime).toLocaleString()}, Size:${fileOnDB.size} (actual size:${readAsBlob(fileOnDB).size})`}`,
                                 })
                             );
                         })
                     );
                     if (fileOnDB && file) {
                         el.appendChild(
-                            this.createEl(el, "button", { text: "履歴を表示" }, (buttonEl) => {
+                            this.createEl(el, "button", { text: "Show history" }, (buttonEl) => {
                                 buttonEl.onClickEvent(() => {
                                     eventHub.emitEvent(EVENT_REQUEST_SHOW_HISTORY, {
                                         file: file,
@@ -130,7 +131,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     }
                     if (file) {
                         el.appendChild(
-                            this.createEl(el, "button", { text: "ストレージ → データベース" }, (buttonEl) => {
+                            this.createEl(el, "button", { text: "Storage -> Database" }, (buttonEl) => {
                                 buttonEl.onClickEvent(async () => {
                                     if (file.startsWith(".")) {
                                         const addOn = this.core.getAddOn<HiddenFileSync>(HiddenFileSync.name);
@@ -145,14 +146,14 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                             }
                                             if (!(await addOn.storeInternalFileToDatabase(file, true))) {
                                                 Logger(
-                                                    `Failed to store the file to the database (Hidden file): ${file}`,
+                                                    `Failed to store the file to the database (Hidden file): ${file.path}`,
                                                     LOG_LEVEL_NOTICE
                                                 );
                                                 return;
                                             }
                                         }
                                     } else {
-                                        if (!(await this.core.fileHandler.storeFileToDB(file as FilePath, true))) {
+                                        if (!(await this.core.fileHandler.storeFileToDB(file, true))) {
                                             Logger(
                                                 `Failed to store the file to the database: ${file}`,
                                                 LOG_LEVEL_NOTICE
@@ -167,7 +168,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     }
                     if (fileOnDB) {
                         el.appendChild(
-                            this.createEl(el, "button", { text: "データベース → ストレージ" }, (buttonEl) => {
+                            this.createEl(el, "button", { text: "Database -> Storage" }, (buttonEl) => {
                                 buttonEl.onClickEvent(async () => {
                                     if (fileOnDB.path.startsWith(ICHeader)) {
                                         const addOn = this.core.getAddOn<HiddenFileSync>(HiddenFileSync.name);
@@ -218,24 +219,24 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             }
         };
         new Setting(paneEl)
-            .setName("すべてのファイルの不足チャンクを再作成")
-            .setDesc("すべてのファイルのチャンクを再作成します。不足しているチャンクがある場合、エラーを修復できる可能性があります。")
+            .setName("Recreate missing chunks for all files")
+            .setDesc("This will recreate chunks for all files. If there were missing chunks, this may fix the errors.")
             .addButton((button) =>
                 button
-                    .setButtonText("すべて再作成")
+                    .setButtonText("Recreate all")
                     .setCta()
                     .onClick(async () => {
                         await this.core.fileHandler.createAllChunks(true);
                     })
             );
         new Setting(paneEl)
-            .setName("すべての競合ファイルを新しい方で解決")
+            .setName("Resolve All conflicted files by the newer one")
             .setDesc(
-                "すべての競合ファイルを新しい方で解決します。注意: 古い方は上書きされ、上書きされた内容は復元できません。"
+                "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
             )
             .addButton((button) =>
                 button
-                    .setButtonText("すべて解決")
+                    .setButtonText("Resolve All")
                     .setCta()
                     .onClick(async () => {
                         await this.services.conflict.resolveAllConflictedFilesByNewerOnes();
@@ -243,13 +244,13 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             );
 
         new Setting(paneEl)
-            .setName("すべてのファイルを検証して修復")
+            .setName("Verify and repair all files")
             .setDesc(
-                "ローカルデータベースとストレージ上のファイル内容を比較します。一致しない場合、どちらを残すか確認されます。"
+                "Compare the content of files between on local database and storage. If not matched, you will be asked which one you want to keep."
             )
             .addButton((button) =>
                 button
-                    .setButtonText("すべて検証")
+                    .setButtonText("Verify all")
                     .setDisabled(false)
                     .setCta()
                     .onClick(async () => {
@@ -335,11 +336,11 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             );
         const resultArea = paneEl.createDiv({ text: "" });
         new Setting(paneEl)
-            .setName("パス難読化されていないファイルを確認して変換")
+            .setName("Check and convert non-path-obfuscated files")
             .setDesc("")
             .addButton((button) =>
                 button
-                    .setButtonText("実行")
+                    .setButtonText("Perform")
                     .setDisabled(false)
                     .setWarning()
                     .onClick(async () => {
@@ -391,8 +392,8 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                         Logger(`Converting ${docName} Failed!`, LOG_LEVEL_NOTICE);
                                         Logger(ret, LOG_LEVEL_VERBOSE);
                                     }
-                                } catch (ex: any) {
-                                    if (ex?.status == 404) {
+                                } catch (ex: unknown) {
+                                    if (isNotFoundError(ex)) {
                                         // We can perform this safely
                                         if ((await this.core.localDatabase.putRaw(newDoc)).ok) {
                                             Logger(`${docName} has been converted`, LOG_LEVEL_NOTICE);
@@ -413,10 +414,10 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
     });
-    void addPanel(paneEl, "リセット").then((paneEl) => {
-        new Setting(paneEl).setName("未設定状態に戻す").addButton((button) =>
+    void addPanel(paneEl, "Reset").then((paneEl) => {
+        new Setting(paneEl).setName("Back to non-configured").addButton((button) =>
             button
-                .setButtonText("戻す")
+                .setButtonText("Back")
                 .setDisabled(false)
                 .onClick(async () => {
                     this.editingSettings.isConfigured = false;
@@ -425,9 +426,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 })
         );
 
-        new Setting(paneEl).setName("すべてのカスタマイズ同期データを削除").addButton((button) =>
+        new Setting(paneEl).setName("Delete all customization sync data").addButton((button) =>
             button
-                .setButtonText("削除")
+                .setButtonText("Delete")
                 .setDisabled(false)
                 .setWarning()
                 .onClick(async () => {
