@@ -3,6 +3,29 @@ Since 19th July, 2025 (beta1 in 0.25.0-beta1, 13th July, 2025)
 
 The head note of 0.25 is now in [updates_old.md](https://github.com/vrtmrz/obsidian-livesync/blob/main/updates_old.md). Because 0.25 got a lot of updates, thankfully, compatibility is kept and we do not need breaking changes! In other words, when get enough stabled. The next version will be v1.0.0. Even though it my hope.
 
+## 0.25.75
+
+13th June, 2026
+
+### Fixed
+
+- Fixed an issue where using fast synchronisation caused a TypeError in some environments (#953).
+
+### New features
+- Now we can configure to keep replication active in the background on desktop platforms (#939, PR #949). Thank you so much for @migsferro!
+
+### Fixed (CLI, automated)
+
+- Fixed an issue where the mirror command could fail to apply updates when conflict preservation checks prevented overwriting unsynchronised local changes, even when the `force` parameter or `writeDocumentsIfConflicted` setting was enabled.
+
+### Improved
+
+- (CLI) Ported the remaining bash regression tests (`test-daemon-linux.sh`, `test-decoupled-vault-linux.sh`, and `test-remote-commands-linux.sh`) to Deno for cross-platform validation.
+
+### Miscellaneous
+- Some dependencies have been updated.
+- Now we check the compatibility with iOS 15 in the CI tests to ensure the plugin continues to work on older iOS versions even after we upgrade some dependencies.
+
 ## 0.25.74
 
 8th June, 2026
@@ -22,6 +45,7 @@ I should also consider the version numbering for the CLI...
 ### Improved
 
 - Added new remote database management commands: `remote-status`, `unlock-remote`, `lock-remote`, and `mark-resolved`.
+- --vault option is now available for daemon and mirror commands! (Thank you so much for @starskyzheng)!
 - Decoupled the database directory path from the actual vault directory path using the `--vault` (or `-V`) option.
 
 ### Fixed (preventive)
