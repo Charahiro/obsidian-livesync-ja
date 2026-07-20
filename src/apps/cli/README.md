@@ -1,17 +1,17 @@
 # Self-hosted LiveSync CLI
-Command-line version of Self-hosted LiveSync plugin for syncing vaults without Obsidian.
+Command-line version of Self-hosted LiveSync plug-in for syncing vaults without Obsidian.
 
 ## Features
 
 - ✅ Sync Obsidian vaults using CouchDB without running Obsidian
-- ✅ Compatible with Self-hosted LiveSync plugin settings
+- ✅ Compatible with Self-hosted LiveSync plug-in settings
 - ✅ Supports all core sync features (encryption, conflict resolution, etc.)
 - ✅ Lightweight and headless operation
 - ✅ Cross-platform (Windows, macOS, Linux)
 
 ## Architecture
 
-This CLI version is built using the same core as the Obsidian plugin:
+This CLI version is built using the same core as the Obsidian plug-in:
 
 ```
 CLI Main
@@ -118,19 +118,26 @@ git submodule update --init --recursive
 # Install dependencies from the repository root
 npm install
 
-# Build the CLI from its package directory
+# Build the CLI from the repository root
+npm run build -w self-hosted-livesync-cli
+
+# Or from the package directory
 cd src/apps/cli
 npm run build
 ```
 
-If `src/lib` is missing, `npm run build` now stops early with a targeted message
-instead of a low-level Vite `ENOENT` error.
+If `src/lib` is missing, the build process stops early with a targeted message instead of a low-level Vite `ENOENT` error.
 
 Run the CLI:
 
 ```bash
-# Run with npm script (from repository root)
-npm run --silent cli -- [database-path] [command] [args...]
+# Run with npm workspace script (from repository root)
+npm run cli -w self-hosted-livesync-cli -- [database-path] [command] [args...]
+
+# Or from the package directory
+cd src/apps/cli
+npm run cli -- [database-path] [command] [args...]
+
 # Run the built executable directly
 node src/apps/cli/dist/index.cjs [database-path] [command] [args...]
 ```
@@ -283,7 +290,7 @@ livesync-cli /path/to/your-local-database --settings /path/to/settings.json unlo
 
 ### Configuration
 
-The CLI uses the same settings format as the Obsidian plugin. Create a `.livesync/settings.json` file in your vault directory:
+The CLI uses the same settings format as the Obsidian plug-in. Create a `.livesync/settings.json` file in your vault directory:
 
 ```json
 {

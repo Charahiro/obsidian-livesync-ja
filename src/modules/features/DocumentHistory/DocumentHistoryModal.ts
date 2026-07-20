@@ -1,7 +1,7 @@
-import { TFile, Modal, App, DIFF_DELETE, DIFF_EQUAL, DIFF_INSERT, diff_match_patch } from "../../../deps.ts";
-import { getPathFromTFile, isValidPath } from "../../../common/utils.ts";
-import { decodeBinary, readString } from "../../../lib/src/string_and_binary/convert.ts";
-import ObsidianLiveSyncPlugin from "../../../main.ts";
+import { TFile, Modal, App, DIFF_DELETE, DIFF_EQUAL, DIFF_INSERT, diff_match_patch } from "@/deps.ts";
+import { getPathFromTFile, isValidPath } from "@/common/utils.ts";
+import { decodeBinary, readString } from "@lib/string_and_binary/convert.ts";
+import ObsidianLiveSyncPlugin from "@/main.ts";
 import {
     type DocumentID,
     type FilePathWithPrefix,
@@ -9,11 +9,11 @@ import {
     LOG_LEVEL_INFO,
     LOG_LEVEL_NOTICE,
     LOG_LEVEL_VERBOSE,
-} from "../../../lib/src/common/types.ts";
-import { Logger } from "../../../lib/src/common/logger.ts";
-import { isErrorOfMissingDoc } from "../../../lib/src/pouchdb/utils_couchdb.ts";
-import { fireAndForget, getDocData, readContent } from "../../../lib/src/common/utils.ts";
-import { isPlainText, stripPrefix } from "../../../lib/src/string_and_binary/path.ts";
+} from "@lib/common/types.ts";
+import { Logger } from "@lib/common/logger.ts";
+import { isErrorOfMissingDoc } from "@lib/pouchdb/utils_couchdb.ts";
+import { fireAndForget, getDocData, readContent } from "@lib/common/utils.ts";
+import { isPlainText, stripPrefix } from "@lib/string_and_binary/path.ts";
 import { scheduleOnceIfDuplicated } from "octagonal-wheels/concurrency/lock";
 import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore.ts";
 import { compatGlobal } from "@lib/common/coreEnvFunctions.ts";
@@ -99,9 +99,11 @@ export class DocumentHistoryModal extends Modal {
         if (!file && id) {
             this.file = this.services.path.id2path(id);
         }
+        // eslint-disable-next-line obsidianmd/no-unsupported-api -- loadLocalStorage is supported in Obsidian 1.7.2+
         if (this.app.loadLocalStorage("ols-history-highlightdiff") == "1") {
             this.showDiff = true;
         }
+        // eslint-disable-next-line obsidianmd/no-unsupported-api -- loadLocalStorage is supported in Obsidian 1.7.2+
         if (this.app.loadLocalStorage("ols-history-diffonly") == "1") {
             this.diffOnly = true;
         }
@@ -139,7 +141,7 @@ export class DocumentHistoryModal extends Modal {
                 this.range.value = `${this.revs_info.length - 1 - rIndex}`;
             }
         }
-        const index = this.revs_info.length - 1 - (this.range.value as any) / 1;
+        const index = this.revs_info.length - 1 - (Number(this.range.value) || 0);
         const rev = this.revs_info[index];
         await this.showExactRev(rev.rev);
     }
@@ -251,7 +253,7 @@ export class DocumentHistoryModal extends Modal {
             }
             let rendered = false;
             if (this.showDiff) {
-                const prevRevIdx = this.revs_info.length - 1 - ((this.range.value as any) / 1 - 1);
+                const prevRevIdx = this.revs_info.length - 1 - ((Number(this.range.value) || 0) - 1);
                 if (prevRevIdx >= 0 && prevRevIdx < this.revs_info.length) {
                     const oldRev = this.revs_info[prevRevIdx].rev;
                     const w2 = await db.getDBEntry(this.file, { rev: oldRev }, false, false, true);
@@ -367,10 +369,10 @@ export class DocumentHistoryModal extends Modal {
      */
     updateDiffNavVisibility() {
         if (this.diffNavContainer) {
-            this.diffNavContainer.style.display = this.showDiff ? "flex" : "none";
+            this.diffNavContainer.setCssStyles({ display: this.showDiff ? "flex" : "none" });
         }
         if (this.diffOnlyLabel) {
-            this.diffOnlyLabel.style.display = this.showDiff ? "inline-block" : "none";
+            this.diffOnlyLabel.setCssStyles({ display: this.showDiff ? "inline-block" : "none" });
         }
     }
 
@@ -550,8 +552,9 @@ export class DocumentHistoryModal extends Modal {
                 if (this.showDiff) {
                     checkbox.checked = true;
                 }
-                checkbox.addEventListener("input", (evt: any) => {
+                checkbox.addEventListener("input", (evt: Event) => {
                     this.showDiff = checkbox.checked;
+                    // eslint-disable-next-line obsidianmd/no-unsupported-api -- saveLocalStorage is supported in Obsidian 1.7.2+
                     this.app.saveLocalStorage("ols-history-highlightdiff", this.showDiff == true ? "1" : null);
                     this.updateDiffNavVisibility();
                     void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
@@ -565,21 +568,22 @@ export class DocumentHistoryModal extends Modal {
             if (this.diffOnly) {
                 checkbox.checked = true;
             }
-            checkbox.addEventListener("input", (evt: any) => {
+            checkbox.addEventListener("input", (evt: Event) => {
                 this.diffOnly = checkbox.checked;
+                // eslint-disable-next-line obsidianmd/no-unsupported-api -- saveLocalStorage is supported in Obsidian 1.7.2+
                 this.app.saveLocalStorage("ols-history-diffonly", this.diffOnly == true ? "1" : null);
                 void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
             });
         });
         diffOnlyLabel.appendText("差分のみ");
         diffOnlyLabel.addClass("diff-only-label");
-        diffOnlyLabel.style.display = this.showDiff ? "inline-block" : "none";
+        diffOnlyLabel.setCssStyles({ display: this.showDiff ? "inline-block" : "none" });
         this.diffOnlyLabel = diffOnlyLabel;
 
         // Diff navigation buttons
         this.diffNavContainer = diffOptionsRow.createDiv("");
         this.diffNavContainer.addClass("diff-nav");
-        this.diffNavContainer.style.display = this.showDiff ? "flex" : "none";
+        this.diffNavContainer.setCssStyles({ display: this.showDiff ? "flex" : "none" });
 
         this.diffNavContainer.createEl("button", { text: "\u25B2 前へ" }, (e) => {
             e.addClass("diff-nav-btn");
@@ -607,7 +611,7 @@ export class DocumentHistoryModal extends Modal {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
-                    await navigator.clipboard.writeText(this.currentText);
+                    await compatGlobal.navigator.clipboard.writeText(this.currentText);
                     Logger(`Old content copied to clipboard`, LOG_LEVEL_NOTICE);
                 });
             });

@@ -1,18 +1,14 @@
 import { escapeStringToHTML } from "octagonal-wheels/string";
-import {
-    E2EEAlgorithmNames,
-    MILESTONE_DOCID,
-    NODEINFO_DOCID,
-    type ObsidianLiveSyncSettings,
-} from "../../../lib/src/common/types";
+import { E2EEAlgorithmNames, MILESTONE_DOCID, NODEINFO_DOCID, type ObsidianLiveSyncSettings } from "@lib/common/types";
 import {
     pickCouchDBSyncSettings,
     pickBucketSyncSettings,
     pickP2PSyncSettings,
     pickEncryptionSettings,
-} from "../../../lib/src/common/utils";
+} from "@lib/common/utils";
 import { getConfig, type AllSettingItemKey } from "./settingConstants";
 import { LOG_LEVEL_NOTICE, Logger } from "octagonal-wheels/common/logger";
+import { isNotFoundError } from "@lib/common/utils.doc";
 
 /**
  * Generates a summary of P2P configuration settings
@@ -95,10 +91,10 @@ export function getSummaryFromPartialSettings(setting: Partial<ObsidianLiveSyncS
 export async function copyMigrationDocs(docName: string, dbFrom: PouchDB.Database, dbTo: PouchDB.Database) {
     try {
         const doc = await dbFrom.get(docName);
-        delete (doc as any)._rev;
+        delete (doc as { _rev?: string })._rev;
         await dbTo.put(doc);
     } catch (e) {
-        if ((e as any).status === 404) {
+        if (isNotFoundError(e)) {
             return;
         }
         throw e;

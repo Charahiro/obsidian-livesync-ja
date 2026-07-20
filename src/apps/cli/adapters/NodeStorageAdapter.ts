@@ -1,8 +1,7 @@
-import * as fs from "fs/promises";
-import * as path from "path";
 import type { UXDataWriteOptions } from "@lib/common/types";
 import type { IStorageAdapter } from "@lib/serviceModules/adapters";
 import type { NodeStat } from "./NodeTypes";
+import { fsPromises as fs, path } from "@/apps/cli/node-compat";
 
 /**
  * Storage adapter implementation for Node.js
@@ -61,6 +60,7 @@ export class NodeStorageAdapter implements IStorageAdapter<NodeStat> {
 
     async readBinary(p: string): Promise<ArrayBuffer> {
         const buffer = await fs.readFile(this.resolvePath(p));
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- required in environments where Buffer.buffer is ArrayBufferLike
         return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
     }
 

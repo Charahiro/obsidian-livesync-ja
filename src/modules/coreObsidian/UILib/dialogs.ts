@@ -1,6 +1,6 @@
 import { ButtonComponent } from "@/deps.ts";
-import { App, FuzzySuggestModal, MarkdownRenderer, Modal, Plugin, Setting } from "../../../deps.ts";
-import { EVENT_PLUGIN_UNLOADED, eventHub } from "../../../common/events.ts";
+import { App, FuzzySuggestModal, MarkdownRenderer, Modal, Plugin, Setting, Component } from "@/deps.ts";
+import { EVENT_PLUGIN_UNLOADED, eventHub } from "@/common/events.ts";
 import { compatGlobal, type CompatIntervalHandle } from "@lib/common/coreEnvFunctions.ts";
 
 class AutoClosableModal extends Modal {
@@ -148,6 +148,7 @@ export class MessageBox<T extends readonly string[]> extends AutoClosableModal {
     wideButton: boolean;
 
     onSubmit: (result: string | false) => void;
+    component: Component = new Component();
 
     constructor(
         plugin: Plugin,
@@ -189,12 +190,15 @@ export class MessageBox<T extends readonly string[]> extends AutoClosableModal {
     }
 
     override onOpen() {
+        this.component.load();
         const { contentEl } = this;
         this.titleEl.setText(this.title);
         const div = contentEl.createDiv();
-        div.style.userSelect = "text";
-        div.style["webkitUserSelect"] = "text";
-        void MarkdownRenderer.render(this.plugin.app, this.contentMd, div, "/", this.plugin);
+        div.setCssStyles({
+            userSelect: "text",
+            webkitUserSelect: "text",
+        });
+        void MarkdownRenderer.render(this.plugin.app, this.contentMd, div, "/", this.component);
         const buttonSetting = new Setting(contentEl);
         const labelWrapper = contentEl.createDiv();
         labelWrapper.addClass("sls-dialogue-note-wrapper");
@@ -204,21 +208,23 @@ export class MessageBox<T extends readonly string[]> extends AutoClosableModal {
         labelEl.addClass("sls-dialogue-note-countdown");
         if (!this.timeout || !this.timer) {
             labelWrapper.empty();
-            labelWrapper.style.display = "none";
+            labelWrapper.setCssStyles({ display: "none" });
         }
 
-        buttonSetting.infoEl.style.display = "none";
-        buttonSetting.controlEl.style.flexWrap = "wrap";
+        buttonSetting.infoEl.setCssStyles({ display: "none" });
+        buttonSetting.controlEl.setCssStyles({ flexWrap: "wrap" });
         if (this.wideButton) {
-            buttonSetting.controlEl.style.flexDirection = "column";
-            buttonSetting.controlEl.style.alignItems = "center";
-            buttonSetting.controlEl.style.justifyContent = "center";
-            buttonSetting.controlEl.style.flexGrow = "1";
+            buttonSetting.controlEl.setCssStyles({
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                flexGrow: "1",
+            });
         }
         contentEl.addEventListener("click", () => {
             if (this.timer) {
                 labelWrapper.empty();
-                labelWrapper.style.display = "none";
+                labelWrapper.setCssStyles({ display: "none" });
                 compatGlobal.clearInterval(this.timer);
                 this.timer = undefined;
                 this.defaultButtonComponent?.setButtonText(`${this.defaultAction}`);
@@ -240,8 +246,10 @@ export class MessageBox<T extends readonly string[]> extends AutoClosableModal {
                     btn.setCta();
                 }
                 if (this.wideButton) {
-                    btn.buttonEl.style.flexGrow = "1";
-                    btn.buttonEl.style.width = "100%";
+                    btn.buttonEl.setCssStyles({
+                        flexGrow: "1",
+                        width: "100%",
+                    });
                 }
                 return btn;
             });
@@ -250,6 +258,7 @@ export class MessageBox<T extends readonly string[]> extends AutoClosableModal {
 
     override onClose() {
         super.onClose();
+        this.component.unload();
         const { contentEl } = this;
         contentEl.empty();
         if (this.timer) {

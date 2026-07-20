@@ -1,13 +1,13 @@
 import type { InjectableServiceHub } from "@lib/services/implements/injectable/InjectableServiceHub";
 import { ServiceRebuilder } from "@lib/serviceModules/Rebuilder";
-import { ServiceFileHandler } from "../../../serviceModules/FileHandler";
+import { ServiceFileHandler } from "@/serviceModules/FileHandler";
 import { StorageAccessManager } from "@lib/managers/StorageProcessingManager";
-import type { LiveSyncBaseCore } from "../../../LiveSyncBaseCore";
+import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore";
 import type { ServiceContext } from "@lib/services/base/ServiceBase";
 import { FileAccessCLI } from "./FileAccessCLI";
 import { ServiceFileAccessCLI } from "./ServiceFileAccessImpl";
 import { ServiceDatabaseFileAccessCLI } from "./DatabaseFileAccess";
-import { StorageEventManagerCLI } from "../managers/StorageEventManagerCLI";
+import { StorageEventManagerCLI } from "@/apps/cli/managers/StorageEventManagerCLI";
 import type { ServiceModules } from "@lib/interfaces/ServiceModule";
 import type { IgnoreRules } from "./IgnoreRules";
 
@@ -22,7 +22,7 @@ import type { IgnoreRules } from "./IgnoreRules";
  */
 export function initialiseServiceModulesCLI(
     basePath: string,
-    core: LiveSyncBaseCore<ServiceContext, any>,
+    core: LiveSyncBaseCore<ServiceContext, never>,
     services: InjectableServiceHub<ServiceContext>,
     ignoreRules?: IgnoreRules,
     watchEnabled: boolean = false
@@ -81,7 +81,7 @@ export function initialiseServiceModulesCLI(
     });
 
     // File handler (platform-independent)
-    const fileHandler = new (ServiceFileHandler as any)({
+    const fileHandler = new ServiceFileHandler({
         API: services.API,
         databaseFileAccess: databaseFileAccess,
         conflict: services.conflict,

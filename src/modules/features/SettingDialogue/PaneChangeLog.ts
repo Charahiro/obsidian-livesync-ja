@@ -1,6 +1,6 @@
-import { MarkdownRenderer } from "../../../deps.ts";
-import { versionNumberString2Number } from "../../../lib/src/string_and_binary/convert.ts";
-import { $msg } from "../../../lib/src/common/i18n.ts";
+import { MarkdownRenderer } from "@/deps.ts";
+import { versionNumberString2Number } from "@lib/string_and_binary/convert.ts";
+import { $msg } from "@lib/common/i18n.ts";
 import { fireAndForget } from "octagonal-wheels/promises";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts";
 import { visibleOnly } from "./SettingPane.ts";
@@ -20,7 +20,6 @@ export function paneChangeLog(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElem
         undefined,
         visibleOnly(() => !this.isConfiguredAs("versionUpFlash", ""))
     );
-
     this.createEl(
         cx,
         "div",
@@ -58,6 +57,6 @@ export function paneChangeLog(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElem
         });
     }
     fireAndForget(() =>
-        MarkdownRenderer.render(this.plugin.app, updateInformation, informationDivEl, "/", this.plugin)
+        MarkdownRenderer.render(this.plugin.app, updateInformation, informationDivEl, "/", this.lifetimeComponent)
     );
 }

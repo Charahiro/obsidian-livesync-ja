@@ -1,10 +1,12 @@
-import { requestToCouchDBWithCredentials } from "../../../common/utils";
-import { $msg } from "../../../lib/src/common/i18n";
-import { LOG_LEVEL_INFO, LOG_LEVEL_NOTICE, LOG_LEVEL_VERBOSE, Logger } from "../../../lib/src/common/logger";
-import type { ObsidianLiveSyncSettings } from "../../../lib/src/common/types";
-import { fireAndForget, parseHeaderValues } from "../../../lib/src/common/utils";
-import { isCloudantURI } from "../../../lib/src/pouchdb/utils_couchdb";
-import { generateCredentialObject } from "../../../lib/src/replication/httplib";
+import { requestToCouchDBWithCredentials } from "@/common/utils";
+import { $msg } from "@lib/common/i18n";
+import { LOG_LEVEL_INFO, LOG_LEVEL_NOTICE, LOG_LEVEL_VERBOSE, Logger } from "@lib/common/logger";
+import type { ObsidianLiveSyncSettings } from "@lib/common/types";
+import { fireAndForget, parseHeaderValues } from "@lib/common/utils";
+import { isCloudantURI } from "@lib/pouchdb/utils_couchdb";
+import { generateCredentialObject } from "@lib/replication/httplib";
+import { compatGlobal } from "@lib/common/coreEnvFunctions.ts";
+import { isUnauthorizedError } from "@lib/common/utils.doc";
 
 export const checkConfig = async (
     checkResultDiv: HTMLDivElement | undefined,
@@ -35,7 +37,7 @@ export const checkConfig = async (
         const r = await requestToCouchDBWithCredentials(
             editingSettings.couchDB_URI,
             credential,
-            window.origin,
+            compatGlobal.origin,
             undefined,
             undefined,
             undefined,
@@ -218,7 +220,7 @@ export const checkConfig = async (
             isSuccessful = false;
         }
         addResult($msg("obsidianLiveSyncSettingTab.msgConnectionCheck"), ["ob-btn-config-head"]);
-        addResult($msg("obsidianLiveSyncSettingTab.msgCurrentOrigin", { origin: window.location.origin }));
+        addResult($msg("obsidianLiveSyncSettingTab.msgCurrentOrigin", { origin: compatGlobal.location.origin }));
 
         // Request header check
         const origins = ["app://obsidian.md", "capacitor://localhost", "http://localhost"];
@@ -259,8 +261,8 @@ export const checkConfig = async (
         addResult($msg("obsidianLiveSyncSettingTab.msgDone"), ["ob-btn-config-head"]);
         addResult($msg("obsidianLiveSyncSettingTab.msgConnectionProxyNote"), ["ob-btn-config-info"]);
         Logger($msg("obsidianLiveSyncSettingTab.logCheckingConfigDone"), LOG_LEVEL_INFO);
-    } catch (ex: any) {
-        if (ex?.status == 401) {
+    } catch (ex) {
+        if (isUnauthorizedError(ex)) {
             isSuccessful = false;
             addResult($msg("obsidianLiveSyncSettingTab.errAccessForbidden"));
             addResult($msg("obsidianLiveSyncSettingTab.errCannotContinueTest"));

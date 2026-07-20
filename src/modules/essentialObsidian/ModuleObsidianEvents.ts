@@ -1,18 +1,18 @@
-import { AbstractObsidianModule } from "../AbstractObsidianModule.ts";
-import { EVENT_FILE_RENAMED, EVENT_LEAF_ACTIVE_CHANGED, eventHub } from "../../common/events.js";
+import { AbstractObsidianModule } from "@/modules/AbstractObsidianModule.ts";
+import { EVENT_FILE_RENAMED, EVENT_LEAF_ACTIVE_CHANGED, eventHub } from "@/common/events.js";
 import { LOG_LEVEL_NOTICE, LOG_LEVEL_VERBOSE } from "octagonal-wheels/common/logger";
 import { scheduleTask } from "octagonal-wheels/concurrency/task";
-import type { TFile } from "../../deps.ts";
+import type { TFile } from "@/deps.ts";
 import { fireAndForget } from "octagonal-wheels/promises";
-import { type FilePathWithPrefix } from "../../lib/src/common/types.ts";
+import { type FilePathWithPrefix } from "@lib/common/types.ts";
 import { reactive, reactiveSource, type ReactiveSource } from "octagonal-wheels/dataobject/reactive";
 import {
     collectingChunks,
     pluginScanningCount,
     hiddenFilesEventCount,
     hiddenFilesProcessingCount,
-} from "../../lib/src/mock_and_interop/stores.ts";
-import type { LiveSyncCore } from "../../main.ts";
+} from "@lib/mock_and_interop/stores.ts";
+import type { LiveSyncCore } from "@/main.ts";
 import { compatGlobal } from "@lib/common/coreEnvFunctions.ts";
 
 export class ModuleObsidianEvents extends AbstractObsidianModule {
@@ -36,10 +36,11 @@ export class ModuleObsidianEvents extends AbstractObsidianModule {
         this.services.appLifecycle.performRestart();
     }
 
-    initialCallback: any;
+    initialCallback: (() => void) | undefined = undefined;
 
     swapSaveCommand() {
         this._log("Modifying callback of the save command", LOG_LEVEL_VERBOSE);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Editor Tweaking
         const saveCommandDefinition = (this.app as any).commands?.commands?.["editor:save-file"];
         const save = saveCommandDefinition?.callback;
         if (typeof save === "function") {
@@ -63,12 +64,12 @@ export class ModuleObsidianEvents extends AbstractObsidianModule {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const _this = this;
         //@ts-ignore
-        if (!window.CodeMirrorAdapter) {
+        if (!compatGlobal.CodeMirrorAdapter) {
             this._log("CodeMirrorAdapter is not available");
             return;
         }
         //@ts-ignore
-        window.CodeMirrorAdapter.commands.save = () => {
+        compatGlobal.CodeMirrorAdapter.commands.save = () => {
             //@ts-ignore
             void _this.app.commands.executeCommandById("editor:save-file");
             // _this.app.performCommand('editor:save-file');
@@ -86,14 +87,14 @@ export class ModuleObsidianEvents extends AbstractObsidianModule {
         // Already bound
         // eslint-disable-next-line @typescript-eslint/unbound-method
         this.plugin.registerDomEvent(activeDocument, "visibilitychange", this.watchWindowVisibility);
-        this.plugin.registerDomEvent(window, "focus", () => this.setHasFocus(true));
-        this.plugin.registerDomEvent(window, "blur", () => this.setHasFocus(false));
+        this.plugin.registerDomEvent(compatGlobal, "focus", () => this.setHasFocus(true));
+        this.plugin.registerDomEvent(compatGlobal, "blur", () => this.setHasFocus(false));
         // Already bound
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        this.plugin.registerDomEvent(window, "online", this.watchOnline);
+        this.plugin.registerDomEvent(compatGlobal, "online", this.watchOnline);
         // Already bound
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        this.plugin.registerDomEvent(window, "offline", this.watchOnline);
+        this.plugin.registerDomEvent(compatGlobal, "offline", this.watchOnline);
     }
 
     hasFocus = true;
@@ -114,7 +115,7 @@ export class ModuleObsidianEvents extends AbstractObsidianModule {
     async watchOnlineAsync() {
         // If some files were failed to retrieve, scan files again.
         // TODO:FIXME AT V0.17.31, this logic has been disabled.
-        if (navigator.onLine && this.localDatabase.needScanning) {
+        if (compatGlobal.navigator.onLine && this.localDatabase.needScanning) {
             this.localDatabase.needScanning = false;
             await this.services.vault.scanVault();
         }

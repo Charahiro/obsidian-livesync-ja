@@ -6,9 +6,9 @@ import {
     PREFIXMD_LOGFILE,
     type DatabaseConnectingStatus,
     type LOG_LEVEL,
-} from "../../lib/src/common/types.ts";
+} from "@lib/common/types.ts";
 import { cancelTask, scheduleTask } from "octagonal-wheels/concurrency/task";
-import { fireAndForget, isDirty, throttle } from "../../lib/src/common/utils.ts";
+import { fireAndForget, isDirty, throttle } from "@lib/common/utils.ts";
 import {
     collectingChunks,
     pluginScanningCount,
@@ -16,22 +16,22 @@ import {
     hiddenFilesProcessingCount,
     type LogEntry,
     logMessages,
-} from "../../lib/src/mock_and_interop/stores.ts";
-import { eventHub } from "../../lib/src/hub/hub.ts";
+} from "@lib/mock_and_interop/stores.ts";
+import { eventHub } from "@lib/hub/hub.ts";
 import {
     EVENT_FILE_RENAMED,
     EVENT_LAYOUT_READY,
     EVENT_LEAF_ACTIVE_CHANGED,
     EVENT_ON_UNRESOLVED_ERROR,
-} from "../../common/events.ts";
-import { AbstractObsidianModule } from "../AbstractObsidianModule.ts";
-import { addIcon, debounce, normalizePath, Notice, stringifyYaml, type WorkspaceLeaf } from "../../deps.ts";
+} from "@/common/events.ts";
+import { AbstractObsidianModule } from "@/modules/AbstractObsidianModule.ts";
+import { addIcon, debounce, normalizePath, Notice, stringifyYaml, type WorkspaceLeaf } from "@/deps.ts";
 import { LOG_LEVEL_NOTICE, setGlobalLogFunction } from "octagonal-wheels/common/logger";
 import { LogPaneView, VIEW_TYPE_LOG } from "./Log/LogPaneView.ts";
 import { serialized } from "octagonal-wheels/concurrency/lock";
 import { $msg } from "@lib/common/i18n.ts";
-import { P2PLogCollector } from "@/lib/src/replication/trystero/P2PLogCollector.ts";
-import type { LiveSyncCore } from "../../main.ts";
+import { P2PLogCollector } from "@lib/replication/trystero/P2PLogCollector.ts";
+import type { LiveSyncCore } from "@/main.ts";
 import { LiveSyncError } from "@lib/common/LSError.ts";
 import { isValidPath } from "@/common/utils.ts";
 import {
@@ -48,7 +48,7 @@ import { generateReport } from "@/common/reportTool.ts";
 
 // DI the log again.
 const recentLogEntries = reactiveSource<LogEntry[]>([]);
-const globalLogFunction = (message: any, level?: number, key?: string) => {
+const globalLogFunction = (message: unknown, level?: number, key?: string) => {
     const messageX =
         message instanceof Error
             ? new LiveSyncError("[Error Logged]: " + message.message, { cause: message })
@@ -483,7 +483,7 @@ export class ModuleLog extends AbstractObsidianModule {
 
         const showStatusOnEditor = this.settings?.showStatusOnEditor ?? false;
         if (this.statusDiv) {
-            this.statusDiv.style.display = showStatusOnEditor ? "" : "none";
+            this.statusDiv.setCssStyles({ display: showStatusOnEditor ? "" : "none" });
         }
         if (!showStatusOnEditor) {
             this.messageArea.innerText = "";
@@ -518,7 +518,7 @@ export class ModuleLog extends AbstractObsidianModule {
         });
     }
 
-    nextFrameQueue: ReturnType<typeof requestAnimationFrame> | undefined = undefined;
+    nextFrameQueue: ReturnType<typeof compatGlobal.requestAnimationFrame> | undefined = undefined;
     logLines: { ttl: number; message: string }[] = [];
 
     applyStatusBarText() {
@@ -538,7 +538,7 @@ export class ModuleLog extends AbstractObsidianModule {
 
             this.statusBar?.setText(newMsg.split("\n")[0]);
             if (this.statusDiv) {
-                this.statusDiv.style.display = this.settings?.showStatusOnEditor ? "" : "none";
+                this.statusDiv.setCssStyles({ display: this.settings?.showStatusOnEditor ? "" : "none" });
             }
             if (this.settings?.showStatusOnEditor && this.statusDiv) {
                 if (this.settings.showLongerLogInsideEditor) {
@@ -639,7 +639,7 @@ ${stringifyYaml(info)}
             this.messageArea = this.statusDiv.createDiv({ cls: "livesync-status-messagearea" });
             this.logMessage = this.statusDiv.createDiv({ cls: "livesync-status-logmessage" });
             this.logHistory = this.statusDiv.createDiv({ cls: "livesync-status-loghistory" });
-            this.statusDiv.style.display = this.settings?.showStatusOnEditor ? "" : "none";
+            this.statusDiv.setCssStyles({ display: this.settings?.showStatusOnEditor ? "" : "none" });
         }
         eventHub.onEvent(EVENT_LAYOUT_READY, () => this.adjustStatusDivPosition());
         if (this.settings?.showStatusOnStatusbar) {
@@ -668,7 +668,7 @@ ${stringifyYaml(info)}
             })
         );
     }
-    __addLog(message: any, level: LOG_LEVEL = LOG_LEVEL_INFO, key = ""): void {
+    __addLog(message: unknown, level: LOG_LEVEL = LOG_LEVEL_INFO, key = ""): void {
         if (level == LOG_LEVEL_DEBUG && !showDebugLog) {
             return;
         }

@@ -1,7 +1,7 @@
-import * as path from "path";
-import * as readline from "node:readline/promises";
+import { path, readline } from "@/apps/cli/node-compat";
 
 export function toArrayBuffer(data: Buffer): ArrayBuffer {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- required in environments where Buffer.buffer is ArrayBufferLike
     return data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer;
 }
 
