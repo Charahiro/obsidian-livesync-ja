@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: 0563f26
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
 export declare const allMessages: {
     readonly "(Active)": {
         readonly def: "(Active)";
@@ -166,6 +166,7 @@ export declare const allMessages: {
         readonly def: "Active Remote Configuration";
         readonly fr: "Configuration distante active";
         readonly he: "תצורת שרת מרוחק פעיל";
+        readonly ja: "アクティブなリモート構成";
         readonly ru: "Активная удалённая конфигурация";
         readonly zh: "生效中的远程配置";
         readonly "zh-tw": "目前啟用的遠端設定";
@@ -211,6 +212,7 @@ export declare const allMessages: {
         readonly def: "Analyse";
         readonly fr: "Analyser";
         readonly he: "ניתוח";
+        readonly ja: "分析";
         readonly ru: "Анализировать";
         readonly zh: "立即分析";
         readonly "zh-tw": "分析";
@@ -219,7 +221,7 @@ export declare const allMessages: {
         readonly def: "Analyse database usage";
         readonly fr: "Analyser l'utilisation de la base de données";
         readonly he: "ניתוח שימוש במסד נתונים";
-        readonly ja: "データベース使用状況を分析";
+        readonly ja: "データベース使用量を分析";
         readonly ko: "데이터베이스 사용량 분석";
         readonly ru: "Анализ использования базы данных";
         readonly zh: "分析数据库使用情况";
@@ -229,7 +231,7 @@ export declare const allMessages: {
         readonly def: "Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like.";
         readonly fr: "Analyser l'utilisation de la base de données et générer un rapport TSV pour un diagnostic personnel. Vous pouvez coller le rapport généré dans le tableur de votre choix.";
         readonly he: "נתח שימוש במסד הנתונים וצור דו\"ח TSV לאבחון עצמי. ניתן להדביק את הדו\"ח שנוצר בכל גיליון אלקטרוני.";
-        readonly ja: "データベース使用状況を分析し、自分で診断できるよう TSV レポートを生成します。生成したレポートは任意のスプレッドシートに貼り付けて確認できます。";
+        readonly ja: "データベース使用量を分析し、自己診断用のTSVレポートを生成します。生成したレポートは任意のスプレッドシートに貼り付けられます。";
         readonly ko: "데이터베이스 사용량을 분석하고 직접 진단할 수 있도록 TSV 보고서를 생성합니다. 생성된 보고서는 원하는 스프레드시트에 붙여 넣어 확인할 수 있습니다.";
         readonly ru: "Проанализируйте использование базы данных и создайте TSV-отчёт для самостоятельной диагностики. Полученный отчёт можно вставить в любую удобную для вас таблицу.";
         readonly zh: "分析数据库使用情况并生成 TSV 报告以供您自行诊断。您可以将生成的报告粘贴到您喜欢的任何电子表格中。";
@@ -379,11 +381,13 @@ export declare const allMessages: {
     };
     readonly "Changing this setting requires migrating existing data (a bit time may be taken) and restarting Obsidian. Please make sure to back up your data before proceeding.": {
         readonly def: "Changing this setting requires migrating existing data (a bit time may be taken) and restarting Obsidian. Please make sure to back up your data before proceeding.";
+        readonly ja: "この設定を変更するには既存データの移行（少し時間がかかる場合があります）とObsidianの再起動が必要です。続行前に必ずデータをバックアップしてください。";
     };
     readonly Check: {
         readonly def: "Check";
         readonly fr: "Vérifier";
         readonly he: "בדוק";
+        readonly ja: "確認";
         readonly ru: "Проверить";
         readonly zh: "立即检查";
         readonly "zh-tw": "檢查";
@@ -698,6 +702,7 @@ export declare const allMessages: {
     };
     readonly "Database -> Storage": {
         readonly def: "Database -> Storage";
+        readonly ja: "データベース → ストレージ";
         readonly "zh-tw": "資料庫 -> 儲存空間";
     };
     readonly "Database Adapter": {
@@ -877,7 +882,7 @@ export declare const allMessages: {
         readonly def: "Self-hosted LiveSync had translations for your language, so the %{Display language} setting was enabled.\n\nNote: Not all messages are translated. We are waiting for your contributions!\nNote 2: If you create an Issue, **please revert to Default** and then take screenshots, messages and logs. This can be done in the setting dialogue.\nMay you find it easy to use!";
         readonly fr: "Self-hosted LiveSync dispose d'une traduction pour votre langue, le paramètre %{Display language} a donc été activé.\n\nNote : Tous les messages ne sont pas traduits. Nous attendons vos contributions !\nNote 2 : Si vous créez un ticket, **veuillez revenir à Par défaut** puis prendre des captures d'écran, messages et journaux. Cela peut être fait dans la boîte de dialogue des paramètres.\nBonne utilisation !";
         readonly he: "ל-Self-hosted LiveSync יש תרגום לשפתך, ולכן הגדרת %{Display language} הופעלה.\n\nהערה: לא כל ההודעות מתורגמות. אנחנו ממתינים לתרומותיך!\nהערה 2: אם אתה פותח Issue, **אנא חזור ל-%{lang-def}** ואז צלם צילומי מסך, הודעות ויומנים. ניתן לעשות זאת בדיאלוג ההגדרות.\nנקווה שתמצא/י את הפלאגין נוח לשימוש!";
-        readonly ja: "Self-hosted LiveSync に設定されている言語の翻訳がありましたので、インターフェースの表示言語が適用されました。\n\n注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！\nGithubにIssueを作成する際には、 インターフェースの表示言語 を一旦 Default に戻してから、スクショやメッセージ、ログを収集してください。これは設定から変更できます。\n\n便利に使用できれば幸いです。";
+        readonly ja: "Self-hosted LiveSync に設定されている言語の翻訳がありましたので、インターフェースの表示言語が適用されました。\n\n注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！\nGithubにIssueを作成する際には、 インターフェースの表示言語 を一旦 既定 に戻してから、スクショやメッセージ、ログを収集してください。これは設定から変更できます。\n\n便利に使用できれば幸いです。";
         readonly ko: "Self-hosted LiveSync에서 귀하의 언어로 번역을 제공하므로 %{Display language} 설정이 활성화되었습니다.\n\n참고: 모든 메시지가 번역되지는 않습니다. 귀하의 기여를 기다리고 있습니다!\n참고 2: 이슈를 생성하는 경우 **Default로 되돌린 후** 스크린샷, 메시지, 로그를 가져와 주세요. 이는 설정 대화 상자에서 할 수 있습니다.\n간편하게 사용하실 수 있었으면 좋겠습니다!";
         readonly ru: "Self-hosted LiveSync имеет переводы для вашего языка, поэтому была включена настройка языка Display language.\n\nПримечание: Не все сообщения переведены. Мы ждём ваших предложений!\nПримечание 2: При создании Issue, пожалуйста, вернитесь к lang-def, затем сделайте скриншоты, сообщения и логи. Это можно сделать в настройках.\nНадеемся, вам будет удобно использовать!";
         readonly zh: "Self-hosted LiveSync已提供您语言的翻译,因此启用了%{Display language}\n\n注意：并非所有消息都已翻译。我们期待您的贡献！\n注意 2：若您创建问题报告， **请切换回Default** ，然后截取屏幕截图、消息和日志，此操作可在设置对话框中完成\n愿您使用顺心！";
@@ -887,7 +892,7 @@ export declare const allMessages: {
         readonly def: "Keep Default";
         readonly fr: "Conserver Par défaut";
         readonly he: "השאר %{lang-def}";
-        readonly ja: "Keep Default";
+        readonly ja: "既定 のままにする";
         readonly ko: "Default 유지";
         readonly ru: "Оставить lang-def";
         readonly zh: "保持Default";
@@ -1168,6 +1173,7 @@ export declare const allMessages: {
     };
     readonly "Document History": {
         readonly def: "Document History";
+        readonly ja: "ドキュメント履歴";
         readonly "zh-tw": "文件歷程";
     };
     readonly Duplicate: {
@@ -1486,6 +1492,7 @@ export declare const allMessages: {
     };
     readonly "File to view History": {
         readonly def: "File to view History";
+        readonly ja: "履歴を表示するファイル";
         readonly "zh-tw": "要檢視歷程的檔案";
     };
     readonly Filename: {
@@ -1616,11 +1623,13 @@ export declare const allMessages: {
     };
     readonly "Hide completely": {
         readonly def: "Hide completely";
+        readonly ja: "完全に非表示";
         readonly zh: "完全隐藏";
         readonly "zh-tw": "完全隱藏";
     };
     readonly "Highlight diff": {
         readonly def: "Highlight diff";
+        readonly ja: "差分をハイライト";
         readonly "zh-tw": "醒目顯示差異";
     };
     readonly "How to display network errors when the sync server is unreachable.": {
@@ -1800,6 +1809,7 @@ export declare const allMessages: {
     };
     readonly "If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.": {
         readonly def: "If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.";
+        readonly ja: "IBM Cloudantのペイロードサイズ上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。";
         readonly "zh-tw": "如果你在使用 IBM Cloudant 時遇到負載大小上限，請調低批次大小與批次上限。";
     };
     readonly "Ignore and Proceed": {
@@ -1859,10 +1869,12 @@ export declare const allMessages: {
     };
     readonly "Initialise journal received history. On the next sync, every item except this device sent will be downloaded again.": {
         readonly def: "Initialise journal received history. On the next sync, every item except this device sent will be downloaded again.";
+        readonly ja: "ジャーナル受信履歴を初期化します。次回同期時に、このデバイスが送信したもの以外のすべての項目が再度ダウンロードされます。";
         readonly "zh-tw": "初始化接收日誌歷程。下次同步時，除了此裝置已送出的項目外，其他項目都會再次下載。";
     };
     readonly "Initialise journal sent history. On the next sync, every item except this device received will be sent again.": {
         readonly def: "Initialise journal sent history. On the next sync, every item except this device received will be sent again.";
+        readonly ja: "ジャーナル送信履歴を初期化します。次回同期時に、このデバイスが受信したもの以外のすべての項目が再度送信されます。";
         readonly "zh-tw": "初始化傳送日誌歷程。下次同步時，除了此裝置已接收的項目外，其他項目都會再次傳送。";
     };
     readonly "Interval (sec)": {
@@ -1888,7 +1900,7 @@ export declare const allMessages: {
         readonly def: "Peer-to-Peer Sync";
         readonly fr: "Synchronisation pair-à-pair";
         readonly he: "%{title_p2p_sync}";
-        readonly ja: "Peer-to-Peer Sync (試験機能)";
+        readonly ja: "ピアツーピア同期 (試験機能)";
         readonly ko: "피어 투 피어(P2P) 동기화 (실험 기능)";
         readonly ru: "title_p2p_sync";
         readonly zh: "Peer-to-Peer同步 (实验性)";
@@ -1897,7 +1909,7 @@ export declare const allMessages: {
         readonly def: "Peer-to-Peer";
         readonly fr: "Pair-à-Pair";
         readonly he: "%{Peer}-ל-%{Peer}";
-        readonly ja: "Peer-to-Peer";
+        readonly ja: "ピア-to-ピア";
         readonly ko: "피어-to-피어";
         readonly ru: "Peer-к-Peer";
         readonly zh: "Peer-to-Peer";
@@ -1906,7 +1918,7 @@ export declare const allMessages: {
         readonly def: "Peer";
         readonly fr: "Pair";
         readonly he: "עמית";
-        readonly ja: "Peer";
+        readonly ja: "ピア";
         readonly ko: "피어";
         readonly ru: "Устройство";
         readonly zh: "Peer";
@@ -1915,7 +1927,7 @@ export declare const allMessages: {
         readonly def: "Scan customization";
         readonly fr: "Analyser la personnalisation";
         readonly he: "סרוק התאמה אישית";
-        readonly ja: "Scan customization";
+        readonly ja: "カスタマイズをスキャン";
         readonly ko: "사용자 설정 검색";
         readonly ru: "Scan customization";
         readonly zh: "扫描自定义";
@@ -1924,7 +1936,7 @@ export declare const allMessages: {
         readonly def: "P2P Sync";
         readonly fr: "Sync P2P";
         readonly he: "סנכרון P2P";
-        readonly ja: "P2P Sync (試験機能)";
+        readonly ja: "P2P同期 (試験機能)";
         readonly ko: "P2P 동기화 (실험 기능)";
         readonly ru: "P2P Синхр.";
         readonly zh: "P2P同步(实验性)";
@@ -1933,7 +1945,7 @@ export declare const allMessages: {
         readonly def: "Peer-to-Peer Sync";
         readonly fr: "Synchronisation pair-à-pair";
         readonly he: "סנכרון עמית-לעמית";
-        readonly ja: "Peer-to-Peer Sync";
+        readonly ja: "ピアツーピア同期";
         readonly ko: "피어 투 피어(P2P) 동기화";
         readonly ru: "Синхронизация между устройствами";
         readonly zh: "Peer-to-Peer同步";
@@ -1952,7 +1964,7 @@ export declare const allMessages: {
         readonly def: "Default";
         readonly fr: "Par défaut";
         readonly he: "ברירת מחדל";
-        readonly ja: "Default";
+        readonly ja: "既定";
         readonly ko: "Default";
         readonly ru: "По умолчанию";
         readonly zh: "Default";
@@ -1971,7 +1983,7 @@ export declare const allMessages: {
         readonly def: "Default";
         readonly fr: "Par défaut";
         readonly he: "%{lang_def}";
-        readonly ja: "Default";
+        readonly ja: "既定";
         readonly ko: "Default";
         readonly ru: "lang_def";
         readonly zh: "Default";
@@ -1999,6 +2011,7 @@ export declare const allMessages: {
     readonly "lang-he": {
         readonly def: "Hebrew";
         readonly he: "עברית";
+        readonly ja: "ヘブライ語";
     };
     readonly "lang-ja": {
         readonly def: "日本語";
@@ -2189,6 +2202,7 @@ export declare const allMessages: {
     };
     readonly "liveSyncReplicator.mismatchedTweakDetected": {
         readonly def: "Some mismatches have been detected in the configuration between devices. Running a manual replication will attempt to resolve this issue.";
+        readonly ja: "デバイス間の設定に一部不一致が検出されました。手動レプリケーションを実行すると、この問題の解決を試みます。";
     };
     readonly "liveSyncReplicator.oneShotSyncBegin": {
         readonly def: "OneShot Sync begin... (${syncMode})";
@@ -2523,7 +2537,7 @@ export declare const allMessages: {
         readonly def: "Minimum interval for syncing";
         readonly fr: "Intervalle minimum pour la synchronisation";
         readonly he: "מרווח מינימלי לסנכרון";
-        readonly ja: "同期間隔の最小値";
+        readonly ja: "同期の最小間隔";
         readonly ko: "동기화 최소 간격";
         readonly ru: "Минимальный интервал синхронизации";
         readonly zh: "同步最小间隔";
@@ -3217,7 +3231,7 @@ export declare const allMessages: {
         readonly def: "Use P2P Sync to set up";
         readonly fr: "Utiliser Sync P2P pour configurer";
         readonly he: "השתמש ב-%{short_p2p_sync} להגדרה";
-        readonly ja: "P2P Sync (試験機能)を使ってセットアップ";
+        readonly ja: "P2P同期 (試験機能)を使ってセットアップ";
         readonly ko: "P2P 동기화 (실험 기능)를 사용하여 설정";
         readonly ru: "Использовать short_p2p_sync для настройки";
         readonly zh: "Use P2P同步(实验性) to set up";
@@ -4093,6 +4107,7 @@ export declare const allMessages: {
     };
     readonly "obsidianLiveSyncSettingTab.logServerConfigurationCheck": {
         readonly def: "obsidianLiveSyncSettingTab.logServerConfigurationCheck";
+        readonly ja: "サーバー設定チェックログ";
     };
     readonly "obsidianLiveSyncSettingTab.msgAreYouSureProceed": {
         readonly def: "Are you sure to proceed?";
@@ -5297,7 +5312,7 @@ export declare const allMessages: {
         readonly def: "Peer-to-Peer Sync is disabled. Do you really want to enable it?";
         readonly fr: "Synchronisation pair-à-pair est désactivé. Voulez-vous vraiment l'activer ?";
         readonly he: "%{title_p2p_sync} מנוטרל. האם אתה בטוח שברצונך להפעיל?";
-        readonly ja: "Peer-to-Peer Syncは無効になっています。本当に有効にしますか？";
+        readonly ja: "ピアツーピア同期は無効になっています。本当に有効にしますか？";
         readonly ko: "피어 투 피어(P2P) 동기화가 비활성화되어 있습니다. 정말로 활성화하시겠습니까?";
         readonly ru: "title_p2p_sync отключён. Вы действительно хотите включить?";
         readonly zh: "Peer-to-Peer同步 已禁用。你确定要启用它吗？";
@@ -5315,7 +5330,7 @@ export declare const allMessages: {
         readonly def: "No auto-sync peers found. Please set peers on the Peer-to-Peer Sync pane.";
         readonly fr: "Aucun pair de synchronisation automatique trouvé. Veuillez définir des pairs dans le panneau Synchronisation pair-à-pair.";
         readonly he: "לא נמצאו עמיתים לסנכרון אוטומטי. אנא הגדר עמיתים בלוח %{long_p2p_sync}.";
-        readonly ja: "自動同期ピアが見つかりません。Peer-to-Peer Sync (試験機能)ペインでピアを設定してください。";
+        readonly ja: "自動同期ピアが見つかりません。ピアツーピア同期 (試験機能)ペインでピアを設定してください。";
         readonly ko: "자동 동기화 피어를 찾을 수 없습니다. 피어 투 피어(P2P) 동기화 (실험 기능) 창에서 피어를 설정해 주세요.";
         readonly ru: "Автосинхронизируемые устройства не найдены.";
         readonly zh: "未找到自动同步的对等方，请在 Peer-to-Peer同步 (实验性) 面板中设置对等方";
@@ -5369,7 +5384,7 @@ export declare const allMessages: {
         readonly def: "Peer-to-Peer Sync is not enabled. We cannot open a new connection.";
         readonly fr: "Synchronisation pair-à-pair n'est pas activé. Nous ne pouvons pas ouvrir de nouvelle connexion.";
         readonly he: "%{title_p2p_sync} אינו מופעל. לא ניתן לפתוח חיבור חדש.";
-        readonly ja: "Peer-to-Peer Syncが有効になっていません。新しい接続を開くことができません。";
+        readonly ja: "ピアツーピア同期が有効になっていません。新しい接続を開くことができません。";
         readonly ko: "피어 투 피어(P2P) 동기화가 활성화되지 않았습니다. 새로운 연결을 열 수 없습니다.";
         readonly ru: "title_p2p_sync не включён. Мы не можем открыть новое подключение.";
         readonly zh: "Peer-to-Peer同步 is not enabled. We cannot open a new connection.";
@@ -5378,7 +5393,7 @@ export declare const allMessages: {
         readonly def: "Peer-to-Peer Replication";
         readonly fr: "Réplication Pair-à-Pair";
         readonly he: "שכפול %{P2P}";
-        readonly ja: "Peer-to-Peerレプリケーション(複製)";
+        readonly ja: "ピア-to-ピアレプリケーション(複製)";
         readonly ko: "피어-to-피어 복제";
         readonly ru: "P2P Репликация";
         readonly zh: "Peer-to-Peer Replication";
@@ -5387,7 +5402,7 @@ export declare const allMessages: {
         readonly def: "Peer-to-Peer Sync";
         readonly fr: "Synchronisation pair-à-pair";
         readonly he: "%{long_p2p_sync}";
-        readonly ja: "Peer-to-Peer Sync (試験機能)";
+        readonly ja: "ピアツーピア同期 (試験機能)";
         readonly ko: "피어 투 피어(P2P) 동기화 (실험 기능)";
         readonly ru: "long_p2p_sync";
         readonly zh: "Peer-to-Peer同步 (实验性)";
@@ -5644,6 +5659,7 @@ export declare const allMessages: {
     };
     readonly "Pick a file to show history": {
         readonly def: "Pick a file to show history";
+        readonly ja: "履歴を表示するファイルを選択";
         readonly "zh-tw": "選擇要顯示歷程的檔案";
     };
     readonly "Please disable 'Read chunks online' in settings to use Garbage Collection.": {
@@ -5726,7 +5742,7 @@ export declare const allMessages: {
         readonly def: "Prepare the 'report' to create an issue";
         readonly fr: "Préparer le « rapport » pour créer un ticket";
         readonly he: "הכן 'דו\"ח' ליצירת Issue";
-        readonly ja: "Issue 作成用の「レポート」を準備";
+        readonly ja: "Issue作成用の「レポート」を準備";
         readonly ko: "이슈 생성을 위한 '보고서' 준비";
         readonly ru: "Подготовить «отчёт» для создания Issue";
         readonly zh: "准备 '报告' 以创建问题单";
@@ -5797,6 +5813,7 @@ export declare const allMessages: {
         readonly def: "Property Encryption";
         readonly fr: "Chiffrement des propriétés";
         readonly he: "הצפנת מאפיינים";
+        readonly ja: "プロパティの暗号化";
         readonly ru: "Шифрование свойств";
         readonly zh: "属性加密";
     };
@@ -5847,6 +5864,7 @@ export declare const allMessages: {
     };
     readonly "Recovery and Repair": {
         readonly def: "Recovery and Repair";
+        readonly ja: "復旧と修復";
         readonly "zh-tw": "修復與修補";
     };
     readonly "Recreate all": {
@@ -6187,7 +6205,7 @@ export declare const allMessages: {
         readonly def: "Rerun the onboarding wizard to set up Self-hosted LiveSync again.";
         readonly fr: "Relancer l'assistant d'intégration pour reconfigurer Self-hosted LiveSync.";
         readonly he: "הרץ שוב את אשף ההכוונה להגדרת Self-hosted LiveSync מחדש.";
-        readonly ja: "オンボーディングウィザードを再実行して、Self-hosted LiveSync をもう一度設定します。";
+        readonly ja: "Self-hosted LiveSync を再設定するため、オンボーディングウィザードを再実行します。";
         readonly ko: "온보딩 마법사를 다시 실행하여 Self-hosted LiveSync를 다시 설정합니다.";
         readonly ru: "Перезапустить мастер настройки для повторной настройки Self-hosted LiveSync.";
         readonly zh: "重新运行引导向导以再次设置 Self-hosted LiveSync。";
@@ -6270,7 +6288,7 @@ export declare const allMessages: {
         readonly def: "Reset notification threshold and check the remote database usage";
         readonly fr: "Réinitialiser le seuil de notification et vérifier l'utilisation de la base distante";
         readonly he: "אפס סף התראה ובדוק שימוש במסד הנתונים המרוחד";
-        readonly ja: "通知しきい値をリセットしてリモートデータベース使用量を確認";
+        readonly ja: "通知しきい値をリセットし、リモートデータベース使用量を確認";
         readonly ko: "알림 임계값을 초기화하고 원격 데이터베이스 사용량 확인";
         readonly ru: "Сбросить порог уведомления и проверить использование удалённой базы данных";
         readonly zh: "重置通知阈值并检查远程数据库使用情况";
@@ -6316,7 +6334,7 @@ export declare const allMessages: {
         readonly def: "Reset the remote storage size threshold and check the remote storage size again.";
         readonly fr: "Réinitialiser le seuil de taille du stockage distant et vérifier à nouveau la taille du stockage distant.";
         readonly he: "אפס את סף גודל האחסון המרוחד ובדוק שוב את גודל האחסון המרוחד.";
-        readonly ja: "リモートストレージ容量のしきい値をリセットし、リモートストレージ容量を再確認します。";
+        readonly ja: "リモートストレージサイズのしきい値をリセットし、リモートストレージサイズを再確認します。";
         readonly ko: "원격 저장소 크기 임계값을 초기화하고 원격 저장소 크기를 다시 확인합니다.";
         readonly ru: "Сбросить порог размера удалённого хранилища и проверить размер хранилища снова.";
         readonly zh: "重置远程存储大小阈值并再次检查远程存储大小。";
@@ -6369,6 +6387,7 @@ export declare const allMessages: {
     };
     readonly "Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and display may be inconsistent. Are you sure to restart now?": {
         readonly def: "Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and display may be inconsistent. Are you sure to restart now?";
+        readonly ja: "Obsidianの再起動を強く推奨します。再起動するまで一部の変更が反映されず、表示が不整合になる可能性があります。今すぐ再起動しますか？";
         readonly "zh-tw": "強烈建議重新啟動 Obsidian。在重新啟動之前，部分變更可能尚未生效，顯示也可能不一致。你確定要現在重新啟動嗎？";
     };
     readonly "Restore or reconstruct local database from remote.": {
@@ -6384,7 +6403,7 @@ export declare const allMessages: {
         readonly def: "Run Doctor";
         readonly fr: "Lancer le Docteur";
         readonly he: "הפעל Doctor";
-        readonly ja: "診断を実行";
+        readonly ja: "診断ツールを実行";
         readonly ko: "진단 실행";
         readonly ru: "Запустить диагностику";
         readonly zh: "立即诊断";
@@ -7229,10 +7248,12 @@ export declare const allMessages: {
     };
     readonly "Show history": {
         readonly def: "Show history";
+        readonly ja: "履歴を表示";
         readonly "zh-tw": "顯示歷程";
     };
     readonly "Show icon only": {
         readonly def: "Show icon only";
+        readonly ja: "アイコンのみ表示";
         readonly zh: "仅显示图标";
         readonly "zh-tw": "僅顯示圖示";
     };
@@ -7337,6 +7358,7 @@ export declare const allMessages: {
     };
     readonly "Storage -> Database": {
         readonly def: "Storage -> Database";
+        readonly ja: "ストレージ → データベース";
         readonly "zh-tw": "儲存空間 -> 資料庫";
     };
     readonly "Suppress notification of hidden files change": {
@@ -7533,6 +7555,7 @@ export declare const allMessages: {
     };
     readonly "The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use IDB adapter instead.": {
         readonly def: "The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use IDB adapter instead.";
+        readonly ja: "IndexedDBアダプターは一部の状況で高い性能を発揮しますが、LiveSyncモードで使用するとメモリリークが発生することが分かっています。LiveSyncモードでは代わりにIDBアダプターを使用してください。";
         readonly "zh-tw": "IndexedDB 適配器在某些情況下通常能提供較佳效能，但在 LiveSync 模式下已發現可能導致記憶體洩漏。使用 LiveSync 模式時，請改用 IDB 適配器。";
     };
     readonly "The maximum duration for which chunks can be incubated within the document. Chunks exceeding this period will graduate to independent chunks.": {
@@ -7569,7 +7592,7 @@ export declare const allMessages: {
         readonly def: "The minimum interval for automatic synchronisation on event.";
         readonly fr: "L'intervalle minimum pour la synchronisation automatique sur événement.";
         readonly he: "מרווח הזמן המינימלי לסנכרון אוטומטי על אירוע.";
-        readonly ja: "イベント発生時の自動同期における最小間隔です。";
+        readonly ja: "イベント発生時の自動同期の最小間隔です。";
         readonly ko: "이벤트 발생 시 자동 동기화의 최소 간격입니다.";
         readonly ru: "Минимальный интервал автоматической синхронизации по событию.";
         readonly zh: "基于事件自动同步的最小间隔。";
@@ -7630,6 +7653,7 @@ export declare const allMessages: {
     };
     readonly "TweakMismatchResolve.Action.DisableAutoAcceptCompatible": {
         readonly def: "Disable auto-accept";
+        readonly ja: "自動受け入れを無効化";
     };
     readonly "TweakMismatchResolve.Action.Dismiss": {
         readonly def: "Dismiss";
@@ -7642,6 +7666,7 @@ export declare const allMessages: {
     };
     readonly "TweakMismatchResolve.Action.EnableAutoAcceptCompatible": {
         readonly def: "Enable auto-accept";
+        readonly ja: "自動受け入れを有効化";
     };
     readonly "TweakMismatchResolve.Action.UseConfigured": {
         readonly def: "Use configured settings";
@@ -7708,6 +7733,7 @@ export declare const allMessages: {
     };
     readonly "TweakMismatchResolve.Message.AutoAcceptCompatibleUndefined": {
         readonly def: "\nIt appears that the settings differ for each device. You can now automatically apply compatible changes to these configurations.\nWould you like to enable this `auto-accept` setting?";
+        readonly ja: "\nデバイスごとに設定が異なっているようです。互換性のある設定変更は自動的に適用できるようになりました。\nこの `auto-accept` 設定を有効にしますか？";
     };
     readonly "TweakMismatchResolve.Message.Main": {
         readonly def: "\nThe settings in the remote database are as follows. These values are configured by other devices, which are synchronised with this device at least once.\n\nIf you want to use these settings, please select Use configured settings.\nIf you want to keep the settings of this device, please select Dismiss.\n\n${table}\n\n>[!TIP]\n> If you want to synchronise all settings, please use `Sync settings via markdown` after applying minimal configuration with this feature.\n\n${additionalMessage}";
@@ -7729,9 +7755,11 @@ export declare const allMessages: {
     };
     readonly "TweakMismatchResolve.Message.mineUpdated": {
         readonly def: "The device configuration have been adjusted.";
+        readonly ja: "このデバイスの設定を調整しました。";
     };
     readonly "TweakMismatchResolve.Message.remoteUpdated": {
         readonly def: "The configuration stored remotely has been updated.";
+        readonly ja: "リモートに保存されている設定を更新しました。";
     };
     readonly "TweakMismatchResolve.Message.UseRemote.WarningRebuildRecommended": {
         readonly def: "\n>[!NOTICE]\n> Some changes are compatible but may consume extra storage and transfer volumes. A rebuild is recommended. However, a rebuild may not be performed at present, but may be implemented in future maintenance.\n> ***Please ensure that you have time and are connected to a stable network to apply!***";
@@ -7798,6 +7826,7 @@ export declare const allMessages: {
     };
     readonly "TweakMismatchResolve.Title.AutoAcceptCompatible": {
         readonly def: "Auto-Accept Available";
+        readonly ja: "自動受け入れを利用できます";
     };
     readonly "TweakMismatchResolve.Title.TweakResolving": {
         readonly def: "Configuration Mismatch Detected";
@@ -7819,1010 +7848,1262 @@ export declare const allMessages: {
     };
     readonly "Ui.Common.Signal.Caution": {
         readonly def: "CAUTION";
+        readonly ja: "注意";
         readonly zh: "注意";
     };
     readonly "Ui.Common.Signal.Danger": {
         readonly def: "DANGER";
+        readonly ja: "危険";
         readonly zh: "危险";
     };
     readonly "Ui.Common.Signal.Notice": {
         readonly def: "NOTICE";
+        readonly ja: "通知";
         readonly zh: "提示";
     };
     readonly "Ui.Common.Signal.Warning": {
         readonly def: "WARNING";
+        readonly ja: "警告";
         readonly zh: "警告";
     };
     readonly "Ui.Settings.Advanced.LocalDatabaseTweak": {
         readonly def: "Local Database Tweak";
+        readonly ja: "ローカルデータベースの調整";
         readonly zh: "本地数据库调整";
     };
     readonly "Ui.Settings.Advanced.MemoryCache": {
         readonly def: "Memory Cache";
+        readonly ja: "メモリキャッシュ";
         readonly zh: "内存缓存";
     };
     readonly "Ui.Settings.Advanced.TransferTweak": {
         readonly def: "Transfer Tweak";
+        readonly ja: "転送の調整";
         readonly zh: "传输调整";
     };
     readonly "Ui.Settings.Common.Analyse": {
         readonly def: "Analyse";
+        readonly ja: "分析";
         readonly zh: "分析";
     };
     readonly "Ui.Settings.Common.Back": {
         readonly def: "Back";
+        readonly ja: "戻る";
         readonly zh: "返回";
     };
     readonly "Ui.Settings.Common.Check": {
         readonly def: "Check";
+        readonly ja: "確認";
         readonly zh: "检查";
     };
     readonly "Ui.Settings.Common.Configure": {
         readonly def: "Configure";
+        readonly ja: "設定";
         readonly zh: "配置";
     };
     readonly "Ui.Settings.Common.Continue": {
         readonly def: "Continue";
+        readonly ja: "続行";
         readonly zh: "继续";
     };
     readonly "Ui.Settings.Common.Delete": {
         readonly def: "Delete";
+        readonly ja: "削除";
         readonly zh: "删除";
     };
     readonly "Ui.Settings.Common.Fetch": {
         readonly def: "Fetch";
+        readonly ja: "取得";
         readonly zh: "获取";
     };
     readonly "Ui.Settings.Common.Lock": {
         readonly def: "Lock";
+        readonly ja: "ロック";
         readonly zh: "锁定";
     };
     readonly "Ui.Settings.Common.Merge": {
         readonly def: "Merge";
+        readonly ja: "マージ";
         readonly zh: "合并";
     };
     readonly "Ui.Settings.Common.Open": {
         readonly def: "Open";
+        readonly ja: "開く";
         readonly zh: "打开";
     };
     readonly "Ui.Settings.Common.Overwrite": {
         readonly def: "Overwrite";
+        readonly ja: "上書き";
         readonly zh: "覆盖";
     };
     readonly "Ui.Settings.Common.Perform": {
         readonly def: "Perform";
+        readonly ja: "実行";
         readonly zh: "执行";
     };
     readonly "Ui.Settings.Common.ResetAll": {
         readonly def: "Reset all";
+        readonly ja: "すべてリセット";
         readonly zh: "全部重置";
     };
     readonly "Ui.Settings.Common.ResolveAll": {
         readonly def: "Resolve All";
+        readonly ja: "すべて解決";
         readonly zh: "全部解决";
     };
     readonly "Ui.Settings.Common.Scan": {
         readonly def: "Scan";
+        readonly ja: "スキャン";
         readonly zh: "扫描";
     };
     readonly "Ui.Settings.Common.Send": {
         readonly def: "Send";
+        readonly ja: "送信";
         readonly zh: "发送";
     };
     readonly "Ui.Settings.Common.Use": {
         readonly def: "Use";
+        readonly ja: "使用";
         readonly zh: "使用";
     };
     readonly "Ui.Settings.Common.VerifyAll": {
         readonly def: "Verify all";
+        readonly ja: "すべて検証";
         readonly zh: "全部校验";
     };
     readonly "Ui.Settings.CustomizationSync.OpenDesc": {
         readonly def: "Open the dialog";
+        readonly ja: "ダイアログを開く";
         readonly zh: "打开此对话框";
     };
     readonly "Ui.Settings.CustomizationSync.Panel": {
         readonly def: "Customization Sync";
+        readonly ja: "カスタマイズ同期";
         readonly zh: "自定义同步";
     };
     readonly "Ui.Settings.CustomizationSync.WarnChangeDeviceName": {
         readonly def: "We cannot change the device name while this feature is enabled. Please disable this feature to change the device name.";
+        readonly ja: "この機能が有効な間はデバイス名を変更できません。変更するにはこの機能を無効にしてください。";
         readonly zh: "启用此功能时无法修改设备名称。请先关闭此功能，再修改设备名称。";
     };
     readonly "Ui.Settings.CustomizationSync.WarnSetDeviceName": {
         readonly def: "Please set device name to identify this device. This name should be unique among your devices. While not configured, we cannot enable this feature.";
+        readonly ja: "このデバイスを識別するためのデバイス名を設定してください。この名前は各デバイスで一意である必要があります。設定されるまで、この機能は有効にできません。";
         readonly zh: "请先设置用于标识此设备的设备名称。该名称应在你的设备之间保持唯一。未设置前无法启用此功能。";
     };
     readonly "Ui.Settings.Hatch.AnalyseDatabaseUsage": {
         readonly def: "Analyse database usage";
+        readonly ja: "データベース使用量を分析";
         readonly zh: "分析数据库使用情况";
     };
     readonly "Ui.Settings.Hatch.AnalyseDatabaseUsageDesc": {
         readonly def: "Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like.";
+        readonly ja: "データベース使用量を分析し、自己診断用のTSVレポートを生成します。生成したレポートは任意のスプレッドシートに貼り付けられます。";
         readonly zh: "分析数据库使用情况，并生成 TSV 报告供你自行诊断。你可以将生成的报告粘贴到任意电子表格工具中查看。";
     };
     readonly "Ui.Settings.Hatch.BackToNonConfigured": {
         readonly def: "Back to non-configured";
+        readonly ja: "未設定状態に戻す";
         readonly zh: "返回未配置状态";
     };
     readonly "Ui.Settings.Hatch.ConvertNonObfuscated": {
         readonly def: "Check and convert non-path-obfuscated files";
+        readonly ja: "パス難読化されていないファイルを確認して変換";
         readonly zh: "检查并转换未进行路径混淆的文件";
     };
     readonly "Ui.Settings.Hatch.ConvertNonObfuscatedDesc": {
         readonly def: "Check the local database for files that were stored without path obfuscation and convert them when needed.";
+        readonly ja: "パス難読化なしで保存されたファイルをローカルデータベースで確認し、必要に応じて変換します。";
         readonly zh: "检查本地数据库中未按路径混淆方式存储的文件，并在需要时将其转换为正确格式。";
     };
     readonly "Ui.Settings.Hatch.CopyIssueReport": {
         readonly def: "Copy Report to clipboard";
+        readonly ja: "レポートをクリップボードにコピー";
         readonly zh: "复制报告到剪贴板";
     };
     readonly "Ui.Settings.Hatch.DatabaseLabel": {
         readonly def: "Database: ${details}";
+        readonly ja: "データベース: ${details}";
         readonly zh: "数据库：${details}";
     };
     readonly "Ui.Settings.Hatch.DatabaseToStorage": {
         readonly def: "Database -> Storage";
+        readonly ja: "データベース → ストレージ";
         readonly zh: "数据库 -> 存储";
     };
     readonly "Ui.Settings.Hatch.DeleteCustomizationSyncData": {
         readonly def: "Delete all customization sync data";
+        readonly ja: "カスタマイズ同期データをすべて削除";
         readonly zh: "删除所有自定义同步数据";
     };
     readonly "Ui.Settings.Hatch.GeneratedReport": {
         readonly def: "Generated report";
+        readonly ja: "生成されたレポート";
         readonly zh: "已生成的报告";
     };
     readonly "Ui.Settings.Hatch.Missing": {
         readonly def: "Missing";
+        readonly ja: "見つかりません";
         readonly zh: "缺失";
     };
     readonly "Ui.Settings.Hatch.ModifiedSize": {
         readonly def: "Modified: ${modified}, Size: ${size}";
+        readonly ja: "更新日時: ${modified}, サイズ: ${size}";
         readonly zh: "修改时间：${modified}，大小：${size}";
     };
     readonly "Ui.Settings.Hatch.ModifiedSizeActual": {
         readonly def: "Modified: ${modified}, Size: ${size} (actual size: ${actualSize})";
+        readonly ja: "更新日時: ${modified}, サイズ: ${size}（実サイズ: ${actualSize}）";
         readonly zh: "修改时间：${modified}，大小：${size}（实际大小：${actualSize}）";
     };
     readonly "Ui.Settings.Hatch.PrepareIssueReport": {
         readonly def: "Prepare the 'report' to create an issue";
+        readonly ja: "Issue作成用の「レポート」を準備";
         readonly zh: "准备用于提交问题的报告";
     };
     readonly "Ui.Settings.Hatch.RecoveryAndRepair": {
         readonly def: "Recovery and Repair";
+        readonly ja: "復旧と修復";
         readonly zh: "恢复与修复";
     };
     readonly "Ui.Settings.Hatch.RecreateAll": {
         readonly def: "Recreate all";
+        readonly ja: "すべて再作成";
         readonly zh: "全部重建";
     };
     readonly "Ui.Settings.Hatch.RecreateMissingChunks": {
         readonly def: "Recreate missing chunks for all files";
+        readonly ja: "すべてのファイルの不足チャンクを再作成";
         readonly zh: "为所有文件重新创建缺失的数据块";
     };
     readonly "Ui.Settings.Hatch.RecreateMissingChunksDesc": {
         readonly def: "This will recreate chunks for all files. If there were missing chunks, this may fix the errors.";
+        readonly ja: "すべてのファイルについてチャンクを再作成します。欠損しているチャンクがあった場合、エラーが解消される可能性があります。";
         readonly zh: "此操作会为所有文件重新创建数据块。如果存在缺失的数据块，可能会修复相关错误。";
     };
     readonly "Ui.Settings.Hatch.ResetPanel": {
         readonly def: "Reset";
+        readonly ja: "リセット";
         readonly zh: "重置";
     };
     readonly "Ui.Settings.Hatch.ResetRemoteUsage": {
         readonly def: "Reset notification threshold and check the remote database usage";
+        readonly ja: "通知しきい値をリセットし、リモートデータベース使用量を確認";
         readonly zh: "重置通知阈值并检查远程数据库使用情况";
     };
     readonly "Ui.Settings.Hatch.ResetRemoteUsageDesc": {
         readonly def: "Reset the remote storage size threshold and check the remote storage size again.";
+        readonly ja: "リモートストレージサイズのしきい値をリセットし、リモートストレージサイズを再確認します。";
         readonly zh: "重置远程存储大小阈值，并再次检查远程存储大小。";
     };
     readonly "Ui.Settings.Hatch.ResolveAllConflictedFiles": {
         readonly def: "Resolve all conflicted files by the newer one";
+        readonly ja: "すべての競合ファイルを新しい方で解決";
         readonly zh: "使用较新的版本解决所有冲突文件";
     };
     readonly "Ui.Settings.Hatch.ResolveAllConflictedFilesDesc": {
         readonly def: "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one.";
+        readonly ja: "競合しているすべてのファイルを新しい方の内容で解決します。注意：古い方は上書きされ、復元できません。";
         readonly zh: "使用较新的版本解决所有冲突文件。注意：此操作会覆盖较旧版本，且无法恢复被覆盖的内容。";
     };
     readonly "Ui.Settings.Hatch.RunDoctor": {
         readonly def: "Run Doctor";
+        readonly ja: "診断ツールを実行";
         readonly zh: "运行诊断";
     };
     readonly "Ui.Settings.Hatch.ScanBrokenFiles": {
         readonly def: "Scan for broken files";
+        readonly ja: "破損ファイルをスキャン";
         readonly zh: "扫描损坏文件";
     };
     readonly "Ui.Settings.Hatch.ScramSwitches": {
         readonly def: "Scram Switches";
+        readonly ja: "緊急対応スイッチ";
         readonly zh: "紧急开关";
     };
     readonly "Ui.Settings.Hatch.ShowHistory": {
         readonly def: "Show history";
+        readonly ja: "履歴を表示";
         readonly zh: "查看历史";
     };
     readonly "Ui.Settings.Hatch.StorageLabel": {
         readonly def: "Storage: ${details}";
+        readonly ja: "ストレージ: ${details}";
         readonly zh: "存储：${details}";
     };
     readonly "Ui.Settings.Hatch.StorageToDatabase": {
         readonly def: "Storage -> Database";
+        readonly ja: "ストレージ → データベース";
         readonly zh: "存储 -> 数据库";
     };
     readonly "Ui.Settings.Hatch.VerifyAndRepairAllFiles": {
         readonly def: "Verify and repair all files";
+        readonly ja: "すべてのファイルを検証して修復";
         readonly zh: "校验并修复所有文件";
     };
     readonly "Ui.Settings.Hatch.VerifyAndRepairAllFilesDesc": {
         readonly def: "Compare the content of files between the local database and storage. If they do not match, you will be asked which one to keep.";
+        readonly ja: "ローカルデータベースとストレージ上のファイル内容を比較します。一致しない場合、どちらを残すか確認されます。";
         readonly zh: "比较本地数据库与存储中的文件内容。如果内容不一致，系统会询问你保留哪一份。";
     };
     readonly "Ui.Settings.Maintenance.Cleanup": {
         readonly def: "Perform cleanup";
+        readonly ja: "クリーンアップを実行";
         readonly zh: "执行清理";
     };
     readonly "Ui.Settings.Maintenance.CleanupDesc": {
         readonly def: "Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.";
+        readonly ja: "最新版以外のすべてのリビジョンを破棄して、使用容量を削減します。実行には、リモートサーバーとローカルクライアントの両方に同程度の空き容量が必要です。";
         readonly zh: "丢弃所有非最新修订版本，以减少存储空间占用。此操作要求远程服务器和本地客户端都具备同等大小的可用空间。";
     };
     readonly "Ui.Settings.Maintenance.DeleteLocalDatabase": {
         readonly def: "Delete local database to reset or uninstall Self-hosted LiveSync";
+        readonly ja: "Self-hosted LiveSync をリセットまたはアンインストールするため、ローカルデータベースを削除";
         readonly zh: "删除本地数据库以重置或卸载 Self-hosted LiveSync";
     };
     readonly "Ui.Settings.Maintenance.EmergencyRestart": {
         readonly def: "Emergency restart";
+        readonly ja: "緊急再起動";
         readonly zh: "紧急重启";
     };
     readonly "Ui.Settings.Maintenance.EmergencyRestartDesc": {
         readonly def: "Disable all synchronisation and restart.";
+        readonly ja: "すべての同期を無効化して再起動します。";
         readonly zh: "禁用所有同步并重新启动。";
     };
     readonly "Ui.Settings.Maintenance.FreshStartWipe": {
         readonly def: "Fresh Start Wipe";
+        readonly ja: "初期化ワイプ";
         readonly zh: "全新开始清空";
     };
     readonly "Ui.Settings.Maintenance.FreshStartWipeDesc": {
         readonly def: "Delete all data on the remote server.";
+        readonly ja: "リモートサーバー上のすべてのデータを削除します。";
         readonly zh: "删除远程服务器上的所有数据。";
     };
     readonly "Ui.Settings.Maintenance.GarbageCollection": {
         readonly def: "Garbage Collection V3 (Beta)";
+        readonly ja: "ガーベジコレクション V3 (Beta)";
         readonly zh: "垃圾回收 V3（测试版）";
     };
     readonly "Ui.Settings.Maintenance.GarbageCollectionAction": {
         readonly def: "Perform Garbage Collection";
+        readonly ja: "ガーベジコレクションを実行";
         readonly zh: "执行垃圾回收";
     };
     readonly "Ui.Settings.Maintenance.GarbageCollectionDesc": {
         readonly def: "Perform Garbage Collection to remove unused chunks and reduce database size.";
+        readonly ja: "未使用のチャンクを削除し、データベースサイズを削減するためにガーベジコレクションを実行します。";
         readonly zh: "执行垃圾回收以移除未使用的数据块并减少数据库大小。";
     };
     readonly "Ui.Settings.Maintenance.LockServer": {
         readonly def: "Lock Server";
+        readonly ja: "サーバーをロック";
         readonly zh: "锁定服务器";
     };
     readonly "Ui.Settings.Maintenance.LockServerDesc": {
         readonly def: "Lock the remote server to prevent synchronisation with other devices.";
+        readonly ja: "他のデバイスとの同期を防ぐため、リモートサーバーをロックします。";
         readonly zh: "锁定远程服务器，防止与其他设备继续同步。";
     };
     readonly "Ui.Settings.Maintenance.OverwriteRemote": {
         readonly def: "Overwrite remote";
+        readonly ja: "リモートを上書き";
         readonly zh: "覆盖远程端";
     };
     readonly "Ui.Settings.Maintenance.OverwriteRemoteDesc": {
         readonly def: "Overwrite remote with local DB and passphrase.";
+        readonly ja: "ローカル DB とパスフレーズでリモートを上書きします。";
         readonly zh: "使用本地数据库和密码短语覆盖远程端数据。";
     };
     readonly "Ui.Settings.Maintenance.OverwriteServerData": {
         readonly def: "Overwrite Server Data with This Device's Files";
+        readonly ja: "このデバイスのファイルでサーバーデータを上書き";
         readonly zh: "用此设备的文件覆盖服务器数据";
     };
     readonly "Ui.Settings.Maintenance.OverwriteServerDataDesc": {
         readonly def: "Rebuild the local and remote database with files from this device.";
+        readonly ja: "このデバイス上のファイルからローカルおよびリモートデータベースを再構築します。";
         readonly zh: "使用此设备上的文件重建本地和远程数据库。";
     };
     readonly "Ui.Settings.Maintenance.PurgeAllJournalCounter": {
         readonly def: "Purge all journal counter";
+        readonly ja: "すべてのジャーナルカウンターを削除";
         readonly zh: "清空全部日志计数器";
     };
     readonly "Ui.Settings.Maintenance.PurgeAllJournalCounterDesc": {
         readonly def: "Purge all download and upload caches.";
+        readonly ja: "すべてのダウンロードおよびアップロードキャッシュを削除します。";
         readonly zh: "清空所有下载与上传缓存。";
     };
     readonly "Ui.Settings.Maintenance.RebuildingOperations": {
         readonly def: "Rebuilding Operations (Remote Only)";
+        readonly ja: "再構築操作 (リモートのみ)";
         readonly zh: "重建操作（仅远程端）";
     };
     readonly "Ui.Settings.Maintenance.Resend": {
         readonly def: "Resend";
+        readonly ja: "再送信";
         readonly zh: "重新发送";
     };
     readonly "Ui.Settings.Maintenance.ResendDesc": {
         readonly def: "Resend all chunks to the remote.";
+        readonly ja: "すべてのチャンクをリモートへ再送信します。";
         readonly zh: "将所有数据块重新发送到远程端。";
     };
     readonly "Ui.Settings.Maintenance.Reset": {
         readonly def: "Reset";
+        readonly ja: "リセット";
         readonly zh: "重置";
     };
     readonly "Ui.Settings.Maintenance.ResetAllJournalCounter": {
         readonly def: "Reset all journal counter";
+        readonly ja: "すべてのジャーナルカウンターをリセット";
         readonly zh: "重置全部日志计数器";
     };
     readonly "Ui.Settings.Maintenance.ResetAllJournalCounterDesc": {
         readonly def: "Initialise all journal history. On the next sync, every item will be received and sent again.";
+        readonly ja: "すべてのジャーナル履歴を初期化します。次回同期時に、すべての項目が再度受信・送信されます。";
         readonly zh: "初始化全部日志历史。下次同步时，所有项目都会重新接收并重新发送。";
     };
     readonly "Ui.Settings.Maintenance.ResetJournalReceived": {
         readonly def: "Reset journal received history";
+        readonly ja: "ジャーナル受信履歴をリセット";
         readonly zh: "重置日志接收历史";
     };
     readonly "Ui.Settings.Maintenance.ResetJournalReceivedDesc": {
         readonly def: "Initialise journal received history. On the next sync, every item except those sent by this device will be downloaded again.";
+        readonly ja: "ジャーナル受信履歴を初期化します。次回同期時に、このデバイスが送信したもの以外のすべての項目が再度ダウンロードされます。";
         readonly zh: "初始化日志接收历史。下次同步时，除当前设备发送的项目外，其余项目都会重新下载。";
     };
     readonly "Ui.Settings.Maintenance.ResetJournalSent": {
         readonly def: "Reset journal sent history";
+        readonly ja: "ジャーナル送信履歴をリセット";
         readonly zh: "重置日志发送历史";
     };
     readonly "Ui.Settings.Maintenance.ResetJournalSentDesc": {
         readonly def: "Initialise journal sent history. On the next sync, every item except those received by this device will be sent again.";
+        readonly ja: "ジャーナル送信履歴を初期化します。次回同期時に、このデバイスが受信したもの以外のすべての項目が再度送信されます。";
         readonly zh: "初始化日志发送历史。下次同步时，除当前设备已接收的项目外，其余项目都会重新发送。";
     };
     readonly "Ui.Settings.Maintenance.ResetLocalSyncInfo": {
         readonly def: "Reset Synchronisation information";
+        readonly ja: "同期情報をリセット";
         readonly zh: "重置同步信息";
     };
     readonly "Ui.Settings.Maintenance.ResetLocalSyncInfoDesc": {
         readonly def: "Restore or reconstruct local database from remote.";
+        readonly ja: "リモートからローカルデータベースを復元または再構築します。";
         readonly zh: "从远程端恢复或重建本地数据库。";
     };
     readonly "Ui.Settings.Maintenance.ResetReceived": {
         readonly def: "Reset received";
+        readonly ja: "受信履歴をリセット";
         readonly zh: "重置接收记录";
     };
     readonly "Ui.Settings.Maintenance.ResetSentHistory": {
         readonly def: "Reset sent history";
+        readonly ja: "送信履歴をリセット";
         readonly zh: "重置发送记录";
     };
     readonly "Ui.Settings.Maintenance.ResetThisDevice": {
         readonly def: "Reset Synchronisation on This Device";
+        readonly ja: "このデバイスの同期状態をリセット";
         readonly zh: "重置此设备上的同步状态";
     };
     readonly "Ui.Settings.Maintenance.ScheduleAndRestart": {
         readonly def: "Schedule and Restart";
+        readonly ja: "予約して再起動";
         readonly zh: "计划执行并重启";
     };
     readonly "Ui.Settings.Maintenance.Scram": {
         readonly def: "Scram!";
+        readonly ja: "緊急停止";
         readonly zh: "紧急处理";
     };
     readonly "Ui.Settings.Maintenance.SendChunks": {
         readonly def: "Send chunks";
+        readonly ja: "チャンクを送信";
         readonly zh: "发送数据块";
     };
     readonly "Ui.Settings.Maintenance.Syncing": {
         readonly def: "Syncing";
+        readonly ja: "同期";
         readonly zh: "同步";
     };
     readonly "Ui.Settings.Maintenance.WarningLockedReadyAction": {
         readonly def: "I am ready, unlock the database";
+        readonly ja: "準備できました。データベースのロックを解除します";
         readonly zh: "我已准备好，立即解锁数据库";
     };
     readonly "Ui.Settings.Maintenance.WarningLockedReadyText": {
         readonly def: "To prevent unwanted vault corruption, the remote database has been locked for synchronisation. (This device is marked as 'resolved'.) When all your devices are marked as 'resolved', unlock the database. This warning will continue to appear until replication confirms the device is resolved.";
+        readonly ja: "意図しないVault破損を防ぐため、リモートデータベースは同期用にロックされています。（このデバイスは「解決済み」としてマークされています。）すべてのデバイスが「解決済み」になったら、データベースのロックを解除してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示され続けます。";
         readonly zh: "为防止意外的数据仓库损坏，远程数据库已被锁定，暂停同步。（此设备已被标记为“已确认”）当你的所有设备都标记为“已确认”后，再解锁数据库。在复制过程确认此设备已完成确认之前，此警告会持续显示。";
     };
     readonly "Ui.Settings.Maintenance.WarningLockedResolveAction": {
         readonly def: "I have made a backup, mark this device as resolved";
+        readonly ja: "バックアップを作成しました。このデバイスを解決済みにします";
         readonly zh: "我已完成备份，将此设备标记为“已确认”";
     };
     readonly "Ui.Settings.Maintenance.WarningLockedResolveText": {
         readonly def: "The remote database is locked for synchronisation to prevent vault corruption because this device is not marked as 'resolved'. Please back up your vault, reset the local database, and select 'Mark this device as resolved'. This warning will persist until replication confirms the device is resolved.";
+        readonly ja: "このデバイスが「解決済み」としてマークされていないため、Vault破損を防ぐ目的でリモートデータベースは同期用にロックされています。Vaultをバックアップし、ローカルデータベースをリセットしてから「このデバイスを解決済みにする」を選択してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示され続けます。";
         readonly zh: "为防止数据仓库损坏，由于此设备尚未标记为“已确认”，远程数据库已被锁定，暂停同步。请先备份你的仓库、重置本地数据库，然后选择“将此设备标记为已确认”。在复制过程确认此设备已完成确认之前，此警告会持续显示。";
     };
     readonly "Ui.Settings.Maintenance.WriteRedFlagAndRestart": {
         readonly def: "Flag and restart";
+        readonly ja: "フラグを立てて再起動";
         readonly zh: "标记并重启";
     };
     readonly "Ui.Settings.Patches.CompatibilityConflict": {
         readonly def: "Compatibility (Conflict Behaviour)";
+        readonly ja: "互換性（競合時の挙動）";
         readonly zh: "兼容性（冲突行为）";
     };
     readonly "Ui.Settings.Patches.CompatibilityDatabase": {
         readonly def: "Compatibility (Database structure)";
+        readonly ja: "互換性（データベース構造）";
         readonly zh: "兼容性（数据库结构）";
     };
     readonly "Ui.Settings.Patches.CompatibilityInternalApi": {
         readonly def: "Compatibility (Internal API Usage)";
+        readonly ja: "互換性（内部 API の利用）";
         readonly zh: "兼容性（内部 API 使用）";
     };
     readonly "Ui.Settings.Patches.CompatibilityMetadata": {
         readonly def: "Compatibility (Metadata)";
+        readonly ja: "互換性（メタデータ）";
         readonly zh: "兼容性（元数据）";
     };
     readonly "Ui.Settings.Patches.CompatibilityRemote": {
         readonly def: "Compatibility (Remote Database)";
+        readonly ja: "互換性（リモートデータベース）";
         readonly zh: "兼容性（远程数据库）";
     };
     readonly "Ui.Settings.Patches.CompatibilityTrouble": {
         readonly def: "Compatibility (Trouble addressed)";
+        readonly ja: "互換性（対処済みの問題）";
         readonly zh: "兼容性（已处理问题）";
     };
     readonly "Ui.Settings.Patches.CurrentAdapter": {
         readonly def: "Current adapter: ${adapter}";
+        readonly ja: "現在のアダプター: ${adapter}";
         readonly zh: "当前适配器：${adapter}";
     };
     readonly "Ui.Settings.Patches.DatabaseAdapter": {
         readonly def: "Database Adapter";
+        readonly ja: "データベースアダプター";
         readonly zh: "数据库适配器";
     };
     readonly "Ui.Settings.Patches.DatabaseAdapterDesc": {
         readonly def: "Select the database adapter to use.";
+        readonly ja: "使用するデータベースアダプターを選択します。";
         readonly zh: "选择要使用的数据库适配器。";
     };
     readonly "Ui.Settings.Patches.EdgeCaseBehaviour": {
         readonly def: "Edge case addressing (Behaviour)";
+        readonly ja: "特殊なケースへの対応（動作）";
         readonly zh: "边界情况处理（行为）";
     };
     readonly "Ui.Settings.Patches.EdgeCaseDatabase": {
         readonly def: "Edge case addressing (Database)";
+        readonly ja: "特殊なケースへの対応（データベース）";
         readonly zh: "边界情况处理（数据库）";
     };
     readonly "Ui.Settings.Patches.EdgeCaseProcessing": {
         readonly def: "Edge case addressing (Processing)";
+        readonly ja: "特殊なケースへの対応（処理）";
         readonly zh: "边界情况处理（处理流程）";
     };
     readonly "Ui.Settings.Patches.IndexedDbWarning": {
         readonly def: "The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use the IDB adapter instead.";
+        readonly ja: "IndexedDBアダプターは一部の状況で高い性能を発揮しますが、LiveSyncモードで使用するとメモリリークが発生することが分かっています。LiveSyncモードでは代わりにIDBアダプターを使用してください。";
         readonly zh: "IndexedDB 适配器在某些场景下通常具有更好的性能，但在 LiveSync 模式下已发现可能导致内存泄漏。使用 LiveSync 模式时，请改用 IDB 适配器。";
     };
     readonly "Ui.Settings.Patches.MigratingToIdb": {
         readonly def: "Migrating all data to IDB...";
+        readonly ja: "すべてのデータをIDBへ移行しています...";
         readonly zh: "正在将所有数据迁移到 IDB...";
     };
     readonly "Ui.Settings.Patches.MigratingToIndexedDb": {
         readonly def: "Migrating all data to IndexedDB...";
+        readonly ja: "すべてのデータをIndexedDBへ移行しています...";
         readonly zh: "正在将所有数据迁移到 IndexedDB...";
     };
     readonly "Ui.Settings.Patches.MigrationIdbCompleted": {
         readonly def: "Migration to IDB completed. Obsidian will be restarted with the new configuration immediately.";
+        readonly ja: "IDBへの移行が完了しました。新しい設定でObsidianをすぐに再起動します。";
         readonly zh: "已完成迁移到 IDB。Obsidian 将立即使用新配置重新启动。";
     };
     readonly "Ui.Settings.Patches.MigrationIdbCompletedFollowUp": {
         readonly def: "Migration to IDB completed. Please switch the adapter and restart Obsidian.";
+        readonly ja: "IDBへの移行が完了しました。アダプターを切り替えてObsidianを再起動してください。";
         readonly zh: "已完成迁移到 IDB。请切换适配器并重新启动 Obsidian。";
     };
     readonly "Ui.Settings.Patches.MigrationIndexedDbCompleted": {
         readonly def: "Migration to IndexedDB completed. Obsidian will be restarted with the new configuration immediately.";
+        readonly ja: "IndexedDBへの移行が完了しました。新しい設定でObsidianをすぐに再起動します。";
         readonly zh: "已完成迁移到 IndexedDB。Obsidian 将立即使用新配置重新启动。";
     };
     readonly "Ui.Settings.Patches.MigrationIndexedDbCompletedFollowUp": {
         readonly def: "Migration to IndexedDB completed. Please switch the adapter and restart Obsidian.";
+        readonly ja: "IndexedDBへの移行が完了しました。アダプターを切り替えてObsidianを再起動してください。";
         readonly zh: "已完成迁移到 IndexedDB。请切换适配器并重新启动 Obsidian。";
     };
     readonly "Ui.Settings.Patches.MigrationWarning": {
         readonly def: "Changing this setting requires migrating existing data, which may take some time, and restarting Obsidian. Please make sure to back up your data before proceeding.";
+        readonly ja: "この設定を変更するには既存データの移行が必要で、時間がかかる場合があります。またObsidianの再起動も必要です。続行前に必ずデータをバックアップしてください。";
         readonly zh: "修改此设置需要迁移现有数据（可能需要一些时间）并重新启动 Obsidian。请先备份你的数据后再继续。";
     };
     readonly "Ui.Settings.Patches.OperationToIdb": {
         readonly def: "to IDB";
+        readonly ja: "IDBへ";
         readonly zh: "迁移到 IDB";
     };
     readonly "Ui.Settings.Patches.OperationToIndexedDb": {
         readonly def: "to IndexedDB";
+        readonly ja: "IndexedDBへ";
         readonly zh: "迁移到 IndexedDB";
     };
     readonly "Ui.Settings.Patches.Remediation": {
         readonly def: "Remediation";
+        readonly ja: "是正";
         readonly zh: "修正";
     };
     readonly "Ui.Settings.Patches.RemediationChanged": {
         readonly def: "Remediation Setting Changed";
+        readonly ja: "是正設定が変更されました";
         readonly zh: "修正设置已更改";
     };
     readonly "Ui.Settings.Patches.RemediationNoLimit": {
         readonly def: "No limit configured";
+        readonly ja: "制限は設定されていません";
         readonly zh: "未设置限制";
     };
     readonly "Ui.Settings.Patches.RemediationRestarting": {
         readonly def: "Remediation setting changed. Restarting Obsidian...";
+        readonly ja: "修復設定が変更されました。Obsidianを再起動しています...";
         readonly zh: "修正设置已更改，正在重新启动 Obsidian...";
     };
     readonly "Ui.Settings.Patches.RemediationRestartLater": {
         readonly def: "Later";
+        readonly ja: "後で";
         readonly zh: "稍后";
     };
     readonly "Ui.Settings.Patches.RemediationRestartMessage": {
         readonly def: "Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and the display may be inconsistent. Are you sure you want to restart now?";
+        readonly ja: "Obsidianの再起動を強く推奨します。再起動するまで一部の変更が反映されず、表示が不整合になる可能性があります。今すぐ再起動しますか？";
         readonly zh: "强烈建议重新启动 Obsidian。在重启之前，部分更改可能不会生效，界面显示也可能不一致。确定要现在重启吗？";
     };
     readonly "Ui.Settings.Patches.RemediationRestartNow": {
         readonly def: "Restart Now";
+        readonly ja: "今すぐ再起動";
         readonly zh: "立即重启";
     };
     readonly "Ui.Settings.Patches.RemediationSuffixChanged": {
         readonly def: "Suffix has been changed. Reopening database...";
+        readonly ja: "接尾辞が変更されました。データベースを再オープンしています...";
         readonly zh: "后缀已更改，正在重新打开数据库...";
     };
     readonly "Ui.Settings.Patches.RemediationWithValue": {
         readonly def: "Limit: ${date} (${timestamp})";
+        readonly ja: "上限: ${date}（${timestamp}）";
         readonly zh: "限制：${date}（${timestamp}）";
     };
     readonly "Ui.Settings.Patches.RemoteDatabaseSunset": {
         readonly def: "Remote Database Tweak (In sunset)";
+        readonly ja: "リモートデータベースの調整 (廃止予定)";
         readonly zh: "远程数据库调整（即将弃用）";
     };
     readonly "Ui.Settings.Patches.SwitchToIDB": {
         readonly def: "Switch to IDB";
+        readonly ja: "IDB に切り替える";
         readonly zh: "切换到 IDB";
     };
     readonly "Ui.Settings.Patches.SwitchToIndexedDb": {
         readonly def: "Switch to IndexedDB";
+        readonly ja: "IndexedDB に切り替える";
         readonly zh: "切换到 IndexedDB";
     };
     readonly "Ui.Settings.PowerUsers.ConfigurationEncryption": {
         readonly def: "Configuration Encryption";
+        readonly ja: "設定の暗号化";
         readonly zh: "配置加密";
     };
     readonly "Ui.Settings.PowerUsers.ConnectionTweak": {
         readonly def: "CouchDB Connection Tweak";
+        readonly ja: "CouchDB 接続の調整";
         readonly zh: "CouchDB 连接调整";
     };
     readonly "Ui.Settings.PowerUsers.ConnectionTweakDesc": {
         readonly def: "If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.";
+        readonly ja: "IBM Cloudantのペイロードサイズ上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。";
         readonly zh: "如果你在使用 IBM Cloudant 时遇到负载大小限制，请将 batch size 和 batch limit 调低。";
     };
     readonly "Ui.Settings.PowerUsers.Default": {
         readonly def: "Default";
+        readonly ja: "デフォルト";
         readonly zh: "默认";
     };
     readonly "Ui.Settings.PowerUsers.Developer": {
         readonly def: "Developer";
+        readonly ja: "開発者";
         readonly zh: "开发者";
     };
     readonly "Ui.Settings.PowerUsers.EncryptSensitiveConfig": {
         readonly def: "Encrypt sensitive configuration items";
+        readonly ja: "機密性の高い設定項目を暗号化";
         readonly zh: "加密敏感配置项";
     };
     readonly "Ui.Settings.PowerUsers.PromptPassphraseEveryLaunch": {
         readonly def: "Ask for a passphrase at every launch";
+        readonly ja: "起動のたびにパスフレーズを確認";
         readonly zh: "每次启动时询问密码短语";
     };
     readonly "Ui.Settings.PowerUsers.UseCustomPassphrase": {
         readonly def: "Use a custom passphrase";
+        readonly ja: "カスタムパスフレーズを使う";
         readonly zh: "使用自定义密码短语";
     };
     readonly "Ui.Settings.Remote.Activate": {
         readonly def: "Activate";
+        readonly ja: "有効化";
         readonly zh: "启用";
     };
     readonly "Ui.Settings.Remote.ActiveSuffix": {
         readonly def: " (Active)";
+        readonly ja: "（有効）";
         readonly zh: "（当前启用）";
     };
     readonly "Ui.Settings.Remote.AddConnection": {
         readonly def: "Add new connection";
+        readonly ja: "接続を追加";
         readonly zh: "新增连接";
     };
     readonly "Ui.Settings.Remote.AddRemoteDefaultName": {
         readonly def: "New Remote";
+        readonly ja: "新しいリモート";
         readonly zh: "新远程端";
     };
     readonly "Ui.Settings.Remote.ConfigureAndChangeRemote": {
         readonly def: "Configure and change remote";
+        readonly ja: "リモートを設定して切り替える";
         readonly zh: "配置并切换远程端";
     };
     readonly "Ui.Settings.Remote.ConfigureE2EE": {
         readonly def: "Configure E2EE";
+        readonly ja: "E2EE を設定";
         readonly zh: "配置端到端加密";
     };
     readonly "Ui.Settings.Remote.ConfigureRemote": {
         readonly def: "Configure Remote";
+        readonly ja: "リモートを設定";
         readonly zh: "配置远程端";
     };
     readonly "Ui.Settings.Remote.DeleteRemoteConfirm": {
         readonly def: "Delete remote configuration '${name}'?";
+        readonly ja: "リモート設定「${name}」を削除しますか？";
         readonly zh: "确定要删除远程配置“${name}”吗？";
     };
     readonly "Ui.Settings.Remote.DeleteRemoteTitle": {
         readonly def: "Delete Remote Configuration";
+        readonly ja: "リモート設定を削除";
         readonly zh: "删除远程配置";
     };
     readonly "Ui.Settings.Remote.DisplayName": {
         readonly def: "Display name";
+        readonly ja: "表示名";
         readonly zh: "显示名称";
     };
     readonly "Ui.Settings.Remote.DuplicateRemote": {
         readonly def: "Duplicate remote";
+        readonly ja: "リモート設定を複製";
         readonly zh: "复制远程配置";
     };
     readonly "Ui.Settings.Remote.DuplicateRemoteSuffix": {
         readonly def: "${name} (Copy)";
+        readonly ja: "${name}（コピー）";
         readonly zh: "${name}（副本）";
     };
     readonly "Ui.Settings.Remote.E2EEConfiguration": {
         readonly def: "E2EE Configuration";
+        readonly ja: "E2EE 設定";
         readonly zh: "端到端加密配置";
     };
     readonly "Ui.Settings.Remote.Export": {
         readonly def: "Export";
+        readonly ja: "エクスポート";
         readonly zh: "导出";
     };
     readonly "Ui.Settings.Remote.FetchRemoteSettings": {
         readonly def: "Fetch remote settings";
+        readonly ja: "リモート設定を取得";
         readonly zh: "获取远程设置";
     };
     readonly "Ui.Settings.Remote.ImportConnection": {
         readonly def: "Import connection";
+        readonly ja: "接続をインポート";
         readonly zh: "导入连接";
     };
     readonly "Ui.Settings.Remote.ImportConnectionPrompt": {
         readonly def: "Paste a connection string";
+        readonly ja: "接続文字列を貼り付ける";
         readonly zh: "粘贴连接字符串";
     };
     readonly "Ui.Settings.Remote.ImportedCouchDb": {
         readonly def: "Imported CouchDB";
+        readonly ja: "インポートしたCouchDB";
         readonly zh: "已导入的 CouchDB";
     };
     readonly "Ui.Settings.Remote.ImportedRemote": {
         readonly def: "Remote";
+        readonly ja: "リモート";
         readonly zh: "远程端";
     };
     readonly "Ui.Settings.Remote.MoreActions": {
         readonly def: "More actions";
+        readonly ja: "その他の操作";
         readonly zh: "更多操作";
     };
     readonly "Ui.Settings.Remote.PeerToPeerPanel": {
         readonly def: "Peer-to-Peer Synchronisation";
+        readonly ja: "ピアツーピア同期";
         readonly zh: "点对点同步";
     };
     readonly "Ui.Settings.Remote.RemoteConfigurationPrefix": {
         readonly def: "Remote configuration";
+        readonly ja: "リモート設定";
         readonly zh: "远程配置";
     };
     readonly "Ui.Settings.Remote.RemoteDatabases": {
         readonly def: "Remote Databases";
+        readonly ja: "リモートデータベース";
         readonly zh: "远程数据库";
     };
     readonly "Ui.Settings.Remote.RemoteName": {
         readonly def: "Remote name";
+        readonly ja: "リモート名";
         readonly zh: "远程名称";
     };
     readonly "Ui.Settings.Remote.RemoteNameCouchDb": {
         readonly def: "CouchDB ${host}";
+        readonly ja: "CouchDB ${host}";
         readonly zh: "CouchDB ${host}";
     };
     readonly "Ui.Settings.Remote.RemoteNameP2P": {
         readonly def: "P2P ${room}";
+        readonly ja: "P2P ${room}";
         readonly zh: "P2P ${room}";
     };
     readonly "Ui.Settings.Remote.RemoteNameS3": {
         readonly def: "S3 ${bucket}";
+        readonly ja: "S3 ${bucket}";
         readonly zh: "S3 ${bucket}";
     };
     readonly "Ui.Settings.Remote.Rename": {
         readonly def: "Rename";
+        readonly ja: "名前を変更";
         readonly zh: "重命名";
     };
     readonly "Ui.Settings.Selector.AddDefaultPatterns": {
         readonly def: "Add default patterns";
+        readonly ja: "デフォルトパターンを追加";
         readonly zh: "添加默认模式";
     };
     readonly "Ui.Settings.Selector.CrossPlatform": {
         readonly def: "Cross-platform";
+        readonly ja: "クロスプラットフォーム";
         readonly zh: "跨平台";
     };
     readonly "Ui.Settings.Selector.Default": {
         readonly def: "Default";
+        readonly ja: "デフォルト";
         readonly zh: "默认";
     };
     readonly "Ui.Settings.Selector.HiddenFiles": {
         readonly def: "Hidden Files";
+        readonly ja: "隠しファイル";
         readonly zh: "隐藏文件";
     };
     readonly "Ui.Settings.Selector.IgnorePatterns": {
         readonly def: "Ignore patterns";
+        readonly ja: "除外パターン";
         readonly zh: "忽略模式";
     };
     readonly "Ui.Settings.Selector.NonSynchronisingFiles": {
         readonly def: "Non-Synchronising files";
+        readonly ja: "同期しないファイル";
         readonly zh: "不同步文件";
     };
     readonly "Ui.Settings.Selector.NonSynchronisingFilesDesc": {
         readonly def: "(RegExp) If this is set, any changes to local and remote files that match this will be skipped.";
+        readonly ja: "（正規表現）設定すると、これに一致するローカル／リモートファイルの変更はすべてスキップされます。";
         readonly zh: "（RegExp）如果设置了该项，则本地和远程中匹配这些规则的文件变更将被跳过。";
     };
     readonly "Ui.Settings.Selector.NormalFiles": {
         readonly def: "Normal Files";
+        readonly ja: "通常ファイル";
         readonly zh: "普通文件";
     };
     readonly "Ui.Settings.Selector.OverwritePatterns": {
         readonly def: "Overwrite patterns";
+        readonly ja: "上書きパターン";
         readonly zh: "覆盖模式";
     };
     readonly "Ui.Settings.Selector.OverwritePatternsDesc": {
         readonly def: "Patterns to match files for overwriting instead of merging";
+        readonly ja: "マージではなく上書きするファイルを判定するパターン";
         readonly zh: "匹配后将执行覆盖而非合并的文件模式";
     };
     readonly "Ui.Settings.Selector.SynchronisingFiles": {
         readonly def: "Synchronising files";
+        readonly ja: "同期するファイル";
         readonly zh: "同步文件";
     };
     readonly "Ui.Settings.Selector.SynchronisingFilesDesc": {
         readonly def: "(RegExp) Empty to sync all files. Set a regular expression filter to limit synchronised files.";
+        readonly ja: "（正規表現）空欄で全ファイルを同期します。正規表現フィルターを指定すると、同期対象ファイルを制限できます。";
         readonly zh: "（RegExp）留空则同步所有文件。可设置正则表达式以限制需要同步的文件。";
     };
     readonly "Ui.Settings.Selector.TargetPatterns": {
         readonly def: "Target patterns";
+        readonly ja: "対象パターン";
         readonly zh: "目标模式";
     };
     readonly "Ui.Settings.Selector.TargetPatternsDesc": {
         readonly def: "Patterns to match files for syncing";
+        readonly ja: "同期対象ファイルを判定するパターン";
         readonly zh: "用于匹配需要同步文件的模式";
     };
     readonly "Ui.Settings.Setup.RerunWizardButton": {
         readonly def: "Rerun Wizard";
+        readonly ja: "ウィザードを再実行";
         readonly zh: "重新运行向导";
     };
     readonly "Ui.Settings.Setup.RerunWizardDesc": {
         readonly def: "Rerun the onboarding wizard to set up Self-hosted LiveSync again.";
+        readonly ja: "Self-hosted LiveSync を再設定するため、オンボーディングウィザードを再実行します。";
         readonly zh: "重新运行引导向导，再次设置 Self-hosted LiveSync。";
     };
     readonly "Ui.Settings.Setup.RerunWizardName": {
         readonly def: "Rerun Onboarding Wizard";
+        readonly ja: "オンボーディングウィザードを再実行";
         readonly zh: "重新运行引导向导";
     };
     readonly "Ui.Settings.SyncSettings.Fetch": {
         readonly def: "Fetch";
+        readonly ja: "取得";
         readonly zh: "获取";
     };
     readonly "Ui.Settings.SyncSettings.Merge": {
         readonly def: "Merge";
+        readonly ja: "マージ";
         readonly zh: "合并";
     };
     readonly "Ui.Settings.SyncSettings.Overwrite": {
         readonly def: "Overwrite";
+        readonly ja: "上書き";
         readonly zh: "覆盖";
     };
     readonly "Ui.SetupWizard.Common.Back": {
         readonly def: "No, please take me back";
+        readonly ja: "いいえ、前に戻ります";
         readonly zh: "不，带我返回";
     };
     readonly "Ui.SetupWizard.Common.Cancel": {
         readonly def: "Cancel";
+        readonly ja: "キャンセル";
         readonly zh: "取消";
     };
     readonly "Ui.SetupWizard.Common.ProceedSelectOption": {
         readonly def: "Please select an option to proceed";
+        readonly ja: "続行するには項目を選択してください";
         readonly zh: "请选择一个选项后继续";
     };
     readonly "Ui.SetupWizard.Intro.ExistingOption": {
         readonly def: "I am adding a device to an existing synchronisation setup";
+        readonly ja: "既存の同期構成に端末を追加します";
         readonly zh: "将此设备加入已有同步配置";
     };
     readonly "Ui.SetupWizard.Intro.ExistingOptionDesc": {
         readonly def: "Select this if you are already using synchronisation on another computer or smartphone. Use this option to connect this device to that existing setup.";
+        readonly ja: "別のPCやスマートフォンですでに同期を使用している場合に選択してください。この端末を既存の同期構成へ接続します。";
         readonly zh: "如果你已经在另一台电脑或手机上使用同步，请选择此项。此选项用于将当前设备连接到既有同步配置。";
     };
     readonly "Ui.SetupWizard.Intro.Guidance": {
         readonly def: "We will now guide you through a few questions to simplify the synchronisation setup.";
+        readonly ja: "これからいくつかの質問に沿って、同期設定を簡単に進めます。";
         readonly zh: "接下来我们会通过几个问题，帮助你更轻松地完成同步配置。";
     };
     readonly "Ui.SetupWizard.Intro.NewOption": {
         readonly def: "I am setting this up for the first time";
+        readonly ja: "はじめて設定します";
         readonly zh: "首次设置同步";
     };
     readonly "Ui.SetupWizard.Intro.NewOptionDesc": {
         readonly def: "Select this if you are configuring this device as the first synchronisation device.";
+        readonly ja: "この端末を最初の同期端末として設定する場合に選択してください。";
         readonly zh: "如果你正把这台设备作为第一台同步设备进行配置，请选择此项。";
     };
     readonly "Ui.SetupWizard.Intro.ProceedExisting": {
         readonly def: "Yes, I want to add this device to my existing synchronisation";
+        readonly ja: "はい、この端末を既存の同期に追加します";
         readonly zh: "是的，我要将此设备加入现有同步";
     };
     readonly "Ui.SetupWizard.Intro.ProceedNew": {
         readonly def: "Yes, I want to set up a new synchronisation";
+        readonly ja: "はい、新しい同期を設定します";
         readonly zh: "是的，我要开始新的同步配置";
     };
     readonly "Ui.SetupWizard.Intro.Question": {
         readonly def: "First, please select the option that best describes your current situation.";
+        readonly ja: "まず、現在の状況に最も近い項目を選択してください。";
         readonly zh: "首先，请选择最符合你当前情况的选项。";
     };
     readonly "Ui.SetupWizard.Intro.Title": {
         readonly def: "Welcome to Self-hosted LiveSync";
+        readonly ja: "Self-hosted LiveSync へようこそ";
         readonly zh: "欢迎使用 Self-hosted LiveSync";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.CompatibleOption": {
         readonly def: "The remote is already set up, and the configuration is compatible (or became compatible through this operation).";
+        readonly ja: "リモートはすでに設定済みで、構成に互換性があります（またはこの操作で互換性がある状態になりました）。";
         readonly zh: "远程端已配置完成，且当前配置兼容（或已通过本次操作变为兼容）。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.CompatibleOptionDesc": {
         readonly def: "Unless you are certain, selecting this option is risky. It assumes the server configuration is compatible with this device. If that is not the case, data loss may occur. Please make sure you understand the consequences.";
+        readonly ja: "確信がない限り、この選択は危険です。サーバー構成がこのデバイスと互換であることを前提にします。互換でない場合、データ損失が発生する可能性があります。影響を理解していることを確認してください。";
         readonly zh: "除非你非常确定，否则选择此项存在风险。它假定服务器配置与当前设备兼容。如果事实并非如此，可能会导致数据丢失。请确认你了解后果。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.ExistingOption": {
         readonly def: "My remote server is already set up. I want to join this device.";
+        readonly ja: "リモートサーバーはすでに設定済みです。このデバイスを参加させます。";
         readonly zh: "远程服务器已经配置完成，我想让此设备加入同步。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.ExistingOptionDesc": {
         readonly def: "Selecting this option will make this device join the existing server. You need to fetch the existing synchronisation data from the server to this device.";
+        readonly ja: "この選択により、このデバイスは既存サーバーへ参加します。サーバーから既存の同期データをこのデバイスへ取得する必要があります。";
         readonly zh: "选择此项后，此设备会加入已有服务器。你需要将服务器上的现有同步数据获取到此设备。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.Guidance": {
         readonly def: "The connection to the server has been configured successfully. As the next step, the local database, in other words the synchronisation information, must be rebuilt.";
+        readonly ja: "サーバーへの接続設定が完了しました。次の手順として、ローカルデータベース、つまり同期情報を再構築する必要があります。";
         readonly zh: "服务器连接已成功配置。下一步需要重建本地数据库，也就是同步状态信息。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.NewOption": {
         readonly def: "I am setting up a new server for the first time / I want to reset my existing server.";
+        readonly ja: "新しいサーバーを初めて設定します / 既存サーバーをリセットします。";
         readonly zh: "我是第一次配置新服务器 / 我想重置现有服务器。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.NewOptionDesc": {
         readonly def: "Selecting this option will initialise the server using the current data on this device. Any existing data on the server will be completely overwritten.";
+        readonly ja: "この選択により、現在このデバイスにあるデータを使ってサーバーを初期化します。サーバー上の既存データは完全に上書きされます。";
         readonly zh: "选择此项后，服务器会使用当前设备上的数据进行初始化。服务器上的现有数据将被完全覆盖。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.ProceedApplySettings": {
         readonly def: "Apply the settings";
+        readonly ja: "設定を適用";
         readonly zh: "应用这些设置";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.ProceedNext": {
         readonly def: "Proceed to the next step.";
+        readonly ja: "次の手順へ進む";
         readonly zh: "继续下一步";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.Question": {
         readonly def: "Please select your situation.";
+        readonly ja: "状況を選択してください。";
         readonly zh: "请选择你的当前情况。";
     };
     readonly "Ui.SetupWizard.OutroAskUserMode.Title": {
         readonly def: "Mostly Complete: Decision Required";
+        readonly ja: "ほぼ完了: 判断が必要です";
         readonly zh: "即将完成：还需要做出选择";
     };
     readonly "Ui.SetupWizard.OutroNewUser.GuidancePrimary": {
         readonly def: "The connection to the server has been configured successfully. As the next step, the synchronisation data on the server will be built from the current data on this device.";
+        readonly ja: "サーバーへの接続設定が完了しました。次の手順として、このデバイスの現在のデータからサーバー上の同期データを構築します。";
         readonly zh: "服务器连接已成功配置。下一步将根据当前设备上的数据，在服务器端建立同步数据。";
     };
     readonly "Ui.SetupWizard.OutroNewUser.GuidanceWarning": {
         readonly def: "After restarting, the data on this device will be uploaded to the server as the master copy. Please note that any unintended data currently on the server will be completely overwritten.";
+        readonly ja: "再起動後、このデバイス上のデータがマスターコピーとしてサーバーへアップロードされます。サーバー上に意図しないデータがある場合、それらは完全に上書きされます。";
         readonly zh: "重启后，当前设备上的数据会作为主副本上传到服务器。请注意，服务器上现有的非预期数据将被完全覆盖。";
     };
     readonly "Ui.SetupWizard.OutroNewUser.Important": {
         readonly def: "IMPORTANT";
+        readonly ja: "重要";
         readonly zh: "重要";
     };
     readonly "Ui.SetupWizard.OutroNewUser.Proceed": {
         readonly def: "Restart and Initialise Server";
+        readonly ja: "再起動してサーバーを初期化";
         readonly zh: "重启并初始化服务器";
     };
     readonly "Ui.SetupWizard.OutroNewUser.Question": {
         readonly def: "Please select the button below to restart and proceed to the final confirmation.";
+        readonly ja: "再起動して最終確認へ進むには、下のボタンを選択してください。";
         readonly zh: "请选择下方按钮，重启并进入最终确认步骤。";
     };
     readonly "Ui.SetupWizard.OutroNewUser.Title": {
         readonly def: "Setup Complete: Preparing to Initialise Server";
+        readonly ja: "セットアップ完了: サーバー初期化の準備";
         readonly zh: "设置完成：准备初始化服务器";
     };
     readonly "Ui.SetupWizard.SelectExisting.Guidance": {
         readonly def: "You are adding this device to an existing synchronisation setup.";
+        readonly ja: "この端末を既存の同期構成に追加しようとしています。";
         readonly zh: "你正在将此设备加入已有同步配置。";
     };
     readonly "Ui.SetupWizard.SelectExisting.ManualOption": {
         readonly def: "Enter the server information manually";
+        readonly ja: "サーバー情報を手動で入力する";
         readonly zh: "手动输入服务器信息";
     };
     readonly "Ui.SetupWizard.SelectExisting.ManualOptionDesc": {
         readonly def: "Configure the same server information as your other devices again manually. This is intended only for advanced users.";
+        readonly ja: "他の端末と同じサーバー情報を手動で再設定します。上級者向けの方法です。";
         readonly zh: "手动重新配置与你其他设备相同的服务器信息。此方式仅适用于高级用户。";
     };
     readonly "Ui.SetupWizard.SelectExisting.ProceedManual": {
         readonly def: "I know my server details, let me enter them";
+        readonly ja: "サーバー情報を把握しているので、自分で入力します";
         readonly zh: "我知道服务器信息，让我手动输入";
     };
     readonly "Ui.SetupWizard.SelectExisting.ProceedQr": {
         readonly def: "Scan the QR code displayed on an active device using this device's camera.";
+        readonly ja: "稼働中の端末に表示された QR コードを、この端末のカメラで読み取ってください。";
         readonly zh: "使用本设备摄像头扫描活动设备上显示的二维码";
     };
     readonly "Ui.SetupWizard.SelectExisting.ProceedSetupUri": {
         readonly def: "Proceed with Setup URI";
+        readonly ja: "Setup URI で続行";
         readonly zh: "使用 Setup URI 继续";
     };
     readonly "Ui.SetupWizard.SelectExisting.QrOption": {
         readonly def: "Scan a QR Code (Recommended for mobile)";
+        readonly ja: "QR コードをスキャンする（モバイル推奨）";
         readonly zh: "扫描二维码（移动端推荐）";
     };
     readonly "Ui.SetupWizard.SelectExisting.QrOptionDesc": {
         readonly def: "Scan the QR code displayed on an active device using this device's camera.";
+        readonly ja: "稼働中の端末に表示された QR コードを、この端末のカメラで読み取ってください。";
         readonly zh: "使用本设备摄像头扫描活动设备上显示的二维码。";
     };
     readonly "Ui.SetupWizard.SelectExisting.Question": {
         readonly def: "Please select a method to import the settings from another device.";
+        readonly ja: "別の端末から設定を取り込む方法を選択してください。";
         readonly zh: "请选择一种从其他设备导入设置的方法。";
     };
     readonly "Ui.SetupWizard.SelectExisting.SetupUriOption": {
         readonly def: "Use a Setup URI (Recommended)";
+        readonly ja: "Setup URI を使う（推奨）";
         readonly zh: "使用 Setup URI（推荐）";
     };
     readonly "Ui.SetupWizard.SelectExisting.SetupUriOptionDesc": {
         readonly def: "Paste the Setup URI generated from one of your active devices.";
+        readonly ja: "稼働中の端末で生成した Setup URI を貼り付けてください。";
         readonly zh: "粘贴从某台已启用设备生成的 Setup URI。";
     };
     readonly "Ui.SetupWizard.SelectExisting.Title": {
         readonly def: "Device Setup Method";
+        readonly ja: "端末の設定方法";
         readonly zh: "设备设置方式";
     };
     readonly "Ui.SetupWizard.SelectNew.Guidance": {
         readonly def: "We will now proceed with the server configuration.";
+        readonly ja: "次にサーバー設定を進めます。";
         readonly zh: "接下来将继续配置服务器连接信息。";
     };
     readonly "Ui.SetupWizard.SelectNew.ManualOption": {
         readonly def: "Enter the server information manually";
+        readonly ja: "サーバー情報を手動で入力する";
         readonly zh: "手动输入服务器信息";
     };
     readonly "Ui.SetupWizard.SelectNew.ManualOptionDesc": {
         readonly def: "This is an advanced option for users who do not have a Setup URI or who want to configure detailed settings.";
+        readonly ja: "Setup URIがない場合や、詳細設定を手動で行いたい場合の上級者向けオプションです。";
         readonly zh: "如果你没有 Setup URI，或希望自行配置更详细的参数，可选择此高级选项。";
     };
     readonly "Ui.SetupWizard.SelectNew.ProceedManual": {
         readonly def: "I know my server details, let me enter them";
+        readonly ja: "サーバー情報を把握しているので、自分で入力します";
         readonly zh: "我知道服务器信息，让我手动输入";
     };
     readonly "Ui.SetupWizard.SelectNew.ProceedSetupUri": {
         readonly def: "Proceed with Setup URI";
+        readonly ja: "Setup URI で続行";
         readonly zh: "使用 Setup URI 继续";
     };
     readonly "Ui.SetupWizard.SelectNew.Question": {
         readonly def: "How would you like to configure the connection to your server?";
+        readonly ja: "サーバー接続をどのように設定しますか？";
         readonly zh: "你希望如何配置服务器连接？";
     };
     readonly "Ui.SetupWizard.SelectNew.SetupUriOption": {
         readonly def: "Use a Setup URI (Recommended)";
+        readonly ja: "Setup URI を使う（推奨）";
         readonly zh: "使用 Setup URI（推荐）";
     };
     readonly "Ui.SetupWizard.SelectNew.SetupUriOptionDesc": {
         readonly def: "A Setup URI is a single string containing your server address and authentication details. If one was generated by your server installation script, it provides a simple and secure configuration method.";
+        readonly ja: "Setup URIは、サーバーアドレスと認証情報を含む1本の文字列です。サーバーのインストールスクリプトで生成されたものがある場合、簡単かつ安全に設定できます。";
         readonly zh: "Setup URI 是一段包含服务器地址和认证信息的文本。如果你的服务器安装脚本已经生成了它，这是最简单且安全的配置方式。";
     };
     readonly "Ui.SetupWizard.SelectNew.Title": {
         readonly def: "Connection Method";
+        readonly ja: "接続方法";
         readonly zh: "连接方式";
     };
     readonly "Ui.SetupWizard.SetupRemote.BucketOption": {
         readonly def: "S3/MinIO/R2 Object Storage";
+        readonly ja: "S3/MinIO/R2 オブジェクトストレージ";
         readonly zh: "S3/MinIO/R2 对象存储";
     };
     readonly "Ui.SetupWizard.SetupRemote.BucketOptionDesc": {
         readonly def: "Synchronisation using journal files. You must already have an S3/MinIO/R2 compatible object storage service set up.";
+        readonly ja: "ジャーナルファイルを利用する同期方式です。S3/MinIO/R2互換のオブジェクトストレージサービスを事前に設定しておく必要があります。";
         readonly zh: "使用日志文件进行同步。你需要先准备好兼容 S3/MinIO/R2 的对象存储服务。";
     };
     readonly "Ui.SetupWizard.SetupRemote.CouchDbOptionDesc": {
         readonly def: "This is the most suitable synchronisation method for the current design. All features are available. You must already have a CouchDB instance set up.";
+        readonly ja: "現在の設計に最も適した同期方式です。すべての機能が利用できます。CouchDBインスタンスを事前に設定しておく必要があります。";
         readonly zh: "这是当前设计下最适合的同步方式，所有功能都可用。你需要先准备好 CouchDB 实例。";
     };
     readonly "Ui.SetupWizard.SetupRemote.Guidance": {
         readonly def: "Please select the type of server you are connecting to.";
+        readonly ja: "接続するサーバーの種類を選択してください。";
         readonly zh: "请选择你要连接的服务器类型。";
     };
     readonly "Ui.SetupWizard.SetupRemote.P2POption": {
         readonly def: "Peer-to-Peer only";
+        readonly ja: "Peer-to-Peer のみ";
         readonly zh: "仅点对点";
     };
     readonly "Ui.SetupWizard.SetupRemote.P2POptionDesc": {
         readonly def: "This enables direct synchronisation between devices. No server is required, but both devices must be online at the same time and some features may be limited. Internet connectivity is required only for signalling, not for data transfer.";
+        readonly ja: "端末同士を直接同期できます。サーバーは不要ですが、同期するには両方の端末が同時にオンラインである必要があり、一部機能は制限される場合があります。インターネット接続はシグナリングにのみ必要で、データ転送には使われません。";
         readonly zh: "启用设备之间的直接同步。无需服务器，但两台设备必须同时在线，且部分功能可能受限。互联网连接仅用于信令，不用于传输数据。";
     };
     readonly "Ui.SetupWizard.SetupRemote.ProceedBucket": {
         readonly def: "Continue to S3/MinIO/R2 setup";
+        readonly ja: "S3/MinIO/R2 設定へ進む";
         readonly zh: "继续配置 S3/MinIO/R2";
     };
     readonly "Ui.SetupWizard.SetupRemote.ProceedCouchDb": {
         readonly def: "Continue to CouchDB setup";
+        readonly ja: "CouchDB 設定へ進む";
         readonly zh: "继续配置 CouchDB";
     };
     readonly "Ui.SetupWizard.SetupRemote.ProceedP2P": {
         readonly def: "Continue to Peer-to-Peer only setup";
+        readonly ja: "Peer-to-Peer 専用設定へ進む";
         readonly zh: "继续配置仅点对点模式";
     };
     readonly "Ui.SetupWizard.SetupRemote.Title": {
         readonly def: "Enter Server Information";
+        readonly ja: "サーバー情報の入力";
         readonly zh: "输入服务器信息";
     };
     readonly "Unique name between all synchronized devices. To edit this setting, please disable customization sync once.": {
@@ -9205,6 +9486,120 @@ export declare const allMessages: {
     };
     readonly "Setup.titleWelcome": {
         readonly es: "Bienvenido a Self-hosted LiveSync";
+    };
+    readonly "Active Remote Type": {
+        readonly ja: "有効なリモート種別";
+    };
+    readonly "Application ID": {
+        readonly ja: "アプリケーションID";
+    };
+    readonly "Auto-accept compatible tweak mismatches": {
+        readonly ja: "互換性のあるTweak不一致を自動受け入れ";
+    };
+    readonly "Automatically accepts mismatches that are compatible but potentially lossy by comparing tweak modification times.": {
+        readonly ja: "Tweakの更新時刻を比較し、互換性はあるものの損失が生じる可能性のある不一致を自動的に受け入れます。";
+    };
+    readonly "Chunk Splitter": {
+        readonly ja: "チャンク分割方式";
+    };
+    readonly "Custom Headers": {
+        readonly ja: "カスタムヘッダー";
+    };
+    readonly "Effectively a directory. Should end with `/`. e.g., `vault-name/`.": {
+        readonly ja: "実質的にはディレクトリです。`vault-name/` のように `/` で終える必要があります。";
+    };
+    readonly "Enable forcePathStyle": {
+        readonly ja: "forcePathStyleを有効化";
+    };
+    readonly "Enable per-file customization sync": {
+        readonly ja: "ファイルごとのカスタマイズ同期を有効化";
+    };
+    readonly "Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files.": {
+        readonly ja: "暗号化パスフレーズ。変更した場合、新しい暗号化済みファイルでサーバーのデータベースを上書きする必要があります。";
+    };
+    readonly "End-to-End Encryption Algorithm": {
+        readonly ja: "エンドツーエンド暗号化アルゴリズム";
+    };
+    readonly "File prefix on the bucket": {
+        readonly ja: "バケット内のファイル接頭辞";
+    };
+    readonly "If enabled, efficient per-file customization sync will be used. A minor migration is required when enabling this feature, and all devices must be updated to v0.23.18. Enabling this feature will result in losing compatibility with older versions.": {
+        readonly ja: "有効にすると、ファイルごとの効率的なカスタマイズ同期を使用します。この機能を有効化する際には小規模な移行が必要で、すべてのデバイスをv0.23.18以降に更新する必要があります。有効化すると古いバージョンとの互換性は失われます。";
+    };
+    readonly "If enabled, the file properties will be encrypted in the remote database. This is useful for protecting sensitive information in file paths, sizes, and IDs of its chunks. If you are using V1 E2EE, this only obfuscates the file path.": {
+        readonly ja: "有効にすると、リモートデータベース内のファイルプロパティが暗号化されます。ファイルパス、サイズ、チャンクIDに含まれる機密情報の保護に役立ちます。V1のエンドツーエンド暗号化を使用している場合は、ファイルパスの難読化のみ行われます。";
+    };
+    readonly "If enabled, the forcePathStyle option will be used for bucket operations.": {
+        readonly ja: "有効にすると、バケット操作でforcePathStyleオプションを使用します。";
+    };
+    readonly "If enabled, the plugin will not attempt to connect to the remote database even if the chunk was not found locally.": {
+        readonly ja: "有効にすると、チャンクがローカルに見つからない場合でも、リモートデータベースへの接続を試みません。";
+    };
+    readonly "Internal timestamp for resolving compatible tweak mismatches.": {
+        readonly ja: "互換性のあるTweak不一致を解決するための内部タイムスタンプです。";
+    };
+    readonly "JWT Algorithm": {
+        readonly ja: "JWTアルゴリズム";
+    };
+    readonly "Key ID": {
+        readonly ja: "キーID";
+    };
+    readonly "Keypair or pre-shared key": {
+        readonly ja: "キーペアまたは事前共有鍵";
+    };
+    readonly "Last tweak modified timestamp": {
+        readonly ja: "Tweakの最終更新タイムスタンプ";
+    };
+    readonly "Now we can choose how to split the chunks; V3 is the most efficient. If you have troubled, please make this Default or Legacy.": {
+        readonly ja: "チャンクの分割方式を選択できます。V3が最も効率的です。問題がある場合は Default または Legacy にしてください。";
+    };
+    readonly "Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.": {
+        readonly ja: "V2を使用してください。V1は非推奨で、将来削除されます。適切なアルゴリズムではなかったため、互換性のためだけに残されています。";
+    };
+    readonly "Room ID": {
+        readonly ja: "ルームID";
+    };
+    readonly "Signalling Relays": {
+        readonly ja: "シグナリングリレー";
+    };
+    readonly "Subject (whoami)": {
+        readonly ja: "サブジェクト（whoami）";
+    };
+    readonly "The Application ID for P2P connection. This should be same among your devices. Default is 'self-hosted-livesync' and could not be modified from the UI.": {
+        readonly ja: "P2P接続用のアプリケーションIDです。すべてのデバイスで同じ値にする必要があります。デフォルトは「self-hosted-livesync」で、UIからは変更できません。";
+    };
+    readonly "The credential/password for the TURN servers.": {
+        readonly ja: "TURNサーバーの認証情報またはパスワードです。";
+    };
+    readonly "The Nostr relay servers to establish connections for P2P connections. Multiple servers can be separated by commas.": {
+        readonly ja: "P2P接続を確立するためのNostrリレーサーバーです。複数のサーバーはカンマで区切れます。";
+    };
+    readonly "The Passphrase for P2P connection. This should be same among your devices.": {
+        readonly ja: "P2P接続用のパスフレーズです。すべてのデバイスで同じ値にする必要があります。";
+    };
+    readonly "The Room ID for P2P connection. This should be same among your devices.": {
+        readonly ja: "P2P接続用のルームIDです。すべてのデバイスで同じ値にする必要があります。";
+    };
+    readonly "The TURN servers to use for P2P connections. Multiple servers can be separated by commas.": {
+        readonly ja: "P2P接続で使用するTURNサーバーです。複数のサーバーはカンマで区切れます。";
+    };
+    readonly "The username for the TURN servers.": {
+        readonly ja: "TURNサーバーのユーザー名です。";
+    };
+    readonly "TURN Credential": {
+        readonly ja: "TURN認証情報";
+    };
+    readonly "TURN Servers": {
+        readonly ja: "TURNサーバー";
+    };
+    readonly "TURN Username": {
+        readonly ja: "TURNユーザー名";
+    };
+    readonly "Use JWT instead of Basic Authentication": {
+        readonly ja: "Basic認証の代わりにJWTを使用";
+    };
+    readonly "Use Only Local Chunks": {
+        readonly ja: "ローカルチャンクのみ使用";
     };
     readonly "(Not recommended) If set, credentials will be stored in the file": {
         readonly ru: "(Не рекомендуется) Если установлено, учётные данные будут сохранены в файле";

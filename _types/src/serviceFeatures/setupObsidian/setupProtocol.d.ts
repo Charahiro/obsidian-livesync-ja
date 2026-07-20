@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: 0563f26
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
 import type { LogFunction } from "@lib/services/lib/logUtils";
 import type { SetupFeatureHost } from "@lib/serviceFeatures/setupObsidian/types";
 import type { NecessaryServices } from "@lib/interfaces/ServiceModule";

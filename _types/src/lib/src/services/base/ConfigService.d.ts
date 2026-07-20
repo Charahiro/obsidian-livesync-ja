@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: 0563f26
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
 import type { IConfigService } from "@lib/services/base/IService";
 import { ServiceBase, type ServiceContext } from "./ServiceBase";
 export declare abstract class ConfigService<T extends ServiceContext = ServiceContext> extends ServiceBase<T> implements IConfigService {

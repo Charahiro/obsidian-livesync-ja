@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: 0563f26
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
 import type { ChunkAlgorithms, E2EEAlgorithms, HashAlgorithms, MODE_AUTOMATIC, MODE_PAUSED, MODE_SELECTIVE, MODE_SHINY, RemoteTypes } from "./setting.const";
 import type { I18N_LANGS } from "@lib/common/rosetta";
 import type { CustomRegExpSourceList } from "./shared.type.util";

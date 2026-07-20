@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: 0563f26
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
 import { ConflictService } from "@lib/services/base/ConflictService";
 import type { ServiceContext } from "@lib/services/base/ServiceBase";
 export declare class InjectableConflictService<T extends ServiceContext> extends ConflictService<T> {

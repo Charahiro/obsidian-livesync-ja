@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: 0563f26
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
 import { type PluginManifest } from "@/deps.ts";
 import type { EntryDoc, LoadedEntry, FilePathWithPrefix, FilePath, AnyEntry } from "@lib/common/types.ts";
 import { LiveSyncCommands } from "@/features/LiveSyncCommands.ts";

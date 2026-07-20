@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: 0563f26
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
 import type { DocumentID, EntryDoc, EntryLeaf } from "@lib/common/types.ts";
 import type { ChangeManager } from "@lib/managers/ChangeManager.ts";
 import type { ChunkManagerEventMap, ChunkManagerOptions, ChunkReadOptions, ChunkWriteOptions, WriteResult } from "./LayeredChunkManager/types.ts";
