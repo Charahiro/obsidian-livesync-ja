@@ -10,6 +10,7 @@ const versionBumpScript =
     process.env.VERSION_BUMP_SCRIPT || fileURLToPath(new URL("../version-bump.mjs", import.meta.url));
 const workspaceUpdateScript = fileURLToPath(new URL("../update-workspaces.mjs", import.meta.url));
 const prepareReleaseWorkflow = fileURLToPath(new URL("../.github/workflows/prepare-release.yml", import.meta.url));
+const finaliseReleaseWorkflow = fileURLToPath(new URL("../.github/workflows/finalise-release.yml", import.meta.url));
 const temporaryDirectories: string[] = [];
 
 afterEach(() => {
@@ -111,6 +112,35 @@ describe("release workflow", () => {
         expect(workflow).toContain("npm run build:lib:types");
         expect(workflow).toMatch(/git add[^\n]*_types/);
     });
+
+    it("installs Deno before post-processing fallback type definitions", () => {
+        const workflow = readFileSync(prepareReleaseWorkflow, "utf8");
+        const setupDeno = workflow.indexOf("denoland/setup-deno@v2");
+        const buildTypes = workflow.indexOf("npm run build:lib:types");
+
+        expect(setupDeno).toBeGreaterThan(-1);
+        expect(setupDeno).toBeLessThan(buildTypes);
+    });
+
+    it("keeps the release PR in draft until BRAT validation", () => {
+        const workflow = readFileSync(prepareReleaseWorkflow, "utf8");
+
+        expect(workflow).toContain("Merge intentionally on hold");
+        expect(workflow).toContain(
+            "Publish the GitHub Release as the latest stable release while keeping this pull request in draft"
+        );
+        expect(workflow).toContain("Validate the published release with BRAT");
+        expect(workflow).toContain("Mark this pull request ready and merge it with a merge commit");
+    });
+
+    it("explicitly dispatches publishing workflows after creating tags", () => {
+        const workflow = readFileSync(finaliseReleaseWorkflow, "utf8");
+
+        expect(workflow).toContain("actions: write");
+        expect(workflow).toContain("gh workflow run release.yml");
+        expect(workflow).toContain("gh workflow run cli-docker.yml");
+        expect(workflow).toContain("dry_run=false");
+    });
 });
 
 describe("version bump", () => {
@@ -137,9 +167,18 @@ describe("workspace version update", () => {
     it("keeps workspace package and lockfile versions together", () => {
         const directory = makeTemporaryDirectory();
         const workspaces = ["src/apps/cli", "src/apps/webpeer", "src/apps/webapp"];
-        writeJson(directory, "package.json", { version: "0.25.81", workspaces });
+        writeJson(directory, "package.json", {
+            version: "0.25.81",
+            workspaces,
+            dependencies: { "octagonal-wheels": "^0.1.51" },
+            devDependencies: { typescript: "^5.9.3" },
+        });
         for (const workspace of ["cli", "webpeer", "webapp"]) {
-            writeJson(directory, `src/apps/${workspace}/package.json`, { version: `0.25.80-${workspace}` });
+            writeJson(directory, `src/apps/${workspace}/package.json`, {
+                version: `0.25.80-${workspace}`,
+                dependencies: { "octagonal-wheels": "^0.1.50" },
+                devDependencies: { typescript: "^5.8.0" },
+            });
         }
         writeJson(directory, "package-lock.json", {
             name: "obsidian-livesync",
@@ -147,9 +186,21 @@ describe("workspace version update", () => {
             lockfileVersion: 3,
             packages: {
                 "": { version: "0.25.80", workspaces },
-                "src/apps/cli": { version: "0.25.80-cli" },
-                "src/apps/webpeer": { version: "0.25.80-webpeer" },
-                "src/apps/webapp": { version: "0.25.80-webapp" },
+                "src/apps/cli": {
+                    version: "0.25.80-cli",
+                    dependencies: { "octagonal-wheels": "^0.1.50" },
+                    devDependencies: { typescript: "^5.8.0" },
+                },
+                "src/apps/webpeer": {
+                    version: "0.25.80-webpeer",
+                    dependencies: { "octagonal-wheels": "^0.1.50" },
+                    devDependencies: { typescript: "^5.8.0" },
+                },
+                "src/apps/webapp": {
+                    version: "0.25.80-webapp",
+                    dependencies: { "octagonal-wheels": "^0.1.50" },
+                    devDependencies: { typescript: "^5.8.0" },
+                },
             },
         });
 
@@ -159,6 +210,8 @@ describe("workspace version update", () => {
         for (const workspace of ["cli", "webpeer", "webapp"]) {
             const packageJson = JSON.parse(readFileSync(join(directory, `src/apps/${workspace}/package.json`), "utf8"));
             expect(packageJson.version).toBe(`0.25.81-${workspace}`);
+            expect(packageJson.dependencies["octagonal-wheels"]).toBe("^0.1.51");
+            expect(packageJson.devDependencies.typescript).toBe("^5.9.3");
         }
         const packageLock = JSON.parse(readFileSync(join(directory, "package-lock.json"), "utf8"));
         expect(packageLock.version).toBe("0.25.81");
@@ -166,5 +219,9 @@ describe("workspace version update", () => {
         expect(packageLock.packages["src/apps/cli"].version).toBe("0.25.81-cli");
         expect(packageLock.packages["src/apps/webpeer"].version).toBe("0.25.81-webpeer");
         expect(packageLock.packages["src/apps/webapp"].version).toBe("0.25.81-webapp");
+        for (const workspace of workspaces) {
+            expect(packageLock.packages[workspace].dependencies["octagonal-wheels"]).toBe("^0.1.51");
+            expect(packageLock.packages[workspace].devDependencies.typescript).toBe("^5.9.3");
+        }
     });
 });

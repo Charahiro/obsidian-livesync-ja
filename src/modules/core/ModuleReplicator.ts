@@ -49,7 +49,8 @@ async function canReplicateWithPBKDF2(
     // Showing message is false: that because be shown here. (And it is a fatal error, no way to hide it).
     // tagged as network error at beginning for error filtering with NetworkWarningStyles
     const ensureMessage = `${MARK_LOG_NETWORK_ERROR}Failed to initialise the encryption key, preventing replication.`;
-    const ensureResult = await replicator.ensurePBKDF2Salt(currentSettings, showMessage, true);
+    // A remote database rebuild replaces the Security Seed while this process may still hold the previous one.
+    const ensureResult = await replicator.ensurePBKDF2Salt(currentSettings, showMessage, false);
     if (!ensureResult) {
         errorManager.showError(ensureMessage, showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
         return false;
@@ -132,33 +133,41 @@ export class ModuleReplicator extends AbstractModule {
                 await this.core.rebuilder.$performRebuildDB("localOnly");
             }
             if (ret == CHOICE_CLEAN) {
-                const replicator = this.services.replicator.getActiveReplicator();
-                if (!(replicator instanceof LiveSyncCouchDBReplicator)) return;
-                const remoteDB = await replicator.connectRemoteCouchDBWithSetting(
-                    this.settings,
-                    this.services.API.isMobile(),
-                    true
-                );
-                if (typeof remoteDB == "string") {
-                    Logger(remoteDB, LOG_LEVEL_NOTICE);
-                    return false;
-                }
+                await this.services.replicator.runBoundedRemoteActivity(
+                    async () => {
+                        const replicator = this.services.replicator.getActiveReplicator();
+                        if (!(replicator instanceof LiveSyncCouchDBReplicator)) return;
+                        const remoteDB = await replicator.connectRemoteCouchDBWithSetting(
+                            this.settings,
+                            this.services.API.isMobile(),
+                            true
+                        );
+                        if (typeof remoteDB == "string") {
+                            Logger(remoteDB, LOG_LEVEL_NOTICE);
+                            return false;
+                        }
 
-                await purgeUnreferencedChunks(this.localDatabase.localDatabase, false);
-                this.localDatabase.clearCaches();
-                // Perform the synchronisation once.
-                if (await this.core.replicator.openReplication(this.settings, false, showMessage, true)) {
-                    await balanceChunkPurgedDBs(this.localDatabase.localDatabase, remoteDB.db);
-                    await purgeUnreferencedChunks(this.localDatabase.localDatabase, false);
-                    this.localDatabase.clearCaches();
-                    await this.services.replicator.getActiveReplicator()?.markRemoteResolved(this.settings);
-                    Logger("The local database has been cleaned up.", showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
-                } else {
-                    Logger(
-                        "Replication has been cancelled. Please try it again.",
-                        showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
-                    );
-                }
+                        await purgeUnreferencedChunks(this.localDatabase.localDatabase, false);
+                        this.localDatabase.clearCaches();
+                        // Perform the synchronisation once.
+                        if (await this.core.replicator.openReplication(this.settings, false, showMessage, true)) {
+                            await balanceChunkPurgedDBs(this.localDatabase.localDatabase, remoteDB.db);
+                            await purgeUnreferencedChunks(this.localDatabase.localDatabase, false);
+                            this.localDatabase.clearCaches();
+                            await this.services.replicator.getActiveReplicator()?.markRemoteResolved(this.settings);
+                            Logger(
+                                "The local database has been cleaned up.",
+                                showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
+                            );
+                        } else {
+                            Logger(
+                                "Replication has been cancelled. Please try it again.",
+                                showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
+                            );
+                        }
+                    },
+                    { label: "database-cleanup" }
+                );
             }
         });
     }

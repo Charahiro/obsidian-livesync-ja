@@ -69,18 +69,7 @@
         }
     }
 
-    async function handleSyncAndClose(peerId: string) {
-        fireAndForget(async () => {
-            try {
-                Logger(`${peerId} との同期を開始します`, logLevel);
-                await onSync(peerId);
-                Logger(`${peerId} との同期が完了しました`, logLevel);
-            } catch (e) {
-                Logger(`同期中にエラーが発生しました: ${e instanceof Error ? e.message : String(e)}`, logLevel);
-            }
-        });
-        onClose();
-    }
+
     async function disconnect() {
         try {
             await liveSyncReplicator.close();
@@ -142,7 +131,7 @@
                                 <button
                                     class="btn {rebuildMode ? 'btn-primary' : 'btn-secondary'}"
                                     disabled={syncingPeerId !== null}
-                                    onclick={() => handleSyncAndClose(peer.peerId)}
+                                    onclick={() => handleSyncThenClose(peer.peerId)}
                                 >
                                     {syncingPeerId === peer.peerId ? "同期中..." : "同期を開始して閉じる"}
                                 </button>

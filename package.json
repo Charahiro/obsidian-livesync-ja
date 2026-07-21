@@ -1,6 +1,6 @@
 {
     "name": "obsidian-livesync",
-    "version": "0.25.81",
+    "version": "0.25.82",
     "description": "Reflect your vault changes to some other devices immediately. Please make sure to disable other synchronize solutions to avoid content corruption or duplication.",
     "main": "main.js",
     "type": "module",
@@ -45,6 +45,7 @@
         "test:e2e:obsidian:smoke": "tsx test/e2e-obsidian/scripts/smoke.ts",
         "test:e2e:obsidian:vault-reflection": "tsx test/e2e-obsidian/scripts/vault-reflection.ts",
         "test:e2e:obsidian:couchdb-upload": "tsx test/e2e-obsidian/scripts/couchdb-upload.ts",
+        "test:e2e:obsidian:cli-to-obsidian-sync": "tsx test/e2e-obsidian/scripts/cli-to-obsidian-sync.ts",
         "test:e2e:obsidian:minio-upload": "tsx test/e2e-obsidian/scripts/minio-upload.ts",
         "test:e2e:obsidian:startup-scan": "tsx test/e2e-obsidian/scripts/startup-scan.ts",
         "test:e2e:obsidian:two-vault-sync": "tsx test/e2e-obsidian/scripts/two-vault-sync.ts",
@@ -164,7 +165,7 @@
         "markdown-it": "^14.2.0",
         "minimatch": "^10.2.5",
         "obsidian": "^1.13.1",
-        "octagonal-wheels": "^0.1.50",
+        "octagonal-wheels": "^0.1.51",
         "qrcode-generator": "^1.4.4",
         "xxhash-wasm-102": "npm:xxhash-wasm@^1.0.2"
     },
