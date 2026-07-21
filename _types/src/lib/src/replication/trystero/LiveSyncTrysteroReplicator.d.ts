@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { type RemoteDBSettings, type EntryLeaf, type TweakValues, type LOG_LEVEL, type NodeData } from "@lib/common/types";
 import { LiveSyncAbstractReplicator, type LiveSyncReplicatorEnv, type RemoteDBStatus } from "@lib/replication/LiveSyncAbstractReplicator";
 import { TrysteroReplicator } from "./TrysteroReplicator";

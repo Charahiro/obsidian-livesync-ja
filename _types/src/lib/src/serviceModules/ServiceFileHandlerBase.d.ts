@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { AnyEntry, FilePath, FilePathWithPrefix, MetaEntry, UXFileInfo, UXFileInfoStub, UXInternalFileInfoStub } from "@lib/common/types";
 import type { IFileHandler } from "@lib/interfaces/FileHandler.ts";
 import { ServiceModuleBase } from "@lib/serviceModules/ServiceModuleBase";

@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { RpcRoom } from "@lib/rpc/RpcRoom";
 /**
  * Exposes a PouchDB database as a set of RPC methods registered on an

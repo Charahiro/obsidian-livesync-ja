@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { InjectableConflictService } from "@lib/services/implements/injectable/InjectableConflictService";
 import { InjectableDatabaseEventService } from "@lib/services/implements/injectable/InjectableDatabaseEventService";
 import { InjectableFileProcessingService } from "@lib/services/implements/injectable/InjectableFileProcessingService";

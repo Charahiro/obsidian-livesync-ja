@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { ServiceContext } from "@lib/services/base/ServiceBase";
 import { VaultService } from "@lib/services/base/VaultService";
 export declare abstract class InjectableVaultService<T extends ServiceContext> extends VaultService<T> {

@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { NecessaryServices } from "@lib/interfaces/ServiceModule";
 import { type UseP2PReplicatorResult } from "@lib/replication/trystero/UseP2PReplicatorResult";
 import { P2PLogCollector } from "@lib/replication/trystero/P2PLogCollector";

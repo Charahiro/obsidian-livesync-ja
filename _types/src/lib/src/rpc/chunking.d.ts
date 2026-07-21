@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 export declare function estimateBytes(text: string): number;
 export declare function splitIntoChunks(payload: string, maxBytes: number): string[];
 export declare class IncomingChunkBuffer {

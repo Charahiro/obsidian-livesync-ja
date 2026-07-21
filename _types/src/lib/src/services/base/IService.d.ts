@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { FetchHttpHandler } from "@smithy/fetch-http-handler";
 import { type LOG_LEVEL } from "octagonal-wheels/common/logger";
 import type { AnyEntry, AUTO_MERGED, CouchDBCredentials, diff_result, DocumentID, EntryDoc, EntryHasPath, FileEventItem, FilePath, FilePathWithPrefix, LoadedEntry, MetaEntry, MISSING_OR_ERROR, ObsidianLiveSyncSettings, RemoteDBSettings, TweakValues, UXFileInfo, UXFileInfoStub } from "@lib/common/types";

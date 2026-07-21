@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { TFile } from "@/deps";
 import type { FilePathWithPrefix, LoadedEntry } from "@lib/common/types";
 export declare const EVENT_REQUEST_SHOW_HISTORY = "show-history";

@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { type SavingEntry, type DocumentID, type EntryDoc, type EntryBase, type FilePath, type FilePathWithPrefix, type LoadedEntry, type ObsidianLiveSyncSettings, type MetaEntry } from "@lib/common/types";
 import type { ContentSplitter } from "@lib/ContentSplitter/ContentSplitters";
 import type { HashManager } from "@lib/managers/HashManager/HashManager";

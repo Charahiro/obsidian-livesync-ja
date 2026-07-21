@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { type FilePath } from "@lib/common/types.ts";
 export { addIcon, App, debounce, Editor, FuzzySuggestModal, MarkdownRenderer, MarkdownView, Modal, Notice, Platform, Plugin, PluginSettingTab, requestUrl, sanitizeHTMLToDom, Setting, stringifyYaml, TAbstractFile, TextAreaComponent, TFile, TFolder, parseYaml, ItemView, WorkspaceLeaf, Menu, request, getLanguage, ButtonComponent, TextComponent, ToggleComponent, DropdownComponent, Component, } from "obsidian";
 export type { DataWriteOptions, PluginManifest, RequestUrlParam, RequestUrlResponse, MarkdownFileInfo, ListedFiles, ValueComponent, Stat, Command, ViewCreator, } from "obsidian";

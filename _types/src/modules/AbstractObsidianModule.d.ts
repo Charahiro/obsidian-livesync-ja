@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { LiveSyncCore } from "@/main";
 import type ObsidianLiveSyncPlugin from "@/main";
 import { AbstractModule } from "./AbstractModule.ts";

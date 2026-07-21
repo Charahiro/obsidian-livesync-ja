@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { type Diff } from "diff-match-patch";
 import { type EntryDoc, type FilePathWithPrefix, type diff_result_leaf, type LoadedEntry, type DIFF_CHECK_RESULT_AUTO } from "@lib/common/types.ts";
 import type { EntryManager } from "@lib/managers/EntryManager/EntryManager.ts";

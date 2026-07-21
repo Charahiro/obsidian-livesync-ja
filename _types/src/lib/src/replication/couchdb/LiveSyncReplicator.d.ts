@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { type EntryDoc, type RemoteDBSettings, type EntryLeaf, type TweakValues, type SyncParameters, type DatabaseEntry, type NodeData } from "@lib/common/types.ts";
 import { LiveSyncAbstractReplicator, type LiveSyncReplicatorEnv, type RemoteDBStatus } from "@lib/replication/LiveSyncAbstractReplicator.ts";
 import type { ServiceHub } from "@lib/services/ServiceHub.ts";

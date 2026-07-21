@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { HashManagerCore } from "./HashManagerCore.ts";
 import type { HashAlgorithm } from "@lib/common/models/setting.type.ts";
 /**

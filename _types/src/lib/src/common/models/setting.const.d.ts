@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 export declare const SETTING_VERSION_INITIAL = 0;
 export declare const SETTING_VERSION_SUPPORT_CASE_INSENSITIVE = 10;
 export declare const CURRENT_SETTING_VERSION = 10;

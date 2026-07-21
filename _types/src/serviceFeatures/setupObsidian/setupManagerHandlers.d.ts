@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { type SetupManager } from "@/modules/features/SetupManager";
 import type { SetupFeatureHost } from "@lib/serviceFeatures/setupObsidian/types";
 import type { NecessaryServices } from "@lib/interfaces/ServiceModule";

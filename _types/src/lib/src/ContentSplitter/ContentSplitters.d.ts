@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { SavingEntry } from "@lib/common/types";
 import type { ContentSplitterOptions } from "./ContentSplitter";
 import { ContentSplitterCore, type ContentSplitterBase } from "./ContentSplitterBase";

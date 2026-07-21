@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { AllMessageKeys, I18N_LANGS } from "./rosetta";
 import type { TaggedType } from "./types";
 export declare let currentLang: I18N_LANGS;

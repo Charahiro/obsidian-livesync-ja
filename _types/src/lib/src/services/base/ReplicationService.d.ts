@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { type LOG_LEVEL } from "@lib/common/types";
 import type { IAPIService, IDatabaseService, IFileProcessingService, IReplicationService, IReplicatorService, ISettingService } from "./IService";
 import { ServiceBase, type ServiceContext } from "./ServiceBase";

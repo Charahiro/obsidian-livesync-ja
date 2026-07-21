@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 export type { IStorageEventTypeGuardAdapter } from "./IStorageEventTypeGuardAdapter";
 export type { IStorageEventPersistenceAdapter } from "./IStorageEventPersistenceAdapter";
 export type { IStorageEventWatchAdapter, IStorageEventWatchHandlers } from "./IStorageEventWatchAdapter";

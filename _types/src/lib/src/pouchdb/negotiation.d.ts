@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 export declare const checkRemoteVersion: (db: PouchDB.Database, migrate: (from: number, to: number) => Promise<boolean>, barrier?: number) => Promise<boolean>;
 export declare const bumpRemoteVersion: (db: PouchDB.Database, barrier?: number) => Promise<boolean>;
 export declare const checkSyncInfo: (db: PouchDB.Database) => Promise<boolean>;

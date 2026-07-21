@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { AppLifecycleService } from "@lib/services/base/AppLifecycleService";
 import type { IAppLifecycleService } from "@lib/services/base/IService";
 import type { ServiceContext } from "@lib/services/base/ServiceBase";

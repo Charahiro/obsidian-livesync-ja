@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { ServiceContext } from "@lib/services/base/ServiceBase";
 import { KeyValueDBService } from "@lib/services/base/KeyValueDBService";
 import { DatabaseService } from "@lib/services/base/DatabaseService.ts";

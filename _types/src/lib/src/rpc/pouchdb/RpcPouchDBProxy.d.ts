@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import type { RpcSession } from "@lib/rpc/RpcSession";
 /**
  * A PouchDB-compatible proxy that forwards all database operations to a remote

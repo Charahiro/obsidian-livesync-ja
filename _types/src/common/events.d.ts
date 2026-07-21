@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 import { eventHub } from "@lib/hub/hub";
 export declare const EVENT_PLUGIN_LOADED = "plugin-loaded";
 export declare const EVENT_PLUGIN_UNLOADED = "plugin-unloaded";

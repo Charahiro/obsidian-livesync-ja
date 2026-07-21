@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 40ac272
+// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
 export declare const MAX_DOC_SIZE = 1000;
 export declare const MAX_DOC_SIZE_BIN = 102400;
 export declare const VER = 12;
