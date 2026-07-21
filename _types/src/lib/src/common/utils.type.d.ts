@@ -1,3 +1,3 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 export type Constructor<T> = new (...args: any[]) => T; // eslint-disable-line @typescript-eslint/no-explicit-any -- Only type declaration

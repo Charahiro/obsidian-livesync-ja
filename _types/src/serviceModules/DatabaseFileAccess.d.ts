@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 import type { DatabaseFileAccess } from "@lib/interfaces/DatabaseFileAccess.ts";
 import { ServiceDatabaseFileAccessBase } from "@lib/serviceModules/ServiceDatabaseFileAccessBase";
 export declare class ServiceDatabaseFileAccess extends ServiceDatabaseFileAccessBase implements DatabaseFileAccess {

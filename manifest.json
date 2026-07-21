@@ -1,7 +1,7 @@
 {
     "id": "obsidian-livesync",
     "name": "Self-hosted LiveSync 日本語版",
-    "version": "0.25.80",
+    "version": "0.25.81",
     "minAppVersion": "1.7.2",
     "description": "Self-hosted LiveSync の日本語化フォークです。Vaultの変更を複数デバイス間で同期します。破損や重複を避けるため、他の同期ソリューションとの併用は避けてください。",
     "author": "vorotamoroz / Charahiro",

@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 import { type ResultPayloadWithSeq, type SplitProcessItem } from "./universalTypes";
 /**
  * Splits data into pieces using a worker.

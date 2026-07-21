@@ -1,4 +1,4 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 export declare function asCopy<T>(obj: T): T;
 export declare function ensureError(error: unknown): Error;

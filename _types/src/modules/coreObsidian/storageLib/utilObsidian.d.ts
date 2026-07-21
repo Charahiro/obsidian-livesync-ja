@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 import { TFile, type TAbstractFile, type TFolder } from "@/deps.ts";
 import type { FilePathWithPrefix, UXFileInfo, UXFileInfoStub, UXFolderInfo, UXInternalFileInfoStub } from "@lib/common/types.ts";
 import type { LiveSyncCore } from "@/main.ts";

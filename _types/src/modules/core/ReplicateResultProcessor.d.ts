@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 import { type AnyEntry, type EntryDoc, type LoadedEntry, type MetaEntry } from "@lib/common/types";
 import type { ModuleReplicator } from "./ModuleReplicator";
 import type { ReactiveSource } from "octagonal-wheels/dataobject/reactive_v2";

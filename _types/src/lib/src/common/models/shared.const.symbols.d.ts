@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 export declare const CANCELLED: unique symbol;
 export declare const AUTO_MERGED: unique symbol;
 export declare const NOT_CONFLICTED: unique symbol;

@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 import { App, Component, PluginSettingTab } from "@/deps.ts";
 import { type ObsidianLiveSyncSettings } from "@lib/common/types.ts";
 import ObsidianLiveSyncPlugin from "@/main.ts";

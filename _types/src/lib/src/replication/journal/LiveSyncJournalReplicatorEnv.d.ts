@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 import type { LiveSyncReplicatorEnv } from "@lib/replication/LiveSyncAbstractReplicator";
 export interface LiveSyncJournalReplicatorEnv extends LiveSyncReplicatorEnv { // eslint-disable-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-empty-interface -- Empty interface
 }

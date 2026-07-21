@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/Charahiro/livesync-commonlib-ja  Commit hash: 06cffbc
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: ef1bdf0
 import { ButtonComponent } from "@/deps.ts";
 import { App, FuzzySuggestModal, Modal, Plugin, Component } from "@/deps.ts";
 import { type CompatIntervalHandle } from "@lib/common/coreEnvFunctions.ts";
