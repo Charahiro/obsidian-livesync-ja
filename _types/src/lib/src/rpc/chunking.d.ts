@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: a58965f
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: bbf2539
 export declare function estimateBytes(text: string): number;
 export declare function splitIntoChunks(payload: string, maxBytes: number): string[];
 export declare class IncomingChunkBuffer {

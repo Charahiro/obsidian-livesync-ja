@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: a58965f
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: bbf2539
 import type { CouchDBCredentials, JWTCredentials, JWTHeader, JWTParams, JWTPayload, PreparedJWT, RemoteDBSettings } from "@lib/common/types";
 import { Computed } from "octagonal-wheels/dataobject/Computed";
 /**

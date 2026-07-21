@@ -1,5 +1,5 @@
 // @ts-nocheck
-// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: a58965f
+// REPO: https://github.com/vrtmrz/livesync-commonlib  Commit hash: bbf2539
 import type { SyncParameters } from "@lib/common/types.ts";
 import { LiveSyncError } from "@lib/common/LSError.ts";
 /**
