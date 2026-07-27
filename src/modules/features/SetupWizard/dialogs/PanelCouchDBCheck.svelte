@@ -71,7 +71,7 @@
         </div>
         {#if isFixableError(issue)}
             <div class="operations">
-                <button onclick={() => fixIssue(issue)} class="mod-cta" disabled={processing}>Fix</button>
+                <button onclick={() => fixIssue(issue)} class="mod-cta" disabled={processing}>修正</button>
             </div>
         {/if}
     </div>
@@ -83,15 +83,15 @@
     <details open={!isAllSuccess}>
         <summary>
             {#if detectedIssues.length === 0}
-                No checks have been performed yet.
+                まだ確認を実行していません。
             {:else if isAllSuccess}
-                All checks passed successfully!
+                すべての確認に合格しました。
             {:else}
-                {errorIssueCount} issue(s) detected!
+                問題を{errorIssueCount}件検出しました。
             {/if}
         </summary>
         {#if detectedIssues.length > 0}
-            <h3>Issue detection log:</h3>
+            <h3>問題検出ログ：</h3>
             {#each detectedIssues as issue}
                 {@render result(issue)}
             {/each}

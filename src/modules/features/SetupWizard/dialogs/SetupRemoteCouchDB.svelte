@@ -159,8 +159,8 @@
     });
 </script>
 
-<DialogHeader title="CouchDB Configuration" />
-<Guidance>Please enter the CouchDB server information below.</Guidance>
+<DialogHeader title="CouchDB設定" />
+<Guidance>CouchDBサーバーの情報を入力してください。</Guidance>
 <InputRow label="URL">
     <input
         type="text"
@@ -174,13 +174,13 @@
         pattern="^https?://.+"
     />
 </InputRow>
-<InfoNote warning visible={isURIInsecure}>We can use only Secure (HTTPS) connections on Obsidian Mobile.</InfoNote>
+<InfoNote warning visible={isURIInsecure}>Obsidian Mobileでは安全な接続（HTTPS）のみ使用できます。</InfoNote>
 <InfoNote warning visible={isURLInvalid}>{translateMessage("Enter a complete HTTP or HTTPS URL.")}</InfoNote>
-<InputRow label="Username">
+<InputRow label="ユーザー名">
     <input
         type="text"
         name="couchdb-username"
-        placeholder="Enter your username"
+        placeholder="ユーザー名を入力"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -188,20 +188,20 @@
         bind:value={syncSetting.couchDB_USER}
     />
 </InputRow>
-<InputRow label="Password">
+<InputRow label="パスワード">
     <Password
         name="couchdb-password"
-        placeholder="Enter your password"
+        placeholder="パスワードを入力"
         bind:value={syncSetting.couchDB_PASSWORD}
         required
     />
 </InputRow>
 
-<InputRow label="Database Name">
+<InputRow label="データベース名">
     <input
         type="text"
         name="couchdb-database"
-        placeholder="Enter your database name"
+        placeholder="データベース名を入力"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -212,17 +212,15 @@
 <InfoNote>
     {translateMessage("CouchDB validates the database name when you connect. The name must not be empty.")}
 </InfoNote>
-<InputRow label="Use Internal API">
+<InputRow label="内部APIを使用">
     <input type="checkbox" name="couchdb-use-internal-api" bind:checked={syncSetting.useRequestAPI} />
 </InputRow>
 <InfoNote>
-    If you cannot avoid CORS issues, you might want to try this option. It uses Obsidian's internal API to communicate
-    with the CouchDB server. Not compliant with web standards, but works. Note that this might break in future Obsidian
-    versions.
+    CORSの問題を回避できない場合に試すための設定です。Obsidianの内部APIを使ってCouchDBサーバーと通信します。Web標準には準拠しておらず、将来のObsidianで動作しなくなる可能性があります。
 </InfoNote>
 
-<ExtraItems title="Advanced Settings">
-    <InputRow label="Custom Headers">
+<ExtraItems title="詳細設定">
+    <InputRow label="カスタムヘッダー">
         <textarea
             name="couchdb-custom-headers"
             placeholder="e.g., x-example-header: value\n another-header: value2"
@@ -233,11 +231,11 @@
         ></textarea>
     </InputRow>
 </ExtraItems>
-<ExtraItems title="Experimental Settings">
-    <InputRow label="Use JWT Authentication">
+<ExtraItems title="実験的な設定">
+    <InputRow label="JWT認証を使用">
         <input type="checkbox" name="couchdb-use-jwt" bind:checked={syncSetting.useJWT} />
     </InputRow>
-    <InputRow label="JWT Algorithm">
+    <InputRow label="JWTアルゴリズム">
         <select bind:value={syncSetting.jwtAlgorithm} disabled={!isUseJWT}>
             <option value="HS256">HS256</option>
             <option value="HS512">HS512</option>
@@ -245,7 +243,7 @@
             <option value="ES512">ES512</option>
         </select>
     </InputRow>
-    <InputRow label="JWT Expiration Duration (minutes)">
+    <InputRow label="JWT有効期間（分）">
         <input
             type="text"
             name="couchdb-jwt-exp-duration"
@@ -254,43 +252,40 @@
             disabled={!isUseJWT}
         />
     </InputRow>
-    <InputRow label="JWT Key">
+    <InputRow label="JWTキー">
         <textarea
             name="couchdb-jwt-key"
             rows="5"
             autocapitalize="off"
             spellcheck="false"
-            placeholder="Enter your JWT secret or private key"
+            placeholder="JWTシークレットまたは秘密鍵を入力"
             bind:value={syncSetting.jwtKey}
             disabled={!isUseJWT}
         ></textarea>
     </InputRow>
     <InfoNote>
-        For HS256/HS512 algorithms, provide the shared secret key. For ES256/ES512 algorithms, provide the pkcs8
-        PEM-formatted private key.
+        HS256/HS512では共有シークレットを、ES256/ES512ではPKCS#8 PEM形式の秘密鍵を指定してください。
     </InfoNote>
-    <InputRow label="JWT Key ID (kid)">
+    <InputRow label="JWTキーID（kid）">
         <input
             type="text"
             name="couchdb-jwt-kid"
-            placeholder="Enter your JWT Key ID"
+            placeholder="JWTキーIDを入力"
             bind:value={syncSetting.jwtKid}
             disabled={!isUseJWT}
         />
     </InputRow>
-    <InputRow label="JWT Subject (sub)">
+    <InputRow label="JWTサブジェクト（sub）">
         <input
             type="text"
             name="couchdb-jwt-sub"
-            placeholder="Enter your JWT Subject (CouchDB Username)"
+            placeholder="JWTサブジェクト（CouchDBユーザー名）を入力"
             bind:value={syncSetting.jwtSub}
             disabled={!isUseJWT}
         />
     </InputRow>
     <InfoNote warning>
-        JWT (JSON Web Token) authentication allows you to securely authenticate with the CouchDB server using tokens.
-        Ensure that your CouchDB server is configured to accept JWTs and that the provided key and settings match the
-        server's configuration. Incidentally, I have not verified it very thoroughly.
+        JWT（JSON Web Token）認証を使うと、トークンでCouchDBサーバーへ安全に認証できます。CouchDBサーバーがJWTを受け付けるよう設定され、入力した鍵と設定がサーバー構成に一致していることを確認してください。この機能は十分に検証されていません。
     </InfoNote>
 </ExtraItems>
 
@@ -307,7 +302,7 @@
 </InfoNote>
 
 {#if processing}
-    Checking connection... Please wait.
+    接続を確認しています。しばらくお待ちください。
 {:else}
     <UserDecisions>
         <Decision title={primaryActionTitle} important disabled={!canProceed} commit={() => checkAndCommit()} />
@@ -323,6 +318,6 @@
                 commit={() => commit()}
             />
         {/if}
-        <Decision title="Cancel" commit={() => cancel()} />
+        <Decision title="キャンセル" commit={() => cancel()} />
     </UserDecisions>
 {/if}

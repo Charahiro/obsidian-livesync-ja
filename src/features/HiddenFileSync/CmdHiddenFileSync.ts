@@ -1,4 +1,5 @@
 import { type ListedFiles } from "@/deps.ts";
+import { $msg } from "@/common/translation";
 import {
     type LoadedEntry,
     type FilePathWithPrefix,
@@ -116,7 +117,7 @@ export class HiddenFileSync extends LiveSyncCommands {
         });
         this.services.API.addCommand({
             id: "livesync-scaninternal-storage",
-            name: "Scan hidden file changes on the storage",
+            name: $msg("Scan hidden file changes on the storage"),
             checkCallback: (checking) => {
                 if (!this.isManualCommandAvailable()) return false;
                 if (!checking) {
@@ -127,7 +128,7 @@ export class HiddenFileSync extends LiveSyncCommands {
         });
         this.services.API.addCommand({
             id: "livesync-scaninternal-database",
-            name: "Scan hidden file changes on the local database",
+            name: $msg("Scan hidden file changes on the local database"),
             checkCallback: (checking) => {
                 if (!this.isManualCommandAvailable()) return false;
                 if (!checking) {
@@ -138,7 +139,7 @@ export class HiddenFileSync extends LiveSyncCommands {
         });
         this.services.API.addCommand({
             id: "livesync-internal-scan-offline-changes",
-            name: "Scan and apply all offline hidden-file changes",
+            name: $msg("Scan and apply all offline hidden-file changes"),
             checkCallback: (checking) => {
                 if (!this.isManualCommandAvailable()) return false;
                 if (!checking) {

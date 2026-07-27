@@ -22,13 +22,13 @@
     let userType = $state<SetupRemoteResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_COUCHDB) {
-            return "Continue to CouchDB setup";
+            return translateMessage("Ui.SetupWizard.SetupRemote.ProceedCouchDb");
         } else if (userType === TYPE_BUCKET) {
             return translateMessage("Ui.SetupWizard.SetupRemote.ProceedBucket");
         } else if (userType === TYPE_P2P) {
             return translateMessage("Ui.SetupWizard.SetupRemote.ProceedP2P");
         } else {
-            return "Please select an option to proceed";
+            return translateMessage("Ui.SetupWizard.Common.ProceedSelectOption");
         }
     });
     const canProceed = $derived.by(() => {
@@ -41,8 +41,7 @@
     <Question>{translateMessage("Ui.SetupWizard.SetupRemote.Guidance")}</Question>
     <Options>
         <Option selectedValue={TYPE_COUCHDB} title="CouchDB" bind:value={userType}>
-            This is the most suitable synchronisation method for the design. All functions are available. You must have
-            set up a CouchDB instance.
+            {translateMessage("Ui.SetupWizard.SetupRemote.CouchDbOptionDesc")}
         </Option>
         <Option
             selectedValue={TYPE_BUCKET}
@@ -64,5 +63,5 @@
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title={translateMessage("Ui.SetupWizard.Common.Back")} commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

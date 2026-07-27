@@ -1,4 +1,5 @@
 import type { ReviewHarnessScenarioResult } from "./reviewHarnessTypes";
+import { $msg } from "@/common/translation";
 
 export const REVIEW_HARNESS_FIXTURE_ROOT = "__self-hosted-livesync-review-harness__";
 export const REVIEW_HARNESS_SOURCE_FILE = `${REVIEW_HARNESS_FIXTURE_ROOT}/round-trip.md`;
@@ -32,7 +33,7 @@ export async function runReviewHarnessVaultRoundTrip<TFile>(
     if (!(await runtime.confirmFixtureAccess())) {
         return {
             status: "cancelled",
-            detail: "Vault fixture access was not approved.",
+            detail: $msg("ReviewHarness.VaultFixture.NotApproved"),
             observations: [],
         };
     }
@@ -40,7 +41,7 @@ export async function runReviewHarnessVaultRoundTrip<TFile>(
     if (runtime.fixtureRootExists()) {
         return {
             status: "failed",
-            detail: "The owned fixture root already exists. It was left untouched.",
+            detail: $msg("ReviewHarness.VaultFixture.AlreadyExists"),
             observations: [],
         };
     }
@@ -51,22 +52,22 @@ export async function runReviewHarnessVaultRoundTrip<TFile>(
         fixtureOwned = true;
         const file = await runtime.createFile(REVIEW_HARNESS_SOURCE_FILE, CREATED_CONTENT);
         const created = await runtime.readFile(file);
-        if (created !== CREATED_CONTENT) throw new Error("Created fixture content did not round-trip.");
+        if (created !== CREATED_CONTENT) throw new Error($msg("ReviewHarness.VaultFixture.Error.CreatedContent"));
 
         await runtime.modifyFile(file, MODIFIED_CONTENT);
         const modified = await runtime.readFile(file);
-        if (modified !== MODIFIED_CONTENT) throw new Error("Modified fixture content did not round-trip.");
+        if (modified !== MODIFIED_CONTENT) throw new Error($msg("ReviewHarness.VaultFixture.Error.ModifiedContent"));
 
         await runtime.renameFile(file, REVIEW_HARNESS_RENAMED_FILE);
         if (runtime.filePath(file) !== REVIEW_HARNESS_RENAMED_FILE) {
-            throw new Error("The fixture rename did not update its path.");
+            throw new Error($msg("ReviewHarness.VaultFixture.Error.RenamePath"));
         }
         const renamed = await runtime.readFile(file);
-        if (renamed !== MODIFIED_CONTENT) throw new Error("Renamed fixture content was not preserved.");
+        if (renamed !== MODIFIED_CONTENT) throw new Error($msg("ReviewHarness.VaultFixture.Error.RenamedContent"));
 
         return {
             status: "passed",
-            detail: "The owned fixture tree completed its round trip and was removed.",
+            detail: $msg("ReviewHarness.VaultFixture.Completed"),
             observations: ["create", "read", "modify", "rename", "read-after-rename", "cleanup"],
         };
     } finally {

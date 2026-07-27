@@ -1,4 +1,5 @@
 import { eventHub, EVENT_REQUEST_OPEN_P2P } from "@/common/events";
+import { $msg } from "@/common/translation";
 import { reactiveSource } from "octagonal-wheels/dataobject/reactive_v2";
 import type { NecessaryServices } from "@vrtmrz/livesync-commonlib/compat/interfaces/ServiceModule";
 import { type UseP2PReplicatorResult } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/UseP2PReplicatorResult";
@@ -150,7 +151,7 @@ export function useP2PReplicatorUI(
 
         api.addCommand({
             id: "open-p2p-server-status",
-            name: "P2P Sync : Open P2P Status",
+            name: $msg("P2P Sync : Open P2P Status"),
             checkCallback: (checking) => {
                 if (!hasP2PConfiguration(host.services.setting.currentSettings())) return false;
                 if (!checking) {
@@ -161,7 +162,7 @@ export function useP2PReplicatorUI(
         });
         host.services.API.addCommand({
             id: "replicate-now-by-p2p-default-peer",
-            name: "Replicate P2P to default peer",
+            name: $msg("Replicate P2P to default peer"),
             checkCallback: (isChecking: boolean) => {
                 const settings = host.services.setting.currentSettings();
                 const isAvailable =
@@ -177,7 +178,7 @@ export function useP2PReplicatorUI(
         });
         host.services.API.addCommand({
             id: "replicate-now-by-p2p",
-            name: "Replicate now by P2P",
+            name: $msg("Replicate now by P2P"),
             checkCallback: (isChecking: boolean) => {
                 const settings = host.services.setting.currentSettings();
                 const isAvailable =
@@ -194,7 +195,7 @@ export function useP2PReplicatorUI(
 
         host.services.API.addCommand({
             id: "p2p-sync-targets",
-            name: "P2P: Sync with targets",
+            name: $msg("P2P: Sync with targets"),
             checkCallback: (isChecking: boolean) => {
                 const isAvailable =
                     hasP2PConfiguration(host.services.setting.currentSettings()) &&

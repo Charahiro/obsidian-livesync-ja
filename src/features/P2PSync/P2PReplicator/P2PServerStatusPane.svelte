@@ -170,11 +170,11 @@
     });
 
     function getAcceptanceStatus(peer: P2PServerInfo["knownAdvertisements"][number]) {
-        if (peer.isTemporaryAccepted === true) return "ACCEPTED (in session)";
-        if (peer.isAccepted === true) return "ACCEPTED";
-        if (peer.isTemporaryAccepted === false) return "DENIED (in session)";
-        if (peer.isAccepted === false) return "DENIED";
-        return "NEW";
+        if (peer.isTemporaryAccepted === true) return "承認済み（このセッションのみ）";
+        if (peer.isAccepted === true) return "承認済み";
+        if (peer.isTemporaryAccepted === false) return "拒否済み（このセッションのみ）";
+        if (peer.isAccepted === false) return "拒否済み";
+        return "新規";
     }
 
     function getAcceptanceStatusClass(peer: P2PServerInfo["knownAdvertisements"][number]) {
@@ -222,7 +222,7 @@
         const p2pSettings = p2pConf as Partial<P2PSyncSetting>;
         const id = createRemoteConfigurationId();
         const roomSuffix = extractP2PRoomSuffix(p2pSettings.P2P_roomID ?? "");
-        const name = roomSuffix ? `P2P Remote (${roomSuffix})` : "P2P Remote";
+        const name = roomSuffix ? `P2Pリモート（${roomSuffix}）` : "P2Pリモート";
         await core.services.setting.updateSettings((settings) => {
             const merged = {
                 ...settings,
@@ -409,7 +409,7 @@
 
 <div class="p2p-container">
     <div class="pane-header">
-        <h2>P2P Status</h2>
+        <h2>P2P状態</h2>
         <div class="pane-header-actions">
             <div class="remote-picker-wrap">
                 <select
@@ -417,11 +417,11 @@
                     value={selectedP2PRemoteConfigurationId}
                     onchange={onP2PRemoteSelected}
                     disabled={selectingP2PRemote}
-                    aria-label="Select active P2P remote"
-                    title="Select active P2P remote"
+                    aria-label="使用するP2Pリモートを選択"
+                    title="使用するP2Pリモートを選択"
                 >
                     {#if p2pRemoteOptions.length === 0}
-                        <option value="">Select P2P remote...</option>
+                        <option value="">P2Pリモートを選択...</option>
                     {/if}
                     {#each p2pRemoteOptions as option}
                         <option value={option.id}>
@@ -432,8 +432,8 @@
                 <button
                     class="icon-button"
                     onclick={() => createAndSelectP2PRemote()}
-                    title="Create P2P remote"
-                    aria-label="Create P2P remote"
+                    title="P2Pリモートを作成"
+                    aria-label="P2Pリモートを作成"
                 >
                     +
                 </button>
@@ -441,8 +441,8 @@
             <button
                 class="icon-button"
                 onclick={openConnectionSettings}
-                title="Open P2P Setup..."
-                aria-label="Open P2P Setup..."
+                title="P2P設定を開く..."
+                aria-label="P2P設定を開く..."
             >
                 ⚙
             </button>
@@ -450,15 +450,15 @@
     </div>
 
     {#if !canEditP2PSettings()}
-        <p class="warning-line">Please select an active P2P remote configuration to change P2P sync targets.</p>
+        <p class="warning-line">P2P同期の対象を変更するには、使用するP2Pリモート設定を選択してください。</p>
     {/if}
 
     <P2PServerStatusCard {getLiveSyncReplicator} {core} />
 
     <div class="peers-section">
         <div class="peers-header">
-            <h3>Detected Peers</h3>
-            <button class="refresh" onclick={requestServerStatus}>Refresh</button>
+            <h3>検出されたピア</h3>
+            <button class="refresh" onclick={requestServerStatus}>更新</button>
         </div>
 
         {#if serverInfo && serverInfo.knownAdvertisements.length > 0}
@@ -470,7 +470,7 @@
                                 {peer.name} :
                                 <span class="peer-id-mini" title={peer.peerId}>({peer.peerId.slice(0, 8)})</span>
                                 {#if isCommunicating(peer.peerId)}
-                                    <span class="comm-icon" title="Communicating" aria-label="Communicating">📡</span>
+                                    <span class="comm-icon" title="通信中" aria-label="通信中">📡</span>
                                 {/if}
                             </div>
                             <div class="peer-meta">
@@ -486,8 +486,8 @@
                                     <button
                                         class="emoji-button"
                                         disabled={replicatingPeerId !== null}
-                                        title={replicatingPeerId === peer.peerId ? "Replicating..." : "Replicate now"}
-                                        aria-label={replicatingPeerId === peer.peerId ? "Replicating" : "Replicate now"}
+                                        title={replicatingPeerId === peer.peerId ? "同期中..." : "今すぐ同期"}
+                                        aria-label={replicatingPeerId === peer.peerId ? "同期中" : "今すぐ同期"}
                                         onclick={() => startReplication(peer)}
                                     >
                                         {replicatingPeerId === peer.peerId ? "⏳" : "🔄"}
@@ -497,7 +497,7 @@
                                         disabled={decidingPeerId !== null}
                                         onclick={() => revokeDecision(peer)}
                                     >
-                                        Revoke
+                                        取り消し
                                     </button>
                                     <button
                                         class="emoji-button"
@@ -534,11 +534,11 @@
                                     </span>
                                 </div>
                                 <div class="decision-row">
-                                    <span class="decision-label">PERMANENT</span>
+                                    <span class="decision-label">常に適用</span>
                                     <button
                                         class="emoji-button"
-                                        title="Allow permanently"
-                                        aria-label="Allow permanently"
+                                        title="常に承認"
+                                        aria-label="常に承認"
                                         disabled={decidingPeerId !== null}
                                         onclick={() => makeDecision(peer, true, false)}
                                     >
@@ -546,8 +546,8 @@
                                     </button>
                                     <button
                                         class="emoji-button mod-warning"
-                                        title="Deny permanently"
-                                        aria-label="Deny permanently"
+                                        title="常に拒否"
+                                        aria-label="常に拒否"
                                         disabled={decidingPeerId !== null}
                                         onclick={() => makeDecision(peer, false, false)}
                                     >
@@ -555,11 +555,11 @@
                                     </button>
                                 </div>
                                 <div class="decision-row">
-                                    <span class="decision-label">SESSION</span>
+                                    <span class="decision-label">このセッション</span>
                                     <button
                                         class="emoji-button"
-                                        title="Allow in session"
-                                        aria-label="Allow in session"
+                                        title="このセッションのみ承認"
+                                        aria-label="このセッションのみ承認"
                                         disabled={decidingPeerId !== null}
                                         onclick={() => makeDecision(peer, true, true)}
                                     >
@@ -567,8 +567,8 @@
                                     </button>
                                     <button
                                         class="emoji-button mod-warning"
-                                        title="Deny in session"
-                                        aria-label="Deny in session"
+                                        title="このセッションのみ拒否"
+                                        aria-label="このセッションのみ拒否"
                                         disabled={decidingPeerId !== null}
                                         onclick={() => makeDecision(peer, false, true)}
                                     >
@@ -582,7 +582,7 @@
                                     disabled={decidingPeerId !== null}
                                     onclick={() => revokeDecision(peer)}
                                 >
-                                    Revoke
+                                    取り消し
                                 </button>
                             {/if}
                         </div>
@@ -590,9 +590,9 @@
                 {/each}
             </div>
         {:else if serverInfo}
-            <p class="no-peers">No devices available. Waiting for other devices to connect...</p>
+            <p class="no-peers">利用可能な端末がありません。ほかの端末からの接続を待っています...</p>
         {:else}
-            <p class="no-peers">Fetching status...</p>
+            <p class="no-peers">状態を取得しています...</p>
         {/if}
     </div>
 </div>

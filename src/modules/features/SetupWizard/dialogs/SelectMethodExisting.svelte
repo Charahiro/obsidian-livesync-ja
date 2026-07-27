@@ -23,13 +23,13 @@
     let userType = $state<SelectMethodExistingResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_USE_SETUP_URI) {
-            return "Proceed with Setup URI";
+            return translateMessage("Ui.SetupWizard.SelectExisting.ProceedSetupUri");
         } else if (userType === TYPE_CONFIGURE_MANUALLY) {
             return translateMessage("Ui.SetupWizard.SelectExisting.ProceedManual");
         } else if (userType === TYPE_SCAN_QR_CODE) {
-            return "Scan the QR code displayed on an active device using this device's camera.";
+            return translateMessage("Ui.SetupWizard.SelectExisting.ProceedQr");
         } else {
-            return "Please select an option to proceed";
+            return translateMessage("Ui.SetupWizard.Common.ProceedSelectOption");
         }
     });
     const canProceed = $derived.by(() => {
@@ -37,16 +37,24 @@
     });
 </script>
 
-<DialogHeader title="Device Setup Method" />
-<Guidance>You are adding this device to an existing synchronisation setup.</Guidance>
+<DialogHeader title={translateMessage("Ui.SetupWizard.SelectExisting.Title")} />
+<Guidance>{translateMessage("Ui.SetupWizard.SelectExisting.Guidance")}</Guidance>
 <Instruction>
-    <Question>Please select a method to import the settings from another device.</Question>
+    <Question>{translateMessage("Ui.SetupWizard.SelectExisting.Question")}</Question>
     <Options>
-        <Option selectedValue={TYPE_USE_SETUP_URI} title="Use a Setup URI (Recommended)" bind:value={userType}>
-            Paste the Setup URI generated from one of your active devices.
+        <Option
+            selectedValue={TYPE_USE_SETUP_URI}
+            title={translateMessage("Ui.SetupWizard.SelectExisting.SetupUriOption")}
+            bind:value={userType}
+        >
+            {translateMessage("Ui.SetupWizard.SelectExisting.SetupUriOptionDesc")}
         </Option>
-        <Option selectedValue={TYPE_SCAN_QR_CODE} title="Scan a QR Code (Recommended for mobile)" bind:value={userType}>
-            Scan the QR code displayed on an active device using this device's camera.
+        <Option
+            selectedValue={TYPE_SCAN_QR_CODE}
+            title={translateMessage("Ui.SetupWizard.SelectExisting.QrOption")}
+            bind:value={userType}
+        >
+            {translateMessage("Ui.SetupWizard.SelectExisting.QrOptionDesc")}
         </Option>
         <Option
             selectedValue={TYPE_CONFIGURE_MANUALLY}
@@ -59,5 +67,5 @@
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="Cancel" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title={translateMessage("Ui.SetupWizard.Common.Cancel")} commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

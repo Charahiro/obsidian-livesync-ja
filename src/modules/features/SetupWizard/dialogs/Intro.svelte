@@ -18,11 +18,11 @@
     let userType = $state<IntroResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_NEW_USER) {
-            return "Yes, I want to set up a new synchronisation";
+            return translateMessage("Ui.SetupWizard.Intro.ProceedNew");
         } else if (userType === TYPE_EXISTING_USER) {
-            return "Yes, I want to add this device to my existing synchronisation";
+            return translateMessage("Ui.SetupWizard.Intro.ProceedExisting");
         } else {
-            return "Please select an option to proceed";
+            return translateMessage("Ui.SetupWizard.Common.ProceedSelectOption");
         }
     });
     const canProceed = $derived.by(() => {
@@ -30,31 +30,33 @@
     });
 </script>
 
-<DialogHeader title="Welcome to Self-hosted LiveSync" />
-<Guidance>We will now guide you through a few questions to simplify the synchronisation setup.</Guidance>
+<DialogHeader title={translateMessage("Ui.SetupWizard.Intro.Title")} />
+<Guidance>{translateMessage("Ui.SetupWizard.Intro.Guidance")}</Guidance>
 <InfoNote>
     {translateMessage(
         "This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI."
     )}
 </InfoNote>
 <Instruction>
-    <Question>First, please select the option that best describes your current situation.</Question>
+    <Question>{translateMessage("Ui.SetupWizard.Intro.Question")}</Question>
     <Options>
-        <Option selectedValue={TYPE_NEW_USER} title="I am setting this up for the first time" bind:value={userType}>
-            (Select this if you are configuring this device as the first synchronisation device.) This option is
-            suitable if you are new to LiveSync and want to set it up from scratch.
+        <Option
+            selectedValue={TYPE_NEW_USER}
+            title={translateMessage("Ui.SetupWizard.Intro.NewOption")}
+            bind:value={userType}
+        >
+            {translateMessage("Ui.SetupWizard.Intro.NewOptionDesc")}
         </Option>
         <Option
             selectedValue={TYPE_EXISTING_USER}
-            title="I am adding a device to an existing synchronisation setup"
+            title={translateMessage("Ui.SetupWizard.Intro.ExistingOption")}
             bind:value={userType}
         >
-            (Select this if you are already using synchronisation on another computer or smartphone.) This option is
-            suitable if you are new to LiveSync and want to set it up from scratch.
+            {translateMessage("Ui.SetupWizard.Intro.ExistingOptionDesc")}
         </Option>
     </Options>
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title={translateMessage("Ui.SetupWizard.Common.Back")} commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

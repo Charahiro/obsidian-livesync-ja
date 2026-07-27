@@ -6,11 +6,12 @@ import { EVENT_REQUEST_COPY_SETUP_URI } from "@vrtmrz/livesync-commonlib/compat/
 import { fireAndForget } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import type { NecessaryServices } from "@vrtmrz/livesync-commonlib/compat/interfaces/ServiceModule";
 import type { SetupFeatureHost } from "./types";
+import { $msg } from "@/common/translation";
 
 export async function askEncryptingPassphrase(host: SetupFeatureHost): Promise<string | false> {
     return await host.services.UI.confirm.askString(
-        "Encrypt your settings",
-        "The passphrase to encrypt the setup URI",
+        $msg("Encrypt your settings"),
+        $msg("The passphrase to encrypt the setup URI"),
         "",
         true
     );
@@ -25,7 +26,7 @@ export async function copySetupURI(host: SetupFeatureHost, log: LogFunction, str
         [...((stripExtra ? ["pluginSyncExtendedSetting"] : []) as (keyof ObsidianLiveSyncSettings)[])],
         true
     );
-    if (await host.services.UI.promptCopyToClipboard("Setup URI", encryptedURI)) {
+    if (await host.services.UI.promptCopyToClipboard($msg("Setup URI"), encryptedURI)) {
         log("Setup URI copied to clipboard", LOG_LEVEL_NOTICE);
     }
 }
@@ -39,7 +40,7 @@ export async function copySetupURIFull(host: SetupFeatureHost, log: LogFunction)
         [],
         false
     );
-    if (await host.services.UI.promptCopyToClipboard("Setup URI", encryptedURI)) {
+    if (await host.services.UI.promptCopyToClipboard($msg("Setup URI"), encryptedURI)) {
         log("Setup URI copied to clipboard", LOG_LEVEL_NOTICE);
     }
 }
@@ -49,7 +50,7 @@ export function useSetupURIFeature(host: NecessaryServices<"API" | "UI" | "setti
     host.services.appLifecycle.onLoaded.addHandler(() => {
         host.services.API.addCommand({
             id: "livesync-copysetupuri",
-            name: "Copy settings as a new setup URI",
+            name: $msg("Copy settings as a new setup URI"),
             checkCallback: (checking) => {
                 if (!host.services.setting.currentSettings().isConfigured) return false;
                 if (!checking) fireAndForget(copySetupURI(host, log));
@@ -59,7 +60,7 @@ export function useSetupURIFeature(host: NecessaryServices<"API" | "UI" | "setti
 
         host.services.API.addCommand({
             id: "livesync-copysetupuri-short",
-            name: "Copy settings as a new setup URI (With customization sync)",
+            name: $msg("Copy settings as a new setup URI (With customization sync)"),
             checkCallback: (checking) => {
                 const settings = host.services.setting.currentSettings();
                 if (!settings.isConfigured || !settings.usePluginSync) return false;
@@ -70,7 +71,7 @@ export function useSetupURIFeature(host: NecessaryServices<"API" | "UI" | "setti
 
         host.services.API.addCommand({
             id: "livesync-copysetupurifull",
-            name: "Copy settings as a new setup URI (Full)",
+            name: $msg("Copy settings as a new setup URI (Full)"),
             checkCallback: (checking) => {
                 const settings = host.services.setting.currentSettings();
                 if (!settings.isConfigured || !settings.useAdvancedMode) return false;

@@ -29,7 +29,7 @@ export class ModuleBasicMenu extends AbstractModule {
         });
         this.addCommand({
             id: "livesync-toggle",
-            name: "Toggle LiveSync",
+            name: $msg("Toggle LiveSync"),
             callback: async () => {
                 if (this.settings.liveSync) {
                     this.settings.liveSync = false;
@@ -44,7 +44,7 @@ export class ModuleBasicMenu extends AbstractModule {
         });
         this.addCommand({
             id: "livesync-suspendall",
-            name: "Toggle All Sync.",
+            name: $msg("Toggle All Sync."),
             callback: async () => {
                 if (this.services.appLifecycle.isSuspended()) {
                     this.services.appLifecycle.setSuspended(false);
@@ -60,7 +60,7 @@ export class ModuleBasicMenu extends AbstractModule {
 
         this.addCommand({
             id: "livesync-scan-files",
-            name: "Scan storage and database again",
+            name: $msg("Scan storage and database again"),
             checkCallback: (checking) => {
                 if (!this.settings.useAdvancedMode) return false;
                 if (!checking) {
@@ -81,7 +81,7 @@ export class ModuleBasicMenu extends AbstractModule {
         // TODO, Replicator is possibly one of features. It should be moved to features.
         this.addCommand({
             id: "livesync-abortsync",
-            name: "Abort synchronization immediately",
+            name: $msg("Abort synchronization immediately"),
             checkCallback: (checking) => {
                 if (!this.settings.useAdvancedMode) return false;
                 if (!checking) {

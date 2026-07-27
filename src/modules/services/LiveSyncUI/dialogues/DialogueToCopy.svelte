@@ -36,9 +36,9 @@
     }
 </script>
 
-<DialogHeader title="Your {title || 'Data'} is ready to be copied" />
+<DialogHeader title={`${title || "データ"}をコピーできます`} />
 <Instruction>
-    <InputRow label={title || "Data to Copy"}>
+    <InputRow label={title || "コピーするデータ"}>
         <textarea readonly rows="4">{dataToCopy}</textarea>
         <button onclick={() => copyToClipboard()}
             >{#if !copied}📋{:else}✔️{/if}
@@ -46,7 +46,7 @@
     </InputRow>
 </Instruction>
 <InfoNote visible={copied}>
-    Your {title || "data"} has been copied to the clipboard.
+    {title || "データ"}をクリップボードへコピーしました。
 </InfoNote>
 <UserDecisions>
     <Decision title="OK" important={true} {commit} />

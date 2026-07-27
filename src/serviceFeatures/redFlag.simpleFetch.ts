@@ -11,18 +11,19 @@ import {
     type FullScanOptions,
 } from "@vrtmrz/livesync-commonlib/compat/serviceFeatures/offlineScanner";
 import { adjustSettingToRemoteIfNeeded, processVaultInitialisation } from "./redFlag";
+import { $msg } from "@/common/translation";
 
-export const SIMPLE_FETCH_STAGE1_REMOTE_WINS = "Overwrite all with remote files";
-export const SIMPLE_FETCH_STAGE1_NEWER_WINS = "Compare time and take newer";
-export const SIMPLE_FETCH_STAGE1_DETAILED = "Use the detailed flow";
-export const SIMPLE_FETCH_STAGE1_CANCEL = "Cancel";
+export const SIMPLE_FETCH_STAGE1_REMOTE_WINS = $msg("Overwrite all with remote files");
+export const SIMPLE_FETCH_STAGE1_NEWER_WINS = $msg("Compare time and take newer");
+export const SIMPLE_FETCH_STAGE1_DETAILED = $msg("Use the detailed flow");
+export const SIMPLE_FETCH_STAGE1_CANCEL = $msg("Cancel");
 
-export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE = "Keep local files even if not on remote";
-export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL = "Delete local files if not on remote";
+export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE = $msg("Keep local files even if not on remote");
+export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL = $msg("Delete local files if not on remote");
 
-export const SIMPLE_FETCH_STAGE2_NEWER_CLEANUP = "Delete local files if deleted on remote";
-export const SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL = "Keep local files even if deleted on remote";
-export const STAGE2_ABORT = "Cancel all and reboot";
+export const SIMPLE_FETCH_STAGE2_NEWER_CLEANUP = $msg("Delete local files if deleted on remote");
+export const SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL = $msg("Keep local files even if deleted on remote");
+export const STAGE2_ABORT = $msg("Cancel all and reboot");
 
 const SIMPLE_FETCH_MODE_KEY = "simple-fetch-mode";
 
@@ -31,7 +32,7 @@ function buildSimpleFetchResult(stage1: string, stage2?: string) {
         return { mode: "detailed", options: {} };
     }
     if (stage1 === SIMPLE_FETCH_STAGE1_REMOTE_WINS && stage2) {
-        if (![SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL, SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE].includes(stage2)) {
+        if (![SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL, SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE].some((v) => v === stage2)) {
             return undefined;
         }
         return {
@@ -44,7 +45,7 @@ function buildSimpleFetchResult(stage1: string, stage2?: string) {
         };
     }
     if (stage1 === SIMPLE_FETCH_STAGE1_NEWER_WINS && stage2) {
-        if (![SIMPLE_FETCH_STAGE2_NEWER_CLEANUP, SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL].includes(stage2)) {
+        if (![SIMPLE_FETCH_STAGE2_NEWER_CLEANUP, SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL].some((v) => v === stage2)) {
             return undefined;
         }
         return {
@@ -91,20 +92,13 @@ export async function askSimpleFetchMode(
     const remembered = getRememberedSimpleFetchMode(host);
     if (remembered) return remembered;
 
-    const msg = `We are about to retrieve the remote data.
-
-Firstly, how shall we handle the data retrieved from this remote source?
-
-- **${SIMPLE_FETCH_STAGE1_NEWER_WINS}**: Compares the modified time of files and takes the newer one.
-  If you have been using Self-hosted LiveSync and have made changes on multiple devices, this option may be suitable for you as it tries to merge changes based on modified time.
-- **${SIMPLE_FETCH_STAGE1_REMOTE_WINS}**: Remote data is the source of truth.
-  If you are new to using Self-hosted LiveSync. This option may be easiest to understand and get started with.
-  It will overwrite all your local files with the remote data, so please make sure you have a backup if there is any important data in your vault.
-- **${SIMPLE_FETCH_STAGE1_DETAILED}**: Opens the detailed setup wizard.
-  If you want to have more control over the synchronisation process, or want to review the changes before applying, you can choose this option to use the detailed flow.
-    `;
+    const msg = $msg("RedFlag.SimpleFetch.Stage1", {
+        newerWins: SIMPLE_FETCH_STAGE1_NEWER_WINS,
+        remoteWins: SIMPLE_FETCH_STAGE1_REMOTE_WINS,
+        detailed: SIMPLE_FETCH_STAGE1_DETAILED,
+    });
     const stage1 = await host.services.UI.confirm.confirmWithMessage(
-        "Data retrieval scheduled",
+        $msg("Data retrieval scheduled"),
         msg,
         [
             SIMPLE_FETCH_STAGE1_NEWER_WINS,
@@ -123,15 +117,13 @@ Firstly, how shall we handle the data retrieved from this remote source?
     }
 
     if (stage1 === SIMPLE_FETCH_STAGE1_REMOTE_WINS) {
-        const msg = `Since you have chosen to overwrite all local files with remote data, **how would you like to handle local files that are not present in the remote database?**
-
-- **${SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL}**: Local-only files and remote-deleted files will be removed.
-  This option will make your local vault exactly the same as the remote database, but please make sure you have a backup if there is any important data in your vault.
-- **${SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE}**: All existing local files will be preserved.
-  This option will keep all your local files, but it may cause duplicates if there are files that exist on local but not on remote. You can clean up these duplicates manually after the synchronisation.`;
+        const msg = $msg("RedFlag.SimpleFetch.RemoteWins", {
+            deleteAll: SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL,
+            keepAll: SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE,
+        });
 
         const stage2 = await host.services.UI.confirm.confirmWithMessage(
-            "How to handle extra existing local files?",
+            $msg("How to handle extra existing local files?"),
             msg,
             [SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL, SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE, STAGE2_ABORT],
             SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE,
@@ -146,16 +138,13 @@ Firstly, how shall we handle the data retrieved from this remote source?
     }
 
     if (stage1 === SIMPLE_FETCH_STAGE1_NEWER_WINS) {
-        const msg = `How should files that were deleted on other devices be handled?
-
-- **${SIMPLE_FETCH_STAGE2_NEWER_CLEANUP}**: Delete local files if they were deleted on remote.
-  This is useful if you want to keep your vault clean and consistent across devices, but please make sure you have a backup if there is already any important data in your vault.
-- **${SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL}**: Recreate remote files even if they were deleted on remote.
-  This option will keep all your local files, but it may cause duplicates if there are files that exist on local but not on remote. You can clean up these duplicates manually after the synchronisation.
-  `;
+        const msg = $msg("RedFlag.SimpleFetch.NewerWins", {
+            deleteRemote: SIMPLE_FETCH_STAGE2_NEWER_CLEANUP,
+            keepLocal: SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL,
+        });
 
         const stage2 = await host.services.UI.confirm.confirmWithMessage(
-            "Conflict & Deletion Options",
+            $msg("Conflict & Deletion Options"),
             msg,
             [SIMPLE_FETCH_STAGE2_NEWER_CLEANUP, SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL, STAGE2_ABORT],
             SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL,
@@ -172,8 +161,8 @@ Firstly, how shall we handle the data retrieved from this remote source?
     return "cancelled";
 }
 
-const RERUN_PROCESS = "Reboot to re-run the process";
-const RELEASE_FLAG_PROCESS = "Finalise the process and resume normal operation";
+const RERUN_PROCESS = $msg("Reboot to re-run the process");
+const RELEASE_FLAG_PROCESS = $msg("Finalise the process and resume normal operation");
 export async function askAndPerformFastSetupOnScheduledFetchAll(
     host: NecessaryServices<
         | "vault"
@@ -229,9 +218,9 @@ export async function askAndPerformFastSetupOnScheduledFetchAll(
         );
         if (!syncResult) {
             const canRelease = await host.services.UI.confirm.askSelectStringDialogue(
-                "Some files failed to synchronise. What would you like to do?",
+                $msg("Some files failed to synchronise. What would you like to do?"),
                 [RERUN_PROCESS, RELEASE_FLAG_PROCESS],
-                { defaultAction: RELEASE_FLAG_PROCESS, title: "Synchronisation Issues Detected" }
+                { defaultAction: RELEASE_FLAG_PROCESS, title: $msg("Synchronisation Issues Detected") }
             );
             if (canRelease === RERUN_PROCESS) {
                 log("User chose to reboot and re-run the process.", LOG_LEVEL_NOTICE);

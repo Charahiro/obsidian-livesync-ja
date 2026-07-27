@@ -5,18 +5,28 @@ import {
     type ReviewHarnessScenarioStatus,
 } from "./reviewHarnessContract";
 import type { ReviewHarnessController } from "./reviewHarnessController";
+import { $msg } from "@/common/translation";
 
 export const VIEW_TYPE_REVIEW_HARNESS = "self-hosted-livesync-review-harness";
 
 const STATUS_LABELS: Record<ReviewHarnessScenarioStatus, string> = {
-    idle: "Not run",
-    queued: "Queued",
-    running: "Running",
-    "waiting-for-user": "Waiting for review",
-    passed: "Passed",
-    failed: "Failed",
-    cancelled: "Cancelled",
+    idle: $msg("ReviewHarness.Status.NotRun"),
+    queued: $msg("ReviewHarness.Status.Queued"),
+    running: $msg("ReviewHarness.Status.Running"),
+    "waiting-for-user": $msg("ReviewHarness.Status.WaitingForReview"),
+    passed: $msg("ReviewHarness.Status.Passed"),
+    failed: $msg("ReviewHarness.Status.Failed"),
+    cancelled: $msg("ReviewHarness.Status.Cancelled"),
 };
+const MODE_LABELS = {
+    automatic: $msg("ReviewHarness.Mode.Automatic"),
+    guided: $msg("ReviewHarness.Mode.Guided"),
+} as const;
+const ACCESS_LABELS = {
+    "dedicated-vault-fixtures": $msg("ReviewHarness.Access.DedicatedVaultFixtures"),
+    "device-local-state": $msg("ReviewHarness.Access.DeviceLocalState"),
+    "read-only": $msg("ReviewHarness.Access.ReadOnly"),
+} as const;
 
 export class ReviewHarnessView extends ItemView {
     override icon = "test-tube-2";
@@ -35,7 +45,7 @@ export class ReviewHarnessView extends ItemView {
     }
 
     getDisplayText(): string {
-        return "Self-hosted LiveSync review harness";
+        return $msg("ReviewHarness.Title");
     }
 
     override async onOpen(): Promise<void> {
@@ -71,13 +81,21 @@ export class ReviewHarnessView extends ItemView {
         const result = snapshot.results[id];
         const setting = new Setting(this.contentEl)
             .setName(scenario.title)
-            .setDesc(`${scenario.description} Mode: ${scenario.mode}. Access: ${scenario.access}.`)
+            .setDesc(
+                $msg("ReviewHarness.ScenarioSummary", {
+                    description: scenario.description,
+                    mode: MODE_LABELS[scenario.mode],
+                    access: ACCESS_LABELS[scenario.access],
+                })
+            )
             .setClass("sls-review-harness__scenario");
         setting.settingEl.dataset.testid = `review-harness-scenario-${id}`;
 
         this.addActionButton(
             setting,
-            id === "compatibility-review" ? "Start review" : "Run",
+            id === "compatibility-review"
+                ? $msg("ReviewHarness.Action.StartReview")
+                : $msg("ReviewHarness.Action.Run"),
             `review-harness-run-${id}`,
             () => this.controller.runScenario(id)
         );
@@ -95,12 +113,12 @@ export class ReviewHarnessView extends ItemView {
             const actions = new Setting(this.contentEl).setClass("sls-review-harness__actions");
             this.addActionButton(
                 actions,
-                "Open compatibility review",
+                $msg("ReviewHarness.Action.OpenCompatibilityReview"),
                 "review-harness-open-compatibility-review",
                 () => this.controller.openCompatibilityReview(),
                 true
             );
-            this.addActionButton(actions, "Restart and return", "review-harness-restart", () =>
+            this.addActionButton(actions, $msg("ReviewHarness.Action.RestartAndReturn"), "review-harness-restart", () =>
                 this.controller.prepareCompatibilityReviewRestart()
             );
         }
@@ -110,49 +128,55 @@ export class ReviewHarnessView extends ItemView {
         this.contentEl.empty();
         this.contentEl.addClass("sls-review-harness");
         this.contentEl.dataset.testid = "review-harness";
-        this.contentEl.createEl("h2", { text: "Self-hosted LiveSync review harness" });
+        this.contentEl.createEl("h2", { text: $msg("ReviewHarness.Title") });
         this.contentEl.createEl("p", {
-            text: "Use a dedicated test Vault. Read-only scenarios are labelled. The Vault round-trip scenario writes only after confirmation, owns one fixed fixture tree, and removes it in a finally block. The Harness never accepts arbitrary commands, paths, code, or remote credentials.",
+            text: $msg("ReviewHarness.Warning"),
             cls: "sls-review-harness__warning",
         });
         this.contentEl.createEl("p", {
-            text: "Automatic scenarios inspect local contracts. The guided compatibility review uses the same device-local pause and explicit action as normal start-up. Real P2P transport remains covered by the Compose E2E suite.",
+            text: $msg("ReviewHarness.Description"),
         });
 
         const snapshot = this.controller.snapshot();
         if (snapshot.continuationError) {
             this.contentEl.createEl("p", {
-                text: `Continuation error: ${snapshot.continuationError}`,
+                text: $msg("ReviewHarness.ContinuationError", { error: snapshot.continuationError }),
                 cls: "sls-review-harness__error",
             });
         } else if (snapshot.resumedRequestId) {
             const resumed = this.contentEl.createEl("p", {
-                text: "The one-shot restart continuation was consumed. Complete the guided review below.",
+                text: $msg("ReviewHarness.ContinuationConsumed"),
                 cls: "sls-review-harness__resumed",
             });
             resumed.dataset.testid = "review-harness-resumed";
         }
 
         const suiteActions = new Setting(this.contentEl)
-            .setName("Review suite")
-            .setDesc(snapshot.running ? `Running ${snapshot.current ?? "scenario"}.` : "Choose the scope to run.")
+            .setName($msg("ReviewHarness.Suite.Title"))
+            .setDesc(
+                snapshot.running
+                    ? $msg("ReviewHarness.Suite.Running", {
+                          scenario: snapshot.current ?? $msg("ReviewHarness.Suite.Scenario"),
+                      })
+                    : $msg("ReviewHarness.Suite.ChooseScope")
+            )
             .setClass("sls-review-harness__actions");
-        this.addActionButton(suiteActions, "Automatic", "review-harness-run-automatic", () =>
+        this.addActionButton(suiteActions, $msg("ReviewHarness.Action.Automatic"), "review-harness-run-automatic", () =>
             this.controller.runAutomaticScenarios()
         );
-        this.addActionButton(suiteActions, "Full review", "review-harness-run-full", () =>
+        this.addActionButton(suiteActions, $msg("ReviewHarness.Action.FullReview"), "review-harness-run-full", () =>
             this.controller.runAllScenarios()
         );
-        this.addActionButton(suiteActions, "Copy Markdown report", "review-harness-copy-report", async () => {
+        this.addActionButton(suiteActions, $msg("ReviewHarness.Action.CopyMarkdownReport"), "review-harness-copy-report", async () => {
             await this.controller.copyReport();
-            new Notice("Review Harness Markdown report copied.");
+            new Notice($msg("ReviewHarness.ReportCopied"));
         });
 
-        this.contentEl.createEl("h3", { text: "Scenarios" });
+        this.contentEl.createEl("h3", { text: $msg("ReviewHarness.Scenarios") });
         for (const { id } of REVIEW_HARNESS_SCENARIOS) this.renderScenario(id);
 
         this.contentEl.createEl("p", {
-            text: "Reports are copied locally and are not transmitted. They omit Vault identifiers, paths, contents, remote configuration, and secrets.",
+            text: $msg("ReviewHarness.Privacy"),
             cls: "sls-review-harness__privacy",
         });
     }

@@ -1,6 +1,7 @@
 import { TFile, Modal, App, DIFF_DELETE, DIFF_EQUAL, DIFF_INSERT, diff_match_patch } from "@/deps.ts";
 import { getPathFromTFile, isValidPath } from "@/common/utils.ts";
 import { decodeBinary, readString } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/convert";
+import { $msg } from "@/common/translation";
 import ObsidianLiveSyncPlugin from "@/main.ts";
 import {
     type DocumentID,
@@ -303,7 +304,7 @@ export class DocumentHistoryModal extends Modal {
                         if (this.currentDeleted) {
                             this.appendDeletedNotice();
                         }
-                        this.contentView.appendText("Binary file");
+                        this.contentView.appendText($msg("Binary file"));
                     }
                 } else {
                     if (this.currentDeleted) {

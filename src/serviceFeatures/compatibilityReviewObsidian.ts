@@ -1,4 +1,5 @@
 import { Notice } from "@/deps.ts";
+import { $msg } from "@/common/translation";
 import type { Confirm } from "@vrtmrz/livesync-commonlib/compat/interfaces/Confirm";
 import type { CompatibilityPause } from "@/common/databaseCompatibility.ts";
 import type {
@@ -57,9 +58,9 @@ export class ObsidianCompatibilityReviewUi implements CompatibilityReviewUi {
         let reminderAnchor: HTMLAnchorElement | undefined;
         const fragment = createFragment((documentFragment) => {
             documentFragment.createSpan({
-                text: "Self-hosted LiveSync has paused remote synchronisation for compatibility review. ",
+                text: $msg("Self-hosted LiveSync has paused remote synchronisation for compatibility review. "),
             });
-            documentFragment.createEl("a", { text: "Review why" }, (anchor) => {
+            documentFragment.createEl("a", { text: $msg("Review why") }, (anchor) => {
                 reminderAnchor = anchor;
                 anchor.addEventListener("click", (event) => {
                     event.preventDefault();

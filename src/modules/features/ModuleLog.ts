@@ -427,14 +427,14 @@ export class ModuleLog extends AbstractObsidianModule {
 
         this.addCommand({
             id: "view-log",
-            name: "Show log",
+            name: $msg("Show log"),
             callback: () => {
                 void this.services.API.showWindow(VIEW_TYPE_LOG);
             },
         });
         this.addCommand({
             id: "dump-debug-info",
-            name: "Generate full report for opening the issue with debug info",
+            name: $msg("Generate full report for opening the issue with debug info"),
             callback: async () => {
                 const recentLog = [...logForDump];
                 const report = await generateReport(this.services.setting.currentSettings(), this.core);

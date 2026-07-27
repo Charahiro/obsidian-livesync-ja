@@ -178,9 +178,9 @@
     });
 </script>
 
-<DialogHeader title="P2P Configuration" />
-<Guidance>Please enter the Peer-to-Peer Synchronisation information below.</Guidance>
-<InputRow label="Enabled">
+<DialogHeader title="P2P設定" />
+<Guidance>ピアツーピア同期に必要な情報を入力してください。</Guidance>
+<InputRow label="有効">
     <input type="checkbox" name="p2p-enabled" bind:checked={syncSetting.P2P_Enabled} />
 </InputRow>
 <InputRow label={translateMessage("Signalling relay URLs")}>
@@ -208,7 +208,7 @@
         rel="noopener noreferrer">{translateMessage("Learn more about P2P connections")}</a
     >.
 </InfoNote>
-<InputRow label="Group ID">
+<InputRow label="グループID">
     <input
         type="text"
         name="p2p-room-id"
@@ -218,17 +218,16 @@
         spellcheck="false"
         bind:value={syncSetting.P2P_roomID}
     />
-    <button class="button" onclick={() => generateDefaultGroupId()}>Generate Random ID</button>
+    <button class="button" onclick={() => generateDefaultGroupId()}>ランダムIDを生成</button>
 </InputRow>
-<InputRow label="Passphrase">
-    <Password name="p2p-password" placeholder="Enter your passphrase" bind:value={syncSetting.P2P_passphrase} />
+<InputRow label="パスフレーズ">
+    <Password name="p2p-password" placeholder="パスフレーズを入力" bind:value={syncSetting.P2P_passphrase} />
 </InputRow>
 <InfoNote>
-    The Group ID and passphrase are used to identify your group of devices. Make sure to use the same Group ID and
-    passphrase on all devices you want to synchronise.<br />
-    Note that the Group ID is not limited to the generated format; you can use any string as the Group ID.
+    グループIDとパスフレーズで端末のグループを識別します。同期するすべての端末で同じグループIDとパスフレーズを使用してください。<br />
+    グループIDは自動生成される形式に限らず、任意の文字列を使用できます。
 </InfoNote>
-<InputRow label="Device Peer ID">
+<InputRow label="端末のピアID">
     <input
         type="text"
         name="p2p-device-peer-id"
@@ -239,12 +238,11 @@
         bind:value={syncSetting.P2P_DevicePeerName}
     />
 </InputRow>
-<InputRow label="Auto Start P2P Connection">
+<InputRow label="P2P接続を自動開始">
     <input type="checkbox" name="p2p-auto-start" bind:checked={syncSetting.P2P_AutoStart} />
 </InputRow>
 <InfoNote>
-    If "Auto Start P2P Connection" is enabled, the P2P connection will be started automatically when the plug-in
-    launches.
+    有効にすると、プラグインの起動時にP2P接続を自動的に開始します。
 </InfoNote>
 <InputRow label={translateMessage("Announce changes automatically after connecting")}>
     <input type="checkbox" name="p2p-auto-broadcast" bind:checked={syncSetting.P2P_AutoBroadcast} />
@@ -254,10 +252,9 @@
         "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection."
     )}
 </InfoNote>
-<ExtraItems title="Advanced Settings">
+<ExtraItems title="詳細設定">
     <InfoNote>
-        TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P
-        connections. In most cases, you can leave these fields blank.
+        TURNサーバーの設定は、厳格なNATやファイアウォールによって端末間の直接接続が妨げられる場合にのみ必要です。通常は空欄のままで構いません。
     </InfoNote>
     <InfoNote warning>
         {translateMessage(
@@ -269,7 +266,7 @@
             rel="noopener noreferrer">{translateMessage("Learn more about signalling and TURN")}</a
         >.
     </InfoNote>
-    <InputRow label="TURN Server URLs (comma-separated)">
+    <InputRow label="TURNサーバーURL（コンマ区切り）">
         <textarea
             name="p2p-turn-servers"
             placeholder="turn:turn.example.com:3478,turn:turn.example.com:443"
@@ -279,21 +276,21 @@
             rows="5"
         ></textarea>
     </InputRow>
-    <InputRow label="TURN Username">
+    <InputRow label="TURNユーザー名">
         <input
             type="text"
             name="p2p-turn-username"
-            placeholder="Enter TURN username"
+            placeholder="TURNユーザー名を入力"
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
             bind:value={syncSetting.P2P_turnUsername}
         />
     </InputRow>
-    <InputRow label="TURN Credential">
+    <InputRow label="TURN認証情報">
         <Password
             name="p2p-turn-credential"
-            placeholder="Enter TURN credential"
+            placeholder="TURN認証情報を入力"
             bind:value={syncSetting.P2P_turnCredential}
         />
     </InputRow>
@@ -302,11 +299,11 @@
     {error}
 </InfoNote>
 {#if processing}
-    Checking connection... Please wait.
+    接続を確認しています。しばらくお待ちください。
 {:else}
     <UserDecisions>
-        <Decision title="Test Settings and Continue" important disabled={!canProceed} commit={() => checkAndCommit()} />
-        <Decision title="Continue anyway" commit={() => commit()} />
-        <Decision title="Cancel" commit={() => cancel()} />
+        <Decision title="設定をテストして続行" important disabled={!canProceed} commit={() => checkAndCommit()} />
+        <Decision title="そのまま続行" commit={() => commit()} />
+        <Decision title="キャンセル" commit={() => cancel()} />
     </UserDecisions>
 {/if}

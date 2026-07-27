@@ -11,6 +11,7 @@ import {
     type ReviewHarnessScenarioId,
     type ReviewHarnessScenarioResult,
 } from "./reviewHarnessContract";
+import { $msg } from "@/common/translation";
 
 export interface ReviewHarnessRuntime {
     now(): Date;
@@ -52,7 +53,7 @@ export interface ReviewHarnessSnapshot {
 
 const idleResult = (): ReviewHarnessScenarioResult => ({
     status: "idle",
-    detail: "Not run",
+    detail: $msg("ReviewHarness.Status.NotRun"),
     observations: [],
 });
 
@@ -67,14 +68,14 @@ function inspectP2PComposition(input: ReturnType<ReviewHarnessRuntime["getP2PCom
     if (input.first !== input.second) {
         return {
             status: "failed",
-            detail: "Two consecutive reads resolved different P2P replicators without a lifecycle transition.",
+            detail: $msg("ReviewHarness.Result.DifferentP2PReplicators"),
             observations: [],
         };
     }
     if (typeof input.first !== "object" || input.first === null) {
         return {
             status: "failed",
-            detail: "The P2P composition did not expose a current replicator.",
+            detail: $msg("ReviewHarness.Result.NoCurrentP2PReplicator"),
             observations: [],
         };
     }
@@ -83,13 +84,13 @@ function inspectP2PComposition(input: ReturnType<ReviewHarnessRuntime["getP2PCom
     if (services !== input.expectedServices) {
         return {
             status: "failed",
-            detail: "The current P2P replicator is not bound to the active Obsidian services.",
+            detail: $msg("ReviewHarness.Result.P2PServicesMismatch"),
             observations: [],
         };
     }
     return {
         status: "passed",
-        detail: "The live P2P result resolves the current replicator and active Obsidian services.",
+        detail: $msg("ReviewHarness.Result.P2PCompositionValid"),
         observations: [],
     };
 }
@@ -142,10 +143,10 @@ export class ReviewHarnessController {
         this.runtime.deleteContinuation();
         const parsed = parsePendingReviewRun(serialised);
         if (!parsed.pendingRun) {
-            this.continuationError = parsed.error ?? "The Review Harness continuation was invalid.";
+            this.continuationError = parsed.error ?? $msg("ReviewHarness.Error.InvalidContinuation");
             this.results["compatibility-review"] = {
                 status: "failed",
-                detail: "The stored continuation was invalid and was removed.",
+                detail: $msg("ReviewHarness.Result.InvalidContinuationRemoved"),
                 observations: [],
             };
             this.record("continuation-rejected");
@@ -155,7 +156,7 @@ export class ReviewHarnessController {
         this.resumedRequestId = parsed.pendingRun.requestId;
         this.results["compatibility-review"] = {
             status: "waiting-for-user",
-            detail: "Obsidian returned after the requested restart. Open the compatibility review to continue.",
+            detail: $msg("ReviewHarness.Result.RestartReturned"),
             observations: [`requestedAt=${parsed.pendingRun.requestedAt}`],
         };
         this.record("continuation-consumed", parsed.pendingRun.requestId);
@@ -184,7 +185,7 @@ export class ReviewHarnessController {
         if (this.running) return;
         this.running = true;
         this.current = id;
-        this.results[id] = { status: "running", detail: "Running", observations: [] };
+        this.results[id] = { status: "running", detail: $msg("ReviewHarness.Status.Running"), observations: [] };
         this.record("scenario-started", id);
         this.notify();
         try {
@@ -206,7 +207,7 @@ export class ReviewHarnessController {
                         ? inspection
                         : {
                               status: "waiting-for-user",
-                              detail: "Open the device-local compatibility review and complete its explicit action.",
+                              detail: $msg("ReviewHarness.Result.OpenCompatibilityReview"),
                               observations: inspection.observations,
                           };
             }
@@ -235,7 +236,7 @@ export class ReviewHarnessController {
                     ? {
                           status: "passed",
                           detail: pauseWasPending
-                              ? "The device-local compatibility pause was reviewed and cleared."
+                              ? $msg("ReviewHarness.Result.CompatibilityPauseCleared")
                               : inspection.detail,
                           observations: inspection.observations,
                       }
@@ -243,7 +244,7 @@ export class ReviewHarnessController {
                       ? inspection
                       : {
                             status: "waiting-for-user",
-                            detail: "The device-local compatibility review remains pending.",
+                            detail: $msg("ReviewHarness.Result.CompatibilityReviewRemainsPending"),
                             observations: inspection.observations,
                         };
             this.record(
@@ -263,7 +264,7 @@ export class ReviewHarnessController {
         this.runtime.reportError(error);
         this.results[id] = {
             status: "failed",
-            detail: "The scenario failed unexpectedly. Review the in-app logs for diagnostic details.",
+            detail: $msg("ReviewHarness.Result.UnexpectedFailure"),
             observations: [],
         };
         this.record("scenario-failed", id);
@@ -281,7 +282,7 @@ export class ReviewHarnessController {
         this.runtime.writeContinuation(JSON.stringify(pending));
         this.results["compatibility-review"] = {
             status: "waiting-for-user",
-            detail: "Restart requested. The one-shot continuation will be removed before the review resumes.",
+            detail: $msg("ReviewHarness.Result.RestartRequested"),
             observations: [],
         };
         this.record("restart-requested", pending.requestId);

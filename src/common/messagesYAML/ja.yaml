@@ -515,7 +515,7 @@ obsidianLiveSyncSettingTab:
   linkOpenInBrowser: ブラウザで開く
   linkPageTop: ページトップ
   linkTipsAndTroubleshooting: ヒントとトラブルシューティング
-  linkTroubleshooting: /docs/troubleshooting.md
+  linkTroubleshooting: /docs/troubleshooting_ja.md
   logCannotUseCloudant: この機能はIBM Cloudantでは使用できません。
   logCheckingConfigDone: 設定の確認が完了しました
   logCheckingConfigFailed: 設定の確認に失敗しました
@@ -793,6 +793,32 @@ RedFlag:
       Fetch: はい、リモート設定を取得して適用
     Message: リモートに保存された設定を取得して、このデバイスに適用しますか？
     Title: リモート設定の取得
+  SimpleFetch:
+    NewerWins: |-
+      ほかのデバイスで削除されたファイルをどのように扱いますか？
+
+      - **${deleteRemote}**：リモートで削除されたローカルファイルも削除します。
+        デバイス間でVaultを整理された一貫した状態に保てます。重要なデータがある場合は必ずバックアップしてください。
+      - **${keepLocal}**：リモートで削除されていても、ローカルファイルから再作成します。
+        ローカルファイルは保持されますが、重複が発生する可能性があります。同期後に手動で整理できます。
+    RemoteWins: |-
+      ローカルファイルをリモートデータで上書きする場合、**リモートデータベースに存在しないローカルファイルをどのように扱いますか？**
+
+      - **${deleteAll}**：ローカルにのみ存在するファイルと、リモートで削除されたファイルを削除します。
+        ローカルVaultはリモートデータベースと同じ状態になります。重要なデータがある場合は必ずバックアップしてください。
+      - **${keepAll}**：既存のローカルファイルをすべて保持します。
+        ローカルファイルは保持されますが、リモートに存在しないファイルがあると重複が発生する可能性があります。同期後に手動で整理できます。
+    Stage1: |-
+      リモートデータを取得します。
+
+      最初に、リモートから取得するデータの扱い方を選択してください。
+
+      - **${newerWins}**：ファイルの更新日時を比較し、新しい方を採用します。
+        複数のデバイスで変更していた場合に、更新日時に基づいて変更を統合できます。
+      - **${remoteWins}**：リモートデータを正として扱います。
+        ローカルファイルはリモートデータで上書きされるため、重要なデータがある場合は必ずバックアップしてください。
+      - **${detailed}**：詳細なセットアップウィザードを開きます。
+        同期処理を細かく制御したい場合や、適用前に変更を確認したい場合に選択してください。
 Reducing the frequency with which on-disk changes are reflected into the DB: ローカルでの変更がデータベースに反映される頻度を下げる(所定の回数まとめて同期する、逐一反映しない)
 Region: リージョン
 Remediation: 是正
@@ -805,6 +831,18 @@ Remote Type: 同期方式
 Rename: 名前を変更
 Replicator:
   Dialogue:
+    Cleaned:
+      Action:
+        Cleanup: クリーンアップ
+        Dismiss: 閉じる
+        Fetch: 再取得
+      Message: |-
+        リモートデータベースはクリーンアップされています。
+        同期するには、このデバイス側もクリーンアップする必要があります。このデバイスから ${count} 個のチャンクが削除されます。
+        ただし、削除対象のチャンクが多い場合は、リモートデータベースを再取得する方が速い場合があります。
+        リモートデータベースを再取得すると、このデバイスの履歴は失われます。
+        クリーンアップを選択しても、Obsidian を終了してから再度同期すると、この選択肢は再び表示されます。
+      Title: クリーンアップ済み
     Locked:
       Action:
         Dismiss: 再確認のためキャンセル
@@ -1526,6 +1564,13 @@ Ui:
       ProceedNext: 次の手順へ進む
       Question: 状況を選択してください。
       Title: "ほぼ完了: 判断が必要です"
+    OutroExistingUser:
+      GuidancePrimary: サーバーへの接続設定が完了しました。次の手順として、最新の同期データをサーバーからこのデバイスへダウンロードします。
+      GuidanceWarning: 再起動後、このデバイスのデータベースはサーバーのデータを使って再構築されます。このVaultに未同期のファイルがある場合、サーバーのデータと競合する可能性があります。
+      Important: 注意してください
+      Proceed: 再起動してデータを取得
+      Question: 再起動してデータ取得の確認へ進むには、下のボタンを選択してください。
+      Title: "セットアップ完了: 同期データ取得の準備"
     OutroNewUser:
       GuidancePrimary: サーバーへの接続設定が完了しました。次の手順として、このデバイスの現在のデータからサーバー上の同期データを構築します。
       GuidanceWarning: 再起動後、このデバイス上のデータがマスターコピーとしてサーバーへアップロードされます。サーバー上に意図しないデータがある場合、それらは完全に上書きされます。
@@ -1548,6 +1593,25 @@ Ui:
       Note: 初期化後、別のデバイスがこのVaultを取得できるように、このデバイスをオンラインにしておいてください。
       Proceed: 理解した上で、このデバイスを準備
       Title: 最終確認：このデバイスをP2P用に準備
+    RebuildEverything:
+      Advanced: 詳細設定
+      BackupDone: Vaultのバックアップを作成しました。
+      BackupQuestion: 続行する前にバックアップを作成しましたか？
+      BackupSkipped: リスクを理解し、バックアップなしで続行します。
+      BackupUnable: Vaultのバックアップを作成できません。
+      BackupUnableNote: 新しい同期先を作成し、そこでデータを再構築してください。その後、ほかの各デバイスでは新しいVaultを作成し、新しいリモートと1台ずつ同期してください。
+      BackupWarning: この操作は非常に強力です。Vaultフォルダーを安全な場所へコピーしておくことを強く推奨します。
+      ConfirmIrreversible: 実行後はこの操作を取り消せないことを理解しました。
+      ConfirmOtherChanges: ほかのスマートフォンやPCで行った変更が失われる可能性があることを理解しました。
+      ConfirmOtherChangesNote: 続行前にほかのデバイスをバックアップすると、それらの変更を保護できます。
+      ConfirmOtherDevices: ほかのデバイスは同期できなくなり、同期設定のリセットが必要になることを理解しました。
+      ConfirmOtherDevicesNote: リモートをリセットすると、ほかのデバイスへ通知されます。
+      ConfirmTitle: ⚠️ 以下を確認してください
+      Guidance: この手順では、まずサーバー上の既存の同期データをすべて削除します。その後、このデバイスの現在のVaultとローカルデータベースを唯一の正規マスターとして、サーバーのデータを完全に再構築します。
+      Note: サーバーのデータが完全に破損した、ほかのすべてのデバイスの変更が不要になった、またはデータベースがVaultに比べて異常に大きくなった場合など、例外的な状況でのみ実行してください。
+      PreventFetchingConfig: サーバーから設定を取得しない
+      Proceed: 理解した上で、サーバーを上書き
+      Title: "最終確認: このデバイスのファイルでサーバーのデータを上書き"
     SetupRemote:
       BucketOption: S3互換オブジェクトストレージ
       BucketOptionDesc: ジャーナルファイルを使用して同期します。Amazon S3、MinIO、Cloudflare R2などのS3互換オブジェクトストレージを事前に用意する必要があります。
@@ -1559,3 +1623,281 @@ Ui:
       ProceedCouchDb: CouchDB 設定へ進む
       ProceedP2P: P2Pの設定へ進む
       Title: 同期先を選択
+"Announce changes": "変更を通知"
+"Stop announcing changes": "変更の通知を停止"
+"Start announcing changes": "変更の通知を開始"
+"Synchronise when this device connects": "この端末の接続時に同期"
+"Follow whenever this device connects": "この端末の接続時に常に変更を追跡"
+"Include in the P2P synchronisation command": "P2P同期コマンドの対象に含める"
+"More actions for ${DEVICE}": "${DEVICE}のその他の操作"
+"Follow changes": "変更を追跡"
+"Stop following changes from this device": "この端末からの変更追跡を停止"
+"Follow changes from this device": "この端末からの変更を追跡"
+"Sync now": "今すぐ同期"
+"Copy database information for the active file": "現在のファイルのデータベース情報をコピー"
+"Apply pending changes now": "保留中の変更を今すぐ適用"
+"This file has ${COUNT} unresolved versions. They will be reviewed one pair at a time.": "このファイルには未解決のバージョンが${COUNT}件あります。2つずつ順番に確認します。"
+"This file has unresolved conflicts.": "このファイルには未解決の競合があります。"
+"Copy database information for a file": "ファイルのデータベース情報をコピー"
+"Copy revision, conflict, and local chunk availability information, including document and chunk identifiers but not file contents.": "ファイル内容を含めず、文書IDとチャンクIDを含むリビジョン、競合、およびローカルチャンクの有無をコピーします。"
+"Choose file": "ファイルを選択"
+"Vault and database revision": "Vaultとデータベースのリビジョン"
+"Vault file": "Vaultのファイル"
+"Database revision": "データベースのリビジョン"
+"Vault file is newer": "Vaultのファイルの方が新しい"
+"Database revision is newer": "データベースのリビジョンの方が新しい"
+"Within the two-second comparison window": "比較差が2秒以内"
+"Timestamp comparison unavailable": "タイムスタンプを比較できません"
+"Discard this branch": "このブランチを破棄"
+"Discard database branch ${REVISION} of ${FILE}? This creates a logical deletion for that exact live branch. The current Vault file will not be changed.": "${FILE}のデータベースブランチ${REVISION}を破棄しますか？対象の有効なブランチに論理削除を作成します。現在のVaultファイルは変更されません。"
+"Discard branch": "ブランチを破棄"
+"📁 Vault: ${SIZE} B · ${TIME}": "📁 Vault：${SIZE} B・${TIME}"
+"📁 Vault: missing": "📁 Vault：見つかりません"
+"🗄️ Local DB: missing": "🗄️ ローカルDB：見つかりません"
+"✅ Vault matches winner": "✅ Vaultは採用リビジョンと一致"
+"⚠️ Conflicts: ${COUNT}": "⚠️ 競合：${COUNT}件"
+"${ROLE}: ${REVISION}": "${ROLE}：${REVISION}"
+"Winner revision": "採用リビジョン"
+"Conflict revision": "競合リビジョン"
+"Unknown revision": "不明なリビジョン"
+"🗑️ Logical deletion": "🗑️ 論理削除"
+"📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B": "📦 DB：記録値 ${RECORDED} B・復号後 ${DECODED} B・サイズ差 ${DIFFERENCE} B"
+"🧩 Missing chunks: ${COUNT}": "🧩 不足チャンク：${COUNT}件"
+"📦 DB: recorded ${RECORDED} B · decoded unavailable": "📦 DB：記録値 ${RECORDED} B・復号できません"
+"📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B": "📁 Vault：${VAULT} B・DBとの差 ${DIFFERENCE} B"
+"🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})": "🕒 DB ${DATABASE_TIME}・Vault ${VAULT_TIME}・時間差 ${DIFFERENCE} ms（${RELATION}）"
+"✅ Matches Vault": "✅ Vaultと一致"
+"⚠️ Differs from Vault": "⚠️ Vaultと不一致"
+"Compare with Vault": "Vaultと比較"
+"Apply this revision to Vault": "このリビジョンをVaultへ適用"
+"Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.": "データベースのリビジョン${REVISION}を${FILE}へ適用しますか？現在のVaultファイルは上書きされます。"
+"Apply database revision to Vault": "データベースのリビジョンをVaultへ適用"
+"Mark this revision as the Vault version": "このリビジョンをVaultのバージョンとして記録"
+"Store Vault file as a child of this revision": "Vaultファイルをこのリビジョンの子として保存"
+"Apply logical deletion to Vault": "論理削除をVaultへ適用"
+"Apply logical deletion ${REVISION} to ${FILE}? The current Vault file will be removed.": "論理削除${REVISION}を${FILE}へ適用しますか？現在のVaultファイルは削除されます。"
+"Retry reading revision": "リビジョンの読み込みを再試行"
+"Discard unreadable revision": "読み込めないリビジョンを破棄"
+"Discard database revision ${REVISION} of ${FILE}? This creates a logical deletion for that exact live revision. Missing content cannot be recovered by this action.": "${FILE}のデータベースリビジョン${REVISION}を破棄しますか？対象の有効なリビジョンに論理削除を作成します。この操作では不足している内容を復元できません。"
+"More actions for revision ${REVISION}": "リビジョン${REVISION}のその他の操作"
+"Revision metadata is unavailable on this device": "このデバイスではリビジョンのメタデータを利用できません"
+"Shared ancestor ${REVISION} is not readable on this device. Automatic three-way merging may be unavailable, but the live revisions remain available for explicit review.": "共通の祖先${REVISION}をこのデバイスで読み込めません。自動3方向マージは利用できない可能性がありますが、有効なリビジョンは個別に確認できます。"
+"No shared ancestor is available for this conflict. The live revisions remain available for explicit review.": "この競合には利用可能な共通の祖先がありません。有効なリビジョンは個別に確認できます。"
+"Show revision history": "リビジョン履歴を表示"
+"Store Vault file as a new local database document": "Vaultファイルを新しいローカルデータベース文書として保存"
+"Copy database information": "データベース情報をコピー"
+"More actions for ${FILE}": "${FILE}のその他の操作"
+"Recreate chunks for current Vault files": "現在のVaultファイルのチャンクを再作成"
+"Recreate chunks from the files currently present in this Vault. This cannot reconstruct unavailable historical or conflict content.": "現在このVaultに存在するファイルからチャンクを再作成します。利用できない履歴や競合内容は復元できません。"
+"Recreate current chunks": "現在のチャンクを再作成"
+"Inspect conflicts and file/database differences": "競合とファイル／データベースの差異を調査"
+"Scan every Vault file and live local-database revision for conflicts, missing chunks, and differences. Each result provides actions for the exact revision.": "すべてのVaultファイルと有効なローカルデータベースリビジョンを対象に、競合、不足チャンク、および差異を調べます。各結果から対象リビジョンに対する操作を実行できます。"
+"Begin inspection": "調査を開始"
+"Resolve every conflict by modification time? This logically deletes every version except the newest one and cannot recover content which is already unavailable.": "更新日時に基づいてすべての競合を解決しますか？最新以外のすべてのバージョンを論理削除します。すでに利用できない内容は復元できません。"
+"Resolve all conflicts by the newest version": "最新バージョンですべての競合を解決"
+"Connection settings": "接続設定"
+"Saved connections": "保存済みの接続"
+"Change CouchDB server setting": "CouchDBサーバー設定を変更"
+"Change CouchDB server setting '${SETTING}' to '${VALUE}'?": "CouchDBサーバー設定「${SETTING}」を「${VALUE}」へ変更しますか？"
+"This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI.": "初回セットアップでは、暗号化、接続方法、および初期データを提供するデバイスを確認するため、いくつかの短い手順を行います。完了後は、追加のデバイスでSetup URIを再利用できます。"
+"Setup Complete: Preparing to Fetch from Another Device": "セットアップ完了：別のデバイスからの取得準備"
+"The P2P connection has been configured successfully. The initial synchronisation data must now be fetched from an online source device.": "P2P接続の設定が完了しました。次に、オンラインの取得元デバイスから初期同期データを取得します。"
+"After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data.": "再起動後、初回取得のオンライン取得元デバイスを選択してください。このデバイスのローカルLiveSyncデータベースは取得元から再構築されます。このVaultに未同期のファイルがある場合、取得したデータと競合する可能性があります。"
+"Restart this device, then choose the source device when P2P Rebuild opens.": "このデバイスを再起動し、P2P再構築が開いたら取得元デバイスを選択してください。"
+"Restart and Select Source Device": "再起動して取得元デバイスを選択"
+"Check server requirements": "サーバー要件を確認"
+"P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.": "P2Pでは中央のデータ保存サーバーは不要ですが、ピアを検出するためにシグナリングリレーを使用します。"
+"No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited.": "中央のデータ保存サーバーは不要ですが、ピア検出にはシグナリングリレーが必要です。両方のデバイスが同時にオンラインである必要があります。Vaultのデータはシグナリングリレーではなく、暗号化されたP2P接続を通じて転送されます。一部の機能は制限される場合があります。"
+"Create or connect to database and continue": "データベースを作成または接続して続行"
+"Connect to existing database and continue": "既存のデータベースへ接続して続行"
+"Test connection and save": "接続をテストして保存"
+"Enter a complete HTTP or HTTPS URL.": "完全なHTTPまたはHTTPS URLを入力してください。"
+"CouchDB validates the database name when you connect. The name must not be empty.": "CouchDBは接続時にデータベース名を検証します。名前を空にすることはできません。"
+"This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required.": "この任意の確認ではObsidianの内部リクエストAPIを使用し、上記の認証情報をCouchDBサーバーへ送信します。信頼できるサーバーでのみ使用してください。管理者権限が必要になる場合があります。"
+"Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected.": "接続テストに成功せず保存した場合もこのプロファイルは保持されますが、接続を修正するまで自動同期に失敗する可能性があります。"
+"Save without connecting": "接続せずに保存"
+"Signalling relay URLs": "シグナリングリレーURL"
+"Use the project's public signalling relay": "プロジェクトの公開シグナリングリレーを使用"
+"Peer discovery uses Nostr-compatible signalling relays.": "ピアの検出にはNostr互換のシグナリングリレーを使用します。"
+"The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay.": "プロジェクトの公開シグナリングリレーは、作者がベストエフォートで運用する便宜的なサービスです。Vaultの内容は保存しませんが、シグナリングのメタデータはリレーから見える場合があります。可用性やログ保持は保証されません。独自のNostr互換リレーへ置き換えることもできます。"
+"Learn more about P2P connections": "P2P接続の詳細"
+"Announce changes automatically after connecting": "接続後に変更を自動通知"
+"When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection.": "有効にすると、ローカルで変更が発生した後に接続済みのピアへ通知します。通知にはVaultのデータは含まれません。このデバイスを追跡するピアは、暗号化されたP2P接続を通じて変更を取得します。"
+"TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust.": "TURNは直接経路を確立できない場合にのみ、暗号化されたWebRTC接続を中継します。TURNプロバイダーは暗号化されたVaultの内容を読み取れませんが、接続メタデータと通信量は観測できます。信頼できるプロバイダーを使用してください。"
+"Learn more about signalling and TURN": "シグナリングとTURNの詳細"
+"P2P Status pane": "P2P状態ペイン"
+"Database information for ${FILE}": "${FILE}のデータベース情報"
+"Choose a file to inspect": "調査するファイルを選択"
+"Show customization sync dialog": "カスタマイズ同期ダイアログを表示"
+"Scan hidden file changes on the storage": "ストレージ上の隠しファイルの変更をスキャン"
+"Scan hidden file changes on the local database": "ローカルデータベース上の隠しファイルの変更をスキャン"
+"Scan and apply all offline hidden-file changes": "オフライン中の隠しファイル変更をすべてスキャンして適用"
+"Analyse Database Usage (advanced)": "データベース使用量を分析（上級者向け）"
+"Garbage Collection V3 (advanced, beta)": "ガベージコレクションV3（上級者向け、ベータ）"
+"Title": "タイトル"
+"Toggle LiveSync": "LiveSyncを切り替え"
+"Toggle All Sync.": "すべての同期を切り替え"
+"Scan storage and database again": "ストレージとデータベースを再スキャン"
+"Abort synchronization immediately": "同期を直ちに中止"
+"Binary file": "バイナリファイル"
+"Close": "閉じる"
+"Concat both": "両方を連結"
+"Resolve if conflicted.": "競合している場合に解決"
+"Show log": "ログを表示"
+"Generate full report for opening the issue with debug info": "問題報告用のデバッグ情報を含む完全なレポートを生成"
+"Write setting markdown manually": "設定Markdownを手動で書き出す"
+"Parse setting file": "設定ファイルを読み込む"
+"Select the database adapter to use. ": "使用するデータベースアダプターを選択します。"
+"Imported CouchDB": "インポートしたCouchDB"
+"Remote": "リモート"
+" (Active)": "（使用中）"
+"Remote configuration: ${NAME}": "リモート設定：${NAME}"
+"Delete remote configuration '${NAME}'?": "リモート設定「${NAME}」を削除しますか？"
+"Review why synchronisation is paused": "同期が一時停止している理由を確認"
+"Self-hosted LiveSync has paused remote synchronisation for compatibility review. ": "互換性を確認するため、Self-hosted LiveSyncはリモート同期を一時停止しました。"
+"Review why": "理由を確認"
+"Show settings as a QR code": "設定をQRコードで表示"
+"Use the copied setup URI (Formerly Open setup URI)": "コピーしたSetup URIを使用（旧「Setup URIを開く」）"
+"Copy settings as a new setup URI": "設定を新しいSetup URIとしてコピー"
+"Copy settings as a new setup URI (With customization sync)": "設定を新しいSetup URIとしてコピー（カスタマイズ同期を含む）"
+"Copy settings as a new setup URI (Full)": "設定を新しいSetup URIとしてコピー（すべて）"
+"P2P Sync : Open P2P Status": "P2P同期：P2P状態を開く"
+"Replicate P2P to default peer": "既定のピアへP2P同期"
+"Replicate now by P2P": "P2Pで今すぐ同期"
+"P2P: Sync with targets": "P2P：対象と同期"
+"Some configuration has arrived. Select ": "設定の変更を受信しました。"
+"HERE": "ここ"
+" to open the customization sync dialogue, or select elsewhere to dismiss this message.": "を選択してカスタマイズ同期ダイアログを開くか、ほかの場所を選択してこの通知を閉じてください。"
+"Database Analysis data (TSV):": "データベース分析データ（TSV）："
+"Prev": "前へ"
+"Next": "次へ"
+" (Deleted)": "（削除済み）"
+"Use ${NAME}": "${NAME}を使用"
+"Not now": "今はしない"
+"(Too large diff to display)": "（差分が大きすぎるため表示できません）"
+"Current adapter: ${ADAPTER}": "現在のアダプター：${ADAPTER}"
+"Overwrite all with remote files": "すべてをリモートファイルで上書き"
+"Compare time and take newer": "更新日時を比較して新しい方を採用"
+"Use the detailed flow": "詳細な手順を使用"
+"Keep local files even if not on remote": "リモートにないローカルファイルも保持"
+"Delete local files if not on remote": "リモートにないローカルファイルを削除"
+"Delete local files if deleted on remote": "リモートで削除されたローカルファイルを削除"
+"Keep local files even if deleted on remote": "リモートで削除されていてもローカルファイルを保持"
+"Cancel all and reboot": "すべて中止して再起動"
+"Data retrieval scheduled": "データ取得を開始"
+"How to handle extra existing local files?": "リモートにない既存のローカルファイルをどう扱いますか？"
+"Conflict & Deletion Options": "競合と削除の設定"
+"Reboot to re-run the process": "再起動して処理をやり直す"
+"Finalise the process and resume normal operation": "処理を完了して通常動作を再開"
+"Some files failed to synchronise. What would you like to do?": "一部のファイルを同期できませんでした。どうしますか？"
+"Synchronisation Issues Detected": "同期の問題を検出"
+"Use active remote": "使用中のリモートを使う"
+"Multiple remote configurations detected. Please select the remote configuration you want to fetch from.": "複数のリモート設定を検出しました。取得元として使用するリモート設定を選択してください。"
+"Select Remote Configuration": "リモート設定を選択"
+"Skip and proceed": "スキップして続行"
+"Retry (recommended)": "再試行（推奨）"
+"Could not fetch configuration from remote. If you are new to Self-hosted LiveSync, this might be expected. Otherwise, check your network or server settings.": "リモートから設定を取得できませんでした。Self-hosted LiveSyncを新しく設定している場合は正常なことがあります。それ以外の場合は、ネットワークまたはサーバー設定を確認してください。"
+"Fetch Remote Configuration Failed": "リモート設定の取得に失敗"
+"Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings.": "このデバイスの設定がサーバー設定と一部異なっていたため、互換性のない部分をサーバー設定で置き換えました。"
+"Resume file and database processing, and restart Obsidian now?": "ファイルとデータベースの処理を再開し、Obsidianを今すぐ再起動しますか？"
+"Settings QR Code": "設定QRコード"
+"The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}": "設定が1つのQRコードに収まらないため、複数のQRコードを結合します。設定はこのデバイス内だけで処理され、サーバーへ送信されません。モバイルのカメラでQRコードを読み取り、ブラウザーでページを開いてください。すべての部分を収集すると、結合した設定を使ってObsidianへ戻ります。進捗：${CURRENT} / ${TOTAL}"
+"Done": "完了"
+"Settings QR Code (Aggregated)": "設定QRコード（分割）"
+"Encrypt your settings": "設定を暗号化"
+"The passphrase to encrypt the setup URI": "Setup URIを暗号化するパスフレーズ"
+"Setup URI": "Setup URI"
+ReviewHarness:
+  Access:
+    DedicatedVaultFixtures: 専用Vault内のテスト用ファイル
+    DeviceLocalState: このデバイス内の状態
+    ReadOnly: 読み取り専用
+  Action:
+    Automatic: 自動テスト
+    CopyMarkdownReport: Markdownレポートをコピー
+    FullReview: すべて確認
+    OpenCompatibilityReview: 互換性レビューを開く
+    RestartAndReturn: 再起動して戻る
+    Run: 実行
+    StartReview: レビューを開始
+  Command:
+    Open: レビューハーネスを開く
+  ContinuationConsumed: 再起動後の一度限りの継続情報を読み込みました。以下のガイド付きレビューを完了してください。
+  ContinuationError: "継続情報のエラー：${error}"
+  Description: 自動テストではローカルの契約を検査します。ガイド付き互換性レビューでは、通常の起動時と同じデバイス内の一時停止と明示的な操作を使用します。実際のP2P通信はCompose E2Eテストで引き続き確認されます。
+  Error:
+    ClipboardUnavailable: このデバイスではクリップボードを利用できません。
+    InvalidContinuation: レビューハーネスの継続情報が無効です。
+    InvalidJson: レビューハーネスの継続情報が有効なJSONではありません
+    InvalidRequestId: レビューハーネスのリクエストIDが所定の継続形式と一致しません
+    InvalidRequestTime: レビューハーネスのリクエスト時刻はISO形式の日付である必要があります
+    MustBeObject: レビューハーネスの継続情報はオブジェクトである必要があります
+    UnknownScenario: "不明なレビューハーネスのシナリオ：${scenario}"
+    UnknownStage: "不明なレビューハーネスの継続段階：${stage}"
+    UnsupportedVersion: "未対応のレビューハーネス継続情報バージョン：${version}"
+  Mode:
+    Automatic: 自動
+    Guided: ガイド付き
+  Privacy: レポートはローカルでコピーされ、送信されません。Vaultの識別子、パス、内容、リモート設定、機密情報は含まれません。
+  ReportCopied: レビューハーネスのMarkdownレポートをコピーしました。
+  Result:
+    CompatibilityPauseCleared: このデバイスの互換性確認を実施し、一時停止を解除しました。
+    CompatibilityReviewNotInitialised: 設定の移行には確認が必要ですが、互換性レビューが初期化されていません。
+    CompatibilityReviewPending: このデバイスで互換性レビューが保留されています。
+    CompatibilityReviewRemainsPending: このデバイスの互換性レビューは引き続き保留中です。
+    DifferentP2PReplicators: ライフサイクルの移行がないにもかかわらず、連続した2回の読み取りで異なるP2Pレプリケーターが返されました。
+    ExistingVaultLoaded: 既存のVaultを設定スキーマ${source}から${target}へ読み込みました。
+    InvalidContinuationRemoved: 保存されていた継続情報が無効だったため削除しました。
+    InvalidSyncChoices: "同期項目がないか無効です：${choices}"
+    NewVaultRecommendationsLoaded: リモート接続を有効にせず、現在の新規Vault向け推奨設定を読み込みました。
+    NoCompatibilityReviewPending: このデバイスで保留中の互換性レビューはありません。
+    NoCurrentP2PReplicator: P2P構成から現在のレプリケーターを取得できませんでした。
+    NoMigrationEvidence: 設定サービスから移行情報を取得できませんでした。
+    OpenCompatibilityReview: このデバイスの互換性レビューを開き、明示された操作を完了してください。
+    P2PCompositionValid: 現在のレプリケーターと有効なObsidianサービスをP2P構成から取得できました。
+    P2PServicesMismatch: 現在のP2Pレプリケーターが有効なObsidianサービスに接続されていません。
+    RecommendationsDiffer: "新規Vault向け推奨設定と異なる項目：${settings}"
+    RestartRequested: 再起動を要求しました。レビュー再開前に一度限りの継続情報を削除します。
+    RestartReturned: 要求した再起動後にObsidianへ戻りました。続行するには互換性レビューを開いてください。
+    UnexpectedFailure: シナリオが予期せず失敗しました。診断情報はアプリ内ログで確認してください。
+  Scenario:
+    CompatibilityReview:
+      Description: このデバイスの互換性確認による一時停止を検査し、明示的なレビューと再起動の境界を順に確認します。
+      Title: 互換性レビューの境界
+    P2PComposition:
+      Description: ObsidianホストとP2Pインターフェースが現在のCommonlibレプリケーターを取得できることを確認します。
+      Title: P2P構成
+    SettingsLifecycle:
+      Description: 読み込んだ設定に7つの同期項目があり、新規Vault向け推奨設定が実際の新規Vaultだけに適用されることを確認します。
+      Title: 設定のライフサイクル
+    VaultRoundTrip:
+      Description: 明示的な確認後、管理対象の固定テスト用ツリーを作成、読み取り、変更、名前変更、削除します。
+      Title: Vaultテスト用ファイルの往復確認
+  Scenarios: シナリオ
+  ScenarioSummary: "${description} モード：${mode}。アクセス：${access}。"
+  Status:
+    Cancelled: キャンセル
+    Failed: 失敗
+    NotRun: 未実行
+    Passed: 成功
+    Queued: 待機中
+    Running: 実行中
+    WaitingForReview: レビュー待ち
+  Suite:
+    ChooseScope: 実行する範囲を選択してください。
+    Running: ${scenario}を実行中です。
+    Scenario: シナリオ
+    Title: レビュー一式
+  Title: Self-hosted LiveSyncレビューハーネス
+  VaultFixture:
+    AlreadyExists: 管理対象のテスト用ルートがすでに存在するため、変更せずに残しました。
+    Completed: 管理対象のテスト用ツリーの往復確認が完了し、削除しました。
+    Error:
+      CreatedContent: 作成したテスト内容を正しく読み戻せませんでした。
+      ModifiedContent: 変更したテスト内容を正しく読み戻せませんでした。
+      RenamedContent: 名前変更後のテスト内容が保持されていませんでした。
+      RenamePath: テスト用ファイルの名前変更がパスに反映されませんでした。
+    NotApproved: Vault内のテスト用ファイルへのアクセスが承認されませんでした。
+    Prompt: このシナリオでは、管理対象のテスト用ツリーを1つ作成、読み取り、変更、名前変更、削除します。専用のテストVaultを使用してください。続行しますか？
+    PromptTitle: "レビューハーネス：Vaultテスト用ファイルへのアクセス"
+  Warning: 専用のテストVaultを使用してください。読み取り専用のシナリオにはその旨が表示されます。Vaultの往復確認は、確認後に固定のテスト用ツリーへ書き込み、処理の終了時に削除します。任意のコマンド、パス、コード、リモート認証情報を受け付けることはありません。

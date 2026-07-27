@@ -7,6 +7,7 @@ import {
 import { EVENT_REQUEST_SHOW_SETUP_QR } from "@vrtmrz/livesync-commonlib/compat/events/coreEvents";
 import { fireAndForget } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import type { SetupFeatureHost } from "./types";
+import { $msg } from "@/common/translation";
 
 export async function encodeSetupSettingsAsQR(host: SetupFeatureHost) {
     const settingString = encodeSettingsToQRCodeData(host.services.setting.currentSettings());
@@ -17,40 +18,44 @@ export async function encodeSetupSettingsAsQR(host: SetupFeatureHost) {
 
     if (typeof result === "string") {
         const msg = host.services.context.translate("Setup.QRCode", { qr_image: result });
-        await host.services.UI.confirm.confirmWithMessage("Settings QR Code", msg, ["OK"], "OK");
+        await host.services.UI.confirm.confirmWithMessage($msg("Settings QR Code"), msg, ["OK"], "OK");
         return result;
     } else {
         // Multi-page QR code
         let currentIndex = 0;
         while (currentIndex < result.total) {
-            const msg = `The setting is too large for a single QR code.
-We are using the aggregator to combine multiple QR codes.
-Your settings will not be sent to any server; they will be processed only on your device.
-Please scan this QR code with your mobile's camera, and open the page in your browser.
-After all parts are collected, the page will navigate you back to Obsidian with the aggregated settings.
+            const msg =
+                $msg(
+                    "The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}",
+                {
+                    CURRENT: `${currentIndex + 1}`,
+                    TOTAL: `${result.total}`,
+                }
+                ) + `\n\n${result.parts[currentIndex]}`;
 
-Progress: ${currentIndex + 1} / ${result.total}
-${result.parts[currentIndex]}`;
-
+            const back = $msg("Back");
+            const next = $msg("Next");
+            const cancel = $msg("Cancel");
+            const done = $msg("Done");
             const buttons = [];
-            if (currentIndex > 0) buttons.push("Back");
+            if (currentIndex > 0) buttons.push(back);
             if (currentIndex < result.total - 1) {
-                buttons.push("Next");
-                buttons.push("Cancel");
+                buttons.push(next);
+                buttons.push(cancel);
             } else {
-                buttons.push("Done");
+                buttons.push(done);
             }
 
             const choice = await host.services.UI.confirm.confirmWithMessage(
-                "Settings QR Code (Aggregated)",
+                $msg("Settings QR Code (Aggregated)"),
                 msg,
                 buttons,
-                buttons[buttons.indexOf("Next") !== -1 ? buttons.indexOf("Next") : buttons.indexOf("Done")]
+                buttons[buttons.indexOf(next) !== -1 ? buttons.indexOf(next) : buttons.indexOf(done)]
             );
 
-            if (choice === "Next") {
+            if (choice === next) {
                 currentIndex++;
-            } else if (choice === "Back") {
+            } else if (choice === back) {
                 currentIndex--;
             } else {
                 break;
@@ -64,7 +69,7 @@ export function useSetupQRCodeFeature(host: NecessaryServices<"API" | "UI" | "se
     host.services.appLifecycle.onLoaded.addHandler(() => {
         host.services.API.addCommand({
             id: "livesync-setting-qr",
-            name: "Show settings as a QR code",
+            name: $msg("Show settings as a QR code"),
             checkCallback: (checking) => {
                 if (!host.services.setting.currentSettings().isConfigured) return false;
                 if (!checking) fireAndForget(encodeSetupSettingsAsQR(host));

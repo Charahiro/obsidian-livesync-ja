@@ -4,39 +4,36 @@ import type {
     ReviewHarnessScenarioResult,
     ReviewHarnessScenarioStatus,
 } from "./reviewHarnessTypes";
+import { $msg } from "@/common/translation";
 
 export type { ReviewHarnessScenarioResult, ReviewHarnessScenarioStatus } from "./reviewHarnessTypes";
 
 export const REVIEW_HARNESS_SCENARIOS = [
     {
         id: "settings-lifecycle",
-        title: "Settings lifecycle",
-        description:
-            "Checks whether loaded settings expose the seven synchronisation choices and apply new-Vault recommendations only to a genuinely new Vault.",
+        title: $msg("ReviewHarness.Scenario.SettingsLifecycle.Title"),
+        description: $msg("ReviewHarness.Scenario.SettingsLifecycle.Description"),
         mode: "automatic",
         access: "read-only",
     },
     {
         id: "compatibility-review",
-        title: "Compatibility review boundary",
-        description:
-            "Checks the current device-local compatibility pause, then guides the reviewer through its explicit review and restart boundary.",
+        title: $msg("ReviewHarness.Scenario.CompatibilityReview.Title"),
+        description: $msg("ReviewHarness.Scenario.CompatibilityReview.Description"),
         mode: "guided",
         access: "device-local-state",
     },
     {
         id: "p2p-composition",
-        title: "P2P composition",
-        description:
-            "Checks that the Obsidian host and P2P interface still resolve the current Commonlib replicator.",
+        title: $msg("ReviewHarness.Scenario.P2PComposition.Title"),
+        description: $msg("ReviewHarness.Scenario.P2PComposition.Description"),
         mode: "automatic",
         access: "read-only",
     },
     {
         id: "vault-round-trip",
-        title: "Vault fixture round trip",
-        description:
-            "Creates, reads, modifies, renames, and removes a fixed owned fixture tree after explicit confirmation.",
+        title: $msg("ReviewHarness.Scenario.VaultRoundTrip.Title"),
+        description: $msg("ReviewHarness.Scenario.VaultRoundTrip.Description"),
         mode: "automatic",
         access: "dedicated-vault-fixtures",
     },
@@ -71,27 +68,27 @@ export function parsePendingReviewRun(serialised: string | null | undefined): Pa
     try {
         value = JSON.parse(serialised) as unknown;
     } catch {
-        return { error: "Review Harness continuation is not valid JSON" };
+        return { error: $msg("ReviewHarness.Error.InvalidJson") };
     }
-    if (!isRecord(value)) return { error: "Review Harness continuation must be an object" };
+    if (!isRecord(value)) return { error: $msg("ReviewHarness.Error.MustBeObject") };
     if (value.formatVersion !== 1) {
-        return { error: `Unsupported Review Harness continuation version: ${String(value.formatVersion)}` };
+        return { error: $msg("ReviewHarness.Error.UnsupportedVersion", { version: String(value.formatVersion) }) };
     }
     if (value.scenarioId !== "compatibility-review") {
-        return { error: `Unknown Review Harness scenario: ${String(value.scenarioId)}` };
+        return { error: $msg("ReviewHarness.Error.UnknownScenario", { scenario: String(value.scenarioId) }) };
     }
     if (value.stage !== "awaiting-restart") {
-        return { error: `Unknown Review Harness continuation stage: ${String(value.stage)}` };
+        return { error: $msg("ReviewHarness.Error.UnknownStage", { stage: String(value.stage) }) };
     }
     if (typeof value.requestedAt !== "string") {
-        return { error: "Review Harness request time must be an ISO date" };
+        return { error: $msg("ReviewHarness.Error.InvalidRequestTime") };
     }
     const requestedAtMs = Date.parse(value.requestedAt);
     if (Number.isNaN(requestedAtMs) || new Date(requestedAtMs).toISOString() !== value.requestedAt) {
-        return { error: "Review Harness request time must be an ISO date" };
+        return { error: $msg("ReviewHarness.Error.InvalidRequestTime") };
     }
     if (value.requestId !== `compatibility-review-${value.requestedAt}`) {
-        return { error: "Review Harness request ID does not match the fixed continuation format" };
+        return { error: $msg("ReviewHarness.Error.InvalidRequestId") };
     }
     return {
         pendingRun: {
@@ -133,7 +130,7 @@ export function inspectSettingsLifecycle(input: {
     if (!input.migration) {
         return {
             status: "failed",
-            detail: "The settings service did not expose migration evidence.",
+            detail: $msg("ReviewHarness.Result.NoMigrationEvidence"),
             observations: [],
         };
     }
@@ -144,7 +141,7 @@ export function inspectSettingsLifecycle(input: {
     if (invalidSyncSettings.length > 0) {
         return {
             status: "failed",
-            detail: `Synchronisation choices are missing or invalid: ${invalidSyncSettings.join(", ")}`,
+            detail: $msg("ReviewHarness.Result.InvalidSyncChoices", { choices: invalidSyncSettings.join(", ") }),
             observations: [],
         };
     }
@@ -153,7 +150,10 @@ export function inspectSettingsLifecycle(input: {
     if (!input.migration.isNewVault) {
         return {
             status: "passed",
-            detail: `Loaded an existing Vault from settings schema ${input.migration.sourceVersion} to ${input.migration.targetVersion}.`,
+            detail: $msg("ReviewHarness.Result.ExistingVaultLoaded", {
+                source: `${input.migration.sourceVersion}`,
+                target: `${input.migration.targetVersion}`,
+            }),
             observations,
         };
     }
@@ -164,13 +164,15 @@ export function inspectSettingsLifecycle(input: {
     if (mismatchedRecommendations.length > 0) {
         return {
             status: "failed",
-            detail: `The new Vault recommendations differ for: ${mismatchedRecommendations.join(", ")}`,
+            detail: $msg("ReviewHarness.Result.RecommendationsDiffer", {
+                settings: mismatchedRecommendations.join(", "),
+            }),
             observations,
         };
     }
     return {
         status: "passed",
-        detail: "Loaded the current new Vault recommendations without enabling a remote connection.",
+        detail: $msg("ReviewHarness.Result.NewVaultRecommendationsLoaded"),
         observations,
     };
 }
@@ -183,7 +185,7 @@ export function inspectCompatibilityReview(input: {
     if (input.migration?.requiresSyncReview && !input.reviewInitialised) {
         return {
             status: "failed",
-            detail: "The settings migration requires review, but the compatibility review was not initialised.",
+            detail: $msg("ReviewHarness.Result.CompatibilityReviewNotInitialised"),
             observations: [],
         };
     }
@@ -201,8 +203,8 @@ export function inspectCompatibilityReview(input: {
     return {
         status: "passed",
         detail: input.pendingPause
-            ? "A device-local compatibility review is pending."
-            : "No compatibility review is pending on this device.",
+            ? $msg("ReviewHarness.Result.CompatibilityReviewPending")
+            : $msg("ReviewHarness.Result.NoCompatibilityReviewPending"),
         observations,
     };
 }

@@ -71,7 +71,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
     _everyOnloadStart(): Promise<boolean> {
         this.addCommand({
             id: "livesync-checkdoc-conflicted",
-            name: "Resolve if conflicted.",
+            name: $msg("Resolve if conflicted."),
             editorCallback: (editor: Editor, view: MarkdownView | MarkdownFileInfo) => {
                 const file = view.file;
                 if (!file) return;
@@ -80,14 +80,14 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
         });
         this.addCommand({
             id: "livesync-conflictcheck",
-            name: "Pick a file to resolve conflict",
+            name: $msg("Pick a file to resolve conflict"),
             callback: async () => {
                 await this.pickFileForResolve();
             },
         });
         this.addCommand({
             id: "livesync-all-conflictcheck",
-            name: "Resolve all conflicted files",
+            name: $msg("Resolve all conflicted files"),
             callback: async () => {
                 await this.allConflictCheck();
             },

@@ -453,7 +453,7 @@ export class ConfigSync extends LiveSyncCommands {
         );
         this.services.API.addCommand({
             id: "livesync-plugin-dialog-ex",
-            name: "Show customization sync dialog",
+            name: $msg("Show customization sync dialog"),
             checkCallback: (checking) => {
                 if (!this.isThisModuleEnabled()) {
                     return false;
@@ -1182,17 +1182,17 @@ export class ConfigSync extends LiveSyncCommands {
             if (!this.pluginDialog || (this.pluginDialog && !this.pluginDialog.isOpened())) {
                 const fragment = createFragment((doc) => {
                     doc.createSpan(undefined, (a) => {
-                        a.appendText(`Some configuration has been arrived, Press `);
+                        a.appendText($msg("Some configuration has arrived. Select "));
                         a.appendChild(
                             a.createEl("a", undefined, (anchor) => {
-                                anchor.text = "HERE";
+                                anchor.text = $msg("HERE");
                                 anchor.addEventListener("click", () => {
                                     this.showPluginSyncModal();
                                 });
                             })
                         );
 
-                        a.appendText(` to open the config sync dialog , or press elsewhere to dismiss this message.`);
+                        a.appendText($msg(" to open the customization sync dialogue, or select elsewhere to dismiss this message."));
                     });
                 });
 
@@ -1729,7 +1729,11 @@ export class ConfigSync extends LiveSyncCommands {
 
         if (mode == "CUSTOMIZE") {
             if (!this.services.setting.getDeviceAndVaultName()) {
-                let name = await this.core.confirm.askString("Device name", "Please set this device name", `desktop`);
+                let name = await this.core.confirm.askString(
+                    $msg("Device name"),
+                    $msg("Please set this device name"),
+                    `desktop`
+                );
                 if (!name) {
                     if (Platform.isAndroidApp) {
                         name = "android-app";

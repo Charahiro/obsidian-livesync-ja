@@ -1,6 +1,7 @@
 import { fireAndForget } from "octagonal-wheels/promises";
 import { VER } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import type { LiveSyncCore } from "@/main.ts";
+import { $msg } from "@/common/translation";
 import {
     COMPATIBILITY_PAUSE_SETTING_MESSAGE,
     DATABASE_COMPATIBILITY_VERSION_KEY,
@@ -175,7 +176,7 @@ export function useCompatibilityReview(core: LiveSyncCore, ui: CompatibilityRevi
     });
     core.services.API.addCommand({
         id: "livesync-review-compatibility-pause",
-        name: "Review why synchronisation is paused",
+        name: $msg("Review why synchronisation is paused"),
         checkCallback: (checking) => {
             if (!controller.pendingPause) return false;
             if (!checking) fireAndForget(() => controller.openReview());

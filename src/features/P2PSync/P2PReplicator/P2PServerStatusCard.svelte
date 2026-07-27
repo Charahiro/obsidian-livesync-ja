@@ -95,40 +95,40 @@
 </script>
 
 <div class="server-status">
-    <h3>Signalling Status</h3>
+    <h3>シグナリング状態</h3>
 
     <div class="status-item">
-        <span>Connection:</span>
+        <span>接続：</span>
         <span class="status-value {isConnected ? 'connected' : 'disconnected'}">
-            {isConnected ? "🟢 Connected" : "🔴 Disconnected"}
+            {isConnected ? "🟢 接続済み" : "🔴 未接続"}
         </span>
     </div>
 
     <div class="status-item status-action">
         {#if !isConnected}
-            <button onclick={onOpenConnection}>Open connection</button>
+            <button onclick={onOpenConnection}>接続を開始</button>
         {:else}
-            <button onclick={onDisconnect}>Disconnect</button>
+            <button onclick={onDisconnect}>切断</button>
         {/if}
     </div>
 
     {#if serverInfo}
         <div class="status-item">
-            <span>Room ID suffix:</span>
-            <span class="room-suffix-display" title={roomSuffix || "Not configured"}>
+            <span>ルームID末尾：</span>
+            <span class="room-suffix-display" title={roomSuffix || "未設定"}>
                 {roomSuffix || "-"}
             </span>
         </div>
 
         <div class="status-item">
-            <span>Peer ID:</span>
+            <span>ピアID：</span>
             <span class="peer-id-display" title={serverInfo.serverPeerId}>
                 {serverInfo.serverPeerId.slice(0, 12)}...
             </span>
         </div>
 
         <div class="status-item">
-            <span>Devices:</span>
+            <span>端末数：</span>
             <span>{serverInfo.knownAdvertisements.length}</span>
         </div>
     {/if}
@@ -146,7 +146,7 @@
                 ? translateMessage("Stop announcing changes")
                 : translateMessage("Start announcing changes")}
         >
-            {isBroadcasting ? '📡 On' : '📡 Off'}
+            {isBroadcasting ? '📡 オン' : '📡 オフ'}
         </button>
     </div>
     {/if}
@@ -154,39 +154,39 @@
     {#if core}
     <div class="status-item status-action diag-toggle-row">
         <label class="broadcast-label" for="diag-toggle">
-            🕵️ Diag
+            🕵️ 診断
         </label>
         <button
             id="diag-toggle"
             class="broadcast-button {useDiagRTC ? 'is-on' : 'is-off'}"
             onclick={toggleDiagRTC}
             title={useDiagRTC
-                ? 'Diagnostic RTCPeerConnection is enabled'
-                : 'Use Diagnostic RTCPeerConnection for statistics'}
+                ? '診断用RTCPeerConnectionは有効です'
+                : '統計取得に診断用RTCPeerConnectionを使用'}
         >
-            {useDiagRTC ? 'On' : 'Off'}
+            {useDiagRTC ? 'オン' : 'オフ'}
         </button>
     </div>
     {/if}
 
     {#if serverInfo}
         <div class="diag-section">
-            <h4>Stats</h4>
+            <h4>統計</h4>
             <div class="diag-grid">
                 <div class="diag-item">
-                    <span>Incoming:</span>
+                    <span>着信：</span>
                     <span>{serverInfo.diag.totalNewConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>Connected:</span>
+                    <span>接続成功：</span>
                     <span>{serverInfo.diag.totalSuccessfulConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>Failed:</span>
+                    <span>失敗：</span>
                     <span>{serverInfo.diag.totalFailedConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>Closed:</span>
+                    <span>切断：</span>
                     <span>{serverInfo.diag.totalClosedConnections}</span>
                 </div>
             </div>

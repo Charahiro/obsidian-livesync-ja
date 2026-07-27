@@ -154,16 +154,12 @@ export class ModuleReplicator extends AbstractModule {
         Logger(`The remote database has been cleaned.`, showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
         await skipIfDuplicated("cleanup", async () => {
             const count = await purgeUnreferencedChunks(this.localDatabase.localDatabase, true);
-            const message = `リモートデータベースはクリーンアップされています。
-同期するには、このデバイス側もクリーンアップする必要があります。このデバイスから ${count} 個のチャンクが削除されます。
-ただし、削除対象のチャンクが多い場合は、リモートデータベースを再取得する方が速い場合があります。
-リモートデータベースを再取得すると、このデバイスの履歴は失われます。
-クリーンアップを選択しても、Obsidian を終了してから再度同期すると、この選択肢は再び表示されます。`;
-            const CHOICE_FETCH = "再取得";
-            const CHOICE_CLEAN = "クリーンアップ";
-            const CHOICE_DISMISS = "閉じる";
+            const message = $msg("Replicator.Dialogue.Cleaned.Message", { count: `${count}` });
+            const CHOICE_FETCH = $msg("Replicator.Dialogue.Cleaned.Action.Fetch");
+            const CHOICE_CLEAN = $msg("Replicator.Dialogue.Cleaned.Action.Cleanup");
+            const CHOICE_DISMISS = $msg("Replicator.Dialogue.Cleaned.Action.Dismiss");
             const ret = await this.core.confirm.confirmWithMessage(
-                "クリーンアップ済み",
+                $msg("Replicator.Dialogue.Cleaned.Title"),
                 message,
                 [CHOICE_FETCH, CHOICE_CLEAN, CHOICE_DISMISS],
                 CHOICE_DISMISS,

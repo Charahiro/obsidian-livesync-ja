@@ -19,6 +19,7 @@ import { askAndPerformFastSetupOnScheduledFetchAll } from "./redFlag.simpleFetch
 import { ConnectionStringParser } from "@vrtmrz/livesync-commonlib/compat/common/ConnectionString";
 import { activateRemoteConfiguration } from "@vrtmrz/livesync-commonlib/remote-configurations";
 import { isP2PMainRemote } from "@/common/remoteConfiguration";
+import { $msg } from "@/common/translation";
 
 /**
  * Flag file handler interface, similar to target filter pattern.
@@ -52,13 +53,14 @@ export async function deleteFlagFile(host: NecessaryServices<never, "storageAcce
         log(ex, LOG_LEVEL_VERBOSE);
     }
 }
-const REMOTE_KEEP_CURRENT = "Use active remote";
-const REMOTE_CANCEL = "Cancel";
+const REMOTE_KEEP_CURRENT = $msg("Use active remote");
+const REMOTE_CANCEL = $msg("Cancel");
 async function askAndActivateRemoteDatabase(host: NecessaryServices<"UI" | "setting", never>, log: LogFunction) {
     const settings = host.services.setting.currentSettings();
     if (settings.remoteConfigurations && Object.keys(settings.remoteConfigurations).length > 1) {
-        const message =
-            "Multiple remote configurations detected. Please select the remote configuration you want to fetch from.";
+        const message = $msg(
+            "Multiple remote configurations detected. Please select the remote configuration you want to fetch from."
+        );
         const options = Object.entries(settings.remoteConfigurations).map(([id, config]) => {
             const parsed = ConnectionStringParser.parse(config.uri);
             const displayURI = (config.uri.split("@").pop() || "").substring(0, 20) + "..."; // Show only the last part of URI for better readability and privacy.
@@ -80,7 +82,7 @@ async function askAndActivateRemoteDatabase(host: NecessaryServices<"UI" | "sett
         // const defaultAction =
         //     options.find((option) => option.id === settings.activeConfigurationId)?.name || selections[0];
         const selectedId = await host.services.UI.confirm.askSelectStringDialogue(message, selections, {
-            title: "Select Remote Configuration",
+            title: $msg("Select Remote Configuration"),
             defaultAction: REMOTE_KEEP_CURRENT,
         });
         const selectedConfig = options.find((option) => option.name === selectedId);
@@ -225,19 +227,19 @@ export async function adjustSettingToRemote(
     config: ObsidianLiveSyncSettings
 ) {
     // Fetch remote configuration unless prevented.
-    const SKIP_FETCH = "Skip and proceed";
-    const RETRY_FETCH = "Retry (recommended)";
+    const SKIP_FETCH = $msg("Skip and proceed");
+    const RETRY_FETCH = $msg("Retry (recommended)");
     let canProceed = false;
     do {
         const remoteTweaks = await host.services.tweakValue.fetchRemotePreferred(config);
         if (!remoteTweaks) {
             const choice = await host.services.UI.confirm.askSelectStringDialogue(
-                "Could not fetch configuration from remote. If you are new to the Self-hosted LiveSync, this might be expected. If not, you should check your network or server settings.",
+                $msg("Could not fetch configuration from remote. If you are new to Self-hosted LiveSync, this might be expected. Otherwise, check your network or server settings."),
                 [SKIP_FETCH, RETRY_FETCH] as const,
                 {
                     defaultAction: RETRY_FETCH,
                     timeout: 0,
-                    title: "Fetch Remote Configuration Failed",
+                    title: $msg("Fetch Remote Configuration Failed"),
                 }
             );
             if (choice === SKIP_FETCH) {
@@ -253,7 +255,7 @@ export async function adjustSettingToRemote(
                 log("Remote configuration matches local configuration. No changes applied.", LOG_LEVEL_NOTICE);
             } else {
                 await host.services.UI.confirm.askSelectStringDialogue(
-                    "Your settings differed slightly from the server's. The plug-in has supplemented the incompatible parts with the server settings!",
+                    $msg("Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings."),
                     ["OK"] as const,
                     {
                         defaultAction: "OK",
@@ -353,7 +355,7 @@ export async function verifyAndUnlockSuspension(
     }
     if (
         (await host.services.UI.confirm.askYesNoDialog(
-            "Do you want to resume file and database processing, and restart obsidian now?",
+            $msg("Resume file and database processing, and restart Obsidian now?"),
             { defaultOption: "Yes", timeout: 15 }
         )) != "yes"
     ) {

@@ -1092,6 +1092,33 @@ RedFlag:
         Message: Do you want to fetch and apply remotely stored preference settings to
             the device?
         Title: Fetch Remote Configuration
+    SimpleFetch:
+        NewerWins: |-
+            How should files that were deleted on other devices be handled?
+
+            - **${deleteRemote}**: Delete local files if they were deleted on remote.
+              This is useful if you want to keep your vault clean and consistent across devices, but please make sure you have a backup if there is already any important data in your vault.
+            - **${keepLocal}**: Recreate remote files even if they were deleted on remote.
+              This option will keep all your local files, but it may cause duplicates if there are files that exist on local but not on remote. You can clean up these duplicates manually after the synchronisation.
+        RemoteWins: |-
+            Since you have chosen to overwrite all local files with remote data, **how would you like to handle local files that are not present in the remote database?**
+
+            - **${deleteAll}**: Local-only files and remote-deleted files will be removed.
+              This option will make your local vault exactly the same as the remote database, but please make sure you have a backup if there is any important data in your vault.
+            - **${keepAll}**: All existing local files will be preserved.
+              This option will keep all your local files, but it may cause duplicates if there are files that exist on local but not on remote. You can clean up these duplicates manually after the synchronisation.
+        Stage1: |-
+            We are about to retrieve the remote data.
+
+            Firstly, how shall we handle the data retrieved from this remote source?
+
+            - **${newerWins}**: Compares the modified time of files and takes the newer one.
+              If you have been using Self-hosted LiveSync and have made changes on multiple devices, this option may be suitable for you as it tries to merge changes based on modified time.
+            - **${remoteWins}**: Remote data is the source of truth.
+              If you are new to using Self-hosted LiveSync, this option may be easiest to understand and get started with.
+              It will overwrite all your local files with the remote data, so please make sure you have a backup if there is any important data in your vault.
+            - **${detailed}**: Opens the detailed setup wizard.
+              If you want to have more control over the synchronisation process, or want to review the changes before applying, you can choose this option to use the detailed flow.
 Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.:
     Reduces storage space by discarding all non-latest revisions. This requires
     the same amount of free space on the remote server and the local client.
@@ -1107,6 +1134,18 @@ Remote Type: Remote Type
 Rename: Rename
 Replicator:
     Dialogue:
+        Cleaned:
+            Action:
+                Cleanup: Cleanup
+                Dismiss: Dismiss
+                Fetch: Fetch again
+            Message: |-
+                The remote database has been cleaned up.
+                To synchronise, this device must also be cleaned up. ${count} chunk(s) will be erased from this device.
+                However, if there are many chunks to be deleted, fetching again may be faster.
+                We will lose the history of this device if we fetch the remote database again.
+                Even if you choose to clean up, you will see this option again if you exit Obsidian and then synchronise again.
+            Title: Cleaned
         Locked:
             Action:
                 Dismiss: Cancel for reconfirmation
@@ -1928,6 +1967,13 @@ Ui:
             ProceedNext: Proceed to the next step.
             Question: Please select your situation.
             Title: "Mostly Complete: Decision Required"
+        OutroExistingUser:
+            GuidancePrimary: The connection to the server has been configured successfully. As the next step, the latest synchronisation data will be downloaded from the server to this device.
+            GuidanceWarning: After restarting, the database on this device will be rebuilt using data from the server. If there are any unsynchronised files in this Vault, conflicts may occur with the server data.
+            Important: PLEASE NOTE
+            Proceed: Restart and Fetch Data
+            Question: Please select the button below to restart and proceed to the data fetching confirmation.
+            Title: "Setup Complete: Preparing to Fetch Synchronisation Data"
         OutroNewUser:
             GuidancePrimary: The connection to the server has been configured successfully. As the next step, the synchronisation data on the server will be built from the current data on this device.
             GuidanceWarning: After restarting, the data on this device will be uploaded to the server as the master copy. Please note that any unintended data currently on the server will be completely overwritten.
@@ -1950,6 +1996,25 @@ Ui:
             Note: Keep this device online after initialisation so that another device can fetch the Vault from it.
             Proceed: I Understand, Prepare This Device
             Title: "Final Confirmation: Prepare This Device for P2P"
+        RebuildEverything:
+            Advanced: Advanced
+            BackupDone: I have created a backup of my Vault.
+            BackupQuestion: Have you created a backup before proceeding?
+            BackupSkipped: I understand the risks and will proceed without a backup.
+            BackupUnable: I am unable to create a backup of my Vault.
+            BackupUnableNote: You should create a new synchronisation destination and rebuild your data there. After that, synchronise to a brand-new Vault on each other device with the new remote one by one.
+            BackupWarning: This is an extremely powerful operation. We strongly recommend that you copy your Vault folder to a safe location.
+            ConfirmIrreversible: I understand that this action is irreversible once performed.
+            ConfirmOtherChanges: I understand that changes made on other smartphones or computers could be lost.
+            ConfirmOtherChangesNote: You can protect those changes by backing up the other devices before proceeding.
+            ConfirmOtherDevices: I understand that other devices will no longer be able to synchronise and will need their synchronisation settings reset.
+            ConfirmOtherDevicesNote: Resetting the remote will notify the other devices.
+            ConfirmTitle: "⚠️ Please Confirm the Following"
+            Guidance: This procedure first deletes all existing synchronisation data from the server. It then completely rebuilds the server data from the current state of this Vault on this device, including its local database, as the single authoritative master copy.
+            Note: Perform this operation only in exceptional circumstances, such as when the server data is completely corrupted, changes on all other devices are no longer needed, or the database has become unusually large compared with the Vault.
+            PreventFetchingConfig: Prevent fetching configuration from server
+            Proceed: I Understand, Overwrite Server
+            Title: "Final Confirmation: Overwrite Server Data with This Device's Files"
         SetupRemote:
             BucketOption: S3-compatible Object Storage
             BucketOptionDesc: Synchronisation using journal files. You must already have an S3-compatible Object Storage service set up, such as Amazon S3, MinIO, or Cloudflare R2.
@@ -1961,3 +2026,281 @@ Ui:
             ProceedCouchDb: Continue to CouchDB setup
             ProceedP2P: Continue to P2P setup
             Title: Choose a synchronisation remote
+" (Active)": " (Active)"
+" (Deleted)": " (Deleted)"
+" to open the customization sync dialogue, or select elsewhere to dismiss this message.": " to open the customization sync dialogue, or select elsewhere to dismiss this message."
+"(Too large diff to display)": "(Too large diff to display)"
+"⚠️ Conflicts: ${COUNT}": "⚠️ Conflicts: ${COUNT}"
+"⚠️ Differs from Vault": "⚠️ Differs from Vault"
+"✅ Matches Vault": "✅ Matches Vault"
+"✅ Vault matches winner": "✅ Vault matches winner"
+"📁 Vault: ${SIZE} B · ${TIME}": "📁 Vault: ${SIZE} B · ${TIME}"
+"📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B": "📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B"
+"📁 Vault: missing": "📁 Vault: missing"
+"📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B": "📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B"
+"📦 DB: recorded ${RECORDED} B · decoded unavailable": "📦 DB: recorded ${RECORDED} B · decoded unavailable"
+"🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})": "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})"
+"🗄️ Local DB: missing": "🗄️ Local DB: missing"
+"🗑️ Logical deletion": "🗑️ Logical deletion"
+"🧩 Missing chunks: ${COUNT}": "🧩 Missing chunks: ${COUNT}"
+"${ROLE}: ${REVISION}": "${ROLE}: ${REVISION}"
+"Abort synchronization immediately": "Abort synchronization immediately"
+"After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data.": "After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data."
+"Analyse Database Usage (advanced)": "Analyse Database Usage (advanced)"
+"Announce changes": "Announce changes"
+"Announce changes automatically after connecting": "Announce changes automatically after connecting"
+"Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.": "Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten."
+"Apply database revision to Vault": "Apply database revision to Vault"
+"Apply logical deletion ${REVISION} to ${FILE}? The current Vault file will be removed.": "Apply logical deletion ${REVISION} to ${FILE}? The current Vault file will be removed."
+"Apply logical deletion to Vault": "Apply logical deletion to Vault"
+"Apply pending changes now": "Apply pending changes now"
+"Apply this revision to Vault": "Apply this revision to Vault"
+"Begin inspection": "Begin inspection"
+"Binary file": "Binary file"
+"Cancel all and reboot": "Cancel all and reboot"
+"Change CouchDB server setting": "Change CouchDB server setting"
+"Change CouchDB server setting '${SETTING}' to '${VALUE}'?": "Change CouchDB server setting '${SETTING}' to '${VALUE}'?"
+"Check server requirements": "Check server requirements"
+"Choose a file to inspect": "Choose a file to inspect"
+"Choose file": "Choose file"
+"Close": "Close"
+"Compare time and take newer": "Compare time and take newer"
+"Compare with Vault": "Compare with Vault"
+"Concat both": "Concat both"
+"Conflict & Deletion Options": "Conflict & Deletion Options"
+"Conflict revision": "Conflict revision"
+"Connect to existing database and continue": "Connect to existing database and continue"
+"Connection settings": "Connection settings"
+"Copy database information": "Copy database information"
+"Copy database information for a file": "Copy database information for a file"
+"Copy database information for the active file": "Copy database information for the active file"
+"Copy revision, conflict, and local chunk availability information, including document and chunk identifiers but not file contents.": "Copy revision, conflict, and local chunk availability information, including document and chunk identifiers but not file contents."
+"Copy settings as a new setup URI": "Copy settings as a new setup URI"
+"Copy settings as a new setup URI (Full)": "Copy settings as a new setup URI (Full)"
+"Copy settings as a new setup URI (With customization sync)": "Copy settings as a new setup URI (With customization sync)"
+"CouchDB validates the database name when you connect. The name must not be empty.": "CouchDB validates the database name when you connect. The name must not be empty."
+"Could not fetch configuration from remote. If you are new to Self-hosted LiveSync, this might be expected. Otherwise, check your network or server settings.": "Could not fetch configuration from remote. If you are new to Self-hosted LiveSync, this might be expected. Otherwise, check your network or server settings."
+"Create or connect to database and continue": "Create or connect to database and continue"
+"Current adapter: ${ADAPTER}": "Current adapter: ${ADAPTER}"
+"Data retrieval scheduled": "Data retrieval scheduled"
+"Database Analysis data (TSV):": "Database Analysis data (TSV):"
+"Database information for ${FILE}": "Database information for ${FILE}"
+"Database revision": "Database revision"
+"Database revision is newer": "Database revision is newer"
+"Delete local files if deleted on remote": "Delete local files if deleted on remote"
+"Delete local files if not on remote": "Delete local files if not on remote"
+"Delete remote configuration '${NAME}'?": "Delete remote configuration '${NAME}'?"
+"Discard branch": "Discard branch"
+"Discard database branch ${REVISION} of ${FILE}? This creates a logical deletion for that exact live branch. The current Vault file will not be changed.": "Discard database branch ${REVISION} of ${FILE}? This creates a logical deletion for that exact live branch. The current Vault file will not be changed."
+"Discard database revision ${REVISION} of ${FILE}? This creates a logical deletion for that exact live revision. Missing content cannot be recovered by this action.": "Discard database revision ${REVISION} of ${FILE}? This creates a logical deletion for that exact live revision. Missing content cannot be recovered by this action."
+"Discard this branch": "Discard this branch"
+"Discard unreadable revision": "Discard unreadable revision"
+"Done": "Done"
+"Encrypt your settings": "Encrypt your settings"
+"Enter a complete HTTP or HTTPS URL.": "Enter a complete HTTP or HTTPS URL."
+"Fetch Remote Configuration Failed": "Fetch Remote Configuration Failed"
+"Finalise the process and resume normal operation": "Finalise the process and resume normal operation"
+"Follow changes": "Follow changes"
+"Follow changes from this device": "Follow changes from this device"
+"Follow whenever this device connects": "Follow whenever this device connects"
+"Garbage Collection V3 (advanced, beta)": "Garbage Collection V3 (advanced, beta)"
+"Generate full report for opening the issue with debug info": "Generate full report for opening the issue with debug info"
+"HERE": "HERE"
+"How to handle extra existing local files?": "How to handle extra existing local files?"
+"Imported CouchDB": "Imported CouchDB"
+"Include in the P2P synchronisation command": "Include in the P2P synchronisation command"
+"Inspect conflicts and file/database differences": "Inspect conflicts and file/database differences"
+"Keep local files even if deleted on remote": "Keep local files even if deleted on remote"
+"Keep local files even if not on remote": "Keep local files even if not on remote"
+"Learn more about P2P connections": "Learn more about P2P connections"
+"Learn more about signalling and TURN": "Learn more about signalling and TURN"
+"Mark this revision as the Vault version": "Mark this revision as the Vault version"
+"More actions for ${DEVICE}": "More actions for ${DEVICE}"
+"More actions for ${FILE}": "More actions for ${FILE}"
+"More actions for revision ${REVISION}": "More actions for revision ${REVISION}"
+"Multiple remote configurations detected. Please select the remote configuration you want to fetch from.": "Multiple remote configurations detected. Please select the remote configuration you want to fetch from."
+"Next": "Next"
+"No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited.": "No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited."
+"No shared ancestor is available for this conflict. The live revisions remain available for explicit review.": "No shared ancestor is available for this conflict. The live revisions remain available for explicit review."
+"Not now": "Not now"
+"Overwrite all with remote files": "Overwrite all with remote files"
+"P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.": "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery."
+"P2P Status pane": "P2P Status pane"
+"P2P Sync : Open P2P Status": "P2P Sync : Open P2P Status"
+"P2P: Sync with targets": "P2P: Sync with targets"
+"Parse setting file": "Parse setting file"
+"Peer discovery uses Nostr-compatible signalling relays.": "Peer discovery uses Nostr-compatible signalling relays."
+"Prev": "Prev"
+"Reboot to re-run the process": "Reboot to re-run the process"
+"Recreate chunks for current Vault files": "Recreate chunks for current Vault files"
+"Recreate chunks from the files currently present in this Vault. This cannot reconstruct unavailable historical or conflict content.": "Recreate chunks from the files currently present in this Vault. This cannot reconstruct unavailable historical or conflict content."
+"Recreate current chunks": "Recreate current chunks"
+"Remote": "Remote"
+"Remote configuration: ${NAME}": "Remote configuration: ${NAME}"
+"Replicate now by P2P": "Replicate now by P2P"
+"Replicate P2P to default peer": "Replicate P2P to default peer"
+"Resolve all conflicts by the newest version": "Resolve all conflicts by the newest version"
+"Resolve every conflict by modification time? This logically deletes every version except the newest one and cannot recover content which is already unavailable.": "Resolve every conflict by modification time? This logically deletes every version except the newest one and cannot recover content which is already unavailable."
+"Resolve if conflicted.": "Resolve if conflicted."
+"Restart and Select Source Device": "Restart and Select Source Device"
+"Restart this device, then choose the source device when P2P Rebuild opens.": "Restart this device, then choose the source device when P2P Rebuild opens."
+"Resume file and database processing, and restart Obsidian now?": "Resume file and database processing, and restart Obsidian now?"
+"Retry (recommended)": "Retry (recommended)"
+"Retry reading revision": "Retry reading revision"
+"Review why": "Review why"
+"Review why synchronisation is paused": "Review why synchronisation is paused"
+"Revision metadata is unavailable on this device": "Revision metadata is unavailable on this device"
+"Save without connecting": "Save without connecting"
+"Saved connections": "Saved connections"
+"Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected.": "Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected."
+"Scan and apply all offline hidden-file changes": "Scan and apply all offline hidden-file changes"
+"Scan every Vault file and live local-database revision for conflicts, missing chunks, and differences. Each result provides actions for the exact revision.": "Scan every Vault file and live local-database revision for conflicts, missing chunks, and differences. Each result provides actions for the exact revision."
+"Scan hidden file changes on the local database": "Scan hidden file changes on the local database"
+"Scan hidden file changes on the storage": "Scan hidden file changes on the storage"
+"Scan storage and database again": "Scan storage and database again"
+"Select Remote Configuration": "Select Remote Configuration"
+"Select the database adapter to use. ": "Select the database adapter to use. "
+"Self-hosted LiveSync has paused remote synchronisation for compatibility review. ": "Self-hosted LiveSync has paused remote synchronisation for compatibility review. "
+"Settings QR Code": "Settings QR Code"
+"Settings QR Code (Aggregated)": "Settings QR Code (Aggregated)"
+"Setup Complete: Preparing to Fetch from Another Device": "Setup Complete: Preparing to Fetch from Another Device"
+"Setup URI": "Setup URI"
+"Shared ancestor ${REVISION} is not readable on this device. Automatic three-way merging may be unavailable, but the live revisions remain available for explicit review.": "Shared ancestor ${REVISION} is not readable on this device. Automatic three-way merging may be unavailable, but the live revisions remain available for explicit review."
+"Show customization sync dialog": "Show customization sync dialog"
+"Show log": "Show log"
+"Show revision history": "Show revision history"
+"Show settings as a QR code": "Show settings as a QR code"
+"Signalling relay URLs": "Signalling relay URLs"
+"Skip and proceed": "Skip and proceed"
+"Some configuration has arrived. Select ": "Some configuration has arrived. Select "
+"Some files failed to synchronise. What would you like to do?": "Some files failed to synchronise. What would you like to do?"
+"Start announcing changes": "Start announcing changes"
+"Stop announcing changes": "Stop announcing changes"
+"Stop following changes from this device": "Stop following changes from this device"
+"Store Vault file as a child of this revision": "Store Vault file as a child of this revision"
+"Store Vault file as a new local database document": "Store Vault file as a new local database document"
+"Sync now": "Sync now"
+"Synchronisation Issues Detected": "Synchronisation Issues Detected"
+"Synchronise when this device connects": "Synchronise when this device connects"
+"Test connection and save": "Test connection and save"
+"The P2P connection has been configured successfully. The initial synchronisation data must now be fetched from an online source device.": "The P2P connection has been configured successfully. The initial synchronisation data must now be fetched from an online source device."
+"The passphrase to encrypt the setup URI": "The passphrase to encrypt the setup URI"
+"The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay.": "The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay."
+"The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}": "The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}"
+"This file has ${COUNT} unresolved versions. They will be reviewed one pair at a time.": "This file has ${COUNT} unresolved versions. They will be reviewed one pair at a time."
+"This file has unresolved conflicts.": "This file has unresolved conflicts."
+"This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI.": "This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI."
+"This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required.": "This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required."
+"Timestamp comparison unavailable": "Timestamp comparison unavailable"
+"Title": "Title"
+"Toggle All Sync.": "Toggle All Sync."
+"Toggle LiveSync": "Toggle LiveSync"
+"TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust.": "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust."
+"Unknown revision": "Unknown revision"
+"Use ${NAME}": "Use ${NAME}"
+"Use active remote": "Use active remote"
+"Use the copied setup URI (Formerly Open setup URI)": "Use the copied setup URI (Formerly Open setup URI)"
+"Use the detailed flow": "Use the detailed flow"
+"Use the project's public signalling relay": "Use the project's public signalling relay"
+"Vault and database revision": "Vault and database revision"
+"Vault file": "Vault file"
+"Vault file is newer": "Vault file is newer"
+"When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection.": "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection."
+"Winner revision": "Winner revision"
+"Within the two-second comparison window": "Within the two-second comparison window"
+"Write setting markdown manually": "Write setting markdown manually"
+"Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings.": "Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings."
+ReviewHarness:
+    Access:
+        DedicatedVaultFixtures: dedicated-vault-fixtures
+        DeviceLocalState: device-local-state
+        ReadOnly: read-only
+    Action:
+        Automatic: Automatic
+        CopyMarkdownReport: Copy Markdown report
+        FullReview: Full review
+        OpenCompatibilityReview: Open compatibility review
+        RestartAndReturn: Restart and return
+        Run: Run
+        StartReview: Start review
+    Command:
+        Open: Open review harness
+    ContinuationConsumed: The one-shot restart continuation was consumed. Complete the guided review below.
+    ContinuationError: "Continuation error: ${error}"
+    Description: Automatic scenarios inspect local contracts. The guided compatibility review uses the same device-local pause and explicit action as normal start-up. Real P2P transport remains covered by the Compose E2E suite.
+    Error:
+        ClipboardUnavailable: Clipboard access is unavailable on this device.
+        InvalidContinuation: The Review Harness continuation was invalid.
+        InvalidJson: Review Harness continuation is not valid JSON
+        InvalidRequestId: Review Harness request ID does not match the fixed continuation format
+        InvalidRequestTime: Review Harness request time must be an ISO date
+        MustBeObject: Review Harness continuation must be an object
+        UnknownScenario: "Unknown Review Harness scenario: ${scenario}"
+        UnknownStage: "Unknown Review Harness continuation stage: ${stage}"
+        UnsupportedVersion: "Unsupported Review Harness continuation version: ${version}"
+    Mode:
+        Automatic: automatic
+        Guided: guided
+    Privacy: Reports are copied locally and are not transmitted. They omit Vault identifiers, paths, contents, remote configuration, and secrets.
+    ReportCopied: Review Harness Markdown report copied.
+    Result:
+        CompatibilityPauseCleared: The device-local compatibility pause was reviewed and cleared.
+        CompatibilityReviewNotInitialised: The settings migration requires review, but the compatibility review was not initialised.
+        CompatibilityReviewPending: A device-local compatibility review is pending.
+        CompatibilityReviewRemainsPending: The device-local compatibility review remains pending.
+        DifferentP2PReplicators: Two consecutive reads resolved different P2P replicators without a lifecycle transition.
+        ExistingVaultLoaded: Loaded an existing Vault from settings schema ${source} to ${target}.
+        InvalidContinuationRemoved: The stored continuation was invalid and was removed.
+        InvalidSyncChoices: "Synchronisation choices are missing or invalid: ${choices}"
+        NewVaultRecommendationsLoaded: Loaded the current new Vault recommendations without enabling a remote connection.
+        NoCompatibilityReviewPending: No compatibility review is pending on this device.
+        NoCurrentP2PReplicator: The P2P composition did not expose a current replicator.
+        NoMigrationEvidence: The settings service did not expose migration evidence.
+        OpenCompatibilityReview: Open the device-local compatibility review and complete its explicit action.
+        P2PCompositionValid: The live P2P result resolves the current replicator and active Obsidian services.
+        P2PServicesMismatch: The current P2P replicator is not bound to the active Obsidian services.
+        RecommendationsDiffer: "The new Vault recommendations differ for: ${settings}"
+        RestartRequested: Restart requested. The one-shot continuation will be removed before the review resumes.
+        RestartReturned: Obsidian returned after the requested restart. Open the compatibility review to continue.
+        UnexpectedFailure: The scenario failed unexpectedly. Review the in-app logs for diagnostic details.
+    Scenario:
+        CompatibilityReview:
+            Description: Checks the current device-local compatibility pause, then guides the reviewer through its explicit review and restart boundary.
+            Title: Compatibility review boundary
+        P2PComposition:
+            Description: Checks that the Obsidian host and P2P interface still resolve the current Commonlib replicator.
+            Title: P2P composition
+        SettingsLifecycle:
+            Description: Checks whether loaded settings expose the seven synchronisation choices and apply new-Vault recommendations only to a genuinely new Vault.
+            Title: Settings lifecycle
+        VaultRoundTrip:
+            Description: Creates, reads, modifies, renames, and removes a fixed owned fixture tree after explicit confirmation.
+            Title: Vault fixture round trip
+    Scenarios: Scenarios
+    ScenarioSummary: "${description} Mode: ${mode}. Access: ${access}."
+    Status:
+        Cancelled: Cancelled
+        Failed: Failed
+        NotRun: Not run
+        Passed: Passed
+        Queued: Queued
+        Running: Running
+        WaitingForReview: Waiting for review
+    Suite:
+        ChooseScope: Choose the scope to run.
+        Running: Running ${scenario}.
+        Scenario: scenario
+        Title: Review suite
+    Title: Self-hosted LiveSync review harness
+    VaultFixture:
+        AlreadyExists: The owned fixture root already exists. It was left untouched.
+        Completed: The owned fixture tree completed its round trip and was removed.
+        Error:
+            CreatedContent: Created fixture content did not round-trip.
+            ModifiedContent: Modified fixture content did not round-trip.
+            RenamedContent: Renamed fixture content was not preserved.
+            RenamePath: The fixture rename did not update its path.
+        NotApproved: Vault fixture access was not approved.
+        Prompt: This scenario creates, reads, modifies, renames, and removes one owned fixture tree. Use a dedicated test Vault. Continue?
+        PromptTitle: "Review Harness: Vault fixture access"
+    Warning: Use a dedicated test Vault. Read-only scenarios are labelled. The Vault round-trip scenario writes only after confirmation, owns one fixed fixture tree, and removes it in a finally block. The Harness never accepts arbitrary commands, paths, code, or remote credentials.

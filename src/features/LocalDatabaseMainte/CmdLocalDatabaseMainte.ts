@@ -1,4 +1,5 @@
 import { sizeToHumanReadable } from "octagonal-wheels/number";
+import { $msg } from "@/common/translation";
 import {
     EntryTypes,
     LOG_LEVEL_INFO,
@@ -37,7 +38,7 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
         // NO OP.
         this.plugin.addCommand({
             id: "analyse-database",
-            name: "Analyse Database Usage (advanced)",
+            name: $msg("Analyse Database Usage (advanced)"),
             icon: "database-search",
             checkCallback: (checking) => {
                 if (!this.settings.useAdvancedMode || !this._isDatabaseReady()) return false;
@@ -49,7 +50,7 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
         });
         this.plugin.addCommand({
             id: "gc-v3",
-            name: "Garbage Collection V3 (advanced, beta)",
+            name: $msg("Garbage Collection V3 (advanced, beta)"),
             icon: "trash-2",
             checkCallback: (checking) => {
                 const isApplicableRemote = this.settings.remoteType === REMOTE_COUCHDB;
@@ -682,7 +683,7 @@ Success: ${successCount}, Errored: ${errored}`;
         }
 
         const titleMap = {
-            title: "Title",
+            title: $msg("Title"),
             id: "Document ID",
             path: "Path",
             rev: "Revision No",
@@ -733,7 +734,7 @@ Success: ${successCount}, Errored: ${errored}`;
         const csv = csvSrc.join("\n");
 
         // Prompt to copy to clipboard
-        await this.services.UI.promptCopyToClipboard("Database Analysis data (TSV):", csv);
+        await this.services.UI.promptCopyToClipboard($msg("Database Analysis data (TSV):"), csv);
     }
 
     async compactDatabase() {
@@ -871,7 +872,7 @@ It is preferable to update all devices if possible. If you have any devices that
             // const OPTION_DELETE = "Delete them and proceed";
             const buttons = [OPTION_CANCEL, OPTION_IGNORE] as const;
             const result = await this.core.confirm.askSelectStringDialogue(message, buttons, {
-                title: "Node Information Missing",
+                title: $msg("Node Information Missing"),
                 defaultAction: OPTION_CANCEL,
             });
             if (result === OPTION_CANCEL) {
@@ -917,7 +918,7 @@ This may indicate that some devices have not completed synchronisation, which co
         const buttons = [OPTION_PROCEED, OPTION_CANCEL] as const;
         const defaultAction = progressDifference != 0 ? OPTION_CANCEL : OPTION_PROCEED;
         const result = await this.core.confirm.askSelectStringDialogue(message + "\n\n" + detail, buttons, {
-            title: "Garbage Collection Confirmation",
+            title: $msg("Garbage Collection Confirmation"),
             defaultAction,
         });
         if (result !== OPTION_PROCEED) {

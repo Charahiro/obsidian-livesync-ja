@@ -36,18 +36,30 @@ function writeJson(directory: string, path: string, value: unknown): void {
 }
 
 function runNode(script: string, args: string[], cwd: string, env: Record<string, string> = {}) {
+    const childEnvironment = { ...process.env };
+    for (const [key, value] of Object.entries(env)) {
+        const existingKey = Object.keys(childEnvironment).find((candidate) => candidate.toLowerCase() === key.toLowerCase());
+        if (existingKey !== undefined) delete childEnvironment[existingKey];
+        childEnvironment[key] = value;
+    }
     return spawnSync(process.execPath, [script, ...args], {
         cwd,
         encoding: "utf8",
-        env: { ...process.env, ...env },
+        env: childEnvironment,
     });
 }
 
 function runNpm(args: string[], cwd: string) {
-    return spawnSync(process.platform === "win32" ? "npm.cmd" : "npm", args, {
+    const npmCli = process.env.npm_execpath;
+    const childEnvironment = { ...process.env };
+    for (const key of Object.keys(childEnvironment)) {
+        if (key.toLowerCase() === "npm_package_version") delete childEnvironment[key];
+    }
+    return spawnSync(npmCli ? process.execPath : "npm", npmCli ? [npmCli, ...args] : args, {
         cwd,
         encoding: "utf8",
-        env: process.env,
+        env: childEnvironment,
+        shell: !npmCli && process.platform === "win32",
     });
 }
 
@@ -268,14 +280,14 @@ describe("release workflow", () => {
         expect(workflow).toContain("explicitly dispatched the CLI container workflow");
     });
 
-    it("publishes only by explicit dispatch and validates the selected release", () => {
+    it("publishes Japanese tags or an explicitly selected Japanese release", () => {
         const workflow = readFileSync(releaseWorkflow, "utf8");
 
-        expect(workflow).not.toMatch(/^\s+push:/m);
-        expect(workflow).toContain("ref: ${{ inputs.tag }}");
-        expect(workflow).toContain('node utils/release-notes.mjs validate "${TAG}"');
-        expect(workflow).toContain('TAG_SHA="$(git rev-parse "refs/tags/${TAG}^{commit}")"');
-        expect(workflow).not.toContain("Get Version");
+        expect(workflow).toMatch(/^\s+push:/m);
+        expect(workflow).toContain('- "ja-*"');
+        expect(workflow).toContain("workflow_dispatch:");
+        expect(workflow).toContain("ref: ${{ steps.version.outputs.tag }}");
+        expect(workflow).toContain("npm run i18n:audit-ja");
     });
 
     it("supports a pre-release plug-in without creating or publishing a CLI release", () => {
@@ -287,11 +299,12 @@ describe("release workflow", () => {
         expect(workflow).toContain("--plugin-only");
     });
 
-    it("does not attach an unsupported release archive", () => {
+    it("attaches a versioned Japanese release archive", () => {
         const workflow = readFileSync(releaseWorkflow, "utf8");
 
-        expect(workflow).not.toContain("zip -r");
-        expect(workflow).not.toContain("${{ github.event.repository.name }}.zip");
+        expect(workflow).toContain("zip -r");
+        expect(workflow).toContain('${{ github.event.repository.name }}-${{ steps.version.outputs.tag }}.zip');
+        expect(workflow).toContain("${{ env.ZIP_NAME }}");
     });
 
     it("does not promote a pre-release CLI image to stable moving tags", () => {

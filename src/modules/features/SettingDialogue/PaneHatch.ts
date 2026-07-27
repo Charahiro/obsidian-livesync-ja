@@ -66,7 +66,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             .setDesc($msg("Setting.TroubleShooting.ScanBrokenFiles.Desc"))
             .addButton((button) =>
                 button
-                    .setButtonText("Scan for Broken files")
+                    .setButtonText($msg("Scan for Broken files"))
                     .setCta()
                     .setDisabled(false)
                     .onClick(() => {
@@ -895,13 +895,13 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
         new Setting(paneEl)
-            .setName("Resolve All conflicted files by the newer one")
+            .setName($msg("Resolve All conflicted files by the newer one"))
             .setDesc(
                 "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
             )
             .addButton((button) =>
                 button
-                    .setButtonText("Resolve All")
+                    .setButtonText($msg("Resolve All"))
                     .setCta()
                     .onClick(async () => {
                         const confirmed =
@@ -921,11 +921,11 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
         new Setting(paneEl)
-            .setName("Check and convert non-path-obfuscated files")
+            .setName($msg("Check and convert non-path-obfuscated files"))
             .setDesc("")
             .addButton((button) =>
                 button
-                    .setButtonText("Perform")
+                    .setButtonText($msg("Perform"))
                     .setDisabled(false)
                     .setWarning()
                     .onClick(async () => {
@@ -1000,9 +1000,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             );
     });
     void addPanel(paneEl, "Reset").then((paneEl) => {
-        new Setting(paneEl).setName("Back to non-configured").addButton((button) =>
+        new Setting(paneEl).setName($msg("Back to non-configured")).addButton((button) =>
             button
-                .setButtonText("Back")
+                .setButtonText($msg("Back"))
                 .setDisabled(false)
                 .onClick(async () => {
                     this.editingSettings.isConfigured = false;
@@ -1011,9 +1011,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 })
         );
 
-        new Setting(paneEl).setName("Delete all customization sync data").addButton((button) =>
+        new Setting(paneEl).setName($msg("Delete all customization sync data")).addButton((button) =>
             button
-                .setButtonText("Delete")
+                .setButtonText($msg("Delete"))
                 .setDisabled(false)
                 .setWarning()
                 .onClick(async () => {

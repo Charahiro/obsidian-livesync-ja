@@ -16,15 +16,16 @@ import {
     runReviewHarnessVaultRoundTrip,
 } from "@/features/ReviewHarness/reviewHarnessVaultFixture";
 import type { CompatibilityReviewController } from "./compatibilityReview";
+import { $msg } from "@/common/translation";
 
 async function runVaultRoundTrip(plugin: ObsidianLiveSyncPlugin): Promise<ReviewHarnessScenarioResult> {
     const vault = plugin.app.vault;
     return runReviewHarnessVaultRoundTrip({
         confirmFixtureAccess: async () =>
             (await plugin.core.services.UI.confirm.askYesNoDialog(
-                "This scenario creates, reads, modifies, renames, and removes one owned fixture tree. Use a dedicated test Vault. Continue?",
+                $msg("ReviewHarness.VaultFixture.Prompt"),
                 {
-                    title: "Review Harness: Vault fixture access",
+                    title: $msg("ReviewHarness.VaultFixture.PromptTitle"),
                     defaultOption: "No",
                 }
             )) === "yes",
@@ -71,7 +72,7 @@ export function useReviewHarness(
         restart: () => services.appLifecycle.performRestart(),
         reportError: (error) => services.API.addLog(error, LOG_LEVEL_NOTICE),
         copyText: async (value) => {
-            if (!activeWindow.navigator.clipboard) throw new Error("Clipboard access is unavailable on this device.");
+            if (!activeWindow.navigator.clipboard) throw new Error($msg("ReviewHarness.Error.ClipboardUnavailable"));
             await activeWindow.navigator.clipboard.writeText(value);
         },
         getEnvironment: () => ({
@@ -106,7 +107,7 @@ export function useReviewHarness(
         );
         services.API.addCommand({
             id: "open-review-harness",
-            name: "Open review harness",
+            name: $msg("ReviewHarness.Command.Open"),
             callback: () => {
                 void services.API.showWindow(VIEW_TYPE_REVIEW_HARNESS);
             },
