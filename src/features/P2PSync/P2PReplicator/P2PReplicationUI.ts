@@ -1,7 +1,7 @@
 import type { App } from "@/deps.ts";
-import { Logger } from "@lib/common/logger";
-import { LOG_LEVEL_NOTICE, LOG_LEVEL_INFO } from "@lib/common/types";
-import type { LiveSyncTrysteroReplicator } from "@lib/replication/trystero/LiveSyncTrysteroReplicator";
+import { Logger } from "@vrtmrz/livesync-commonlib/compat/common/logger";
+import { LOG_LEVEL_NOTICE, LOG_LEVEL_INFO } from "@vrtmrz/livesync-commonlib/compat/common/types";
+import type { LiveSyncTrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/LiveSyncTrysteroReplicator";
 import { P2POpenReplicationModal } from "./P2POpenReplicationModal";
 
 /**
@@ -46,7 +46,7 @@ export function createOpenReplicationUI(
                         if (sessionResult && closeConnection) await replicator.close();
                     } catch (e) {
                         Logger(
-                            `${peerId} との双方向同期中にエラーが発生しました: ${e instanceof Error ? e.message : String(e)}`,
+                            `Error in bidirectional sync with ${peerId}: ${e instanceof Error ? e.message : String(e)}`,
                             logLevel
                         );
                         sessionResult = false;
@@ -110,12 +110,12 @@ export function createOpenRebuildUI(
                     activeSynchronisations++;
                     try {
                         replicator.setOnSetup();
-                        Logger(`ピア ${peerId} から再構築しています`, logLevel);
-                        const result = await replicator.replicateFrom(peerId, showResult);
+                        Logger(`Rebuilding from peer ${peerId}`, logLevel);
+                        const result = await replicator.replicateFrom(peerId, showResult, true);
                         sessionResult = result?.ok ?? false;
                     } catch (e) {
                         Logger(
-                            `${peerId} からの再構築中にエラーが発生しました: ${e instanceof Error ? e.message : String(e)}`,
+                            `Error in rebuild from ${peerId}: ${e instanceof Error ? e.message : String(e)}`,
                             logLevel
                         );
                         sessionResult = false;
@@ -138,7 +138,7 @@ export function createOpenRebuildUI(
                         onSyncAndClose: doRebuild,
                     },
                     showResult,
-                    "P2P再構築",
+                    "P2P Rebuild",
                     () => {
                         closed = true;
                         settleSession();

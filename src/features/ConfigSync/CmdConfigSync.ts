@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import type PouchDB from "pouchdb-core";
 import {
     Notice,
     type PluginManifest,
@@ -19,7 +20,7 @@ import type {
     AnyEntry,
     SavingEntry,
     diff_result,
-} from "@lib/common/types.ts";
+} from "@vrtmrz/livesync-commonlib/compat/common/types";
 import {
     CANCELLED,
     LEAVE_TO_SUBSEQUENT,
@@ -29,7 +30,7 @@ import {
     LOG_LEVEL_VERBOSE,
     MODE_SELECTIVE,
     MODE_SHINY,
-} from "@lib/common/types.ts";
+} from "@vrtmrz/livesync-commonlib/compat/common/types";
 import { ICXHeader, PERIODIC_PLUGIN_SWEEP } from "@/common/types.ts";
 import {
     createBlob,
@@ -42,12 +43,16 @@ import {
     isDocContentSame,
     isLoadedEntry,
     isObjectDifferent,
-} from "@lib/common/utils.ts";
-import { digestHash } from "@lib/string_and_binary/hash.ts";
-import { arrayBufferToBase64, decodeBinary, readString } from "@lib/string_and_binary/convert.ts";
+} from "@vrtmrz/livesync-commonlib/compat/common/utils";
+import { digestHash } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/hash";
+import {
+    arrayBufferToBase64,
+    decodeBinary,
+    readString,
+} from "@vrtmrz/livesync-commonlib/compat/string_and_binary/convert";
 import { serialized, shareRunningResult } from "octagonal-wheels/concurrency/lock";
 import { LiveSyncCommands } from "@/features/LiveSyncCommands.ts";
-import { stripAllPrefixes } from "@lib/string_and_binary/path.ts";
+import { stripAllPrefixes } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/path";
 import {
     EVEN,
     disposeMemoObject,
@@ -61,28 +66,22 @@ import {
 import { PeriodicProcessor } from "@/common/PeriodicProcessor.ts";
 import { JsonResolveModal } from "@/features/HiddenFileCommon/JsonResolveModal.ts";
 import { QueueProcessor } from "octagonal-wheels/concurrency/processor";
-import { pluginScanningCount } from "@lib/mock_and_interop/stores.ts";
+import { pluginScanningCount } from "@vrtmrz/livesync-commonlib/compat/mock_and_interop/stores";
 import type ObsidianLiveSyncPlugin from "@/main.ts";
 import { base64ToArrayBuffer, base64ToString } from "octagonal-wheels/binary/base64";
 import { ConflictResolveModal } from "@/modules/features/InteractiveConflictResolving/ConflictResolveModal.ts";
 import { Semaphore } from "octagonal-wheels/concurrency/semaphore";
 import { EVENT_REQUEST_OPEN_PLUGIN_SYNC_DIALOG, eventHub } from "@/common/events.ts";
 import { PluginDialogModal } from "./PluginDialogModal.ts";
-import { $msg } from "@lib/common/i18n.ts";
-import type { InjectableServiceHub } from "@lib/services/InjectableServices.ts";
+import { $msg } from "@/common/translation";
+import type { InjectableServiceHub } from "@vrtmrz/livesync-commonlib/compat/services/implements/injectable/InjectableServiceHub";
 import type { LiveSyncCore } from "@/main.ts";
-import { LiveSyncError } from "@lib/common/LSError.ts";
+import { LiveSyncError } from "@vrtmrz/livesync-commonlib/compat/common/LSError";
+import type { OptionalSyncFeatureMode } from "@/features/optionalSyncFeatures.ts";
+import { getObsidianCommunityPluginManager } from "@/common/obsidianCommunityPlugins.ts";
 
 const d = "\u200b";
 const d2 = "\n";
-
-declare global {
-    interface OPTIONAL_SYNC_FEATURES {
-        DISABLE: "DISABLE";
-        CUSTOMIZE: "CUSTOMIZE";
-        DISABLE_CUSTOM: "DISABLE_CUSTOM";
-    }
-}
 
 function serialize(data: PluginDataEx): string {
     // For higher performance, create custom plug-in data strings.
@@ -250,7 +249,8 @@ function deserialize<T>(str: string[], def: T) {
         return JSON.parse(str.join("")) as T;
     } catch {
         try {
-            return parseYaml(str.join(""));
+            const parsed: unknown = parseYaml(str.join(""));
+            return parsed as T;
         } catch {
             return def;
         }
@@ -453,9 +453,15 @@ export class ConfigSync extends LiveSyncCommands {
         );
         this.services.API.addCommand({
             id: "livesync-plugin-dialog-ex",
-            name: "カスタマイズ同期ダイアログを表示",
-            callback: () => {
-                this.showPluginSyncModal();
+            name: "Show customization sync dialog",
+            checkCallback: (checking) => {
+                if (!this.isThisModuleEnabled()) {
+                    return false;
+                }
+                if (!checking) {
+                    this.showPluginSyncModal();
+                }
+                return true;
             },
         });
         this.addRibbonIcon("custom-sync", $msg("cmdConfigSync.showCustomizationSync"), () => {
@@ -495,11 +501,11 @@ export class ConfigSync extends LiveSyncCommands {
     private async _everyOnDatabaseInitialized(showNotice: boolean) {
         if (!this.isThisModuleEnabled()) return true;
         try {
-            this._log("カスタマイズをスキャンしています...");
+            this._log("Scanning customizations...");
             await this.scanAllConfigFiles(showNotice);
-            this._log("カスタマイズのスキャンが完了しました");
+            this._log("Scanning customizations : done");
         } catch (ex) {
-            this._log("カスタマイズのスキャンに失敗しました");
+            this._log("Scanning customizations : failed");
             this._log(ex, LOG_LEVEL_VERBOSE);
         }
         return true;
@@ -592,7 +598,7 @@ export class ConfigSync extends LiveSyncCommands {
                 // Failed to load
                 return [];
             } catch (ex) {
-                this._log(`カスタマイズの列挙中に問題が発生しました: ${path}`, LOG_LEVEL_NOTICE);
+                this._log(`Something happened at enumerating customization :${path}`, LOG_LEVEL_NOTICE);
                 this._log(ex, LOG_LEVEL_VERBOSE);
             }
             return [];
@@ -626,7 +632,7 @@ export class ConfigSync extends LiveSyncCommands {
                 // Failed to load
                 return [];
             } catch (ex) {
-                this._log(`カスタマイズの列挙中に問題が発生しました: ${path}`, LOG_LEVEL_NOTICE);
+                this._log(`Something happened at enumerating customization :${path}`, LOG_LEVEL_NOTICE);
                 this._log(ex, LOG_LEVEL_VERBOSE);
             }
             return [];
@@ -955,12 +961,12 @@ export class ConfigSync extends LiveSyncCommands {
                                     res(false);
                                 }
                             },
-                            "ローカル",
+                            "Local",
                             `${dataB.term}`,
                             "B",
                             true,
                             true,
-                            "ローカルとリモートの差分"
+                            "Difference between local and remote"
                         );
                         modal.open();
                     })
@@ -1100,12 +1106,11 @@ export class ConfigSync extends LiveSyncCommands {
             await delay(100);
             this._log(`Config ${data.displayName || data.name} has been applied`, LOG_LEVEL_NOTICE);
             if (data.category == "PLUGIN_DATA" || data.category == "PLUGIN_MAIN") {
-                //@ts-ignore
-                const manifests = Object.values(this.app.plugins.manifests) as unknown as PluginManifest[];
-                //@ts-ignore
-                const enabledPlugins = this.app.plugins.enabledPlugins as Set<string>;
-                const pluginManifest = manifests.find(
-                    (manifest) => enabledPlugins.has(manifest.id) && manifest.dir == `${baseDir}/plugins/${data.name}`
+                const pluginManager = getObsidianCommunityPluginManager(this.app);
+                const pluginManifest = pluginManager.manifests.find(
+                    (manifest) =>
+                        pluginManager.enabledPlugins.has(manifest.id) &&
+                        manifest.dir == `${baseDir}/plugins/${data.name}`
                 );
                 if (pluginManifest) {
                     this._log(
@@ -1113,10 +1118,8 @@ export class ConfigSync extends LiveSyncCommands {
                         LOG_LEVEL_NOTICE,
                         "plugin-reload-" + pluginManifest.id
                     );
-                    // @ts-ignore
-                    await this.app.plugins.unloadPlugin(pluginManifest.id);
-                    // @ts-ignore
-                    await this.app.plugins.loadPlugin(pluginManifest.id);
+                    await pluginManager.unloadPlugin(pluginManifest.id);
+                    await pluginManager.loadPlugin(pluginManifest.id);
                     this._log(
                         `Plugin reloaded: ${pluginManifest.name}`,
                         LOG_LEVEL_NOTICE,
@@ -1178,7 +1181,7 @@ export class ConfigSync extends LiveSyncCommands {
         if (this.isThisModuleEnabled() && this.core.settings.notifyPluginOrSettingUpdated) {
             if (!this.pluginDialog || (this.pluginDialog && !this.pluginDialog.isOpened())) {
                 const fragment = createFragment((doc) => {
-                    doc.createEl("span", undefined, (a) => {
+                    doc.createSpan(undefined, (a) => {
                         a.appendText(`Some configuration has been arrived, Press `);
                         a.appendChild(
                             a.createEl("a", undefined, (anchor) => {
@@ -1196,7 +1199,7 @@ export class ConfigSync extends LiveSyncCommands {
                 const updatedPluginKey = "popupUpdated-plugins";
                 scheduleTask(updatedPluginKey, 1000, async () => {
                     const popup = await memoIfNotExist(updatedPluginKey, () => new Notice(fragment, 0));
-                    //@ts-ignore
+                    //@ts-ignore -- retained for compatibility with Obsidian versions before Notice.messageEl.
                     const isShown = popup?.noticeEl?.isShown();
                     if (!isShown) {
                         memoObject(updatedPluginKey, new Notice(fragment, 0));
@@ -1204,7 +1207,7 @@ export class ConfigSync extends LiveSyncCommands {
                     scheduleTask(updatedPluginKey + "-close", 20000, () => {
                         const popup = retrieveMemoObject<Notice>(updatedPluginKey);
                         if (!popup) return;
-                        //@ts-ignore
+                        //@ts-ignore -- retained for compatibility with Obsidian versions before Notice.messageEl.
                         if (popup?.noticeEl?.isShown()) {
                             popup.hide();
                         }
@@ -1246,23 +1249,25 @@ export class ConfigSync extends LiveSyncCommands {
             if (path.toLowerCase().endsWith("/manifest.json")) {
                 const v = readString(new Uint8Array(contentBin));
                 try {
-                    const json = JSON.parse(v);
-                    if ("version" in json) {
-                        version = `${json.version}`;
-                    }
-                    if ("name" in json) {
-                        displayName = `${json.name}`;
+                    const json: unknown = JSON.parse(v);
+                    if (typeof json === "object" && json !== null) {
+                        if ("version" in json) {
+                            version = String(json.version);
+                        }
+                        if ("name" in json) {
+                            displayName = String(json.name);
+                        }
                     }
                 } catch (ex) {
                     this._log(
-                        `構成同期データ ${path} は manifest のようですが、バージョンを読み取れませんでした`,
+                        `Configuration sync data: ${path} looks like manifest, but could not read the version`,
                         LOG_LEVEL_INFO
                     );
                     this._log(ex, LOG_LEVEL_VERBOSE);
                 }
             }
         } catch (ex) {
-            this._log(`ファイル ${path} をエンコードできませんでした`);
+            this._log(`The file ${path} could not be encoded`);
             this._log(ex, LOG_LEVEL_VERBOSE);
             return false;
         }
@@ -1357,7 +1362,7 @@ export class ConfigSync extends LiveSyncCommands {
     async storeCustomizationFiles(path: FilePath, termOverRide?: string) {
         const term = termOverRide || this.services.setting.getDeviceAndVaultName();
         if (term == "") {
-            this._log("デバイス名を設定する必要があります", LOG_LEVEL_NOTICE);
+            this._log("We have to configure the device name", LOG_LEVEL_NOTICE);
             return;
         }
         if (this.useV2) {
@@ -1452,7 +1457,7 @@ export class ConfigSync extends LiveSyncCommands {
                     }
                     const oldC = await this.localDatabase.getDBEntryFromMeta(old, false, false);
                     if (oldC) {
-                        const d = (await deserialize(getDocDataAsArray(oldC.data), {})) as PluginDataEx;
+                        const d = deserialize(getDocDataAsArray(oldC.data), {}) as PluginDataEx;
                         if (d.files.length == dt.files.length) {
                             const diffs = d.files
                                 .map((previous) => ({
@@ -1544,10 +1549,10 @@ export class ConfigSync extends LiveSyncCommands {
     async scanAllConfigFiles(showMessage: boolean) {
         await shareRunningResult("scanAllConfigFiles", async () => {
             const logLevel = showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO;
-            this._log("カスタマイズファイルをスキャンしています。", logLevel, "scan-all-config");
+            this._log("Scanning customizing files.", logLevel, "scan-all-config");
             const term = this.services.setting.getDeviceAndVaultName();
             if (term == "") {
-                this._log("デバイス名を設定する必要があります", LOG_LEVEL_NOTICE);
+                this._log("We have to configure the device name", LOG_LEVEL_NOTICE);
                 return;
             }
             const filesAll = await this.scanInternalFiles();
@@ -1683,43 +1688,6 @@ export class ConfigSync extends LiveSyncCommands {
         return filenames as FilePath[];
     }
 
-    private async _allAskUsingOptionalSyncFeature(opt: {
-        enableFetch?: boolean;
-        enableOverwrite?: boolean;
-    }): Promise<boolean> {
-        await this.__askHiddenFileConfiguration(opt);
-        return true;
-    }
-    private async __askHiddenFileConfiguration(opt: { enableFetch?: boolean; enableOverwrite?: boolean }) {
-        const message = `**カスタマイズ同期**を有効にしますか？
-
-> [!DETAILS]-
-> この機能では、設定、テーマ、スニペット、プラグインなどのカスタマイズを、隠しファイル同期の完全自動の動作とは異なり、制御しながらデバイス間で同期できます。
-> 
-> この機能は隠しファイル同期と併用できます。両方を有効にした場合、この機能で \`自動\` に設定された項目は **隠しファイル同期** によって管理されます。
-> このダイアログの後で、**隠しファイル同期**を有効にするか無効のままにするかを確認します。
-`;
-        const CHOICE_CUSTOMIZE = "はい、有効にします";
-        const CHOICE_DISABLE = "いいえ、無効にします";
-        const CHOICE_DISMISS = "後で";
-        const choices = [];
-
-        choices.push(CHOICE_CUSTOMIZE);
-        choices.push(CHOICE_DISABLE);
-        choices.push(CHOICE_DISMISS);
-
-        const ret = await this.core.confirm.askSelectStringDialogue(message, choices, {
-            defaultAction: CHOICE_DISMISS,
-            timeout: 40,
-            title: "カスタマイズ同期",
-        });
-        if (ret == CHOICE_CUSTOMIZE) {
-            await this.configureHiddenFileSync("CUSTOMIZE");
-        } else if (ret == CHOICE_DISABLE) {
-            await this.configureHiddenFileSync("DISABLE_CUSTOM");
-        }
-    }
-
     _anyGetOptionalConflictCheckMethod(path: FilePathWithPrefix): Promise<boolean | "newer"> {
         if (isPluginMetadata(path)) {
             return Promise.resolve("newer");
@@ -1733,7 +1701,7 @@ export class ConfigSync extends LiveSyncCommands {
     private _allSuspendExtraSync(): Promise<boolean> {
         if (this.core.settings.usePluginSync || this.core.settings.autoSweepPlugins) {
             this._log(
-                "カスタマイズ同期は一時的に無効化されました。必要な場合は取得完了後に再度有効化してください。",
+                "Customisation sync have been temporarily disabled. Please enable them after the fetching, if you need them.",
                 LOG_LEVEL_NOTICE
             );
             this.core.settings.usePluginSync = false;
@@ -1742,11 +1710,11 @@ export class ConfigSync extends LiveSyncCommands {
         return Promise.resolve(true);
     }
 
-    private async _allConfigureOptionalSyncFeature(mode: keyof OPTIONAL_SYNC_FEATURES) {
+    private async _allConfigureOptionalSyncFeature(mode: OptionalSyncFeatureMode) {
         await this.configureHiddenFileSync(mode);
         return true;
     }
-    async configureHiddenFileSync(mode: keyof OPTIONAL_SYNC_FEATURES) {
+    async configureHiddenFileSync(mode: OptionalSyncFeatureMode) {
         if (mode == "DISABLE") {
             // this.plugin.settings.usePluginSync = false;
             // await this.plugin.saveSettings();
@@ -1761,11 +1729,7 @@ export class ConfigSync extends LiveSyncCommands {
 
         if (mode == "CUSTOMIZE") {
             if (!this.services.setting.getDeviceAndVaultName()) {
-                let name = await this.core.confirm.askString(
-                    "デバイス名",
-                    "このデバイス名を設定してください",
-                    `desktop`
-                );
+                let name = await this.core.confirm.askString("Device name", "Please set this device name", `desktop`);
                 if (!name) {
                     if (Platform.isAndroidApp) {
                         name = "android-app";
@@ -1830,7 +1794,6 @@ export class ConfigSync extends LiveSyncCommands {
         services.replication.onBeforeReplicate.addHandler(this._everyBeforeReplicate.bind(this));
         services.databaseEvents.onDatabaseInitialised.addHandler(this._everyOnDatabaseInitialized.bind(this));
         services.setting.suspendExtraSync.addHandler(this._allSuspendExtraSync.bind(this));
-        services.setting.suggestOptionalFeatures.addHandler(this._allAskUsingOptionalSyncFeature.bind(this));
         services.setting.enableOptionalFeature.addHandler(this._allConfigureOptionalSyncFeature.bind(this));
     }
 }

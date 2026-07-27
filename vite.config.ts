@@ -18,7 +18,7 @@ function readJson(filePath: string) {
 
 const manifestJson = readJson(path.resolve(__dirname, "manifest.json"));
 const packageJson = readJson(path.resolve(__dirname, "package.json"));
-const updatesPath = path.resolve(__dirname, "updates.md");
+const updatesPath = path.resolve(__dirname, fs.existsSync(path.resolve(__dirname, "updates_ja.md")) ? "updates_ja.md" : "updates.md");
 const updateInfo = JSON.stringify(fs.existsSync(updatesPath) ? fs.readFileSync(updatesPath, "utf-8") : "");
 
 // const moduleAliasPlugin = {
@@ -130,7 +130,6 @@ export default defineConfig(({ mode }) => {
         resolve: {
             alias: {
                 "@": path.resolve(__dirname, "./src"),
-                "@lib": path.resolve(__dirname, "./src/lib/src"),
                 src: path.resolve(__dirname, "./src"),
             },
         },

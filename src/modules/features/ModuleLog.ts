@@ -6,9 +6,9 @@ import {
     PREFIXMD_LOGFILE,
     type DatabaseConnectingStatus,
     type LOG_LEVEL,
-} from "@lib/common/types.ts";
+} from "@vrtmrz/livesync-commonlib/compat/common/types";
 import { cancelTask, scheduleTask } from "octagonal-wheels/concurrency/task";
-import { fireAndForget, isDirty, throttle } from "@lib/common/utils.ts";
+import { fireAndForget, isDirty, throttle } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import {
     collectingChunks,
     pluginScanningCount,
@@ -16,21 +16,21 @@ import {
     hiddenFilesProcessingCount,
     type LogEntry,
     logMessages,
-} from "@lib/mock_and_interop/stores.ts";
-import { eventHub } from "@lib/hub/hub.ts";
+} from "@vrtmrz/livesync-commonlib/compat/mock_and_interop/stores";
 import {
     EVENT_FILE_RENAMED,
     EVENT_LAYOUT_READY,
     EVENT_LEAF_ACTIVE_CHANGED,
     EVENT_ON_UNRESOLVED_ERROR,
+    eventHub,
 } from "@/common/events.ts";
 import { AbstractObsidianModule } from "@/modules/AbstractObsidianModule.ts";
 import { addIcon, debounce, normalizePath, Notice, stringifyYaml, type WorkspaceLeaf } from "@/deps.ts";
 import { LOG_LEVEL_NOTICE, setGlobalLogFunction } from "octagonal-wheels/common/logger";
 import { LogPaneView, VIEW_TYPE_LOG } from "./Log/LogPaneView.ts";
 import { serialized } from "octagonal-wheels/concurrency/lock";
-import { $msg } from "@lib/common/i18n.ts";
-import { P2PLogCollector } from "@lib/replication/trystero/P2PLogCollector.ts";
+import { $msg } from "@/common/translation";
+import { P2PLogCollector } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/P2PLogCollector";
 import {
     REMOTE_REQUEST_ACTIVITY_MINIMUM_VISIBLE_MS,
     formatRemoteActivityStatusLabel,
@@ -38,16 +38,16 @@ import {
 } from "./RemoteActivityStatus.ts";
 import { createMinimumVisibleActivityCount, createPaddedCounterLabel } from "./StatusBarDisplay.ts";
 import type { LiveSyncCore } from "@/main.ts";
-import { LiveSyncError } from "@lib/common/LSError.ts";
+import { LiveSyncError } from "@vrtmrz/livesync-commonlib/compat/common/LSError";
 import { isValidPath } from "@/common/utils.ts";
 import {
     isValidFilenameInAndroid,
     isValidFilenameInDarwin,
     isValidFilenameInWidows,
-} from "@lib/string_and_binary/path.ts";
-import { MARK_LOG_NETWORK_ERROR, MARK_LOG_SEPARATOR } from "@lib/services/lib/logUtils.ts";
-import { NetworkWarningStyles } from "@lib/common/models/setting.const.ts";
-import { compatGlobal } from "@lib/common/coreEnvFunctions.ts";
+} from "@vrtmrz/livesync-commonlib/compat/string_and_binary/path";
+import { MARK_LOG_NETWORK_ERROR, MARK_LOG_SEPARATOR } from "@vrtmrz/livesync-commonlib/compat/services/lib/logUtils";
+import { NetworkWarningStyles } from "@vrtmrz/livesync-commonlib/compat/common/models/setting.const";
+import { compatGlobal } from "@vrtmrz/livesync-commonlib/compat/common/coreEnvFunctions";
 import { generateReport } from "@/common/reportTool.ts";
 
 // This module cannot be a core module because it depends on the Obsidian UI.
@@ -75,171 +75,6 @@ function addLog(log: string) {
     while (logForDump.length > 1000) {
         logForDump.shift();
     }
-}
-
-type DisplayLogRule = {
-    pattern: RegExp;
-    replace: string | ((match: RegExpExecArray) => string);
-};
-
-const exactDisplayLogTranslations = new Map<string, string>([
-    ["Replication activated", "レプリケーションを開始しました"],
-    ["Replication completed", "レプリケーションが完了しました"],
-    ["Replication denied", "レプリケーションが拒否されました"],
-    ["Replication error", "レプリケーションでエラーが発生しました"],
-    ["Replication callback error", "レプリケーションのコールバックでエラーが発生しました"],
-    ["Replication paused", "レプリケーションを一時停止しました"],
-    ["Replication stopped.", "レプリケーションを停止しました"],
-    ["Replication stopped for busy.", "処理が混み合っているため、レプリケーションを停止しました"],
-    [
-        "Something went wrong during synchronisation. Please check the log!",
-        "同期中に問題が発生しました。ログを確認してください。",
-    ],
-    ["Unexpected synchronization exception", "同期中に予期しない例外が発生しました"],
-    ["LiveSync Disabled.", "LiveSync を無効にしました。"],
-    ["LiveSync Enabled.", "LiveSync を有効にしました。"],
-    ["Self-hosted LiveSync resumed", "Self-hosted LiveSync を再開しました"],
-    ["Self-hosted LiveSync suspended", "Self-hosted LiveSync を一時停止しました"],
-    ["Initializing", "初期化中"],
-    ["Synchronising...", "同期中..."],
-    ["Initialize done!", "初期化が完了しました"],
-    ["Initialized, NOW TRACKING!", "初期化が完了し、変更の監視を開始しました"],
-    ["Opening the key-value database", "キー値データベースを開いています"],
-    ["Restoring storage state", "ストレージ状態を復元しています"],
-    ["Initialize and checking database files", "初期化し、データベースファイルを確認しています"],
-    ["Checking deleted files", "削除済みファイルを確認しています"],
-    ["Collecting local files on the storage", "ストレージ上のローカルファイルを収集しています"],
-    ["Collecting local files on the DB", "データベース上のローカルファイルを収集しています"],
-    ["There are no old documents", "古いドキュメントはありません"],
-    ["Checking expired file history", "期限切れのファイル履歴を確認しています"],
-    ["Checking expired file history done", "期限切れのファイル履歴の確認が完了しました"],
-    ["Journal received history has been cleared.", "ジャーナル受信履歴をクリアしました。"],
-    ["Journal sent history has been cleared.", "ジャーナル送信履歴をクリアしました。"],
-    ["Cleanup has been began", "クリーンアップを開始しました"],
-    ["Cleanup has been completed!", "クリーンアップが完了しました。"],
-    ["Cleanup has been failed!", "クリーンアップに失敗しました。"],
-    ["Journal exchange history has been cleared.", "ジャーナル交換履歴をクリアしました。"],
-    [
-        "Journal download/upload cache has been cleared.",
-        "ジャーナルのダウンロード/アップロードキャッシュをクリアしました。",
-    ],
-    ["Deleted all data on remote server", "リモートサーバー上のすべてのデータを削除しました"],
-]);
-
-const displayLogRules: DisplayLogRule[] = [
-    {
-        pattern: /^Found (\d+) size mismatches$/,
-        replace: (match) => `サイズ不一致が ${match[1]} 件見つかりました`,
-    },
-    {
-        pattern: /^No chunks were found for the following IDs: (.+)$/,
-        replace: (match) => `次の ID のチャンクは見つかりませんでした: ${match[1]}`,
-    },
-    {
-        pattern: /^No valid chunks were found for the following IDs: (.+)$/,
-        replace: (match) => `次の ID に有効なチャンクは見つかりませんでした: ${match[1]}`,
-    },
-    {
-        pattern: /^Writing fetched chunks \((\d+)\) to the database\.\.\.$/,
-        replace: (match) => `取得したチャンク (${match[1]}) をデータベースへ書き込んでいます...`,
-    },
-    {
-        pattern: /^Fetched chunks were stored successfully: (\d+)$/,
-        replace: (match) => `取得したチャンクを保存しました: ${match[1]}`,
-    },
-    {
-        pattern: /^Uploading journal:: (\d+) files have been uploaded!$/,
-        replace: (match) => `ジャーナルのアップロード: ${match[1]} 個のファイルをアップロードしました。`,
-    },
-    {
-        pattern: /^Uploading journal: (\d+) \/ (\d+)(\nRETRY:(\d+))?$/,
-        replace: (match) =>
-            `ジャーナルをアップロード中: ${match[1]} / ${match[2]}${match[4] ? `\n再試行:${match[4]}` : ""}`,
-    },
-    {
-        pattern: /^Uploading journal: Something went wrong on processing queue (.+)\.$/,
-        replace: (match) => `ジャーナルのアップロード: キュー ${match[1]} の処理中に問題が発生しました。`,
-    },
-    {
-        pattern: /^Uploading journal: Could not send journalPack to the bucket \((.+) as (.+)\)$/,
-        replace: (match) =>
-            `ジャーナルのアップロード: journalPack をバケットへ送信できませんでした (${match[1]} -> ${match[2]})`,
-    },
-    {
-        pattern: /^No files needs to be uploaded!$/,
-        replace: "アップロードが必要なファイルはありません。",
-    },
-    {
-        pattern: /^Packing Journal: Start sending$/,
-        replace: "ジャーナルの送信準備を開始しました",
-    },
-    {
-        pattern: /^Packing Journal : Stop requested$/,
-        replace: "ジャーナルの送信準備に停止が要求されました",
-    },
-    {
-        pattern: /^Packing Journal: (\d+) \/ (\d+)$/,
-        replace: (match) => `ジャーナルをパック中: ${match[1]} / ${match[2]}`,
-    },
-    {
-        pattern: /^Packing Journal: Packaging (\d+)$/,
-        replace: (match) => `ジャーナルをパッケージ化しています: ${match[1]}`,
-    },
-    {
-        pattern: /^Packing Journal: No journals to be packed!$/,
-        replace: "パックするジャーナルはありません。",
-    },
-    {
-        pattern: /^Total files in the database: (\d+)$/,
-        replace: (match) => `データベース内のファイル数: ${match[1]}`,
-    },
-    {
-        pattern: /^Total files in the storage: (\d+)$/,
-        replace: (match) => `ストレージ内のファイル数: ${match[1]}`,
-    },
-    {
-        pattern: /^Total files: (\d+)$/,
-        replace: (match) => `ファイル総数: ${match[1]}`,
-    },
-    {
-        pattern: /^Files exist only in storage: (\d+)$/,
-        replace: (match) => `ストレージにのみ存在するファイル数: ${match[1]}`,
-    },
-    {
-        pattern: /^Files exist only in database: (\d+)$/,
-        replace: (match) => `データベースにのみ存在するファイル数: ${match[1]}`,
-    },
-    {
-        pattern: /^Files exist both in storage and database: (\d+)$/,
-        replace: (match) => `ストレージとデータベースの両方に存在するファイル数: ${match[1]}`,
-    },
-    {
-        pattern: /^Error while (.+)$/,
-        replace: (match) => `${match[1]} の処理中にエラーが発生しました`,
-    },
-];
-
-function translateSingleLogMessageForDisplay(message: string): string {
-    const exact = exactDisplayLogTranslations.get(message);
-    if (exact) return exact;
-    for (const rule of displayLogRules) {
-        const matched = rule.pattern.exec(message);
-        if (!matched) continue;
-        return typeof rule.replace === "string" ? message.replace(rule.pattern, rule.replace) : rule.replace(matched);
-    }
-    return message;
-}
-
-function translateLogForDisplay(message: string): string {
-    const moduleTagEnd = message.indexOf(`]${MARK_LOG_SEPARATOR}`);
-    if (message.startsWith("[") && moduleTagEnd !== -1) {
-        const prefix = message.substring(0, moduleTagEnd + MARK_LOG_SEPARATOR.length + 1);
-        const body = message.substring(moduleTagEnd + MARK_LOG_SEPARATOR.length + 1);
-        const leadingSpaces = body.match(/^\s*/)?.[0] ?? "";
-        const bodyWithoutLeadingSpaces = body.substring(leadingSpaces.length);
-        return `${prefix}${leadingSpaces}${translateSingleLogMessageForDisplay(bodyWithoutLeadingSpaces)}`;
-    }
-    return translateSingleLogMessageForDisplay(message);
 }
 
 // Display log is kept separate from the full log history to optimize performance and memory usage.
@@ -285,7 +120,7 @@ export class ModuleLog extends AbstractObsidianModule {
     statusLog = reactiveSource("");
     activeFileStatus = reactiveSource("");
     notifies: { [key: string]: { notice: Notice; count: number } } = {};
-    p2pLogCollector = new P2PLogCollector();
+    p2pLogCollector = new P2PLogCollector(this.services.context.events);
 
     observeForLogs() {
         const registerDisplay = <T extends { dispose(): void }>(display: T): T => {
@@ -399,12 +234,12 @@ export class ModuleLog extends AbstractObsidianModule {
 
         const statusBarLabels = reactive(() => {
             const scheduleMessage = this.services.appLifecycle.isReloadingScheduled()
-                ? `警告: Obsidian の再起動が予約されています\n`
+                ? `WARNING! RESTARTING OBSIDIAN IS SCHEDULED!\n`
                 : "";
             const { message } = statusLineLabel();
             const fileStatus = this.activeFileStatus.value;
             const status = scheduleMessage + this.statusLog.value;
-            const fileStatusIcon = `${fileStatus && this.settings.hideFileWarningNotice ? " ⛔ 除外" : ""}`;
+            const fileStatusIcon = `${fileStatus && this.settings.hideFileWarningNotice ? " ⛔ SKIP" : ""}`;
             return {
                 message: `${message}${fileStatusIcon}`,
                 status,
@@ -444,7 +279,7 @@ export class ModuleLog extends AbstractObsidianModule {
         if (!thisFile) return "";
         const validPath = isValidPath(thisFile.path);
         if (!validPath) {
-            reason.push("現在の設定では、このファイルのパスは無効です");
+            reason.push("This file has an invalid path under the current settings");
         } else {
             // The most narrow check: Filename validity on Windows
             const validOnWindows = isValidFilenameInWidows(thisFile.name);
@@ -455,9 +290,7 @@ export class ModuleLog extends AbstractObsidianModule {
             if (!validOnDarwin) labels.push("🍎");
             if (!validOnAndroid) labels.push("🤖");
             if (labels.length > 0) {
-                reasonWarn.push(
-                    "一部のプラットフォームでこのファイルを正しく処理できない可能性があります: " + labels.join(" ")
-                );
+                reasonWarn.push("Some platforms may be unable to process this file correctly: " + labels.join(" "));
             }
         }
         // Case Sensitivity
@@ -466,17 +299,17 @@ export class ModuleLog extends AbstractObsidianModule {
                 .map((e) => e.path)
                 .filter((e) => e.toLowerCase() == thisFile.path.toLowerCase());
             if (f.length > 1) {
-                reason.push("大文字小文字を区別しない比較で同名のファイルが複数あります");
+                reason.push("There are multiple files with the same name (case-insensitive match)");
             }
         }
         if (!(await this.services.vault.isTargetFile(thisFile.path))) {
-            reason.push("このファイルは除外ルールにより無視されています");
+            reason.push("This file is ignored by the ignore rules");
         }
         if (this.services.vault.isFileSizeTooLarge(thisFile.stat.size)) {
-            reason.push("このファイルサイズは設定された上限を超えています");
+            reason.push("This file size exceeds the configured limit");
         }
-        const result = reason.length > 0 ? "同期されません: " + reason.join(", ") : "";
-        const warnResult = reasonWarn.length > 0 ? "警告: " + reasonWarn.join(", ") : "";
+        const result = reason.length > 0 ? "Not synchronised: " + reason.join(", ") : "";
+        const warnResult = reasonWarn.length > 0 ? "Warning: " + reasonWarn.join(", ") : "";
         return [result, warnResult].filter((e) => e).join("\n");
     }
     async setFileStatus() {
@@ -594,14 +427,14 @@ export class ModuleLog extends AbstractObsidianModule {
 
         this.addCommand({
             id: "view-log",
-            name: "ログを表示",
+            name: "Show log",
             callback: () => {
                 void this.services.API.showWindow(VIEW_TYPE_LOG);
             },
         });
         this.addCommand({
             id: "dump-debug-info",
-            name: "Issue作成用のデバッグ情報付き完全レポートを生成",
+            name: "Generate full report for opening the issue with debug info",
             callback: async () => {
                 const recentLog = [...logForDump];
                 const report = await generateReport(this.services.setting.currentSettings(), this.core);
@@ -613,9 +446,9 @@ export class ModuleLog extends AbstractObsidianModule {
 # ---- Debug Info Dump ----
 ${stringifyYaml(info)}
 \`\`\`\``;
-                if (await this.services.UI.promptCopyToClipboard("デバッグ情報", yaml)) {
+                if (await this.services.UI.promptCopyToClipboard("Debug info", yaml)) {
                     new Notice(
-                        "デバッグ情報をクリップボードにコピーしました。Issueに貼り付ける前に、機密情報が含まれていないか確認してください。"
+                        "Debug info copied to clipboard. You can paste it in the issue. Be careful as it may contain sensitive information, review it before sharing."
                     );
                 }
             },
@@ -709,9 +542,6 @@ ${stringifyYaml(info)}
                   ? `${errorInfo}`
                   : JSON.stringify(message, null, 2);
         const newMessage = timestamp + "->" + messageContent;
-        const displayMessageContent =
-            typeof message == "string" ? translateLogForDisplay(messageContent) : messageContent;
-        const displayMessage = timestamp + "->" + displayMessageContent;
 
         if (this.settings?.writeLogToTheFile) {
             this.writeLogToTheFile(now, vaultName, newMessage);
@@ -720,18 +550,11 @@ ${stringifyYaml(info)}
         if (memoOnly) {
             return;
         }
-        addDisplayLog(displayMessage);
-        if (message instanceof Error) {
-            console.error(vaultName + ":" + newMessage);
-        } else if (level >= LOG_LEVEL_INFO) {
-            console.log(vaultName + ":" + newMessage);
-        } else {
-            console.debug(vaultName + ":" + newMessage);
-        }
+        addDisplayLog(newMessage);
         if (!this.settings?.showOnlyIconsOnEditor) {
-            this.statusLog.value = displayMessageContent;
+            this.statusLog.value = messageContent;
         }
-        this.logLines.push({ ttl: now.getTime() + 3000, message: displayMessage });
+        this.logLines.push({ ttl: now.getTime() + 3000, message: newMessage });
 
         if (level >= LOG_LEVEL_NOTICE) {
             if (!key) key = messageContent;
@@ -739,17 +562,17 @@ ${stringifyYaml(info)}
                 // @ts-ignore
                 const isShown = this.notifies[key].notice.noticeEl?.isShown();
                 if (!isShown) {
-                    this.notifies[key].notice = new Notice(displayMessageContent, 0);
+                    this.notifies[key].notice = new Notice(messageContent, 0);
                 }
                 cancelTask(`notify-${key}`);
                 if (key == messageContent) {
                     this.notifies[key].count++;
-                    this.notifies[key].notice.setMessage(`(${this.notifies[key].count}):${displayMessageContent}`);
+                    this.notifies[key].notice.setMessage(`(${this.notifies[key].count}):${messageContent}`);
                 } else {
-                    this.notifies[key].notice.setMessage(`${displayMessageContent}`);
+                    this.notifies[key].notice.setMessage(`${messageContent}`);
                 }
             } else {
-                const notify = new Notice(displayMessageContent, 0);
+                const notify = new Notice(messageContent, 0);
                 this.notifies[key] = {
                     count: 0,
                     notice: notify,

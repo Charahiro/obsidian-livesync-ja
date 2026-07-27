@@ -1,12 +1,12 @@
 <script lang="ts">
-    import DialogHeader from "@lib/UI/components/DialogHeader.svelte";
-    import Guidance from "@lib/UI/components/Guidance.svelte";
-    import Decision from "@lib/UI/components/Decision.svelte";
-    import UserDecisions from "@lib/UI/components/UserDecisions.svelte";
-    import InfoNote from "@lib/UI/components/InfoNote.svelte";
-    import ExtraItems from "@lib/UI/components/ExtraItems.svelte";
-    import InputRow from "@lib/UI/components/InputRow.svelte";
-    import Password from "@lib/UI/components/Password.svelte";
+    import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
+    import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
+    import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
+    import UserDecisions from "@/modules/services/LiveSyncUI/components/UserDecisions.svelte";
+    import InfoNote from "@/modules/services/LiveSyncUI/components/InfoNote.svelte";
+    import ExtraItems from "@/modules/services/LiveSyncUI/components/ExtraItems.svelte";
+    import InputRow from "@/modules/services/LiveSyncUI/components/InputRow.svelte";
+    import Password from "@/modules/services/LiveSyncUI/components/Password.svelte";
     import {
         DEFAULT_SETTINGS,
         PREFERRED_SETTING_CLOUDANT,
@@ -14,25 +14,34 @@
         RemoteTypes,
         type CouchDBConnection,
         type ObsidianLiveSyncSettings,
-    } from "@lib/common/types";
-    import { isCloudantURI } from "@lib/pouchdb/utils_couchdb";
+    } from "@vrtmrz/livesync-commonlib/compat/common/types";
+    import { isCloudantURI } from "@vrtmrz/livesync-commonlib/compat/pouchdb/utils_couchdb";
 
     import { onMount } from "svelte";
-    import { getDialogContext, type GuestDialogProps } from "@lib/UI/svelteDialog";
-    import { copyTo, pickCouchDBSyncSettings } from "@lib/common/utils";
+    import { getDialogContext, type GuestDialogProps } from "@/modules/services/LiveSyncUI/svelteDialog";
+    import { copyTo, pickCouchDBSyncSettings } from "@vrtmrz/livesync-commonlib/compat/common/utils";
     import PanelCouchDBCheck from "./PanelCouchDBCheck.svelte";
-    import { TYPE_CANCELLED, type SetupRemoteCouchDBResultType } from "./setupDialogTypes";
+    import {
+        TYPE_CANCELLED,
+        type CouchDBSetupMode,
+        type SetupRemoteCouchDBInitialData,
+        type SetupRemoteCouchDBResultType,
+    } from "./setupDialogTypes";
+    import { isValidCouchDBServerURL, probeCouchDBConnection } from "./couchDBConnectionProbe";
+    import { $msg as translateMessage } from "@/common/translation";
 
     const default_setting = pickCouchDBSyncSettings(DEFAULT_SETTINGS);
 
     let syncSetting = $state<CouchDBConnection>({ ...default_setting });
-    type Props = GuestDialogProps<SetupRemoteCouchDBResultType, CouchDBConnection>;
+    let setupMode = $state<CouchDBSetupMode>("settings");
+    type Props = GuestDialogProps<SetupRemoteCouchDBResultType, SetupRemoteCouchDBInitialData>;
     const { setResult, getInitialData }: Props = $props();
     onMount(() => {
         if (getInitialData) {
             const initialData = getInitialData();
             if (initialData) {
-                copyTo(initialData, syncSetting);
+                setupMode = initialData.mode;
+                copyTo(initialData.settings, syncSetting);
             }
         }
     });
@@ -66,17 +75,21 @@
             const trialRemoteSetting = generateSetting();
             const replicator = await context.services.replicator.getNewReplicator(trialRemoteSetting);
             if (!replicator) {
-                return "レプリケーターインスタンスを作成できませんでした。";
+                return "Failed to create replicator instance.";
             }
             try {
-                const result = await replicator.tryConnectRemote(trialRemoteSetting, false);
-                if (result) {
+                const result = await probeCouchDBConnection(
+                    replicator,
+                    trialRemoteSetting,
+                    setupMode === "create-or-connect"
+                );
+                if (result.ok) {
                     return "";
                 } else {
-                    return "サーバーに接続できませんでした。設定を確認してください。";
+                    return `Failed to connect to the server: ${result.reason}`;
                 }
             } catch (e) {
-                return `サーバーに接続できませんでした: ${e}`;
+                return `Failed to connect to the server: ${e}`;
             }
         } finally {
             processing = false;
@@ -93,7 +106,7 @@
                 return;
             }
         } catch (e) {
-            error = `接続テスト中にエラーが発生しました: ${e}`;
+            error = `Error during connection test: ${e}`;
             return;
         }
     }
@@ -122,7 +135,7 @@
     });
     const canProceed = $derived.by(() => {
         return (
-            syncSetting.couchDB_URI.trim().length > 0 &&
+            isValidCouchDBServerURL(syncSetting.couchDB_URI.trim()) &&
             syncSetting.couchDB_USER.trim().length > 0 &&
             syncSetting.couchDB_PASSWORD.trim().length > 0 &&
             syncSetting.couchDB_DBNAME.trim().length > 0 &&
@@ -132,10 +145,22 @@
     const testSettings = $derived.by(() => {
         return generateSetting();
     });
+    const isURLInvalid = $derived.by(
+        () => syncSetting.couchDB_URI.trim() !== "" && !isValidCouchDBServerURL(syncSetting.couchDB_URI.trim())
+    );
+    const primaryActionTitle = $derived.by(() => {
+        if (setupMode === "create-or-connect") {
+            return translateMessage("Create or connect to database and continue");
+        }
+        if (setupMode === "connect-existing") {
+            return translateMessage("Connect to existing database and continue");
+        }
+        return translateMessage("Test connection and save");
+    });
 </script>
 
-<DialogHeader title="CouchDB設定" />
-<Guidance>CouchDBサーバー情報を入力してください。</Guidance>
+<DialogHeader title="CouchDB Configuration" />
+<Guidance>Please enter the CouchDB server information below.</Guidance>
 <InputRow label="URL">
     <input
         type="text"
@@ -149,12 +174,13 @@
         pattern="^https?://.+"
     />
 </InputRow>
-<InfoNote warning visible={isURIInsecure}>Obsidian Mobileでは安全な接続（HTTPS）のみ使用できます。</InfoNote>
-<InputRow label="ユーザー名">
+<InfoNote warning visible={isURIInsecure}>We can use only Secure (HTTPS) connections on Obsidian Mobile.</InfoNote>
+<InfoNote warning visible={isURLInvalid}>{translateMessage("Enter a complete HTTP or HTTPS URL.")}</InfoNote>
+<InputRow label="Username">
     <input
         type="text"
         name="couchdb-username"
-        placeholder="ユーザー名を入力"
+        placeholder="Enter your username"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
@@ -162,43 +188,44 @@
         bind:value={syncSetting.couchDB_USER}
     />
 </InputRow>
-<InputRow label="パスワード">
+<InputRow label="Password">
     <Password
         name="couchdb-password"
-        placeholder="パスワードを入力"
+        placeholder="Enter your password"
         bind:value={syncSetting.couchDB_PASSWORD}
         required
     />
 </InputRow>
 
-<InputRow label="データベース名">
+<InputRow label="Database Name">
     <input
         type="text"
         name="couchdb-database"
-        placeholder="データベース名を入力"
+        placeholder="Enter your database name"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
         required
-        pattern="^[a-z][a-z0-9_$()+/-]*$"
         bind:value={syncSetting.couchDB_DBNAME}
     />
 </InputRow>
 <InfoNote>
-    データベース名には大文字、空白、特殊文字は使用できません。また、アンダースコア（_）で始めることもできません。
+    {translateMessage("CouchDB validates the database name when you connect. The name must not be empty.")}
 </InfoNote>
-<InputRow label="内部APIを使用">
+<InputRow label="Use Internal API">
     <input type="checkbox" name="couchdb-use-internal-api" bind:checked={syncSetting.useRequestAPI} />
 </InputRow>
 <InfoNote>
-    CORSの問題を回避できない場合は、このオプションを試せます。Obsidianの内部APIを使ってCouchDBサーバーと通信します。Web標準には準拠していませんが動作します。将来のObsidianバージョンで動かなくなる可能性があります。
+    If you cannot avoid CORS issues, you might want to try this option. It uses Obsidian's internal API to communicate
+    with the CouchDB server. Not compliant with web standards, but works. Note that this might break in future Obsidian
+    versions.
 </InfoNote>
 
-<ExtraItems title="詳細設定">
-    <InputRow label="カスタムヘッダー">
+<ExtraItems title="Advanced Settings">
+    <InputRow label="Custom Headers">
         <textarea
             name="couchdb-custom-headers"
-            placeholder="例: x-example-header: value\n another-header: value2"
+            placeholder="e.g., x-example-header: value\n another-header: value2"
             bind:value={syncSetting.couchDB_CustomHeaders}
             autocapitalize="off"
             spellcheck="false"
@@ -206,11 +233,11 @@
         ></textarea>
     </InputRow>
 </ExtraItems>
-<ExtraItems title="実験的な設定">
-    <InputRow label="JWT認証を使用">
+<ExtraItems title="Experimental Settings">
+    <InputRow label="Use JWT Authentication">
         <input type="checkbox" name="couchdb-use-jwt" bind:checked={syncSetting.useJWT} />
     </InputRow>
-    <InputRow label="JWTアルゴリズム">
+    <InputRow label="JWT Algorithm">
         <select bind:value={syncSetting.jwtAlgorithm} disabled={!isUseJWT}>
             <option value="HS256">HS256</option>
             <option value="HS512">HS512</option>
@@ -218,7 +245,7 @@
             <option value="ES512">ES512</option>
         </select>
     </InputRow>
-    <InputRow label="JWT有効期間（分）">
+    <InputRow label="JWT Expiration Duration (minutes)">
         <input
             type="text"
             name="couchdb-jwt-exp-duration"
@@ -227,13 +254,13 @@
             disabled={!isUseJWT}
         />
     </InputRow>
-    <InputRow label="JWTキー">
+    <InputRow label="JWT Key">
         <textarea
             name="couchdb-jwt-key"
             rows="5"
             autocapitalize="off"
             spellcheck="false"
-            placeholder="JWTシークレットまたは秘密鍵を入力"
+            placeholder="Enter your JWT secret or private key"
             bind:value={syncSetting.jwtKey}
             disabled={!isUseJWT}
         ></textarea>
@@ -242,29 +269,36 @@
         For HS256/HS512 algorithms, provide the shared secret key. For ES256/ES512 algorithms, provide the pkcs8
         PEM-formatted private key.
     </InfoNote>
-    <InputRow label="JWTキーID (kid)">
+    <InputRow label="JWT Key ID (kid)">
         <input
             type="text"
             name="couchdb-jwt-kid"
-            placeholder="JWTキーIDを入力"
+            placeholder="Enter your JWT Key ID"
             bind:value={syncSetting.jwtKid}
             disabled={!isUseJWT}
         />
     </InputRow>
-    <InputRow label="JWTサブジェクト (sub)">
+    <InputRow label="JWT Subject (sub)">
         <input
             type="text"
             name="couchdb-jwt-sub"
-            placeholder="JWTサブジェクト（CouchDBユーザー名）を入力"
+            placeholder="Enter your JWT Subject (CouchDB Username)"
             bind:value={syncSetting.jwtSub}
             disabled={!isUseJWT}
         />
     </InputRow>
     <InfoNote warning>
-        JWT認証では、トークンを使ってCouchDBサーバーへ安全に認証できます。CouchDBサーバーがJWTを受け入れるよう設定されており、指定したキーと設定がサーバー設定と一致していることを確認してください。なお、この機能は十分には検証されていません。
+        JWT (JSON Web Token) authentication allows you to securely authenticate with the CouchDB server using tokens.
+        Ensure that your CouchDB server is configured to accept JWTs and that the provided key and settings match the
+        server's configuration. Incidentally, I have not verified it very thoroughly.
     </InfoNote>
 </ExtraItems>
 
+<InfoNote warning>
+    {translateMessage(
+        "This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required."
+    )}
+</InfoNote>
 <PanelCouchDBCheck trialRemoteSetting={testSettings}></PanelCouchDBCheck>
 <hr />
 
@@ -273,11 +307,22 @@
 </InfoNote>
 
 {#if processing}
-    接続を確認しています。しばらくお待ちください。
+    Checking connection... Please wait.
 {:else}
     <UserDecisions>
-        <Decision title="設定をテストして続行" important disabled={!canProceed} commit={() => checkAndCommit()} />
-        <Decision title="このまま続行" commit={() => commit()} />
-        <Decision title="キャンセル" commit={() => cancel()} />
+        <Decision title={primaryActionTitle} important disabled={!canProceed} commit={() => checkAndCommit()} />
+        {#if setupMode === "settings"}
+            <InfoNote warning>
+                {translateMessage(
+                    "Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected."
+                )}
+            </InfoNote>
+            <Decision
+                title={translateMessage("Save without connecting")}
+                disabled={!canProceed}
+                commit={() => commit()}
+            />
+        {/if}
+        <Decision title="Cancel" commit={() => cancel()} />
     </UserDecisions>
 {/if}

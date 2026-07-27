@@ -1,13 +1,13 @@
 <script lang="ts">
     // import { delay } from "octagonal-wheels/promises";
-    import DialogHeader from "@lib/UI/components/DialogHeader.svelte";
-    import Guidance from "@lib/UI/components/Guidance.svelte";
-    import Decision from "@lib/UI/components/Decision.svelte";
-    import UserDecisions from "@lib/UI/components/UserDecisions.svelte";
-    import InfoNote from "@lib/UI/components/InfoNote.svelte";
-    import InputRow from "@lib/UI/components/InputRow.svelte";
-    import Password from "@lib/UI/components/Password.svelte";
-    import { PouchDB } from "@lib/pouchdb/pouchdb-browser";
+    import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
+    import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
+    import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
+    import UserDecisions from "@/modules/services/LiveSyncUI/components/UserDecisions.svelte";
+    import InfoNote from "@/modules/services/LiveSyncUI/components/InfoNote.svelte";
+    import InputRow from "@/modules/services/LiveSyncUI/components/InputRow.svelte";
+    import Password from "@/modules/services/LiveSyncUI/components/Password.svelte";
+    import { PouchDB } from "@vrtmrz/livesync-commonlib/compat/pouchdb/pouchdb-browser";
     import {
         DEFAULT_SETTINGS,
         P2P_DEFAULT_SETTINGS,
@@ -17,16 +17,24 @@
         type ObsidianLiveSyncSettings,
         type P2PConnectionInfo,
         type P2PSyncSetting,
-    } from "@lib/common/types";
+    } from "@vrtmrz/livesync-commonlib/compat/common/types";
 
-    import { TrysteroReplicator } from "@lib/replication/trystero/TrysteroReplicator";
-    import type { ReplicatorHostEnv } from "@lib/replication/trystero/types";
-    import { copyTo, pickP2PSyncSettings, type SimpleStore } from "@lib/common/utils";
+    import { TrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/TrysteroReplicator";
+    import type { ReplicatorHostEnv } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/types";
+    import {
+        copyTo,
+        generateP2PRoomId,
+        pickP2PSyncSettings,
+        type SimpleStore,
+    } from "@vrtmrz/livesync-commonlib/compat/common/utils";
     import { onMount } from "svelte";
-    import { getDialogContext, type GuestDialogProps } from "@lib/UI/svelteDialog";
-    import { SETTING_KEY_P2P_DEVICE_NAME } from "@lib/common/types";
-    import ExtraItems from "@lib/UI/components/ExtraItems.svelte";
+    import { getDialogContext, type GuestDialogProps } from "@/modules/services/LiveSyncUI/svelteDialog";
+    import { SETTING_KEY_P2P_DEVICE_NAME } from "@vrtmrz/livesync-commonlib/compat/common/types";
+    import ExtraItems from "@/modules/services/LiveSyncUI/components/ExtraItems.svelte";
     import { TYPE_CANCELLED, type SetupRemoteP2PResultType } from "./setupDialogTypes";
+    import { LOG_LEVEL_VERBOSE, Logger } from "octagonal-wheels/common/logger";
+    import { $msg as translateMessage } from "@/common/translation";
+    import { probeP2PSetupConnection } from "./p2pSetupConnectionProbe";
 
     const default_setting = pickP2PSyncSettings(DEFAULT_SETTINGS);
     let syncSetting = $state<P2PConnectionInfo>({ ...default_setting });
@@ -99,6 +107,8 @@
 
             const dummyPouch = new PouchDB<EntryDoc>("dummy");
             const env: ReplicatorHostEnv = {
+                events: context.context.events,
+                translate: context.context.translate,
                 settings: trialRemoteSetting,
                 processReplicatedDocs: async (_docs: any[]) => {
                     return;
@@ -111,31 +121,17 @@
             };
             const replicator = new TrysteroReplicator(env);
             try {
-                await replicator.setOnSetup();
-                await replicator.allowReconnection();
-                await replicator.open();
-                for (let i = 0; i < 10; i++) {
-                    // await delay(1000);
-                    await new Promise((resolve) => window.setTimeout(resolve, 1000));
-                    // Logger(`Checking known advertisements... (${i})`, LOG_LEVEL_INFO);
-                    if (replicator.knownAdvertisements.length > 0) {
-                        break;
-                    }
-                }
-                // context.holdingSettings = trialRemoteSetting;
-
-                if (replicator.knownAdvertisements.length === 0) {
-                    return "設定は正しいようですが、他のピアが見つかりませんでした。";
+                const result = await probeP2PSetupConnection(replicator);
+                if (!result.ok) {
+                    return `Failed to connect to the signalling relay: ${result.reason}`;
                 }
                 return "";
-            } catch (e) {
-                return `他のピアに接続できませんでした: ${e}`;
             } finally {
                 try {
-                    replicator.close();
-                    dummyPouch.destroy();
+                    await replicator.close();
+                    await dummyPouch.destroy();
                 } catch (e) {
-                    console.error(e);
+                    Logger(e, LOG_LEVEL_VERBOSE, "setup-p2p-cleanup");
                 }
             }
         } finally {
@@ -148,17 +144,7 @@
 
     let processing = $state(false);
     function generateDefaultGroupId() {
-        const randomValues = new Uint16Array(4);
-        crypto.getRandomValues(randomValues);
-        const MAX_UINT16 = 65536;
-        const a = Math.floor((randomValues[0] / MAX_UINT16) * 1000);
-        const b = Math.floor((randomValues[1] / MAX_UINT16) * 1000);
-        const c = Math.floor((randomValues[2] / MAX_UINT16) * 1000);
-        const d_range = 36 * 36 * 36;
-        const d = Math.floor((randomValues[3] / MAX_UINT16) * d_range);
-        syncSetting.P2P_roomID = `${a.toString().padStart(3, "0")}-${b
-            .toString()
-            .padStart(3, "0")}-${c.toString().padStart(3, "0")}-${d.toString(36).padStart(3, "0")}`;
+        syncSetting.P2P_roomID = generateP2PRoomId();
     }
 
     async function checkAndCommit() {
@@ -171,7 +157,7 @@
                 return;
             }
         } catch (e) {
-            error = `接続テスト中にエラーが発生しました: ${e}`;
+            error = `Error during connection test: ${e}`;
             return;
         }
     }
@@ -192,24 +178,37 @@
     });
 </script>
 
-<DialogHeader title="P2P設定" />
-<Guidance>Peer-to-Peer同期情報を入力してください。</Guidance>
-<InputRow label="有効">
+<DialogHeader title="P2P Configuration" />
+<Guidance>Please enter the Peer-to-Peer Synchronisation information below.</Guidance>
+<InputRow label="Enabled">
     <input type="checkbox" name="p2p-enabled" bind:checked={syncSetting.P2P_Enabled} />
 </InputRow>
-<InputRow label="リレーURL">
+<InputRow label={translateMessage("Signalling relay URLs")}>
     <input
         type="text"
         name="p2p-relay-url"
-        placeholder="リレーURLを入力"
+        placeholder="wss://relay.example.com"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
         bind:value={syncSetting.P2P_relays}
     />
-    <button class="button" onclick={() => setDefaultRelay()}>vrtmrzのリレーを使用</button>
+    <button class="button" onclick={() => setDefaultRelay()}>
+        {translateMessage("Use the project's public signalling relay")}
+    </button>
 </InputRow>
-<InputRow label="グループID">
+<InfoNote>
+    {translateMessage("Peer discovery uses Nostr-compatible signalling relays.")}
+    {translateMessage(
+        "The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay."
+    )}
+    <a
+        href="https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/p2p.md"
+        target="_blank"
+        rel="noopener noreferrer">{translateMessage("Learn more about P2P connections")}</a
+    >.
+</InfoNote>
+<InputRow label="Group ID">
     <input
         type="text"
         name="p2p-room-id"
@@ -219,16 +218,17 @@
         spellcheck="false"
         bind:value={syncSetting.P2P_roomID}
     />
-    <button class="button" onclick={() => generateDefaultGroupId()}>ランダムIDを生成</button>
+    <button class="button" onclick={() => generateDefaultGroupId()}>Generate Random ID</button>
 </InputRow>
-<InputRow label="パスフレーズ">
-    <Password name="p2p-password" placeholder="パスフレーズを入力" bind:value={syncSetting.P2P_passphrase} />
+<InputRow label="Passphrase">
+    <Password name="p2p-password" placeholder="Enter your passphrase" bind:value={syncSetting.P2P_passphrase} />
 </InputRow>
 <InfoNote>
-    グループIDとパスフレーズは、同期するデバイスのグループを識別するために使用されます。同期したいすべてのデバイスで同じグループIDとパスフレーズを使用してください。<br />
-    グループIDは生成された形式に限定されません。任意の文字列をグループIDとして使用できます。
+    The Group ID and passphrase are used to identify your group of devices. Make sure to use the same Group ID and
+    passphrase on all devices you want to synchronise.<br />
+    Note that the Group ID is not limited to the generated format; you can use any string as the Group ID.
 </InfoNote>
-<InputRow label="デバイスピアID">
+<InputRow label="Device Peer ID">
     <input
         type="text"
         name="p2p-device-peer-id"
@@ -239,26 +239,37 @@
         bind:value={syncSetting.P2P_DevicePeerName}
     />
 </InputRow>
-<InputRow label="P2P接続を自動開始">
+<InputRow label="Auto Start P2P Connection">
     <input type="checkbox" name="p2p-auto-start" bind:checked={syncSetting.P2P_AutoStart} />
 </InputRow>
 <InfoNote>
-    「P2P接続を自動開始」を有効にすると、プラグイン起動時にP2P接続が自動的に開始されます。
+    If "Auto Start P2P Connection" is enabled, the P2P connection will be started automatically when the plug-in
+    launches.
 </InfoNote>
-<InputRow label="変更を自動ブロードキャスト">
+<InputRow label={translateMessage("Announce changes automatically after connecting")}>
     <input type="checkbox" name="p2p-auto-broadcast" bind:checked={syncSetting.P2P_AutoBroadcast} />
 </InputRow>
 <InfoNote>
-    「変更を自動ブロードキャスト」を有効にすると、手動操作なしで接続済みピアへ変更が自動的に通知されます。通知を受けたピアは、このデバイスの変更を取得します。
+    {translateMessage(
+        "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection."
+    )}
 </InfoNote>
-<ExtraItems title="詳細設定">
+<ExtraItems title="Advanced Settings">
     <InfoNote>
-        TURNサーバー設定は、直接P2P接続を妨げる厳格なNATやファイアウォールの内側にいる場合にのみ必要です。ほとんどの場合、これらの項目は空欄のままで構いません。
+        TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P
+        connections. In most cases, you can leave these fields blank.
     </InfoNote>
     <InfoNote warning>
-        公開TURNサーバーを使用すると、データが第三者のサーバーを経由するため、プライバシー上の影響があります。データが暗号化されていても、あなたの存在は知られる可能性があります。利用前にTURNサーバー提供者を信頼できることを確認してください。ネットワーク管理者についても同様です。可能であれば、自分のFQDN用にTURNサーバーを用意することを検討してください。
+        {translateMessage(
+            "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust."
+        )}
+        <a
+            href="https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/p2p.md#signalling-relay-and-turn-server"
+            target="_blank"
+            rel="noopener noreferrer">{translateMessage("Learn more about signalling and TURN")}</a
+        >.
     </InfoNote>
-    <InputRow label="TURNサーバーURL（カンマ区切り）">
+    <InputRow label="TURN Server URLs (comma-separated)">
         <textarea
             name="p2p-turn-servers"
             placeholder="turn:turn.example.com:3478,turn:turn.example.com:443"
@@ -268,21 +279,21 @@
             rows="5"
         ></textarea>
     </InputRow>
-    <InputRow label="TURNユーザー名">
+    <InputRow label="TURN Username">
         <input
             type="text"
             name="p2p-turn-username"
-            placeholder="TURNユーザー名を入力"
+            placeholder="Enter TURN username"
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
             bind:value={syncSetting.P2P_turnUsername}
         />
     </InputRow>
-    <InputRow label="TURN認証情報">
+    <InputRow label="TURN Credential">
         <Password
             name="p2p-turn-credential"
-            placeholder="TURN認証情報を入力"
+            placeholder="Enter TURN credential"
             bind:value={syncSetting.P2P_turnCredential}
         />
     </InputRow>
@@ -291,11 +302,11 @@
     {error}
 </InfoNote>
 {#if processing}
-    接続を確認しています。しばらくお待ちください。
+    Checking connection... Please wait.
 {:else}
     <UserDecisions>
-        <Decision title="設定をテストして続行" important disabled={!canProceed} commit={() => checkAndCommit()} />
-        <Decision title="このまま続行" commit={() => commit()} />
-        <Decision title="キャンセル" commit={() => cancel()} />
+        <Decision title="Test Settings and Continue" important disabled={!canProceed} commit={() => checkAndCommit()} />
+        <Decision title="Continue anyway" commit={() => commit()} />
+        <Decision title="Cancel" commit={() => cancel()} />
     </UserDecisions>
 {/if}

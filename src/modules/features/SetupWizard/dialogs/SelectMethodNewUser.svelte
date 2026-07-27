@@ -1,12 +1,13 @@
 <script lang="ts">
-    import DialogHeader from "@lib/UI/components/DialogHeader.svelte";
-    import Guidance from "@lib/UI/components/Guidance.svelte";
-    import Decision from "@lib/UI/components/Decision.svelte";
-    import Question from "@lib/UI/components/Question.svelte";
-    import Option from "@lib/UI/components/Option.svelte";
-    import Options from "@lib/UI/components/Options.svelte";
-    import Instruction from "@lib/UI/components/Instruction.svelte";
-    import UserDecisions from "@lib/UI/components/UserDecisions.svelte";
+    import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
+    import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
+    import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
+    import Question from "@/modules/services/LiveSyncUI/components/Question.svelte";
+    import Option from "@/modules/services/LiveSyncUI/components/Option.svelte";
+    import Options from "@/modules/services/LiveSyncUI/components/Options.svelte";
+    import Instruction from "@/modules/services/LiveSyncUI/components/Instruction.svelte";
+    import UserDecisions from "@/modules/services/LiveSyncUI/components/UserDecisions.svelte";
+    import { $msg as translateMessage } from "@/common/translation";
     import {
         TYPE_USE_SETUP_URI,
         TYPE_CONFIGURE_MANUALLY,
@@ -21,11 +22,11 @@
     let userType = $state<SelectMethodNewUserResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_USE_SETUP_URI) {
-            return "セットアップURIで続行";
+            return "Proceed with Setup URI";
         } else if (userType === TYPE_CONFIGURE_MANUALLY) {
-            return "サーバー情報を手動で入力する";
+            return translateMessage("Ui.SetupWizard.SelectNew.ProceedManual");
         } else {
-            return "続行するには選択してください";
+            return "Please select an option to proceed";
         }
     });
     const canProceed = $derived.by(() => {
@@ -33,25 +34,27 @@
     });
 </script>
 
-<DialogHeader title="接続方法" />
-<Guidance>サーバー設定に進みます。</Guidance>
+<DialogHeader title="Connection Method" />
+<Guidance>{translateMessage("Ui.SetupWizard.SelectNew.Guidance")}</Guidance>
 <Instruction>
-    <Question>サーバーへの接続をどのように設定しますか？</Question>
+    <Question>{translateMessage("Ui.SetupWizard.SelectNew.Question")}</Question>
     <Options>
-        <Option selectedValue={TYPE_USE_SETUP_URI} title="セットアップURIを使用する（推奨）" bind:value={userType}>
-            セットアップURIは、サーバーアドレスと認証情報を含む1つの文字列です。サーバーのインストールスクリプトで生成されている場合は、簡単かつ安全に設定できます。
+        <Option selectedValue={TYPE_USE_SETUP_URI} title="Use a Setup URI (Recommended)" bind:value={userType}>
+            {translateMessage("Ui.SetupWizard.SelectNew.SetupUriOptionDesc")}
         </Option>
         <Option
             selectedValue={TYPE_CONFIGURE_MANUALLY}
-            title="サーバー情報を手動で入力する"
+            title={translateMessage("Ui.SetupWizard.SelectNew.ManualOption")}
             bind:value={userType}
         >
-            URIがない場合や、詳細な設定を自分で行いたい場合の上級者向けオプションです。CouchDB/S3サーバーではなく
-            <strong>P2P（Peer-to-Peer）同期</strong>を使用する場合も、このオプションを選択できます。P2Pではサーバー設定は不要です。
+            {translateMessage("Ui.SetupWizard.SelectNew.ManualOptionDesc")}
+            {translateMessage(
+                "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery."
+            )}
         </Option>
     </Options>
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="キャンセル" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="Cancel" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

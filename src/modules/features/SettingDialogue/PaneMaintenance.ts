@@ -1,8 +1,8 @@
 import { EVENT_REQUEST_PERFORM_GC_V3, eventHub } from "@/common/events.ts";
-import { LOG_LEVEL_NOTICE, Logger } from "@lib/common/logger.ts";
-import { FlagFilesHumanReadable, FLAGMD_REDFLAG } from "@lib/common/types.ts";
-import { fireAndForget } from "@lib/common/utils.ts";
-import { LiveSyncCouchDBReplicator } from "@lib/replication/couchdb/LiveSyncReplicator.ts";
+import { LOG_LEVEL_NOTICE, Logger } from "@vrtmrz/livesync-commonlib/compat/common/logger";
+import { FlagFilesHumanReadable, FLAGMD_REDFLAG } from "@vrtmrz/livesync-commonlib/compat/common/types";
+import { fireAndForget } from "@vrtmrz/livesync-commonlib/compat/common/utils";
+import { LiveSyncCouchDBReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/couchdb/LiveSyncReplicator";
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab";
 import { visibleOnly, type PageFunctions } from "./SettingPane";
@@ -18,7 +18,7 @@ export function paneMaintenance(
         paneEl,
         "div",
         {
-            text: "このデバイスが「解決済み」としてマークされていないため、保管庫の破損を防ぐ目的でリモートデータベースの同期がロックされています。保管庫をバックアップし、ローカルデータベースをリセットしてから「このデバイスを解決済みにする」を選択してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示されます。",
+            text: "The remote database is locked for synchronization to prevent vault corruption because this device isn't marked as 'resolved'. Please backup your vault, reset the local database, and select 'Mark this device as resolved'. This warning will persist until the device is confirmed as resolved by replication.",
             cls: "op-warn",
         },
         (c) => {
@@ -26,7 +26,7 @@ export function paneMaintenance(
                 c,
                 "button",
                 {
-                    text: "バックアップ済み、このデバイスを解決済みにする",
+                    text: "I've made a backup, mark this device 'resolved'",
                     cls: "mod-warning",
                 },
                 (e) => {
@@ -45,7 +45,7 @@ export function paneMaintenance(
         paneEl,
         "div",
         {
-            text: "意図しない保管庫の破損を防ぐため、リモートデータベースの同期がロックされています。このデバイスは「解決済み」としてマークされています。すべてのデバイスが「解決済み」になったら、データベースのロックを解除してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示されます。",
+            text: "To prevent unwanted vault corruption, the remote database has been locked for synchronization. (This device is marked 'resolved') When all your devices are marked 'resolved', unlock the database. This warning kept showing until confirming the device is resolved by the replication",
             cls: "op-warn",
         },
         (c) =>
@@ -53,7 +53,7 @@ export function paneMaintenance(
                 c,
                 "button",
                 {
-                    text: "準備完了、データベースのロックを解除",
+                    text: "I'm ready, unlock the database",
                     cls: "mod-warning",
                 },
                 (e) => {
@@ -68,13 +68,13 @@ export function paneMaintenance(
         visibleOnly(isRemoteLocked)
     );
 
-    void addPanel(paneEl, "緊急操作").then((paneEl) => {
+    void addPanel(paneEl, "Scram!").then((paneEl) => {
         new Setting(paneEl)
-            .setName("サーバーをロック")
-            .setDesc("他のデバイスとの同期を防ぐため、リモートサーバーをロックします。")
+            .setName("Lock Server")
+            .setDesc("Lock the remote server to prevent synchronization with other devices.")
             .addButton((button) =>
                 button
-                    .setButtonText("ロック")
+                    .setButtonText("Lock")
                     .setDisabled(false)
                     .setWarning()
                     .onClick(async () => {
@@ -84,11 +84,11 @@ export function paneMaintenance(
             .addOnUpdate(this.onlyOnCouchDBOrMinIO);
 
         new Setting(paneEl)
-            .setName("緊急再起動")
-            .setDesc("すべての同期を無効にして再起動します。")
+            .setName("Emergency restart")
+            .setDesc("Disables all synchronization and restart.")
             .addButton((button) =>
                 button
-                    .setButtonText("フラグを作成して再起動")
+                    .setButtonText("Flag and restart")
                     .setDisabled(false)
                     .setWarning()
                     .onClick(async () => {
@@ -98,13 +98,13 @@ export function paneMaintenance(
             );
     });
 
-    void addPanel(paneEl, "同期情報のリセット").then((paneEl) => {
+    void addPanel(paneEl, "Reset Synchronisation information").then((paneEl) => {
         new Setting(paneEl)
-            .setName("このデバイスの同期情報をリセット")
-            .setDesc("リモートからローカルデータベースを復元または再構築します。")
+            .setName("Reset Synchronisation on This Device")
+            .setDesc("Restore or reconstruct local database from remote.")
             .addButton((button) =>
                 button
-                    .setButtonText("予約して再起動")
+                    .setButtonText("Schedule and Restart")
                     .setCta()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -113,11 +113,11 @@ export function paneMaintenance(
                     })
             );
         new Setting(paneEl)
-            .setName("このデバイスのファイルでサーバーデータを上書き")
-            .setDesc("ローカルファイルを使って、ローカルとリモートのデータベースを再構築します。")
+            .setName("Overwrite Server Data with This Device's Files")
+            .setDesc("Rebuild local and remote database with local files.")
             .addButton((button) =>
                 button
-                    .setButtonText("予約して再起動")
+                    .setButtonText("Schedule and Restart")
                     .setCta()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -127,13 +127,13 @@ export function paneMaintenance(
             );
     });
 
-    void addPanel(paneEl, "同期", () => {}, this.onlyOnCouchDBOrMinIO).then((paneEl) => {
+    void addPanel(paneEl, "Syncing", () => {}, this.onlyOnCouchDBOrMinIO).then((paneEl) => {
         new Setting(paneEl)
-            .setName("再送信")
-            .setDesc("すべてのチャンクをリモートへ再送信します。")
+            .setName("Resend")
+            .setDesc("Resend all chunks to the remote.")
             .addButton((button) =>
                 button
-                    .setButtonText("チャンクを送信")
+                    .setButtonText("Send chunks")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -145,13 +145,13 @@ export function paneMaintenance(
             .addOnUpdate(this.onlyOnCouchDB);
 
         new Setting(paneEl)
-            .setName("ジャーナル受信履歴をリセット")
+            .setName("Reset journal received history")
             .setDesc(
-                "ジャーナルの受信履歴を初期化します。次回同期時に、このデバイスが送信したもの以外のすべての項目が再ダウンロードされます。"
+                "Initialise journal received history. On the next sync, every item except this device sent will be downloaded again."
             )
             .addButton((button) =>
                 button
-                    .setButtonText("受信履歴をリセット")
+                    .setButtonText("Reset received")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -166,13 +166,13 @@ export function paneMaintenance(
             .addOnUpdate(this.onlyOnMinIO);
 
         new Setting(paneEl)
-            .setName("ジャーナル送信履歴をリセット")
+            .setName("Reset journal sent history")
             .setDesc(
-                "ジャーナルの送信履歴を初期化します。次回同期時に、このデバイスが受信したもの以外のすべての項目が再送信されます。"
+                "Initialise journal sent history. On the next sync, every item except this device received will be sent again."
             )
             .addButton((button) =>
                 button
-                    .setButtonText("送信履歴をリセット")
+                    .setButtonText("Reset sent history")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -187,13 +187,13 @@ export function paneMaintenance(
             )
             .addOnUpdate(this.onlyOnMinIO);
     });
-    void addPanel(paneEl, "ガベージコレクション V3 (ベータ)", (e) => e, this.onlyOnP2POrCouchDB).then((paneEl) => {
+    void addPanel(paneEl, "Garbage Collection V3 (Beta)", (e) => e, this.onlyOnCouchDB).then((paneEl) => {
         new Setting(paneEl)
-            .setName("ガベージコレクションを実行")
-            .setDesc("未使用のチャンクを削除してデータベースサイズを削減するため、ガベージコレクションを実行します。")
+            .setName("Perform Garbage Collection")
+            .setDesc("Perform Garbage Collection to remove unused chunks and reduce database size.")
             .addButton((button) =>
                 button
-                    .setButtonText("ガベージコレクションを実行")
+                    .setButtonText("Perform Garbage Collection")
                     .setDisabled(false)
                     .onClick(() => {
                         this.closeSetting();
@@ -288,15 +288,15 @@ export function paneMaintenance(
     //     }
     // );
 
-    void addPanel(paneEl, "再構築操作 (リモートのみ)", () => {}, this.onlyOnCouchDBOrMinIO).then((paneEl) => {
+    void addPanel(paneEl, "Rebuilding Operations (Remote Only)", () => {}, this.onlyOnCouchDBOrMinIO).then((paneEl) => {
         new Setting(paneEl)
-            .setName("クリーンアップを実行")
+            .setName("Perform cleanup")
             .setDesc(
-                "最新ではないリビジョンをすべて破棄して、使用するストレージ容量を削減します。リモートサーバーとローカルクライアントの両方に、同量の空き容量が必要です。"
+                "Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client."
             )
             .addButton((button) =>
                 button
-                    .setButtonText("実行")
+                    .setButtonText("Perform")
                     .setDisabled(false)
                     .onClick(async () => {
                         const replicator = this.core.replicator as LiveSyncCouchDBReplicator;
@@ -311,11 +311,11 @@ export function paneMaintenance(
             .addOnUpdate(this.onlyOnCouchDB);
 
         new Setting(paneEl)
-            .setName("リモートを上書き")
-            .setDesc("ローカルデータベースとパスフレーズでリモートを上書きします。")
+            .setName("Overwrite remote")
+            .setDesc("Overwrite remote with local DB and passphrase.")
             .addButton((button) =>
                 button
-                    .setButtonText("送信")
+                    .setButtonText("Send")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -324,11 +324,11 @@ export function paneMaintenance(
             );
 
         new Setting(paneEl)
-            .setName("すべてのジャーナルカウンターをリセット")
-            .setDesc("すべてのジャーナル履歴を初期化します。次回同期時に、すべての項目が受信および送信されます。")
+            .setName("Reset all journal counter")
+            .setDesc("Initialise all journal history, On the next sync, every item will be received and sent.")
             .addButton((button) =>
                 button
-                    .setButtonText("すべてリセット")
+                    .setButtonText("Reset all")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -339,11 +339,11 @@ export function paneMaintenance(
             .addOnUpdate(this.onlyOnMinIO);
 
         new Setting(paneEl)
-            .setName("すべてのジャーナルカウンターを消去")
-            .setDesc("すべてのダウンロード/アップロードキャッシュを消去します。")
+            .setName("Purge all journal counter")
+            .setDesc("Purge all download/upload cache.")
             .addButton((button) =>
                 button
-                    .setButtonText("すべてリセット")
+                    .setButtonText("Reset all")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(() => {
@@ -354,11 +354,11 @@ export function paneMaintenance(
             .addOnUpdate(this.onlyOnMinIO);
 
         new Setting(paneEl)
-            .setName("完全初期化")
-            .setDesc("リモートサーバー上のすべてのデータを削除します。")
+            .setName("Fresh Start Wipe")
+            .setDesc("Delete all data on the remote server.")
             .addButton((button) =>
                 button
-                    .setButtonText("削除")
+                    .setButtonText("Delete")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(async () => {
@@ -377,12 +377,12 @@ export function paneMaintenance(
             .addOnUpdate(this.onlyOnMinIO);
     });
 
-    void addPanel(paneEl, "リセット").then((paneEl) => {
+    void addPanel(paneEl, "Reset").then((paneEl) => {
         new Setting(paneEl)
-            .setName("Self-hosted LiveSync のリセットまたはアンインストールのため、ローカルデータベースを削除")
+            .setName("Delete local database to reset or uninstall Self-hosted LiveSync")
             .addButton((button) =>
                 button
-                    .setButtonText("削除")
+                    .setButtonText("Delete")
                     .setWarning()
                     .setDisabled(false)
                     .onClick(async () => {

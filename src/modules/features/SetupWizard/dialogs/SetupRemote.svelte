@@ -1,11 +1,12 @@
 <script lang="ts">
-    import DialogHeader from "@lib/UI/components/DialogHeader.svelte";
-    import Decision from "@lib/UI/components/Decision.svelte";
-    import Question from "@lib/UI/components/Question.svelte";
-    import Option from "@lib/UI/components/Option.svelte";
-    import Options from "@lib/UI/components/Options.svelte";
-    import Instruction from "@lib/UI/components/Instruction.svelte";
-    import UserDecisions from "@lib/UI/components/UserDecisions.svelte";
+    import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
+    import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
+    import Question from "@/modules/services/LiveSyncUI/components/Question.svelte";
+    import Option from "@/modules/services/LiveSyncUI/components/Option.svelte";
+    import Options from "@/modules/services/LiveSyncUI/components/Options.svelte";
+    import Instruction from "@/modules/services/LiveSyncUI/components/Instruction.svelte";
+    import UserDecisions from "@/modules/services/LiveSyncUI/components/UserDecisions.svelte";
+    import { $msg as translateMessage } from "@/common/translation";
     import {
         TYPE_COUCHDB,
         TYPE_BUCKET,
@@ -21,13 +22,13 @@
     let userType = $state<SetupRemoteResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_COUCHDB) {
-            return "CouchDB設定へ進む";
+            return "Continue to CouchDB setup";
         } else if (userType === TYPE_BUCKET) {
-            return "S3/MinIO/R2設定へ進む";
+            return translateMessage("Ui.SetupWizard.SetupRemote.ProceedBucket");
         } else if (userType === TYPE_P2P) {
-            return "Peer-to-Peer専用設定へ進む";
+            return translateMessage("Ui.SetupWizard.SetupRemote.ProceedP2P");
         } else {
-            return "続行するには選択してください";
+            return "Please select an option to proceed";
         }
     });
     const canProceed = $derived.by(() => {
@@ -35,22 +36,33 @@
     });
 </script>
 
-<DialogHeader title="サーバー情報の入力" />
+<DialogHeader title={translateMessage("Ui.SetupWizard.SetupRemote.Title")} />
 <Instruction>
-    <Question>接続先サーバーの種類を選択してください。</Question>
+    <Question>{translateMessage("Ui.SetupWizard.SetupRemote.Guidance")}</Question>
     <Options>
         <Option selectedValue={TYPE_COUCHDB} title="CouchDB" bind:value={userType}>
-            設計上、最も適した同期方式です。すべての機能を利用できます。CouchDBインスタンスをセットアップしておく必要があります。
+            This is the most suitable synchronisation method for the design. All functions are available. You must have
+            set up a CouchDB instance.
         </Option>
-        <Option selectedValue={TYPE_BUCKET} title="S3/MinIO/R2オブジェクトストレージ" bind:value={userType}>
-            ジャーナルファイルを利用した同期です。S3/MinIO/R2互換のオブジェクトストレージをセットアップしておく必要があります。
+        <Option
+            selectedValue={TYPE_BUCKET}
+            title={translateMessage("Ui.SetupWizard.SetupRemote.BucketOption")}
+            bind:value={userType}
+        >
+            {translateMessage("Ui.SetupWizard.SetupRemote.BucketOptionDesc")}
         </Option>
-        <Option selectedValue={TYPE_P2P} title="Peer-to-Peerのみ" bind:value={userType}>
-            デバイス間で直接同期します。サーバーは不要ですが、同期時には両方のデバイスが同時にオンラインである必要があり、一部機能は制限される場合があります。インターネット接続はシグナリング（ピア検出）にのみ必要で、データ転送には使用されません。
+        <Option
+            selectedValue={TYPE_P2P}
+            title={translateMessage("Ui.SetupWizard.SetupRemote.P2POption")}
+            bind:value={userType}
+        >
+            {translateMessage(
+                "No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited."
+            )}
         </Option>
     </Options>
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="いいえ、戻ります" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title="No, please take me back" commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

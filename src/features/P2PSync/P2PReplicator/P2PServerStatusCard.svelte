@@ -2,50 +2,54 @@
     import { onMount } from "svelte";
     import { eventHub } from "@/common/events";
     import { delay, fireAndForget } from "octagonal-wheels/promises";
-    import type { P2PServerInfo } from "@lib/replication/trystero/TrysteroReplicatorP2PServer";
+    import type { P2PServerInfo } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/TrysteroReplicatorP2PServer";
     import {
         EVENT_SERVER_STATUS,
         EVENT_REQUEST_STATUS,
         EVENT_P2P_REPLICATOR_STATUS,
-    } from "@lib/replication/trystero/TrysteroReplicatorP2PServer";
-    import { EVENT_SETTING_SAVED } from "@lib/events/coreEvents";
-    import type { LiveSyncTrysteroReplicator } from "@lib/replication/trystero/LiveSyncTrysteroReplicator";
-    import type { P2PReplicatorStatus } from "@lib/replication/trystero/TrysteroReplicator";
-    import { extractP2PRoomSuffix } from "@lib/common/utils";
+    } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/TrysteroReplicatorP2PServer";
+    import { EVENT_SETTING_SAVED } from "@vrtmrz/livesync-commonlib/compat/events/coreEvents";
+    import type { LiveSyncTrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/LiveSyncTrysteroReplicator";
+    import type { P2PReplicatorStatus } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/TrysteroReplicator";
+    import { extractP2PRoomSuffix } from "@vrtmrz/livesync-commonlib/compat/common/utils";
     import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore";
+    import { $msg as translateMessage } from "@/common/translation";
 
     interface Props {
-        liveSyncReplicator: LiveSyncTrysteroReplicator;
+        getLiveSyncReplicator: () => LiveSyncTrysteroReplicator;
         showBroadcastToggle?: boolean;
         core?: LiveSyncBaseCore;
     }
 
-    let { liveSyncReplicator, showBroadcastToggle = true, core }: Props = $props();
+    let { getLiveSyncReplicator, showBroadcastToggle = true, core }: Props = $props();
     let serverInfo = $state<P2PServerInfo | undefined>(undefined);
     let replicatorStatus = $state<P2PReplicatorStatus | undefined>(undefined);
-    let roomSuffix = $state<string>(extractP2PRoomSuffix(core?.services.setting.currentSettings()?.P2P_roomID ?? ""));
-    let useDiagRTC = $state<boolean>(core?.services.setting.currentSettings()?.P2P_useDiagRTC ?? false);
+    // Later setting changes arrive through EVENT_SETTING_SAVED; these values only seed local state at mount time.
+    const readCurrentSettings = () => core?.services.setting.currentSettings();
+    const initialSettings = readCurrentSettings();
+    let roomSuffix = $state<string>(extractP2PRoomSuffix(initialSettings?.P2P_roomID ?? ""));
+    let useDiagRTC = $state<boolean>(initialSettings?.P2P_useDiagRTC ?? false);
 
     async function requestServerStatus() {
-        await Promise.resolve(liveSyncReplicator.requestStatus());
+        await Promise.resolve(getLiveSyncReplicator().requestStatus());
         eventHub.emitEvent(EVENT_REQUEST_STATUS);
     }
 
     async function onOpenConnection() {
-        await liveSyncReplicator.makeSureOpened();
+        await getLiveSyncReplicator().makeSureOpened();
         await requestServerStatus();
     }
 
     async function onDisconnect() {
-        await liveSyncReplicator.close();
+        await getLiveSyncReplicator().close();
         await requestServerStatus();
     }
 
     function toggleBroadcast() {
         if (replicatorStatus?.isBroadcasting) {
-            liveSyncReplicator.disableBroadcastChanges();
+            getLiveSyncReplicator().disableBroadcastChanges();
         } else {
-            liveSyncReplicator.enableBroadcastChanges();
+            getLiveSyncReplicator().enableBroadcastChanges();
         }
     }
 
@@ -91,57 +95,58 @@
 </script>
 
 <div class="server-status">
-    <h3>シグナリング状態</h3>
+    <h3>Signalling Status</h3>
 
     <div class="status-item">
-        <span>接続:</span>
+        <span>Connection:</span>
         <span class="status-value {isConnected ? 'connected' : 'disconnected'}">
-            {isConnected ? "🟢 接続中" : "🔴 未接続"}
+            {isConnected ? "🟢 Connected" : "🔴 Disconnected"}
         </span>
     </div>
 
     <div class="status-item status-action">
         {#if !isConnected}
-            <button onclick={onOpenConnection}>接続を開く</button>
+            <button onclick={onOpenConnection}>Open connection</button>
         {:else}
-            <button onclick={onDisconnect}>接続を閉じる</button>
+            <button onclick={onDisconnect}>Disconnect</button>
         {/if}
     </div>
 
     {#if serverInfo}
         <div class="status-item">
-            <span>ルームID接尾辞:</span>
-            <span class="room-suffix-display" title={roomSuffix || "未設定"}>
+            <span>Room ID suffix:</span>
+            <span class="room-suffix-display" title={roomSuffix || "Not configured"}>
                 {roomSuffix || "-"}
             </span>
         </div>
 
         <div class="status-item">
-            <span>ピアID:</span>
+            <span>Peer ID:</span>
             <span class="peer-id-display" title={serverInfo.serverPeerId}>
                 {serverInfo.serverPeerId.slice(0, 12)}...
             </span>
         </div>
 
         <div class="status-item">
-            <span>デバイス:</span>
+            <span>Devices:</span>
             <span>{serverInfo.knownAdvertisements.length}</span>
         </div>
     {/if}
 
     {#if showBroadcastToggle}
     <div class="status-item status-action broadcast-row">
-        <!-- Live-push to peers: stream this device's changes to connected peers for LiveSync -->
         <label class="broadcast-label" for="broadcast-toggle">
-            ピアへライブ送信
+            {translateMessage("Announce changes")}
         </label>
         <button
             id="broadcast-toggle"
             class="broadcast-button {isBroadcasting ? 'is-on' : 'is-off'}"
             onclick={toggleBroadcast}
-            title={isBroadcasting ? '変更をピアへ送信中です。クリックすると停止します' : '変更のピア送信を開始します'}
+            title={isBroadcasting
+                ? translateMessage("Stop announcing changes")
+                : translateMessage("Start announcing changes")}
         >
-            {isBroadcasting ? '📡 オン' : '📡 オフ'}
+            {isBroadcasting ? '📡 On' : '📡 Off'}
         </button>
     </div>
     {/if}
@@ -149,39 +154,39 @@
     {#if core}
     <div class="status-item status-action diag-toggle-row">
         <label class="broadcast-label" for="diag-toggle">
-            🕵️ 診断
+            🕵️ Diag
         </label>
         <button
             id="diag-toggle"
             class="broadcast-button {useDiagRTC ? 'is-on' : 'is-off'}"
             onclick={toggleDiagRTC}
             title={useDiagRTC
-                ? '診断用 RTCPeerConnection が有効です'
-                : '統計取得に診断用 RTCPeerConnection を使用します'}
+                ? 'Diagnostic RTCPeerConnection is enabled'
+                : 'Use Diagnostic RTCPeerConnection for statistics'}
         >
-            {useDiagRTC ? 'オン' : 'オフ'}
+            {useDiagRTC ? 'On' : 'Off'}
         </button>
     </div>
     {/if}
 
     {#if serverInfo}
         <div class="diag-section">
-            <h4>統計</h4>
+            <h4>Stats</h4>
             <div class="diag-grid">
                 <div class="diag-item">
-                    <span>着信:</span>
+                    <span>Incoming:</span>
                     <span>{serverInfo.diag.totalNewConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>接続成功:</span>
+                    <span>Connected:</span>
                     <span>{serverInfo.diag.totalSuccessfulConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>失敗:</span>
+                    <span>Failed:</span>
                     <span>{serverInfo.diag.totalFailedConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>終了:</span>
+                    <span>Closed:</span>
                     <span>{serverInfo.diag.totalClosedConnections}</span>
                 </div>
             </div>
@@ -282,6 +287,7 @@
         background-color: var(--interactive-hover);
         color: var(--text-normal);
     }
+
     .diag-section {
         border-top: 1px solid var(--divider-color);
         margin-top: 0.75rem;
