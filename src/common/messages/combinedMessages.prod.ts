@@ -172,6 +172,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Active Remote Configuration",
         fr: "Configuration distante active",
         he: "תצורת שרת מרוחק פעיל",
+        ja: "アクティブなリモート構成",
         ru: "Активная удалённая конфигурация",
         zh: "生效中的远程配置",
         "zh-tw": "目前啟用的遠端設定",
@@ -218,6 +219,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Analyse",
         fr: "Analyser",
         he: "ניתוח",
+        ja: "分析",
         ru: "Анализировать",
         zh: "立即分析",
         "zh-tw": "分析",
@@ -390,11 +392,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "Changing this setting requires migrating existing data (a bit time may be taken) and restarting Obsidian. Please make sure to back up your data before proceeding.":
         {
             def: "Changing this setting requires migrating existing data (a bit time may be taken) and restarting Obsidian. Please make sure to back up your data before proceeding.",
+            ja: "この設定を変更するには既存データの移行（少し時間がかかる場合があります）とObsidianの再起動が必要です。続行前に必ずデータをバックアップしてください。",
         },
     Check: {
         def: "Check",
         fr: "Vérifier",
         he: "בדוק",
+        ja: "確認",
         ru: "Проверить",
         zh: "立即检查",
         "zh-tw": "檢查",
@@ -710,6 +714,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Database -> Storage": {
         def: "Database -> Storage",
+        ja: "データベース → ストレージ",
         "zh-tw": "資料庫 -> 儲存空間",
     },
     "Database Adapter": {
@@ -889,7 +894,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Self-hosted LiveSync had translations for your language, so the %{Display language} setting was enabled.\n\nNote: Not all messages are translated. We are waiting for your contributions!\nNote 2: If you create an Issue, **please revert to Default** and then take screenshots, messages and logs. This can be done in the setting dialogue.\nMay you find it easy to use!",
         fr: "Self-hosted LiveSync dispose d'une traduction pour votre langue, le paramètre %{Display language} a donc été activé.\n\nNote : Tous les messages ne sont pas traduits. Nous attendons vos contributions !\nNote 2 : Si vous créez un ticket, **veuillez revenir à Par défaut** puis prendre des captures d'écran, messages et journaux. Cela peut être fait dans la boîte de dialogue des paramètres.\nBonne utilisation !",
         he: "ל-Self-hosted LiveSync יש תרגום לשפתך, ולכן הגדרת %{Display language} הופעלה.\n\nהערה: לא כל ההודעות מתורגמות. אנחנו ממתינים לתרומותיך!\nהערה 2: אם אתה פותח Issue, **אנא חזור ל-%{lang-def}** ואז צלם צילומי מסך, הודעות ויומנים. ניתן לעשות זאת בדיאלוג ההגדרות.\nנקווה שתמצא/י את הפלאגין נוח לשימוש!",
-        ja: "Self-hosted LiveSync に設定されている言語の翻訳がありましたので、インターフェースの表示言語が適用されました。\n\n注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！\nGithubにIssueを作成する際には、 インターフェースの表示言語 を一旦 Default に戻してから、スクショやメッセージ、ログを収集してください。これは設定から変更できます。\n\n便利に使用できれば幸いです。",
+        ja: "Self-hosted LiveSync に設定されている言語の翻訳があったため、%{Display language}を有効にしました。\n\n注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！\nGitHubでIssueを作成する際には、一旦Defaultに戻してから、スクリーンショット、メッセージ、ログを収集してください。これは設定から変更できます。\n\n便利に使用できれば幸いです。",
         ko: "Self-hosted LiveSync에서 귀하의 언어로 번역을 제공하므로 %{Display language} 설정이 활성화되었습니다.\n\n참고: 모든 메시지가 번역되지는 않습니다. 귀하의 기여를 기다리고 있습니다!\n참고 2: 이슈를 생성하는 경우 **Default로 되돌린 후** 스크린샷, 메시지, 로그를 가져와 주세요. 이는 설정 대화 상자에서 할 수 있습니다.\n간편하게 사용하실 수 있었으면 좋겠습니다!",
         ru: "Self-hosted LiveSync имеет переводы для вашего языка, поэтому была включена настройка языка Display language.\n\nПримечание: Не все сообщения переведены. Мы ждём ваших предложений!\nПримечание 2: При создании Issue, пожалуйста, вернитесь к lang-def, затем сделайте скриншоты, сообщения и логи. Это можно сделать в настройках.\nНадеемся, вам будет удобно использовать!",
         zh: "Self-hosted LiveSync已提供您语言的翻译,因此启用了%{Display language}\n\n注意：并非所有消息都已翻译。我们期待您的贡献！\n注意 2：若您创建问题报告， **请切换回Default** ，然后截取屏幕截图、消息和日志，此操作可在设置对话框中完成\n愿您使用顺心！",
@@ -1181,6 +1186,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Document History": {
         def: "Document History",
+        ja: "ドキュメント履歴",
         "zh-tw": "文件歷程",
     },
     Duplicate: {
@@ -1500,6 +1506,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "File to view History": {
         def: "File to view History",
+        ja: "履歴を表示するファイル",
         "zh-tw": "要檢視歷程的檔案",
     },
     Filename: {
@@ -1631,11 +1638,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Hide completely": {
         def: "Hide completely",
+        ja: "完全に非表示",
         zh: "完全隐藏",
         "zh-tw": "完全隱藏",
     },
     "Highlight diff": {
         def: "Highlight diff",
+        ja: "差分をハイライト",
         "zh-tw": "醒目顯示差異",
     },
     "How to display network errors when the sync server is unreachable.": {
@@ -1823,6 +1832,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.":
         {
             def: "If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.",
+            ja: "IBM Cloudantのペイロードサイズ上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。",
             "zh-tw": "如果你在使用 IBM Cloudant 時遇到負載大小上限，請調低批次大小與批次上限。",
         },
     "Ignore and Proceed": {
@@ -1883,10 +1893,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "Initialise journal received history. On the next sync, every item except this device sent will be downloaded again.":
         {
             def: "Initialise journal received history. On the next sync, every item except this device sent will be downloaded again.",
+            ja: "ジャーナル受信履歴を初期化します。次回同期時に、このデバイスが送信したもの以外のすべての項目が再度ダウンロードされます。",
             "zh-tw": "初始化接收日誌歷程。下次同步時，除了此裝置已送出的項目外，其他項目都會再次下載。",
         },
     "Initialise journal sent history. On the next sync, every item except this device received will be sent again.": {
         def: "Initialise journal sent history. On the next sync, every item except this device received will be sent again.",
+        ja: "ジャーナル送信履歴を初期化します。次回同期時に、このデバイスが受信したもの以外のすべての項目が再度送信されます。",
         "zh-tw": "初始化傳送日誌歷程。下次同步時，除了此裝置已接收的項目外，其他項目都會再次傳送。",
     },
     "Interval (sec)": {
@@ -1912,7 +1924,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Peer-to-Peer Sync",
         fr: "Synchronisation pair-à-pair",
         he: "%{title_p2p_sync}",
-        ja: "Peer-to-Peer Sync (試験機能)",
+        ja: "Peer-to-Peer Sync",
         ko: "피어 투 피어(P2P) 동기화 (실험 기능)",
         ru: "title_p2p_sync",
         zh: "Peer-to-Peer同步 (实验性)",
@@ -1948,7 +1960,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "P2P Sync",
         fr: "Sync P2P",
         he: "סנכרון P2P",
-        ja: "P2P Sync (試験機能)",
+        ja: "P2P同期",
         ko: "P2P 동기화 (실험 기능)",
         ru: "P2P Синхр.",
         zh: "P2P同步(实验性)",
@@ -2023,6 +2035,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "lang-he": {
         def: "Hebrew",
         he: "עברית",
+        ja: "ヘブライ語",
     },
     "lang-ja": {
         def: "日本語",
@@ -2134,11 +2147,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "liveSyncReplicator.couldNotConnectTo": {
         def: "Could not connect to ${uri} : ${name}\n(${db})",
-        es: "No se pudo conectar a ${uri} : ${name} \n(${db})",
+        es: "No se pudo conectar a ${uri} : ${name}\n(${db})",
         fr: "Connexion impossible à ${uri} : ${name}\n(${db})",
         he: "לא ניתן להתחבר אל ${uri} : ${name}\n(${db})",
         ja: "${uri} : ${name}に接続できませんでした\n(${db})",
-        ko: "${uri}에 연결할 수 없습니다: ${name} \n(${db})",
+        ko: "${uri}에 연결할 수 없습니다: ${name}\n(${db})",
         ru: "Не удалось подключиться к uri : name\n(db)",
         zh: "无法连接到 ${uri} : ${name}\n(${db})",
     },
@@ -2214,6 +2227,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "liveSyncReplicator.mismatchedTweakDetected": {
         def: "Some mismatches have been detected in the configuration between devices. Running a manual replication will attempt to resolve this issue.",
+        ja: "デバイス間の設定に一部不一致が検出されました。手動レプリケーションを実行すると、この問題の解決を試みます。",
     },
     "liveSyncReplicator.oneShotSyncBegin": {
         def: "OneShot Sync begin... (${syncMode})",
@@ -2610,9 +2624,9 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         fr: "**Votre base de données grossit !** Pas d'inquiétude, nous pouvons y remédier dès maintenant, avant de manquer d'espace sur le stockage distant.\n\n| Taille mesurée | Taille configurée |\n| --- | --- |\n| ${estimatedSize} | ${maxSize} |\n\n> [!MORE]-\n> Si vous l'utilisez depuis de nombreuses années, il peut y avoir des fragments non référencés — des déchets, en somme — accumulés dans la base. Nous recommandons donc de tout reconstruire. Cela réduira probablement beaucoup la taille.\n>\n> Si le volume de votre coffre augmente simplement, il est préférable de tout reconstruire après avoir organisé les fichiers. Self-hosted LiveSync ne supprime pas réellement les données même si vous les effacez, afin d'accélérer le processus. Ceci est documenté grossièrement [ici](https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/tech_info.md).\n>\n> Si cela ne vous dérange pas, vous pouvez augmenter la limite de notification de 100 Mo. C'est le cas si vous l'exécutez sur votre propre serveur. Il reste toutefois préférable de tout reconstruire de temps en temps.\n>\n\n> [!WARNING]\n> Si vous tout reconstruisez, assurez-vous que tous les appareils sont synchronisés. Le plug-in fusionnera autant que possible cependant.\n",
         he: "**מסד הנתונים שלך הולך וגדל!** אל תדאג, אנחנו יכולים לטפל בזה עכשיו. הזמן שנשאר עד לאזול המקום באחסון המרוחק.\n\n| גודל נמדד | גודל מוגדר |\n| --- | --- |\n| ${estimatedSize} | ${maxSize} |\n\n> [!MORE]-\n> אם אתה משתמש בפלאגין כבר שנים רבות, ייתכן שנצברו נתחים לא מקושרים — כלומר, זבל — במסד הנתונים. לכן, אנו ממליצים לבנות הכל מחדש. ככל הנראה מסד הנתונים יהיה קטן בהרבה לאחר מכן.\n>\n> אם נפח הכספת שלך פשוט גדל, עדיף לבנות מחדש לאחר ארגון הקבצים. Self-hosted LiveSync אינו מוחק נתונים בפועל גם כאשר אתה מוחק קבצים כדי להאיץ את התהליך. הדבר [מתועד בפירוט](https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/tech_info.md).\n>\n> אם אינך מוטרד מהגידול, ניתן להגדיל את סף ההתראה ב-100MB. הדבר מתאים אם השרת הוא שלך. עם זאת, מומלץ לבנות מחדש מעת לעת.\n>\n\n> [!WARNING]\n> אם תבנה מחדש, ודא שכל המכשירים מסונכרנים. הפלאגין ינסה למזג כמה שניתן.\n",
         ja: "**データベースが大きくなっています！** でも心配しないでください。リモートストレージの容量が不足する前に対応できます。\n\n| 測定サイズ | 設定サイズ |\n| --- | --- |\n| ${estimatedSize} | ${maxSize} |\n\n> [!MORE]-\n> 長年使用している場合、参照されていないチャンク（つまりゴミ）がデータベースに蓄積している可能性があります。そのため、すべてを再構築することをお勧めします。おそらくかなり小さくなるでしょう。\n>\n> 単純に保管庫の容量が増えている場合は、事前にファイルを整理してからすべてを再構築するのが良いでしょう。Self-hosted LiveSyncは処理速度を上げるため、削除しても実際のデータを削除しません。これはおおまかに[documentation](https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/tech_info.md)に記載されています。\n>\n> 増加を気にしない場合は、通知制限を100MB単位で増やすことができます。これは自分のサーバーで実行している場合に適しています。ただし、定期的にすべてを再構築する方が良いでしょう。\n>\n\n> [!WARNING]\n> すべてを再構築する場合は、すべてのデバイスが同期されていることを確認してください。もちろん、プラグインは可能な限り解決しようと努力はしますけど...\n",
-        ko: "**데이터베이스 용량이 점점 커지고 있습니다!** 하지만 걱정하지 마세요. 아직 원격 스토리지 공간이 완전히 부족해진 건 아닙니다.\n\n| 측정된 크기 | 설정된 한도 |\n| --- | --- |\n| ${estimatedSize} | ${maxSize} |\n\n> [!MORE]-\n> 오랜 기간 사용했다면 참조되지 않는 청크, 즉 '쓰레기 데이터'가 쌓였을 수 있습니다. 이 경우 전체 재구성을 권장합니다. 용량이 훨씬 줄어들 수 있습니다.\n> \n> 단순히 볼트 자체 용량이 커지고 있는 것이라면, 먼저 파일을 정리한 후 전체를 재구성하는 것이 좋습니다. Self-hosted LiveSync는 처리 속도를 위해 삭제해도 실제 데이터를 바로 지우지 않습니다. 이 내용은 [기술 문서](https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/tech_info.md)에 간략히 정리되어 있습니다.\n> \n> 용량 증가가 괜찮다면 알림 임계치를 100MB 단위로 높일 수 있습니다. 직접 서버를 운영하는 경우에 적합한 방법입니다. 다만, 가끔은 전체 재구성을 해주는 것이 바람직합니다.\n\n> [!WARNING]\n> 전체 재구성을 실행할 경우, 모든 기기가 반드시 동기화되어 있어야 합니다. 플러그인이 최대한 병합하려고 시도하긴 하지만 완전하지 않을 수 있습니다.",
+        ko: "**데이터베이스 용량이 점점 커지고 있습니다!** 하지만 걱정하지 마세요. 아직 원격 스토리지 공간이 완전히 부족해진 건 아닙니다.\n\n| 측정된 크기 | 설정된 한도 |\n| --- | --- |\n| ${estimatedSize} | ${maxSize} |\n\n> [!MORE]-\n> 오랜 기간 사용했다면 참조되지 않는 청크, 즉 '쓰레기 데이터'가 쌓였을 수 있습니다. 이 경우 전체 재구성을 권장합니다. 용량이 훨씬 줄어들 수 있습니다.\n>\n> 단순히 볼트 자체 용량이 커지고 있는 것이라면, 먼저 파일을 정리한 후 전체를 재구성하는 것이 좋습니다. Self-hosted LiveSync는 처리 속도를 위해 삭제해도 실제 데이터를 바로 지우지 않습니다. 이 내용은 [기술 문서](https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/tech_info.md)에 간략히 정리되어 있습니다.\n>\n> 용량 증가가 괜찮다면 알림 임계치를 100MB 단위로 높일 수 있습니다. 직접 서버를 운영하는 경우에 적합한 방법입니다. 다만, 가끔은 전체 재구성을 해주는 것이 바람직합니다.\n\n> [!WARNING]\n> 전체 재구성을 실행할 경우, 모든 기기가 반드시 동기화되어 있어야 합니다. 플러그인이 최대한 병합하려고 시도하긴 하지만 완전하지 않을 수 있습니다.",
         ru: "Ваша база данных увеличивается! Но не волнуйтесь, мы можем решить это сейчас.",
-        zh: "**您的数据库正在变大！** 但别担心,我们现在可以解决它。在远程存储空间用完之前还有时间。\n\n| 测量大小 | 配置大小 |\n| --- | --- |\n| ${estimatedSize} | ${maxSize} |\n\n> [!MORE]-\n> 如果您已经使用了很多年,数据库中可能会积累未引用的 chunks——也就是垃圾。因此,我们建议重建所有内容。它可能会变得小得多。\n> \n> 如果您的库容量只是在增加,最好在整理文件后重建所有内容。即使您为了加速过程删除了文件,Self-hosted LiveSync 也不会删除实际数据。这大致[有文档记录](https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/tech_info.md)。\n> \n> 如果您不介意增加,可以将通知限制增加 100MB。如果您在自己的服务器上运行,就是这种情况。但是,最好还是不时地重建所有内容。\n> \n\n> [!WARNING]\n> 如果您执行重建所有内容,请确保所有设备都已同步。尽管如此,插件会尽可能地合并\n",
+        zh: "**您的数据库正在变大！** 但别担心,我们现在可以解决它。在远程存储空间用完之前还有时间。\n\n| 测量大小 | 配置大小 |\n| --- | --- |\n| ${estimatedSize} | ${maxSize} |\n\n> [!MORE]-\n> 如果您已经使用了很多年,数据库中可能会积累未引用的 chunks——也就是垃圾。因此,我们建议重建所有内容。它可能会变得小得多。\n>\n> 如果您的库容量只是在增加,最好在整理文件后重建所有内容。即使您为了加速过程删除了文件,Self-hosted LiveSync 也不会删除实际数据。这大致[有文档记录](https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/tech_info.md)。\n>\n> 如果您不介意增加,可以将通知限制增加 100MB。如果您在自己的服务器上运行,就是这种情况。但是,最好还是不时地重建所有内容。\n>\n\n> [!WARNING]\n> 如果您执行重建所有内容,请确保所有设备都已同步。尽管如此,插件会尽可能地合并\n",
     },
     "moduleCheckRemoteSize.msgSetDBCapacity": {
         def: "We can set a maximum database capacity warning, **to take action before running out of space on the remote storage**.\nDo you want to enable this?\n\n> [!MORE]-\n> - 0: Do not warn about storage size.\n>   This is recommended if you have enough space on the remote storage especially you have self-hosted. And you can check the storage size and rebuild manually.\n> - 800: Warn if the remote storage size exceeds 800MB.\n>   This is recommended if you are using fly.io with 1GB limit or IBM Cloudant.\n> - 2000: Warn if the remote storage size exceeds 2GB.\n\nIf we have reached the limit, we will be asked to enlarge the limit step by step.\n",
@@ -2626,9 +2640,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "moduleCheckRemoteSize.noticeExceeded": {
         def: "Remote storage size is ${measuredSize}, above the configured ${notifySize} notification threshold. {HERE}",
+        ja: "リモートストレージのサイズは${measuredSize}で、設定された通知しきい値${notifySize}を超えています。{HERE}",
     },
     "moduleCheckRemoteSize.noticeNotConfigured": {
         def: "Remote storage size notifications are not configured. {HERE}",
+        ja: "リモートストレージのサイズ通知が設定されていません。{HERE}",
     },
     "moduleCheckRemoteSize.option2GB": {
         def: "2GB (Standard)",
@@ -2702,6 +2718,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "moduleCheckRemoteSize.optionReview": {
         def: "Review options",
+        ja: "オプションを確認",
     },
     "moduleCheckRemoteSize.titleDatabaseSizeLimitExceeded": {
         def: "Remote storage size exceeded the limit",
@@ -3137,7 +3154,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "v0.23.21以降、self-hosted LiveSyncはデフォルトの動作とデータベース構造を変更しました。以下の変更が行われました：\n\n1. **ファイル名の大文字小文字の区別**\n   ファイル名の処理が大文字小文字を区別しなくなりました。これは、ファイル名の大文字小文字を効果的に管理しないLinuxとiOS以外のほとんどのプラットフォームにとって有益な変更です。\n   （これらの環境では、同じ名前で大文字小文字が異なるファイルに対して警告が表示されます）。\n\n2. **チャンクのリビジョン処理**\n   チャンクは不変であり、リビジョンを固定できます。この変更により、ファイル保存のパフォーマンスが向上します。\n\n___しかし、これらの変更を有効にするには、リモートとローカルの両方のデータベースを再構築する必要があります。このプロセスは数分かかります。時間に余裕があるときに行うことをお勧めします。___\n\n- 以前の動作を維持したい場合は、`${KEEP}`を使用してこのプロセスをスキップできます。\n- 時間がない場合は、`${DISMISS}`を選択してください。後で再度確認されます。\n- 別のデバイスでデータベースを再構築した場合は、`${DISMISS}`を選択して再度同期してみてください。差異が検出されたため、再度確認されます。",
         ko: "v0.23.21부터 Self-hosted LiveSync의 기본 동작 방식과 데이터베이스 구조가 변경되었습니다. 주요 변경사항은 다음과 같습니다:\n\n1. **파일명 대소문자 구분 처리**\n   이제 파일명은 대소문자를 구분하지 않고 처리됩니다. 이는 파일명 구분을 제대로 지원하지 않는 Linux 및 iOS를 제외한 대부분의 플랫폼에서 유리한 변화입니다.\n   (Linux나 iOS에서는 대소문자만 다른 파일이 존재할 경우 경고가 표시됩니다)\n\n2. **청크 리비전 관리 방식 개선**\n   청크는 변경 불가능한(immutable) 구조로 고정되며, 이를 통해 리비전 처리가 안정화되고 파일 저장 성능이 향상됩니다.\n\n___단, 위 기능을 활성화하려면 원격 및 로컬 데이터베이스를 모두 재구성해야 합니다. 이 과정은 수 분이 소요되므로 여유가 있을 때 실행하시는 것을 권장합니다.___\n\n- 기존 방식대로 유지하려면 `${KEEP}`을 선택해 이 과정을 건너뛸 수 있습니다.\n- 시간이 부족하다면 `${DISMISS}`를 눌러주시면 나중에 다시 안내드리겠습니다.\n- 이미 다른 기기에서 데이터베이스를 재구성하셨다면 `${DISMISS}`를 선택한 뒤 다시 동기화해 보세요. 차이점이 감지되면 다시 안내드리겠습니다.",
         ru: "Начиная с v0.23.21, self-hosted LiveSync изменил поведение и структуру базы данных.",
-        zh: "自 v0.23.21 起,Self-hosted LiveSync 更改了默认行为和数据库结构。进行了以下更改：\n\n1. **文件名的区分大小写** \n现在处理文件名时不区分大小写。这对于大多数平台来说是一个有益的更改,除了 Linux 和 iOS,它们不能有效地管理文件名的大小写敏感性。\n(在这些平台上,对于名称相同但大小写不同的文件将显示警告)。\n\n2. **chunks 的版本处理** \nchunks 是不可变的,这使得它们的版本可以固定。此更改将提高文件保存的性能。\n\n___然而,要启用这些更改中的任何一个,都需要重建远程和本地数据库。这个过程需要几分钟,我们建议您在有充足时间时进行。___\n\n- 如果您希望保持以前的行为,可以使用 `${KEEP}` 跳过此过程。\n- 如果您没有足够的时间,请选择 `${DISMISS}`。稍后会再次提示您。\n- 如果您已在另一台设备上重建了数据库,请选择 `${DISMISS}` 并尝试再次同步。由于检测到差异,系统会再次提示您",
+        zh: "自 v0.23.21 起,Self-hosted LiveSync 更改了默认行为和数据库结构。进行了以下更改：\n\n1. **文件名的区分大小写**\n现在处理文件名时不区分大小写。这对于大多数平台来说是一个有益的更改,除了 Linux 和 iOS,它们不能有效地管理文件名的大小写敏感性。\n(在这些平台上,对于名称相同但大小写不同的文件将显示警告)。\n\n2. **chunks 的版本处理**\nchunks 是不可变的,这使得它们的版本可以固定。此更改将提高文件保存的性能。\n\n___然而,要启用这些更改中的任何一个,都需要重建远程和本地数据库。这个过程需要几分钟,我们建议您在有充足时间时进行。___\n\n- 如果您希望保持以前的行为,可以使用 `${KEEP}` 跳过此过程。\n- 如果您没有足够的时间,请选择 `${DISMISS}`。稍后会再次提示您。\n- 如果您已在另一台设备上重建了数据库,请选择 `${DISMISS}` 并尝试再次同步。由于检测到差异,系统会再次提示您",
     },
     "moduleMigration.optionAdjustRemote": {
         def: "Adjust to remote",
@@ -3251,7 +3268,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Use P2P Sync to set up",
         fr: "Utiliser Sync P2P pour configurer",
         he: "השתמש ב-%{short_p2p_sync} להגדרה",
-        ja: "P2P Sync (試験機能)を使ってセットアップ",
+        ja: "P2P同期を使ってセットアップ",
         ko: "P2P 동기화 (실험 기능)를 사용하여 설정",
         ru: "Использовать short_p2p_sync для настройки",
         zh: "Use P2P同步(实验性) to set up",
@@ -3964,13 +3981,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.logCheckPassphraseFailed": {
         def: "ERROR: Failed to check passphrase with the remote server:\n${db}.",
-        es: "ERROR: Error al comprobar la frase de contraseña con el servidor remoto: \n${db}.",
+        es: "ERROR: Error al comprobar la frase de contraseña con el servidor remoto:\n${db}.",
         fr: "ERREUR : Échec de la vérification de la phrase secrète avec le serveur distant :\n${db}.",
         he: "שגיאה: בדיקת ביטוי הסיסמה עם השרת המרוחד נכשלה:\n${db}.",
         ja: "エラー: リモートサーバーとのパスフレーズ確認に失敗しました:\n${db}。",
-        ko: "오류: 원격 서버와 패스프레이즈 확인에 실패했습니다: \n${db}.",
+        ko: "오류: 원격 서버와 패스프레이즈 확인에 실패했습니다:\n${db}.",
         ru: "ОШИБКА: Не удалось проверить пароль с удалённым сервером: db.",
-        zh: "错误：无法使用远程服务器检查密码：\n${db} ",
+        zh: "错误：无法使用远程服务器检查密码：\n${db}",
     },
     "obsidianLiveSyncSettingTab.logConfiguredDisabled": {
         def: "Configured synchronization mode: DISABLED",
@@ -4128,6 +4145,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.logServerConfigurationCheck": {
         def: "obsidianLiveSyncSettingTab.logServerConfigurationCheck",
+        ja: "サーバー設定チェックログ",
     },
     "obsidianLiveSyncSettingTab.msgAreYouSureProceed": {
         def: "Are you sure to proceed?",
@@ -5350,7 +5368,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "No auto-sync peers found. Please set peers on the Peer-to-Peer Sync pane.",
         fr: "Aucun pair de synchronisation automatique trouvé. Veuillez définir des pairs dans le panneau Synchronisation pair-à-pair.",
         he: "לא נמצאו עמיתים לסנכרון אוטומטי. אנא הגדר עמיתים בלוח %{long_p2p_sync}.",
-        ja: "自動同期ピアが見つかりません。Peer-to-Peer Sync (試験機能)ペインでピアを設定してください。",
+        ja: "自動同期ピアが見つかりません。Peer-to-Peer Syncペインでピアを設定してください。",
         ko: "자동 동기화 피어를 찾을 수 없습니다. 피어 투 피어(P2P) 동기화 (실험 기능) 창에서 피어를 설정해 주세요.",
         ru: "Автосинхронизируемые устройства не найдены.",
         zh: "未找到自动同步的对等方，请在 Peer-to-Peer同步 (实验性) 面板中设置对等方",
@@ -5422,7 +5440,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Peer-to-Peer Sync",
         fr: "Synchronisation pair-à-pair",
         he: "%{long_p2p_sync}",
-        ja: "Peer-to-Peer Sync (試験機能)",
+        ja: "Peer-to-Peer Sync",
         ko: "피어 투 피어(P2P) 동기화 (실험 기능)",
         ru: "long_p2p_sync",
         zh: "Peer-to-Peer同步 (实验性)",
@@ -5679,6 +5697,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Pick a file to show history": {
         def: "Pick a file to show history",
+        ja: "履歴を表示するファイルを選択",
         "zh-tw": "選擇要顯示歷程的檔案",
     },
     "Please disable 'Read chunks online' in settings to use Garbage Collection.": {
@@ -5833,6 +5852,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Property Encryption",
         fr: "Chiffrement des propriétés",
         he: "הצפנת מאפיינים",
+        ja: "プロパティの暗号化",
         ru: "Шифрование свойств",
         zh: "属性加密",
     },
@@ -5883,6 +5903,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Recovery and Repair": {
         def: "Recovery and Repair",
+        ja: "復旧と修復",
         "zh-tw": "修復與修補",
     },
     "Recreate all": {
@@ -6409,6 +6430,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and display may be inconsistent. Are you sure to restart now?":
         {
             def: "Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and display may be inconsistent. Are you sure to restart now?",
+            ja: "Obsidianの再起動を強く推奨します。再起動するまで一部の変更が反映されず、表示が不整合になる可能性があります。今すぐ再起動しますか？",
             "zh-tw":
                 "強烈建議重新啟動 Obsidian。在重新啟動之前，部分變更可能尚未生效，顯示也可能不一致。你確定要現在重新啟動嗎？",
         },
@@ -7278,10 +7300,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Show history": {
         def: "Show history",
+        ja: "履歴を表示",
         "zh-tw": "顯示歷程",
     },
     "Show icon only": {
         def: "Show icon only",
+        ja: "アイコンのみ表示",
         zh: "仅显示图标",
         "zh-tw": "僅顯示圖示",
     },
@@ -7388,6 +7412,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Storage -> Database": {
         def: "Storage -> Database",
+        ja: "ストレージ → データベース",
         "zh-tw": "儲存空間 -> 資料庫",
     },
     "Suppress notification of hidden files change": {
@@ -7588,6 +7613,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use IDB adapter instead.":
         {
             def: "The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use IDB adapter instead.",
+            ja: "IndexedDBアダプターは一部の状況で高い性能を発揮しますが、LiveSyncモードで使用するとメモリリークが発生することが分かっています。LiveSyncモードでは代わりにIDBアダプターを使用してください。",
             "zh-tw":
                 "IndexedDB 適配器在某些情況下通常能提供較佳效能，但在 LiveSync 模式下已發現可能導致記憶體洩漏。使用 LiveSync 模式時，請改用 IDB 適配器。",
         },
@@ -7692,6 +7718,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "TweakMismatchResolve.Action.DisableAutoAcceptCompatible": {
         def: "Disable auto-accept",
+        ja: "自動受け入れを無効化",
     },
     "TweakMismatchResolve.Action.Dismiss": {
         def: "Dismiss",
@@ -7704,6 +7731,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "TweakMismatchResolve.Action.EnableAutoAcceptCompatible": {
         def: "Enable auto-accept",
+        ja: "自動受け入れを有効化",
     },
     "TweakMismatchResolve.Action.UseConfigured": {
         def: "Use configured settings",
@@ -7770,6 +7798,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "TweakMismatchResolve.Message.AutoAcceptCompatibleUndefined": {
         def: "\nIt appears that the settings differ for each device. You can now automatically apply compatible changes to these configurations.\nWould you like to enable this `auto-accept` setting?",
+        ja: "\nデバイスごとに設定が異なっているようです。互換性のある設定変更は自動的に適用できるようになりました。\nこの `auto-accept` 設定を有効にしますか？",
     },
     "TweakMismatchResolve.Message.Main": {
         def: "\nThe settings in the remote database are as follows. These values are configured by other devices, which are synchronised with this device at least once.\n\nIf you want to use these settings, please select Use configured settings.\nIf you want to keep the settings of this device, please select Dismiss.\n\n${table}\n\n>[!TIP]\n> If you want to synchronise all settings, please use `Sync settings via markdown` after applying minimal configuration with this feature.\n\n${additionalMessage}",
@@ -7791,9 +7820,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "TweakMismatchResolve.Message.mineUpdated": {
         def: "The device configuration have been adjusted.",
+        ja: "このデバイスの設定を調整しました。",
     },
     "TweakMismatchResolve.Message.remoteUpdated": {
         def: "The configuration stored remotely has been updated.",
+        ja: "リモートに保存されている設定を更新しました。",
     },
     "TweakMismatchResolve.Message.UseRemote.WarningRebuildRecommended": {
         def: "\n>[!NOTICE]\n> Some changes are compatible but may consume extra storage and transfer volumes. A rebuild is recommended. However, a rebuild may not be performed at present, but may be implemented in future maintenance.\n> ***Please ensure that you have time and are connected to a stable network to apply!***",
@@ -7860,6 +7891,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "TweakMismatchResolve.Title.AutoAcceptCompatible": {
         def: "Auto-Accept Available",
+        ja: "自動受け入れを利用できます",
     },
     "TweakMismatchResolve.Title.TweakResolving": {
         def: "Configuration Mismatch Detected",
@@ -7881,1052 +7913,1318 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "Ui.Common.Signal.Caution": {
         def: "CAUTION",
+        ja: "注意",
         zh: "注意",
     },
     "Ui.Common.Signal.Danger": {
         def: "DANGER",
+        ja: "危険",
         zh: "危险",
     },
     "Ui.Common.Signal.Notice": {
         def: "NOTICE",
+        ja: "通知",
         zh: "提示",
     },
     "Ui.Common.Signal.Warning": {
         def: "WARNING",
+        ja: "警告",
         zh: "警告",
     },
     "Ui.Settings.Advanced.LocalDatabaseTweak": {
         def: "Local Database Tweak",
+        ja: "ローカルデータベースの調整",
         zh: "本地数据库调整",
     },
     "Ui.Settings.Advanced.MemoryCache": {
         def: "Memory Cache",
+        ja: "メモリキャッシュ",
         zh: "内存缓存",
     },
     "Ui.Settings.Advanced.TransferTweak": {
         def: "Transfer Tweak",
+        ja: "転送の調整",
         zh: "传输调整",
     },
     "Ui.Settings.Common.Analyse": {
         def: "Analyse",
+        ja: "分析",
         zh: "分析",
     },
     "Ui.Settings.Common.Back": {
         def: "Back",
+        ja: "戻る",
         zh: "返回",
     },
     "Ui.Settings.Common.Check": {
         def: "Check",
+        ja: "確認",
         zh: "检查",
     },
     "Ui.Settings.Common.Configure": {
         def: "Configure",
+        ja: "設定",
         zh: "配置",
     },
     "Ui.Settings.Common.Continue": {
         def: "Continue",
+        ja: "続行",
         zh: "继续",
     },
     "Ui.Settings.Common.Delete": {
         def: "Delete",
+        ja: "削除",
         zh: "删除",
     },
     "Ui.Settings.Common.Fetch": {
         def: "Fetch",
+        ja: "取得",
         zh: "获取",
     },
     "Ui.Settings.Common.Lock": {
         def: "Lock",
+        ja: "ロック",
         zh: "锁定",
     },
     "Ui.Settings.Common.Merge": {
         def: "Merge",
+        ja: "マージ",
         zh: "合并",
     },
     "Ui.Settings.Common.Open": {
         def: "Open",
+        ja: "開く",
         zh: "打开",
     },
     "Ui.Settings.Common.Overwrite": {
         def: "Overwrite",
+        ja: "上書き",
         zh: "覆盖",
     },
     "Ui.Settings.Common.Perform": {
         def: "Perform",
+        ja: "実行",
         zh: "执行",
     },
     "Ui.Settings.Common.ResetAll": {
         def: "Reset all",
+        ja: "すべてリセット",
         zh: "全部重置",
     },
     "Ui.Settings.Common.ResolveAll": {
         def: "Resolve All",
+        ja: "すべて解決",
         zh: "全部解决",
     },
     "Ui.Settings.Common.Scan": {
         def: "Scan",
+        ja: "スキャン",
         zh: "扫描",
     },
     "Ui.Settings.Common.Send": {
         def: "Send",
+        ja: "送信",
         zh: "发送",
     },
     "Ui.Settings.Common.Use": {
         def: "Use",
+        ja: "使用",
         zh: "使用",
     },
     "Ui.Settings.Common.VerifyAll": {
         def: "Verify all",
+        ja: "すべて検証",
         zh: "全部校验",
     },
     "Ui.Settings.CustomizationSync.OpenDesc": {
         def: "Open the dialog",
+        ja: "ダイアログを開く",
         zh: "打开此对话框",
     },
     "Ui.Settings.CustomizationSync.Panel": {
         def: "Customization Sync",
+        ja: "カスタマイズ同期",
         zh: "自定义同步",
     },
     "Ui.Settings.CustomizationSync.WarnChangeDeviceName": {
         def: "We cannot change the device name while this feature is enabled. Please disable this feature to change the device name.",
+        ja: "この機能が有効な間はデバイス名を変更できません。変更するにはこの機能を無効にしてください。",
         zh: "启用此功能时无法修改设备名称。请先关闭此功能，再修改设备名称。",
     },
     "Ui.Settings.CustomizationSync.WarnSetDeviceName": {
         def: "Please set device name to identify this device. This name should be unique among your devices. While not configured, we cannot enable this feature.",
+        ja: "このデバイスを識別するためのデバイス名を設定してください。この名前は各デバイスで一意である必要があります。設定されるまで、この機能は有効にできません。",
         zh: "请先设置用于标识此设备的设备名称。该名称应在你的设备之间保持唯一。未设置前无法启用此功能。",
     },
     "Ui.Settings.Hatch.AnalyseDatabaseUsage": {
         def: "Analyse database usage",
+        ja: "データベース使用量を分析",
         zh: "分析数据库使用情况",
     },
     "Ui.Settings.Hatch.AnalyseDatabaseUsageDesc": {
         def: "Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like.",
+        ja: "データベース使用量を分析し、自己診断用のTSVレポートを生成します。生成したレポートは任意のスプレッドシートに貼り付けられます。",
         zh: "分析数据库使用情况，并生成 TSV 报告供你自行诊断。你可以将生成的报告粘贴到任意电子表格工具中查看。",
     },
     "Ui.Settings.Hatch.BackToNonConfigured": {
         def: "Back to non-configured",
+        ja: "未設定状態に戻す",
         zh: "返回未配置状态",
     },
     "Ui.Settings.Hatch.ConvertNonObfuscated": {
         def: "Check and convert non-path-obfuscated files",
+        ja: "パス難読化されていないファイルを確認して変換",
         zh: "检查并转换未进行路径混淆的文件",
     },
     "Ui.Settings.Hatch.ConvertNonObfuscatedDesc": {
         def: "Check the local database for files that were stored without path obfuscation and convert them when needed.",
+        ja: "パス難読化なしで保存されたファイルをローカルデータベースで確認し、必要に応じて変換します。",
         zh: "检查本地数据库中未按路径混淆方式存储的文件，并在需要时将其转换为正确格式。",
     },
     "Ui.Settings.Hatch.CopyIssueReport": {
         def: "Copy Report to clipboard",
+        ja: "レポートをクリップボードにコピー",
         zh: "复制报告到剪贴板",
     },
     "Ui.Settings.Hatch.DatabaseLabel": {
         def: "Database: ${details}",
+        ja: "データベース: ${details}",
         zh: "数据库：${details}",
     },
     "Ui.Settings.Hatch.DatabaseToStorage": {
         def: "Database -> Storage",
+        ja: "データベース → ストレージ",
         zh: "数据库 -> 存储",
     },
     "Ui.Settings.Hatch.DeleteCustomizationSyncData": {
         def: "Delete all customization sync data",
+        ja: "カスタマイズ同期データをすべて削除",
         zh: "删除所有自定义同步数据",
     },
     "Ui.Settings.Hatch.GeneratedReport": {
         def: "Generated report",
+        ja: "生成されたレポート",
         zh: "已生成的报告",
     },
     "Ui.Settings.Hatch.Missing": {
         def: "Missing",
+        ja: "見つかりません",
         zh: "缺失",
     },
     "Ui.Settings.Hatch.ModifiedSize": {
         def: "Modified: ${modified}, Size: ${size}",
+        ja: "更新日時: ${modified}, サイズ: ${size}",
         zh: "修改时间：${modified}，大小：${size}",
     },
     "Ui.Settings.Hatch.ModifiedSizeActual": {
         def: "Modified: ${modified}, Size: ${size} (actual size: ${actualSize})",
+        ja: "更新日時: ${modified}, サイズ: ${size}（実サイズ: ${actualSize}）",
         zh: "修改时间：${modified}，大小：${size}（实际大小：${actualSize}）",
     },
     "Ui.Settings.Hatch.PrepareIssueReport": {
         def: "Prepare the 'report' to create an issue",
+        ja: "Issue作成用の「レポート」を準備",
         zh: "准备用于提交问题的报告",
     },
     "Ui.Settings.Hatch.RecoveryAndRepair": {
         def: "Recovery and Repair",
+        ja: "復旧と修復",
         zh: "恢复与修复",
     },
     "Ui.Settings.Hatch.RecreateAll": {
         def: "Recreate all",
+        ja: "すべて再作成",
         zh: "全部重建",
     },
     "Ui.Settings.Hatch.RecreateMissingChunks": {
         def: "Recreate missing chunks for all files",
+        ja: "すべてのファイルの不足チャンクを再作成",
         zh: "为所有文件重新创建缺失的数据块",
     },
     "Ui.Settings.Hatch.RecreateMissingChunksDesc": {
         def: "This will recreate chunks for all files. If there were missing chunks, this may fix the errors.",
+        ja: "すべてのファイルについてチャンクを再作成します。欠損しているチャンクがあった場合、エラーが解消される可能性があります。",
         zh: "此操作会为所有文件重新创建数据块。如果存在缺失的数据块，可能会修复相关错误。",
     },
     "Ui.Settings.Hatch.ResetPanel": {
         def: "Reset",
+        ja: "リセット",
         zh: "重置",
     },
     "Ui.Settings.Hatch.ResetRemoteUsage": {
         def: "Reset notification threshold and check the remote database usage",
+        ja: "通知しきい値をリセットし、リモートデータベース使用量を確認",
         zh: "重置通知阈值并检查远程数据库使用情况",
     },
     "Ui.Settings.Hatch.ResetRemoteUsageDesc": {
         def: "Reset the remote storage size threshold and check the remote storage size again.",
+        ja: "リモートストレージサイズのしきい値をリセットし、リモートストレージサイズを再確認します。",
         zh: "重置远程存储大小阈值，并再次检查远程存储大小。",
     },
     "Ui.Settings.Hatch.ResolveAllConflictedFiles": {
         def: "Resolve all conflicted files by the newer one",
+        ja: "すべての競合ファイルを新しい方で解決",
         zh: "使用较新的版本解决所有冲突文件",
     },
     "Ui.Settings.Hatch.ResolveAllConflictedFilesDesc": {
         def: "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one.",
+        ja: "競合しているすべてのファイルを新しい方の内容で解決します。注意：古い方は上書きされ、復元できません。",
         zh: "使用较新的版本解决所有冲突文件。注意：此操作会覆盖较旧版本，且无法恢复被覆盖的内容。",
     },
     "Ui.Settings.Hatch.RunDoctor": {
         def: "Run Doctor",
+        ja: "診断ツールを実行",
         zh: "运行诊断",
     },
     "Ui.Settings.Hatch.ScanBrokenFiles": {
         def: "Scan for broken files",
+        ja: "破損ファイルをスキャン",
         zh: "扫描损坏文件",
     },
     "Ui.Settings.Hatch.ScramSwitches": {
         def: "Scram Switches",
+        ja: "緊急対応スイッチ",
         zh: "紧急开关",
     },
     "Ui.Settings.Hatch.ShowHistory": {
         def: "Show history",
+        ja: "履歴を表示",
         zh: "查看历史",
     },
     "Ui.Settings.Hatch.StorageLabel": {
         def: "Storage: ${details}",
+        ja: "ストレージ: ${details}",
         zh: "存储：${details}",
     },
     "Ui.Settings.Hatch.StorageToDatabase": {
         def: "Storage -> Database",
+        ja: "ストレージ → データベース",
         zh: "存储 -> 数据库",
     },
     "Ui.Settings.Hatch.VerifyAndRepairAllFiles": {
         def: "Verify and repair all files",
+        ja: "すべてのファイルを検証して修復",
         zh: "校验并修复所有文件",
     },
     "Ui.Settings.Hatch.VerifyAndRepairAllFilesDesc": {
         def: "Compare the content of files between the local database and storage. If they do not match, you will be asked which one to keep.",
+        ja: "ローカルデータベースとストレージ上のファイル内容を比較します。一致しない場合、どちらを残すか確認されます。",
         zh: "比较本地数据库与存储中的文件内容。如果内容不一致，系统会询问你保留哪一份。",
     },
     "Ui.Settings.Maintenance.Cleanup": {
         def: "Perform cleanup",
+        ja: "クリーンアップを実行",
         zh: "执行清理",
     },
     "Ui.Settings.Maintenance.CleanupDesc": {
         def: "Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.",
+        ja: "最新版以外のすべてのリビジョンを破棄して、使用容量を削減します。実行には、リモートサーバーとローカルクライアントの両方に同程度の空き容量が必要です。",
         zh: "丢弃所有非最新修订版本，以减少存储空间占用。此操作要求远程服务器和本地客户端都具备同等大小的可用空间。",
     },
     "Ui.Settings.Maintenance.DeleteLocalDatabase": {
         def: "Delete local database to reset or uninstall Self-hosted LiveSync",
+        ja: "Self-hosted LiveSync をリセットまたはアンインストールするため、ローカルデータベースを削除",
         zh: "删除本地数据库以重置或卸载 Self-hosted LiveSync",
     },
     "Ui.Settings.Maintenance.EmergencyRestart": {
         def: "Emergency restart",
+        ja: "緊急再起動",
         zh: "紧急重启",
     },
     "Ui.Settings.Maintenance.EmergencyRestartDesc": {
         def: "Disable all synchronisation and restart.",
+        ja: "すべての同期を無効化して再起動します。",
         zh: "禁用所有同步并重新启动。",
     },
     "Ui.Settings.Maintenance.FreshStartWipe": {
         def: "Fresh Start Wipe",
+        ja: "初期化ワイプ",
         zh: "全新开始清空",
     },
     "Ui.Settings.Maintenance.FreshStartWipeDesc": {
         def: "Delete all data on the remote server.",
+        ja: "リモートサーバー上のすべてのデータを削除します。",
         zh: "删除远程服务器上的所有数据。",
     },
     "Ui.Settings.Maintenance.GarbageCollection": {
         def: "Garbage Collection V3 (Beta)",
+        ja: "ガーベジコレクション V3 (Beta)",
         zh: "垃圾回收 V3（测试版）",
     },
     "Ui.Settings.Maintenance.GarbageCollectionAction": {
         def: "Perform Garbage Collection",
+        ja: "ガーベジコレクションを実行",
         zh: "执行垃圾回收",
     },
     "Ui.Settings.Maintenance.GarbageCollectionDesc": {
         def: "Perform Garbage Collection to remove unused chunks and reduce database size.",
+        ja: "未使用のチャンクを削除し、データベースサイズを削減するためにガーベジコレクションを実行します。",
         zh: "执行垃圾回收以移除未使用的数据块并减少数据库大小。",
     },
     "Ui.Settings.Maintenance.LockServer": {
         def: "Lock Server",
+        ja: "サーバーをロック",
         zh: "锁定服务器",
     },
     "Ui.Settings.Maintenance.LockServerDesc": {
         def: "Lock the remote server to prevent synchronisation with other devices.",
+        ja: "他のデバイスとの同期を防ぐため、リモートサーバーをロックします。",
         zh: "锁定远程服务器，防止与其他设备继续同步。",
     },
     "Ui.Settings.Maintenance.OverwriteRemote": {
         def: "Overwrite remote",
+        ja: "リモートを上書き",
         zh: "覆盖远程端",
     },
     "Ui.Settings.Maintenance.OverwriteRemoteDesc": {
         def: "Overwrite remote with local DB and passphrase.",
+        ja: "ローカル DB とパスフレーズでリモートを上書きします。",
         zh: "使用本地数据库和密码短语覆盖远程端数据。",
     },
     "Ui.Settings.Maintenance.OverwriteServerData": {
         def: "Overwrite Server Data with This Device's Files",
+        ja: "このデバイスのファイルでサーバーデータを上書き",
         zh: "用此设备的文件覆盖服务器数据",
     },
     "Ui.Settings.Maintenance.OverwriteServerDataDesc": {
         def: "Rebuild the local and remote database with files from this device.",
+        ja: "このデバイス上のファイルからローカルおよびリモートデータベースを再構築します。",
         zh: "使用此设备上的文件重建本地和远程数据库。",
     },
     "Ui.Settings.Maintenance.PurgeAllJournalCounter": {
         def: "Purge all journal counter",
+        ja: "すべてのジャーナルカウンターを削除",
         zh: "清空全部日志计数器",
     },
     "Ui.Settings.Maintenance.PurgeAllJournalCounterDesc": {
         def: "Purge all download and upload caches.",
+        ja: "すべてのダウンロードおよびアップロードキャッシュを削除します。",
         zh: "清空所有下载与上传缓存。",
     },
     "Ui.Settings.Maintenance.RebuildingOperations": {
         def: "Rebuilding Operations (Remote Only)",
+        ja: "再構築操作 (リモートのみ)",
         zh: "重建操作（仅远程端）",
     },
     "Ui.Settings.Maintenance.Resend": {
         def: "Resend",
+        ja: "再送信",
         zh: "重新发送",
     },
     "Ui.Settings.Maintenance.ResendDesc": {
         def: "Resend all chunks to the remote.",
+        ja: "すべてのチャンクをリモートへ再送信します。",
         zh: "将所有数据块重新发送到远程端。",
     },
     "Ui.Settings.Maintenance.Reset": {
         def: "Reset",
+        ja: "リセット",
         zh: "重置",
     },
     "Ui.Settings.Maintenance.ResetAllJournalCounter": {
         def: "Reset all journal counter",
+        ja: "すべてのジャーナルカウンターをリセット",
         zh: "重置全部日志计数器",
     },
     "Ui.Settings.Maintenance.ResetAllJournalCounterDesc": {
         def: "Initialise all journal history. On the next sync, every item will be received and sent again.",
+        ja: "すべてのジャーナル履歴を初期化します。次回同期時に、すべての項目が再度受信・送信されます。",
         zh: "初始化全部日志历史。下次同步时，所有项目都会重新接收并重新发送。",
     },
     "Ui.Settings.Maintenance.ResetJournalReceived": {
         def: "Reset journal received history",
+        ja: "ジャーナル受信履歴をリセット",
         zh: "重置日志接收历史",
     },
     "Ui.Settings.Maintenance.ResetJournalReceivedDesc": {
         def: "Initialise journal received history. On the next sync, every item except those sent by this device will be downloaded again.",
+        ja: "ジャーナル受信履歴を初期化します。次回同期時に、このデバイスが送信したもの以外のすべての項目が再度ダウンロードされます。",
         zh: "初始化日志接收历史。下次同步时，除当前设备发送的项目外，其余项目都会重新下载。",
     },
     "Ui.Settings.Maintenance.ResetJournalSent": {
         def: "Reset journal sent history",
+        ja: "ジャーナル送信履歴をリセット",
         zh: "重置日志发送历史",
     },
     "Ui.Settings.Maintenance.ResetJournalSentDesc": {
         def: "Initialise journal sent history. On the next sync, every item except those received by this device will be sent again.",
+        ja: "ジャーナル送信履歴を初期化します。次回同期時に、このデバイスが受信したもの以外のすべての項目が再度送信されます。",
         zh: "初始化日志发送历史。下次同步时，除当前设备已接收的项目外，其余项目都会重新发送。",
     },
     "Ui.Settings.Maintenance.ResetLocalSyncInfo": {
         def: "Reset Synchronisation information",
+        ja: "同期情報をリセット",
         zh: "重置同步信息",
     },
     "Ui.Settings.Maintenance.ResetLocalSyncInfoDesc": {
         def: "Restore or reconstruct local database from remote.",
+        ja: "リモートからローカルデータベースを復元または再構築します。",
         zh: "从远程端恢复或重建本地数据库。",
     },
     "Ui.Settings.Maintenance.ResetReceived": {
         def: "Reset received",
+        ja: "受信履歴をリセット",
         zh: "重置接收记录",
     },
     "Ui.Settings.Maintenance.ResetSentHistory": {
         def: "Reset sent history",
+        ja: "送信履歴をリセット",
         zh: "重置发送记录",
     },
     "Ui.Settings.Maintenance.ResetThisDevice": {
         def: "Reset Synchronisation on This Device",
+        ja: "このデバイスの同期状態をリセット",
         zh: "重置此设备上的同步状态",
     },
     "Ui.Settings.Maintenance.ScheduleAndRestart": {
         def: "Schedule and Restart",
+        ja: "予約して再起動",
         zh: "计划执行并重启",
     },
     "Ui.Settings.Maintenance.Scram": {
         def: "Scram!",
+        ja: "緊急停止",
         zh: "紧急处理",
     },
     "Ui.Settings.Maintenance.SendChunks": {
         def: "Send chunks",
+        ja: "チャンクを送信",
         zh: "发送数据块",
     },
     "Ui.Settings.Maintenance.Syncing": {
         def: "Syncing",
+        ja: "同期",
         zh: "同步",
     },
     "Ui.Settings.Maintenance.WarningLockedReadyAction": {
         def: "I am ready, unlock the database",
+        ja: "準備できました。データベースのロックを解除します",
         zh: "我已准备好，立即解锁数据库",
     },
     "Ui.Settings.Maintenance.WarningLockedReadyText": {
         def: "To prevent unwanted vault corruption, the remote database has been locked for synchronisation. (This device is marked as 'resolved'.) When all your devices are marked as 'resolved', unlock the database. This warning will continue to appear until replication confirms the device is resolved.",
+        ja: "意図しないVault破損を防ぐため、リモートデータベースは同期用にロックされています。（このデバイスは「解決済み」としてマークされています。）すべてのデバイスが「解決済み」になったら、データベースのロックを解除してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示され続けます。",
         zh: "为防止意外的数据仓库损坏，远程数据库已被锁定，暂停同步。（此设备已被标记为“已确认”）当你的所有设备都标记为“已确认”后，再解锁数据库。在复制过程确认此设备已完成确认之前，此警告会持续显示。",
     },
     "Ui.Settings.Maintenance.WarningLockedResolveAction": {
         def: "I have made a backup, mark this device as resolved",
+        ja: "バックアップを作成しました。このデバイスを解決済みにします",
         zh: "我已完成备份，将此设备标记为“已确认”",
     },
     "Ui.Settings.Maintenance.WarningLockedResolveText": {
         def: "The remote database is locked for synchronisation to prevent vault corruption because this device is not marked as 'resolved'. Please back up your vault, reset the local database, and select 'Mark this device as resolved'. This warning will persist until replication confirms the device is resolved.",
+        ja: "このデバイスが「解決済み」としてマークされていないため、Vault破損を防ぐ目的でリモートデータベースは同期用にロックされています。Vaultをバックアップし、ローカルデータベースをリセットしてから「このデバイスを解決済みにする」を選択してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示され続けます。",
         zh: "为防止数据仓库损坏，由于此设备尚未标记为“已确认”，远程数据库已被锁定，暂停同步。请先备份你的仓库、重置本地数据库，然后选择“将此设备标记为已确认”。在复制过程确认此设备已完成确认之前，此警告会持续显示。",
     },
     "Ui.Settings.Maintenance.WriteRedFlagAndRestart": {
         def: "Flag and restart",
+        ja: "フラグを立てて再起動",
         zh: "标记并重启",
     },
     "Ui.Settings.Patches.CompatibilityConflict": {
         def: "Compatibility (Conflict Behaviour)",
+        ja: "互換性（競合時の挙動）",
         zh: "兼容性（冲突行为）",
     },
     "Ui.Settings.Patches.CompatibilityDatabase": {
         def: "Compatibility (Database structure)",
+        ja: "互換性（データベース構造）",
         zh: "兼容性（数据库结构）",
     },
     "Ui.Settings.Patches.CompatibilityInternalApi": {
         def: "Compatibility (Internal API Usage)",
+        ja: "互換性（内部 API の利用）",
         zh: "兼容性（内部 API 使用）",
     },
     "Ui.Settings.Patches.CompatibilityMetadata": {
         def: "Compatibility (Metadata)",
+        ja: "互換性（メタデータ）",
         zh: "兼容性（元数据）",
     },
     "Ui.Settings.Patches.CompatibilityRemote": {
         def: "Compatibility (Remote Database)",
+        ja: "互換性（リモートデータベース）",
         zh: "兼容性（远程数据库）",
     },
     "Ui.Settings.Patches.CompatibilityTrouble": {
         def: "Compatibility (Trouble addressed)",
+        ja: "互換性（対処済みの問題）",
         zh: "兼容性（已处理问题）",
     },
     "Ui.Settings.Patches.CurrentAdapter": {
         def: "Current adapter: ${adapter}",
+        ja: "現在のアダプター: ${adapter}",
         zh: "当前适配器：${adapter}",
     },
     "Ui.Settings.Patches.DatabaseAdapter": {
         def: "Database Adapter",
+        ja: "データベースアダプター",
         zh: "数据库适配器",
     },
     "Ui.Settings.Patches.DatabaseAdapterDesc": {
         def: "Select the database adapter to use.",
+        ja: "使用するデータベースアダプターを選択します。",
         zh: "选择要使用的数据库适配器。",
     },
     "Ui.Settings.Patches.EdgeCaseBehaviour": {
         def: "Edge case addressing (Behaviour)",
+        ja: "特殊なケースへの対応（動作）",
         zh: "边界情况处理（行为）",
     },
     "Ui.Settings.Patches.EdgeCaseDatabase": {
         def: "Edge case addressing (Database)",
+        ja: "特殊なケースへの対応（データベース）",
         zh: "边界情况处理（数据库）",
     },
     "Ui.Settings.Patches.EdgeCaseProcessing": {
         def: "Edge case addressing (Processing)",
+        ja: "特殊なケースへの対応（処理）",
         zh: "边界情况处理（处理流程）",
     },
     "Ui.Settings.Patches.IndexedDbWarning": {
         def: "The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use the IDB adapter instead.",
+        ja: "IndexedDBアダプターは一部の状況で高い性能を発揮しますが、LiveSyncモードで使用するとメモリリークが発生することが分かっています。LiveSyncモードでは代わりにIDBアダプターを使用してください。",
         zh: "IndexedDB 适配器在某些场景下通常具有更好的性能，但在 LiveSync 模式下已发现可能导致内存泄漏。使用 LiveSync 模式时，请改用 IDB 适配器。",
     },
     "Ui.Settings.Patches.MigratingToIdb": {
         def: "Migrating all data to IDB...",
+        ja: "すべてのデータをIDBへ移行しています...",
         zh: "正在将所有数据迁移到 IDB...",
     },
     "Ui.Settings.Patches.MigratingToIndexedDb": {
         def: "Migrating all data to IndexedDB...",
+        ja: "すべてのデータをIndexedDBへ移行しています...",
         zh: "正在将所有数据迁移到 IndexedDB...",
     },
     "Ui.Settings.Patches.MigrationIdbCompleted": {
         def: "Migration to IDB completed. Obsidian will be restarted with the new configuration immediately.",
+        ja: "IDBへの移行が完了しました。新しい設定でObsidianをすぐに再起動します。",
         zh: "已完成迁移到 IDB。Obsidian 将立即使用新配置重新启动。",
     },
     "Ui.Settings.Patches.MigrationIdbCompletedFollowUp": {
         def: "Migration to IDB completed. Please switch the adapter and restart Obsidian.",
+        ja: "IDBへの移行が完了しました。アダプターを切り替えてObsidianを再起動してください。",
         zh: "已完成迁移到 IDB。请切换适配器并重新启动 Obsidian。",
     },
     "Ui.Settings.Patches.MigrationIndexedDbCompleted": {
         def: "Migration to IndexedDB completed. Obsidian will be restarted with the new configuration immediately.",
+        ja: "IndexedDBへの移行が完了しました。新しい設定でObsidianをすぐに再起動します。",
         zh: "已完成迁移到 IndexedDB。Obsidian 将立即使用新配置重新启动。",
     },
     "Ui.Settings.Patches.MigrationIndexedDbCompletedFollowUp": {
         def: "Migration to IndexedDB completed. Please switch the adapter and restart Obsidian.",
+        ja: "IndexedDBへの移行が完了しました。アダプターを切り替えてObsidianを再起動してください。",
         zh: "已完成迁移到 IndexedDB。请切换适配器并重新启动 Obsidian。",
     },
     "Ui.Settings.Patches.MigrationWarning": {
         def: "Changing this setting requires migrating existing data, which may take some time, and restarting Obsidian. Please make sure to back up your data before proceeding.",
+        ja: "この設定を変更するには既存データの移行が必要で、時間がかかる場合があります。またObsidianの再起動も必要です。続行前に必ずデータをバックアップしてください。",
         zh: "修改此设置需要迁移现有数据（可能需要一些时间）并重新启动 Obsidian。请先备份你的数据后再继续。",
     },
     "Ui.Settings.Patches.OperationToIdb": {
         def: "to IDB",
+        ja: "IDBへ",
         zh: "迁移到 IDB",
     },
     "Ui.Settings.Patches.OperationToIndexedDb": {
         def: "to IndexedDB",
+        ja: "IndexedDBへ",
         zh: "迁移到 IndexedDB",
     },
     "Ui.Settings.Patches.Remediation": {
         def: "Remediation",
+        ja: "是正",
         zh: "修正",
     },
     "Ui.Settings.Patches.RemediationChanged": {
         def: "Remediation Setting Changed",
+        ja: "是正設定が変更されました",
         zh: "修正设置已更改",
     },
     "Ui.Settings.Patches.RemediationNoLimit": {
         def: "No limit configured",
+        ja: "制限は設定されていません",
         zh: "未设置限制",
     },
     "Ui.Settings.Patches.RemediationRestarting": {
         def: "Remediation setting changed. Restarting Obsidian...",
+        ja: "修復設定が変更されました。Obsidianを再起動しています...",
         zh: "修正设置已更改，正在重新启动 Obsidian...",
     },
     "Ui.Settings.Patches.RemediationRestartLater": {
         def: "Later",
+        ja: "後で",
         zh: "稍后",
     },
     "Ui.Settings.Patches.RemediationRestartMessage": {
         def: "Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and the display may be inconsistent. Are you sure you want to restart now?",
+        ja: "Obsidianの再起動を強く推奨します。再起動するまで一部の変更が反映されず、表示が不整合になる可能性があります。今すぐ再起動しますか？",
         zh: "强烈建议重新启动 Obsidian。在重启之前，部分更改可能不会生效，界面显示也可能不一致。确定要现在重启吗？",
     },
     "Ui.Settings.Patches.RemediationRestartNow": {
         def: "Restart Now",
+        ja: "今すぐ再起動",
         zh: "立即重启",
     },
     "Ui.Settings.Patches.RemediationSuffixChanged": {
         def: "Suffix has been changed. Reopening database...",
+        ja: "接尾辞が変更されました。データベースを再オープンしています...",
         zh: "后缀已更改，正在重新打开数据库...",
     },
     "Ui.Settings.Patches.RemediationWithValue": {
         def: "Limit: ${date} (${timestamp})",
+        ja: "上限: ${date}（${timestamp}）",
         zh: "限制：${date}（${timestamp}）",
     },
     "Ui.Settings.Patches.RemoteDatabaseSunset": {
         def: "Remote Database Tweak (In sunset)",
+        ja: "リモートデータベースの調整 (廃止予定)",
         zh: "远程数据库调整（即将弃用）",
     },
     "Ui.Settings.Patches.SwitchToIDB": {
         def: "Switch to IDB",
+        ja: "IDB に切り替える",
         zh: "切换到 IDB",
     },
     "Ui.Settings.Patches.SwitchToIndexedDb": {
         def: "Switch to IndexedDB",
+        ja: "IndexedDB に切り替える",
         zh: "切换到 IndexedDB",
     },
     "Ui.Settings.PowerUsers.ConfigurationEncryption": {
         def: "Configuration Encryption",
+        ja: "設定の暗号化",
         zh: "配置加密",
     },
     "Ui.Settings.PowerUsers.ConnectionTweak": {
         def: "CouchDB Connection Tweak",
+        ja: "CouchDB 接続の調整",
         zh: "CouchDB 连接调整",
     },
     "Ui.Settings.PowerUsers.ConnectionTweakDesc": {
         def: "If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.",
+        ja: "IBM Cloudantのペイロードサイズ上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。",
         zh: "如果你在使用 IBM Cloudant 时遇到负载大小限制，请将 batch size 和 batch limit 调低。",
     },
     "Ui.Settings.PowerUsers.Default": {
         def: "Default",
+        ja: "デフォルト",
         zh: "默认",
     },
     "Ui.Settings.PowerUsers.Developer": {
         def: "Developer",
+        ja: "開発者",
         zh: "开发者",
     },
     "Ui.Settings.PowerUsers.EncryptSensitiveConfig": {
         def: "Encrypt sensitive configuration items",
+        ja: "機密性の高い設定項目を暗号化",
         zh: "加密敏感配置项",
     },
     "Ui.Settings.PowerUsers.PromptPassphraseEveryLaunch": {
         def: "Ask for a passphrase at every launch",
+        ja: "起動のたびにパスフレーズを確認",
         zh: "每次启动时询问密码短语",
     },
     "Ui.Settings.PowerUsers.UseCustomPassphrase": {
         def: "Use a custom passphrase",
+        ja: "カスタムパスフレーズを使う",
         zh: "使用自定义密码短语",
     },
     "Ui.Settings.Remote.Activate": {
         def: "Activate",
+        ja: "有効化",
         zh: "启用",
     },
     "Ui.Settings.Remote.ActiveSuffix": {
         def: " (Active)",
+        ja: "（有効）",
         zh: "（当前启用）",
     },
     "Ui.Settings.Remote.AddConnection": {
         def: "Add new connection",
+        ja: "接続を追加",
         zh: "新增连接",
     },
     "Ui.Settings.Remote.AddRemoteDefaultName": {
         def: "New Remote",
+        ja: "新しいリモート",
         zh: "新远程端",
     },
     "Ui.Settings.Remote.ConfigureAndChangeRemote": {
         def: "Configure and change remote",
+        ja: "リモートを設定して切り替える",
         zh: "配置并切换远程端",
     },
     "Ui.Settings.Remote.ConfigureE2EE": {
         def: "Configure E2EE",
+        ja: "E2EE を設定",
         zh: "配置端到端加密",
     },
     "Ui.Settings.Remote.ConfigureRemote": {
         def: "Configure Remote",
+        ja: "リモートを設定",
         zh: "配置远程端",
     },
     "Ui.Settings.Remote.DeleteRemoteConfirm": {
         def: "Delete remote configuration '${name}'?",
+        ja: "リモート設定「${name}」を削除しますか？",
         zh: "确定要删除远程配置“${name}”吗？",
     },
     "Ui.Settings.Remote.DeleteRemoteTitle": {
         def: "Delete Remote Configuration",
+        ja: "リモート設定を削除",
         zh: "删除远程配置",
     },
     "Ui.Settings.Remote.DisplayName": {
         def: "Display name",
+        ja: "表示名",
         zh: "显示名称",
     },
     "Ui.Settings.Remote.DuplicateRemote": {
         def: "Duplicate remote",
+        ja: "リモート設定を複製",
         zh: "复制远程配置",
     },
     "Ui.Settings.Remote.DuplicateRemoteSuffix": {
         def: "${name} (Copy)",
+        ja: "${name}（コピー）",
         zh: "${name}（副本）",
     },
     "Ui.Settings.Remote.E2EEConfiguration": {
         def: "E2EE Configuration",
+        ja: "E2EE 設定",
         zh: "端到端加密配置",
     },
     "Ui.Settings.Remote.Export": {
         def: "Export",
+        ja: "エクスポート",
         zh: "导出",
     },
     "Ui.Settings.Remote.FetchRemoteSettings": {
         def: "Fetch remote settings",
+        ja: "リモート設定を取得",
         zh: "获取远程设置",
     },
     "Ui.Settings.Remote.ImportConnection": {
         def: "Import connection",
+        ja: "接続をインポート",
         zh: "导入连接",
     },
     "Ui.Settings.Remote.ImportConnectionPrompt": {
         def: "Paste a connection string",
+        ja: "接続文字列を貼り付ける",
         zh: "粘贴连接字符串",
     },
     "Ui.Settings.Remote.ImportedCouchDb": {
         def: "Imported CouchDB",
+        ja: "インポートしたCouchDB",
         zh: "已导入的 CouchDB",
     },
     "Ui.Settings.Remote.ImportedRemote": {
         def: "Remote",
+        ja: "リモート",
         zh: "远程端",
     },
     "Ui.Settings.Remote.MoreActions": {
         def: "More actions",
+        ja: "その他の操作",
         zh: "更多操作",
     },
     "Ui.Settings.Remote.PeerToPeerPanel": {
         def: "Peer-to-Peer Synchronisation",
+        ja: "ピアツーピア同期",
         zh: "点对点同步",
     },
     "Ui.Settings.Remote.RemoteConfigurationPrefix": {
         def: "Remote configuration",
+        ja: "リモート設定",
         zh: "远程配置",
     },
     "Ui.Settings.Remote.RemoteDatabases": {
         def: "Remote Databases",
+        ja: "リモートデータベース",
         zh: "远程数据库",
     },
     "Ui.Settings.Remote.RemoteName": {
         def: "Remote name",
+        ja: "リモート名",
         zh: "远程名称",
     },
     "Ui.Settings.Remote.RemoteNameCouchDb": {
         def: "CouchDB ${host}",
+        ja: "CouchDB ${host}",
         zh: "CouchDB ${host}",
     },
     "Ui.Settings.Remote.RemoteNameP2P": {
         def: "P2P ${room}",
+        ja: "P2P ${room}",
         zh: "P2P ${room}",
     },
     "Ui.Settings.Remote.RemoteNameS3": {
         def: "S3 ${bucket}",
+        ja: "S3 ${bucket}",
         zh: "S3 ${bucket}",
     },
     "Ui.Settings.Remote.Rename": {
         def: "Rename",
+        ja: "名前を変更",
         zh: "重命名",
     },
     "Ui.Settings.Selector.AddDefaultPatterns": {
         def: "Add default patterns",
+        ja: "デフォルトパターンを追加",
         zh: "添加默认模式",
     },
     "Ui.Settings.Selector.CrossPlatform": {
         def: "Cross-platform",
+        ja: "クロスプラットフォーム",
         zh: "跨平台",
     },
     "Ui.Settings.Selector.Default": {
         def: "Default",
+        ja: "デフォルト",
         zh: "默认",
     },
     "Ui.Settings.Selector.HiddenFiles": {
         def: "Hidden Files",
+        ja: "隠しファイル",
         zh: "隐藏文件",
     },
     "Ui.Settings.Selector.IgnorePatterns": {
         def: "Ignore patterns",
+        ja: "除外パターン",
         zh: "忽略模式",
     },
     "Ui.Settings.Selector.NonSynchronisingFiles": {
         def: "Non-Synchronising files",
+        ja: "同期しないファイル",
         zh: "不同步文件",
     },
     "Ui.Settings.Selector.NonSynchronisingFilesDesc": {
         def: "(RegExp) If this is set, any changes to local and remote files that match this will be skipped.",
+        ja: "（正規表現）設定すると、これに一致するローカル／リモートファイルの変更はすべてスキップされます。",
         zh: "（RegExp）如果设置了该项，则本地和远程中匹配这些规则的文件变更将被跳过。",
     },
     "Ui.Settings.Selector.NormalFiles": {
         def: "Normal Files",
+        ja: "通常ファイル",
         zh: "普通文件",
     },
     "Ui.Settings.Selector.OverwritePatterns": {
         def: "Overwrite patterns",
+        ja: "上書きパターン",
         zh: "覆盖模式",
     },
     "Ui.Settings.Selector.OverwritePatternsDesc": {
         def: "Patterns to match files for overwriting instead of merging",
+        ja: "マージではなく上書きするファイルを判定するパターン",
         zh: "匹配后将执行覆盖而非合并的文件模式",
     },
     "Ui.Settings.Selector.SynchronisingFiles": {
         def: "Synchronising files",
+        ja: "同期するファイル",
         zh: "同步文件",
     },
     "Ui.Settings.Selector.SynchronisingFilesDesc": {
         def: "(RegExp) Empty to sync all files. Set a regular expression filter to limit synchronised files.",
+        ja: "（正規表現）空欄で全ファイルを同期します。正規表現フィルターを指定すると、同期対象ファイルを制限できます。",
         zh: "（RegExp）留空则同步所有文件。可设置正则表达式以限制需要同步的文件。",
     },
     "Ui.Settings.Selector.TargetPatterns": {
         def: "Target patterns",
+        ja: "対象パターン",
         zh: "目标模式",
     },
     "Ui.Settings.Selector.TargetPatternsDesc": {
         def: "Patterns to match files for syncing",
+        ja: "同期対象ファイルを判定するパターン",
         zh: "用于匹配需要同步文件的模式",
     },
     "Ui.Settings.Setup.RerunWizardButton": {
         def: "Rerun Wizard",
+        ja: "ウィザードを再実行",
         zh: "重新运行向导",
     },
     "Ui.Settings.Setup.RerunWizardDesc": {
         def: "Rerun the onboarding wizard to set up Self-hosted LiveSync again.",
+        ja: "Self-hosted LiveSync を再設定するため、オンボーディングウィザードを再実行します。",
         zh: "重新运行引导向导，再次设置 Self-hosted LiveSync。",
     },
     "Ui.Settings.Setup.RerunWizardName": {
         def: "Rerun Onboarding Wizard",
+        ja: "オンボーディングウィザードを再実行",
         zh: "重新运行引导向导",
     },
     "Ui.Settings.SyncSettings.Fetch": {
         def: "Fetch",
+        ja: "取得",
         zh: "获取",
     },
     "Ui.Settings.SyncSettings.Merge": {
         def: "Merge",
+        ja: "マージ",
         zh: "合并",
     },
     "Ui.Settings.SyncSettings.Overwrite": {
         def: "Overwrite",
+        ja: "上書き",
         zh: "覆盖",
     },
     "Ui.SetupWizard.Common.Back": {
         def: "No, please take me back",
+        ja: "いいえ、前に戻ります",
         zh: "不，带我返回",
     },
     "Ui.SetupWizard.Common.Cancel": {
         def: "Cancel",
+        ja: "キャンセル",
         zh: "取消",
     },
     "Ui.SetupWizard.Common.ProceedSelectOption": {
         def: "Please select an option to proceed",
+        ja: "続行するには項目を選択してください",
         zh: "请选择一个选项后继续",
     },
     "Ui.SetupWizard.Intro.ExistingOption": {
         def: "I am adding a device to an existing synchronisation setup",
+        ja: "既存の同期構成に端末を追加します",
         zh: "将此设备加入已有同步配置",
     },
     "Ui.SetupWizard.Intro.ExistingOptionDesc": {
         def: "Select this if you are already using synchronisation on another computer or smartphone. Use this option to connect this device to that existing setup.",
+        ja: "別のPCやスマートフォンですでに同期を使用している場合に選択してください。この端末を既存の同期構成へ接続します。",
         zh: "如果你已经在另一台电脑或手机上使用同步，请选择此项。此选项用于将当前设备连接到既有同步配置。",
     },
     "Ui.SetupWizard.Intro.Guidance": {
         def: "We will now guide you through a few questions to simplify the synchronisation setup.",
+        ja: "これからいくつかの質問に沿って、同期設定を簡単に進めます。",
         zh: "接下来我们会通过几个问题，帮助你更轻松地完成同步配置。",
     },
     "Ui.SetupWizard.Intro.NewOption": {
         def: "I am setting this up for the first time",
+        ja: "はじめて設定します",
         zh: "首次设置同步",
     },
     "Ui.SetupWizard.Intro.NewOptionDesc": {
         def: "Select this if you are configuring this device as the first synchronisation device.",
+        ja: "この端末を最初の同期端末として設定する場合に選択してください。",
         zh: "如果你正把这台设备作为第一台同步设备进行配置，请选择此项。",
     },
     "Ui.SetupWizard.Intro.ProceedExisting": {
         def: "Yes, I want to add this device to my existing synchronisation",
+        ja: "はい、この端末を既存の同期に追加します",
         zh: "是的，我要将此设备加入现有同步",
     },
     "Ui.SetupWizard.Intro.ProceedNew": {
         def: "Yes, I want to set up a new synchronisation",
+        ja: "はい、新しい同期を設定します",
         zh: "是的，我要开始新的同步配置",
     },
     "Ui.SetupWizard.Intro.Question": {
         def: "First, please select the option that best describes your current situation.",
+        ja: "まず、現在の状況に最も近い項目を選択してください。",
         zh: "首先，请选择最符合你当前情况的选项。",
     },
     "Ui.SetupWizard.Intro.Title": {
         def: "Welcome to Self-hosted LiveSync",
+        ja: "Self-hosted LiveSync へようこそ",
         zh: "欢迎使用 Self-hosted LiveSync",
     },
     "Ui.SetupWizard.Invitation.Start": {
         def: "Start setup",
+        ja: "セットアップを開始",
     },
     "Ui.SetupWizard.OutroAskUserMode.CompatibleOption": {
         def: "The remote is already set up, and the configuration is compatible (or became compatible through this operation).",
+        ja: "リモートはすでに設定済みで、構成に互換性があります（またはこの操作で互換性がある状態になりました）。",
         zh: "远程端已配置完成，且当前配置兼容（或已通过本次操作变为兼容）。",
     },
     "Ui.SetupWizard.OutroAskUserMode.CompatibleOptionDesc": {
         def: "Unless you are certain, selecting this option is risky. It assumes the server configuration is compatible with this device. If that is not the case, data loss may occur. Please make sure you understand the consequences.",
+        ja: "確信がない限り、この選択は危険です。サーバー構成がこのデバイスと互換であることを前提にします。互換でない場合、データ損失が発生する可能性があります。影響を理解していることを確認してください。",
         zh: "除非你非常确定，否则选择此项存在风险。它假定服务器配置与当前设备兼容。如果事实并非如此，可能会导致数据丢失。请确认你了解后果。",
     },
     "Ui.SetupWizard.OutroAskUserMode.ExistingOption": {
         def: "My remote server is already set up. I want to join this device.",
+        ja: "リモートサーバーはすでに設定済みです。このデバイスを参加させます。",
         zh: "远程服务器已经配置完成，我想让此设备加入同步。",
     },
     "Ui.SetupWizard.OutroAskUserMode.ExistingOptionDesc": {
         def: "Selecting this option will make this device join the existing server. You need to fetch the existing synchronisation data from the server to this device.",
+        ja: "この選択により、このデバイスは既存サーバーへ参加します。サーバーから既存の同期データをこのデバイスへ取得する必要があります。",
         zh: "选择此项后，此设备会加入已有服务器。你需要将服务器上的现有同步数据获取到此设备。",
     },
     "Ui.SetupWizard.OutroAskUserMode.Guidance": {
         def: "The connection to the server has been configured successfully. As the next step, the local database, in other words the synchronisation information, must be rebuilt.",
+        ja: "サーバーへの接続設定が完了しました。次の手順として、ローカルデータベース、つまり同期情報を再構築する必要があります。",
         zh: "服务器连接已成功配置。下一步需要重建本地数据库，也就是同步状态信息。",
     },
     "Ui.SetupWizard.OutroAskUserMode.NewOption": {
         def: "I am setting up a new server for the first time / I want to reset my existing server.",
+        ja: "新しいサーバーを初めて設定します / 既存サーバーをリセットします。",
         zh: "我是第一次配置新服务器 / 我想重置现有服务器。",
     },
     "Ui.SetupWizard.OutroAskUserMode.NewOptionDesc": {
         def: "Selecting this option will initialise the server using the current data on this device. Any existing data on the server will be completely overwritten.",
+        ja: "この選択により、現在このデバイスにあるデータを使ってサーバーを初期化します。サーバー上の既存データは完全に上書きされます。",
         zh: "选择此项后，服务器会使用当前设备上的数据进行初始化。服务器上的现有数据将被完全覆盖。",
     },
     "Ui.SetupWizard.OutroAskUserMode.ProceedApplySettings": {
         def: "Apply the settings",
+        ja: "設定を適用",
         zh: "应用这些设置",
     },
     "Ui.SetupWizard.OutroAskUserMode.ProceedNext": {
         def: "Proceed to the next step.",
+        ja: "次の手順へ進む",
         zh: "继续下一步",
     },
     "Ui.SetupWizard.OutroAskUserMode.Question": {
         def: "Please select your situation.",
+        ja: "状況を選択してください。",
         zh: "请选择你的当前情况。",
     },
     "Ui.SetupWizard.OutroAskUserMode.Title": {
         def: "Mostly Complete: Decision Required",
+        ja: "ほぼ完了: 判断が必要です",
         zh: "即将完成：还需要做出选择",
     },
     "Ui.SetupWizard.OutroNewP2PUser.GuidanceNotice": {
         def: "P2P has no central server copy to overwrite. This step prepares only this device; keep it online when another device fetches its initial data.",
+        ja: "P2Pには上書き対象となる中央サーバー上のコピーがありません。この手順ではこのデバイスのみを準備します。別のデバイスが初期データを取得するときは、このデバイスをオンラインにしておいてください。",
     },
     "Ui.SetupWizard.OutroNewP2PUser.GuidancePrimary": {
         def: "The peer-to-peer connection has been configured successfully. Next, the local LiveSync database will be built from the current files in this Vault.",
+        ja: "ピアツーピア接続の設定が完了しました。次に、このVaultの現在のファイルからローカルLiveSyncデータベースを構築します。",
     },
     "Ui.SetupWizard.OutroNewP2PUser.Important": {
         def: "PLEASE NOTE",
+        ja: "注意してください",
     },
     "Ui.SetupWizard.OutroNewP2PUser.Proceed": {
         def: "Restart and Prepare This Device",
+        ja: "再起動してこのデバイスを準備",
     },
     "Ui.SetupWizard.OutroNewP2PUser.Question": {
         def: "Please select the button below to restart and proceed to the local initialisation confirmation.",
+        ja: "下のボタンを選択して再起動し、ローカル初期化の確認へ進んでください。",
     },
     "Ui.SetupWizard.OutroNewP2PUser.Title": {
         def: "Setup Complete: Preparing This P2P Device",
+        ja: "セットアップ完了：このP2Pデバイスを準備",
     },
     "Ui.SetupWizard.OutroNewUser.GuidancePrimary": {
         def: "The connection to the server has been configured successfully. As the next step, the synchronisation data on the server will be built from the current data on this device.",
+        ja: "サーバーへの接続設定が完了しました。次の手順として、このデバイスの現在のデータからサーバー上の同期データを構築します。",
         zh: "服务器连接已成功配置。下一步将根据当前设备上的数据，在服务器端建立同步数据。",
     },
     "Ui.SetupWizard.OutroNewUser.GuidanceWarning": {
         def: "After restarting, the data on this device will be uploaded to the server as the master copy. Please note that any unintended data currently on the server will be completely overwritten.",
+        ja: "再起動後、このデバイス上のデータがマスターコピーとしてサーバーへアップロードされます。サーバー上に意図しないデータがある場合、それらは完全に上書きされます。",
         zh: "重启后，当前设备上的数据会作为主副本上传到服务器。请注意，服务器上现有的非预期数据将被完全覆盖。",
     },
     "Ui.SetupWizard.OutroNewUser.Important": {
         def: "IMPORTANT",
+        ja: "重要",
         zh: "重要",
     },
     "Ui.SetupWizard.OutroNewUser.Proceed": {
         def: "Restart and Initialise Server",
+        ja: "再起動してサーバーを初期化",
         zh: "重启并初始化服务器",
     },
     "Ui.SetupWizard.OutroNewUser.Question": {
         def: "Please select the button below to restart and proceed to the final confirmation.",
+        ja: "再起動して最終確認へ進むには、下のボタンを選択してください。",
         zh: "请选择下方按钮，重启并进入最终确认步骤。",
     },
     "Ui.SetupWizard.OutroNewUser.Title": {
         def: "Setup Complete: Preparing to Initialise Server",
+        ja: "セットアップ完了: サーバー初期化の準備",
         zh: "设置完成：准备初始化服务器",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.ConfirmLocalReset": {
         def: "I understand that this resets only this device's local synchronisation database.",
+        ja: "このデバイスのローカル同期データベースだけがリセットされることを理解しました。",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.ConfirmLocalResetNote": {
         def: "The files currently in this Vault are used to rebuild it.",
+        ja: "現在このVaultにあるファイルを使用して再構築します。",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.ConfirmTitle": {
         def: "⚠️ Please Confirm the Following",
+        ja: "⚠️ 以下を確認してください",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.Guidance": {
         def: "This procedure will discard the local LiveSync database on this device and rebuild it from the current files in this Vault. It does not delete or overwrite data on another device.",
+        ja: "この手順では、このデバイスのローカルLiveSyncデータベースを破棄し、現在このVaultにあるファイルから再構築します。ほかのデバイスのデータを削除したり上書きしたりすることはありません。",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.Note": {
         def: "Keep this device online after initialisation so that another device can fetch the Vault from it.",
+        ja: "初期化後、別のデバイスがこのVaultを取得できるように、このデバイスをオンラインにしておいてください。",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.Proceed": {
         def: "I Understand, Prepare This Device",
+        ja: "理解した上で、このデバイスを準備",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.Title": {
         def: "Final Confirmation: Prepare This Device for P2P",
+        ja: "最終確認：このデバイスをP2P用に準備",
     },
     "Ui.SetupWizard.SelectExisting.Guidance": {
         def: "You are adding this device to an existing synchronisation setup.",
+        ja: "この端末を既存の同期構成に追加しようとしています。",
         zh: "你正在将此设备加入已有同步配置。",
     },
     "Ui.SetupWizard.SelectExisting.ManualOption": {
         def: "Configure a remote manually",
+        ja: "リモートを手動で設定",
         zh: "手动输入服务器信息",
     },
     "Ui.SetupWizard.SelectExisting.ManualOptionDesc": {
         def: "Configure the same remote as your other devices again manually. This is intended only for advanced users.",
+        ja: "ほかのデバイスと同じリモートを、もう一度手動で設定します。上級者向けです。",
         zh: "手动重新配置与你其他设备相同的服务器信息。此方式仅适用于高级用户。",
     },
     "Ui.SetupWizard.SelectExisting.ProceedManual": {
         def: "Proceed with manual configuration",
+        ja: "手動設定へ進む",
         zh: "我知道服务器信息，让我手动输入",
     },
     "Ui.SetupWizard.SelectExisting.ProceedQr": {
         def: "Scan the QR code displayed on an active device using this device's camera.",
+        ja: "稼働中の端末に表示された QR コードを、この端末のカメラで読み取ってください。",
         zh: "使用本设备摄像头扫描活动设备上显示的二维码",
     },
     "Ui.SetupWizard.SelectExisting.ProceedSetupUri": {
         def: "Proceed with Setup URI",
+        ja: "Setup URI で続行",
         zh: "使用 Setup URI 继续",
     },
     "Ui.SetupWizard.SelectExisting.QrOption": {
         def: "Scan a QR Code (Recommended for mobile)",
+        ja: "QR コードをスキャンする（モバイル推奨）",
         zh: "扫描二维码（移动端推荐）",
     },
     "Ui.SetupWizard.SelectExisting.QrOptionDesc": {
         def: "Scan the QR code displayed on an active device using this device's camera.",
+        ja: "稼働中の端末に表示された QR コードを、この端末のカメラで読み取ってください。",
         zh: "使用本设备摄像头扫描活动设备上显示的二维码。",
     },
     "Ui.SetupWizard.SelectExisting.Question": {
         def: "Please select a method to import the settings from another device.",
+        ja: "別の端末から設定を取り込む方法を選択してください。",
         zh: "请选择一种从其他设备导入设置的方法。",
     },
     "Ui.SetupWizard.SelectExisting.SetupUriOption": {
         def: "Use a Setup URI (Recommended)",
+        ja: "Setup URI を使う（推奨）",
         zh: "使用 Setup URI（推荐）",
     },
     "Ui.SetupWizard.SelectExisting.SetupUriOptionDesc": {
         def: "Paste the Setup URI generated from one of your active devices.",
+        ja: "稼働中の端末で生成した Setup URI を貼り付けてください。",
         zh: "粘贴从某台已启用设备生成的 Setup URI。",
     },
     "Ui.SetupWizard.SelectExisting.Title": {
         def: "Device Setup Method",
+        ja: "端末の設定方法",
         zh: "设备设置方式",
     },
     "Ui.SetupWizard.SelectNew.Guidance": {
         def: "We will now configure the synchronisation connection.",
+        ja: "同期接続を設定します。",
         zh: "接下来将继续配置服务器连接信息。",
     },
     "Ui.SetupWizard.SelectNew.ManualOption": {
         def: "Configure a remote manually",
+        ja: "リモートを手動で設定",
         zh: "手动输入服务器信息",
     },
     "Ui.SetupWizard.SelectNew.ManualOptionDesc": {
         def: "This is an advanced option for users who do not have a Setup URI or who want to configure detailed settings. You can also use it for P2P synchronisation instead of CouchDB or S3-compatible Object Storage.",
+        ja: "Setup URIを持っていない場合や、詳細な設定を行いたい場合の上級者向けオプションです。CouchDBまたはS3互換オブジェクトストレージの代わりにP2P同期を使用する場合にも選択できます。",
         zh: "如果你没有 Setup URI，或希望自行配置更详细的参数，可选择此高级选项。",
     },
     "Ui.SetupWizard.SelectNew.ProceedManual": {
         def: "Proceed with manual configuration",
+        ja: "手動設定へ進む",
         zh: "我知道服务器信息，让我手动输入",
     },
     "Ui.SetupWizard.SelectNew.ProceedSetupUri": {
         def: "Proceed with Setup URI",
+        ja: "Setup URI で続行",
         zh: "使用 Setup URI 继续",
     },
     "Ui.SetupWizard.SelectNew.Question": {
         def: "How would you like to configure this synchronisation connection?",
+        ja: "この同期接続をどのように設定しますか？",
         zh: "你希望如何配置服务器连接？",
     },
     "Ui.SetupWizard.SelectNew.SetupUriOption": {
         def: "Use a Setup URI (Recommended)",
+        ja: "Setup URI を使う（推奨）",
         zh: "使用 Setup URI（推荐）",
     },
     "Ui.SetupWizard.SelectNew.SetupUriOptionDesc": {
         def: "A Setup URI is a single string containing connection and authentication details. When one is available from a setup script, it provides a simple and secure configuration method.",
+        ja: "Setup URIは、接続情報と認証情報を含む1つの文字列です。セットアップスクリプトから取得できる場合は、簡単かつ安全に設定できます。",
         zh: "Setup URI 是一段包含服务器地址和认证信息的文本。如果你的服务器安装脚本已经生成了它，这是最简单且安全的配置方式。",
     },
     "Ui.SetupWizard.SelectNew.Title": {
         def: "Connection Method",
+        ja: "接続方法",
         zh: "连接方式",
     },
     "Ui.SetupWizard.SetupRemote.BucketOption": {
         def: "S3-compatible Object Storage",
+        ja: "S3互換オブジェクトストレージ",
         zh: "S3/MinIO/R2 对象存储",
     },
     "Ui.SetupWizard.SetupRemote.BucketOptionDesc": {
         def: "Synchronisation using journal files. You must already have an S3-compatible Object Storage service set up, such as Amazon S3, MinIO, or Cloudflare R2.",
+        ja: "ジャーナルファイルを使用して同期します。Amazon S3、MinIO、Cloudflare R2などのS3互換オブジェクトストレージを事前に用意する必要があります。",
         zh: "使用日志文件进行同步。你需要先准备好兼容 S3/MinIO/R2 的对象存储服务。",
     },
     "Ui.SetupWizard.SetupRemote.CouchDbOptionDesc": {
         def: "This is the most suitable synchronisation method for the current design. All features are available. You must already have a CouchDB instance set up.",
+        ja: "現在の設計に最も適した同期方式です。すべての機能が利用できます。CouchDBインスタンスを事前に設定しておく必要があります。",
         zh: "这是当前设计下最适合的同步方式，所有功能都可用。你需要先准备好 CouchDB 实例。",
     },
     "Ui.SetupWizard.SetupRemote.Guidance": {
         def: "Select the remote type for this synchronisation setup.",
+        ja: "この同期設定で使用するリモートの種類を選択してください。",
         zh: "请选择你要连接的服务器类型。",
     },
     "Ui.SetupWizard.SetupRemote.P2POption": {
         def: "Peer-to-Peer (P2P)",
+        ja: "ピアツーピア（P2P）",
         zh: "仅点对点",
     },
     "Ui.SetupWizard.SetupRemote.P2POptionDesc": {
         def: "This enables direct synchronisation between devices. No server is required, but both devices must be online at the same time and some features may be limited. Internet connectivity is required only for signalling, not for data transfer.",
+        ja: "端末同士を直接同期できます。サーバーは不要ですが、同期するには両方の端末が同時にオンラインである必要があり、一部機能は制限される場合があります。インターネット接続はシグナリングにのみ必要で、データ転送には使われません。",
         zh: "启用设备之间的直接同步。无需服务器，但两台设备必须同时在线，且部分功能可能受限。互联网连接仅用于信令，不用于传输数据。",
     },
     "Ui.SetupWizard.SetupRemote.ProceedBucket": {
         def: "Continue to Object Storage setup",
+        ja: "オブジェクトストレージの設定へ進む",
         zh: "继续配置 S3/MinIO/R2",
     },
     "Ui.SetupWizard.SetupRemote.ProceedCouchDb": {
         def: "Continue to CouchDB setup",
+        ja: "CouchDB 設定へ進む",
         zh: "继续配置 CouchDB",
     },
     "Ui.SetupWizard.SetupRemote.ProceedP2P": {
         def: "Continue to P2P setup",
+        ja: "P2Pの設定へ進む",
         zh: "继续配置仅点对点模式",
     },
     "Ui.SetupWizard.SetupRemote.Title": {
         def: "Choose a synchronisation remote",
+        ja: "同期先を選択",
         zh: "输入服务器信息",
     },
     "Unique name between all synchronized devices. To edit this setting, please disable customization sync once.": {

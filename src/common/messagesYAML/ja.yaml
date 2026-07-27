@@ -2,13 +2,8 @@
 (BETA) Always overwrite with a newer file: (ベータ機能) 常に新しいファイルで上書きする
 (Beta) Use ignore files: (ベータ機能) 除外ファイル(ignore)の使用
 (Days passed, 0 to disable automatic-deletion): (経過日数、0で自動削除を無効化)
-(ex. Read chunks online) If this option is enabled, LiveSync reads chunks online directly instead of replicating them locally. Increasing Custom chunk size is recommended.:
-  "(例: チャンクをオンラインで読む)
-  このオプションを有効にすると、LiveSyncはチャンクをローカルに複製せず、直接オンラインで読み込みます。カスタムチャンクサイズを増やすことをお勧めしま\
-  す。"
-(MB) If this is set, changes to local and remote files that are larger than this will be skipped. If the file becomes smaller again, a newer one will be used.:
-  (MB)
-  この値を設定すると、これより大きいサイズのローカルファイルやリモートファイルの変更はスキップされます。ファイルが再び小さくなった場合は、新しいものが使用されます。
+(ex. Read chunks online) If this option is enabled, LiveSync reads chunks online directly instead of replicating them locally. Increasing Custom chunk size is recommended.: "(例: チャンクをオンラインで読む) このオプションを有効にすると、LiveSyncはチャンクをローカルに複製せず、直接オンラインで読み込みます。カスタムチャンクサイズを増やすことをお勧めします。"
+(MB) If this is set, changes to local and remote files that are larger than this will be skipped. If the file becomes smaller again, a newer one will be used.: (MB) この値を設定すると、これより大きいサイズのローカルファイルやリモートファイルの変更はスキップされます。ファイルが再び小さくなった場合は、新しいものが使用されます。
 (Mega chars): (メガ文字)
 (Not recommended) If set, credentials will be stored in the file.: (非推奨) 設定した場合、認証情報がファイルに保存されます。
 (Obsolete) Use an old adapter for compatibility: (廃止済み)古いアダプターを互換性のために利用
@@ -29,8 +24,7 @@ Batch database update: データベースのバッチ更新
 Batch limit: バッチの上限
 Batch size: バッチ容量
 Batch size of on-demand fetching: オンデマンド取得のバッチサイズ
-Before v0.17.16, we used an old adapter for the local database. Now the new adapter is preferred. However, it needs local database rebuilding. Please disable this toggle when you have enough time. If leave it enabled, also while fetching from the remote database, you will be asked to disable this.:
-  v0.17.6までは古いアダプターをローカル用のデータベースに使用していましたが、現在は新しいアダプターを推奨しています。しかし、新しいアダプターに変更するにはローカルデータベースの再構築が必要です。有効のままにしておくと、リモートデータベースからフェッチする場合に、この設定を無効にするかの質問が表示されます。
+Before v0.17.16, we used an old adapter for the local database. Now the new adapter is preferred. However, it needs local database rebuilding. Please disable this toggle when you have enough time. If leave it enabled, also while fetching from the remote database, you will be asked to disable this.: v0.17.6までは古いアダプターをローカル用のデータベースに使用していましたが、現在は新しいアダプターを推奨しています。しかし、新しいアダプターに変更するにはローカルデータベースの再構築が必要です。有効のままにしておくと、リモートデータベースからフェッチする場合に、この設定を無効にするかの質問が表示されます。
 Bucket Name: バケット名
 Cancel: キャンセル
 Check and convert non-path-obfuscated files: パス難読化されていないファイルを確認して変換
@@ -77,13 +71,12 @@ Device name: デバイス名
 dialog:
   yourLanguageAvailable:
     _value: >-
-      Self-hosted LiveSync に設定されている言語の翻訳がありましたので、%{Display Language}が適用されました。
+      Self-hosted LiveSync に設定されている言語の翻訳があったため、%{Display language}を有効にしました。
 
 
       注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！
 
-      GithubにIssueを作成する際には、 %{Display Language} を一旦 %{lang-def}
-      に戻してから、スクショやメッセージ、ログを収集してください。これは設定から変更できます。
+      GitHubでIssueを作成する際には、一旦%{lang-def}に戻してから、スクリーンショット、メッセージ、ログを収集してください。これは設定から変更できます。
 
 
       便利に使用できれば幸いです。
@@ -184,8 +177,7 @@ Handle files as Case-Sensitive: ファイルの大文字・小文字を区別す
 Hidden Files: 隠しファイル
 How to display network errors when the sync server is unreachable.: 同期サーバーに到達できない場合のネットワークエラーの表示方法を設定します。
 If disabled(toggled), chunks will be split on the UI thread (Previous behaviour).: 無効（トグル）にすると、チャンクはUIスレッドで分割されます（以前の動作）。
-If enabled per-filed efficient customization sync will be used. We need a small migration when enabling this. And all devices should be updated to v0.23.18. Once we enabled this, we lost a compatibility with old versions.:
-  有効にすると、ファイルごとの効率的なカスタマイズ同期が使用されます。有効化時に小規模な移行が必要です。また、すべてのデバイスをv0.23.18にアップデートする必要があります。一度有効にすると、古いバージョンとの互換性がなくなります。
+If enabled per-filed efficient customization sync will be used. We need a small migration when enabling this. And all devices should be updated to v0.23.18. Once we enabled this, we lost a compatibility with old versions.: 有効にすると、ファイルごとの効率的なカスタマイズ同期が使用されます。有効化時に小規模な移行が必要です。また、すべてのデバイスをv0.23.18にアップデートする必要があります。一度有効にすると、古いバージョンとの互換性がなくなります。
 If enabled, chunks will be split into no more than 100 items. However, dedupe is slightly weaker.: 有効にすると、チャンクは最大100項目に分割されます。ただし、重複除去の精度は落ちます。
 If enabled, newly created chunks are temporarily kept within the document, and graduated to become independent chunks once stabilised.: 有効にすると、新しく作成されたチャンクはドキュメント内に一時的に保持され、安定したら独立したチャンクになります。
 If enabled, the ⛔ icon will be shown inside the status instead of the file warnings banner. No details will be shown.: 有効にすると、ファイル警告バナーの代わりにステータス内へ ⛔ アイコンのみを表示します。詳細は表示されません。
@@ -195,8 +187,7 @@ If this enabled, all chunks will be stored with the revision made from its conte
 If this enabled, All files are handled as case-Sensitive (Previous behaviour).: 有効にすると、すべてのファイルは大文字小文字を区別して処理されます（以前の動作）。
 If this enabled, chunks will be split into semantically meaningful segments. Not all platforms support this feature.: 有効にすると、チャンクは意味的に有意なセグメントに分割されます。すべてのプラットフォームがこの機能をサポートしているわけではありません。
 If this is set, changes to local files which are matched by the ignore files will be skipped. Remote changes are determined using local ignore files.: これを設定すると、除外ファイルに一致するローカルファイルの変更はスキップされます。リモートの変更はローカルの無視ファイルを使用して判定されます。
-If this option is enabled, PouchDB will hold the connection open for 60 seconds, and if no change arrives in that time, close and reopen the socket, instead of holding it open indefinitely. Useful when a proxy limits request duration but can increase resource usage.:
-  このオプションを有効にすると、PouchDBは接続を60秒間保持し、その間に通信がない場合、一度接続を閉じて再接続します。接続を無期限に保持する代わりにこの動作を行います。プロキシ(Cloudflareなど)がリクエストの持続時間を制限している場合に有用ですが、リソース使用量が増加する可能性があります。
+If this option is enabled, PouchDB will hold the connection open for 60 seconds, and if no change arrives in that time, close and reopen the socket, instead of holding it open indefinitely. Useful when a proxy limits request duration but can increase resource usage.: このオプションを有効にすると、PouchDBは接続を60秒間保持し、その間に通信がない場合、一度接続を閉じて再接続します。接続を無期限に保持する代わりにこの動作を行います。プロキシ(Cloudflareなど)がリクエストの持続時間を制限している場合に有用ですが、リソース使用量が増加する可能性があります。
 Ignore files: 除外ファイル
 Ignore patterns: 除外パターン
 Import connection: 接続をインポート
@@ -205,11 +196,11 @@ Initialise all journal history, On the next sync, every item will be received an
 Interval (sec): 秒
 K:
   exp: 試験機能
-  long_p2p_sync: "%{title_p2p_sync} (%{exp})"
+  long_p2p_sync: "%{title_p2p_sync}"
   P2P: "%{Peer}-to-%{Peer}"
   Peer: Peer
   ScanCustomization: Scan customization
-  short_p2p_sync: P2P Sync (%{exp})
+  short_p2p_sync: P2P同期
   title_p2p_sync: Peer-to-Peer Sync
 Keep empty folder: 空フォルダの維持
 lang_def: Default
@@ -249,6 +240,7 @@ liveSyncReplicator:
   replicationInProgress: レプリケーション(複製)は既に進行中です
   retryLowerBatchSize: "より小さいバッチサイズで再試行: ${batch_size}/${batches_limit}"
   unlockRemoteDb: データ破損を防ぐためリモートデータベースをアンロック
+  mismatchedTweakDetected: デバイス間の設定に一部不一致が検出されました。手動レプリケーションを実行すると、この問題の解決を試みます。
 liveSyncSetting:
   errorNoSuchSettingItem: "その設定項目は存在しません: ${key}"
   originalValue: "元の値: ${value}"
@@ -320,6 +312,9 @@ moduleCheckRemoteSize:
   optionRebuildAll: 今すべてを再構築
   titleDatabaseSizeLimitExceeded: リモートストレージサイズが制限を超過しました
   titleDatabaseSizeNotify: データベースサイズ通知の設定
+  noticeExceeded: リモートストレージのサイズは${measuredSize}で、設定された通知しきい値${notifySize}を超えています。{HERE}
+  noticeNotConfigured: リモートストレージのサイズ通知が設定されていません。{HERE}
+  optionReview: オプションを確認
 moduleInputUIObsidian:
   defaultTitleConfirmation: 確認
   defaultTitleSelect: 選択
@@ -557,8 +552,7 @@ obsidianLiveSyncSettingTab:
   msgEnableEncryptionRecommendation: エンドツーエンド暗号化とパス難読化を有効にすることをお勧めします。暗号化なしで続行してもよろしいですか？
   msgFetchConfigFromRemote: リモートサーバーから設定を取得しますか？
   msgGenerateSetupURI: 完了！他のデバイスをセットアップするためのセットアップURIを生成しますか？
-  msgIfConfigNotPersistent: "サーバー設定が永続的でない場合（例:
-    Dockerで実行中）、ここの値は変更される可能性があります。接続できるようになったら、サーバーのlocal.iniの設定を更新してください。"
+  msgIfConfigNotPersistent: "サーバー設定が永続的でない場合（例: Dockerで実行中）、ここの値は変更される可能性があります。接続できるようになったら、サーバーのlocal.iniの設定を更新してください。"
   msgInvalidPassphrase: 暗号化パスフレーズが無効かもしれません。続行してもよろしいですか？
   msgNewVersionNote: アップグレード通知でここに来ましたか？バージョン履歴を確認してください。納得したらボタンをクリックしてください。新しい更新があると再度確認されます。
   msgNonHTTPSInfo: 非HTTPS URIとして設定されています。モバイルデバイスでは動作しない可能性があります。
@@ -683,6 +677,7 @@ obsidianLiveSyncSettingTab:
   titleUpdateThinning: 更新の間引き
   warnCorsOriginUnmatched: ⚠ CORS Originが一致しません ${from}->${to}
   warnNoAdmin: ⚠ 管理者権限がありません。
+  logServerConfigurationCheck: サーバー設定チェックログ
 Ok: OK
 Old Algorithm: 旧アルゴリズム
 Older fallback (Slow, W/O WebAssembly): 旧フォールバック (低速、WebAssembly なし)
@@ -1113,6 +1108,8 @@ TweakMismatchResolve:
     UseRemote: このデバイスに設定を適用
     UseRemoteAcceptIncompatible: このデバイスに設定を適用し、非互換性を無視
     UseRemoteWithRebuild: このデバイスに設定を適用し、再フェッチ
+    EnableAutoAcceptCompatible: 自動受け入れを有効化
+    DisableAutoAcceptCompatible: 自動受け入れを無効化
   Message:
     Main: |-
 
@@ -1159,6 +1156,12 @@ TweakMismatchResolve:
       >[!WARNING]
       > ローカルデータベースとリモートデータベースの非互換性を引き起こす値の違いが検出されました。
       > ローカルまたはリモートの再構築が必要です。どちらも数分以上かかります。**今実行しても安全か確認してください。**
+    AutoAcceptCompatibleUndefined: |-
+
+      デバイスごとに設定が異なっているようです。互換性のある設定変更は自動的に適用できるようになりました。
+      この `auto-accept` 設定を有効にしますか？
+    remoteUpdated: リモートに保存されている設定を更新しました。
+    mineUpdated: このデバイスの設定を調整しました。
   Table:
     _value: |+
       | 値の名前 | このデバイス | リモート |
@@ -1170,6 +1173,7 @@ TweakMismatchResolve:
     _value: 設定の不一致が検出されました
     TweakResolving: 設定の不一致が検出されました
     UseRemoteConfig: リモート設定を使用
+    AutoAcceptCompatible: 自動受け入れを利用できます
 Unique name between all synchronized devices. To edit this setting, please disable customization sync once.: 同期するすべての端末間で重複しない(一意の)名前。この設定を変更する場合、カスタマイズ同期を無効にしてください。
 Use a custom passphrase: カスタムパスフレーズを使う
 Use Custom HTTP Handler: カスタムHTTPハンドラーの利用
@@ -1190,8 +1194,7 @@ Write credentials in the file: 認証情報のファイル内保存
 Write logs into the file: ファイルにログを記録
 xxhash32 (Fast but less collision resistance): xxhash32 (高速ですが衝突耐性は低め)
 xxhash64 (Fastest): xxhash64 (最速)
-Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.:
-  最新版以外のすべてのリビジョンを破棄して、使用容量を削減します。実行には、リモートサーバーとローカルクライアントの両方に同程度の空き容量が必要です。
+Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.: 最新版以外のすべてのリビジョンを破棄して、使用容量を削減します。実行には、リモートサーバーとローカルクライアントの両方に同程度の空き容量が必要です。
 Rerun Onboarding Wizard: オンボーディングウィザードを再実行
 Rerun the onboarding wizard to set up Self-hosted LiveSync again.: オンボーディングウィザードを再実行して、Self-hosted LiveSync をもう一度設定します。
 Rerun Wizard: ウィザードを再実行
@@ -1200,8 +1203,7 @@ Scan for Broken files: 破損ファイルをスキャン
 Prepare the 'report' to create an issue: Issue 作成用の「レポート」を準備
 Copy Report to clipboard: レポートをクリップボードにコピー
 Analyse database usage: データベース使用状況を分析
-Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like.:
-  データベース使用状況を分析し、自分で診断できるよう TSV レポートを生成します。生成したレポートは任意のスプレッドシートに貼り付けて確認できます。
+Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like.: データベース使用状況を分析し、自分で診断できるよう TSV レポートを生成します。生成したレポートは任意のスプレッドシートに貼り付けて確認できます。
 Reset notification threshold and check the remote database usage: 通知しきい値をリセットしてリモートデータベース使用量を確認
 Reset the remote storage size threshold and check the remote storage size again.: リモートストレージ容量のしきい値をリセットし、リモートストレージ容量を再確認します。
 Scram Switches: 緊急対応スイッチ
@@ -1244,3 +1246,316 @@ The minimum interval for automatic synchronisation on event.: イベント発生
 "Synchronisation utilising journal files. You must have set up an S3/MinIO/R2 compatible object storage.": "ジャーナルファイルを利用する同期方式です。S3/MinIO/R2 互換のオブジェクトストレージを事前に構成しておく必要があります。"
 "Peer-to-Peer only": "Peer-to-Peer のみ"
 "This feature enables direct synchronisation between devices. No server is required, but both devices must be online at the same time for synchronisation to occur, and some features may be limited. Internet connection is only required to signalling (detecting peers) and not for data transfer.": "この機能では端末同士を直接同期できます。サーバーは不要ですが、同期を行うには両端末が同時にオンラインである必要があり、一部機能は制限されます。インターネット接続はシグナリング（ピア検出）にのみ必要で、データ転送自体には使われません。"
+Active Remote Configuration: アクティブなリモート構成
+Analyse: 分析
+Changing this setting requires migrating existing data (a bit time may be taken) and restarting Obsidian. Please make sure to back up your data before proceeding.: この設定を変更するには既存データの移行（少し時間がかかる場合があります）とObsidianの再起動が必要です。続行前に必ずデータをバックアップしてください。
+Check: 確認
+Database -> Storage: データベース → ストレージ
+Document History: ドキュメント履歴
+File to view History: 履歴を表示するファイル
+Hide completely: 完全に非表示
+Highlight diff: 差分をハイライト
+If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.: IBM Cloudantのペイロードサイズ上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。
+Initialise journal received history. On the next sync, every item except this device sent will be downloaded again.: ジャーナル受信履歴を初期化します。次回同期時に、このデバイスが送信したもの以外のすべての項目が再度ダウンロードされます。
+Initialise journal sent history. On the next sync, every item except this device received will be sent again.: ジャーナル送信履歴を初期化します。次回同期時に、このデバイスが受信したもの以外のすべての項目が再度送信されます。
+lang-he: ヘブライ語
+Pick a file to show history: 履歴を表示するファイルを選択
+Property Encryption: プロパティの暗号化
+Recovery and Repair: 復旧と修復
+Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and display may be inconsistent. Are you sure to restart now?: Obsidianの再起動を強く推奨します。再起動するまで一部の変更が反映されず、表示が不整合になる可能性があります。今すぐ再起動しますか？
+Show history: 履歴を表示
+Show icon only: アイコンのみ表示
+Storage -> Database: ストレージ → データベース
+The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use IDB adapter instead.: IndexedDBアダプターは一部の状況で高い性能を発揮しますが、LiveSyncモードで使用するとメモリリークが発生することが分かっています。LiveSyncモードでは代わりにIDBアダプターを使用してください。
+Ui:
+  Common:
+    Signal:
+      Caution: 注意
+      Danger: 危険
+      Notice: 通知
+      Warning: 警告
+  Settings:
+    Advanced:
+      LocalDatabaseTweak: ローカルデータベースの調整
+      MemoryCache: メモリキャッシュ
+      TransferTweak: 転送の調整
+    Common:
+      Analyse: 分析
+      Back: 戻る
+      Check: 確認
+      Configure: 設定
+      Continue: 続行
+      Delete: 削除
+      Fetch: 取得
+      Lock: ロック
+      Merge: マージ
+      Open: 開く
+      Overwrite: 上書き
+      Perform: 実行
+      ResetAll: すべてリセット
+      ResolveAll: すべて解決
+      Scan: スキャン
+      Send: 送信
+      Use: 使用
+      VerifyAll: すべて検証
+    CustomizationSync:
+      OpenDesc: ダイアログを開く
+      Panel: カスタマイズ同期
+      WarnChangeDeviceName: この機能が有効な間はデバイス名を変更できません。変更するにはこの機能を無効にしてください。
+      WarnSetDeviceName: このデバイスを識別するためのデバイス名を設定してください。この名前は各デバイスで一意である必要があります。設定されるまで、この機能は有効にできません。
+    Hatch:
+      AnalyseDatabaseUsage: データベース使用量を分析
+      AnalyseDatabaseUsageDesc: データベース使用量を分析し、自己診断用のTSVレポートを生成します。生成したレポートは任意のスプレッドシートに貼り付けられます。
+      BackToNonConfigured: 未設定状態に戻す
+      ConvertNonObfuscated: パス難読化されていないファイルを確認して変換
+      ConvertNonObfuscatedDesc: パス難読化なしで保存されたファイルをローカルデータベースで確認し、必要に応じて変換します。
+      CopyIssueReport: レポートをクリップボードにコピー
+      DatabaseLabel: "データベース: ${details}"
+      DatabaseToStorage: データベース → ストレージ
+      DeleteCustomizationSyncData: カスタマイズ同期データをすべて削除
+      GeneratedReport: 生成されたレポート
+      Missing: 見つかりません
+      ModifiedSize: "更新日時: ${modified}, サイズ: ${size}"
+      ModifiedSizeActual: "更新日時: ${modified}, サイズ: ${size}（実サイズ: ${actualSize}）"
+      PrepareIssueReport: Issue作成用の「レポート」を準備
+      RecreateAll: すべて再作成
+      RecreateMissingChunks: すべてのファイルの不足チャンクを再作成
+      RecreateMissingChunksDesc: すべてのファイルについてチャンクを再作成します。欠損しているチャンクがあった場合、エラーが解消される可能性があります。
+      RecoveryAndRepair: 復旧と修復
+      ResetPanel: リセット
+      ResetRemoteUsage: 通知しきい値をリセットし、リモートデータベース使用量を確認
+      ResetRemoteUsageDesc: リモートストレージサイズのしきい値をリセットし、リモートストレージサイズを再確認します。
+      ResolveAllConflictedFiles: すべての競合ファイルを新しい方で解決
+      ResolveAllConflictedFilesDesc: 競合しているすべてのファイルを新しい方の内容で解決します。注意：古い方は上書きされ、復元できません。
+      RunDoctor: 診断ツールを実行
+      ScanBrokenFiles: 破損ファイルをスキャン
+      ScramSwitches: 緊急対応スイッチ
+      ShowHistory: 履歴を表示
+      StorageLabel: "ストレージ: ${details}"
+      StorageToDatabase: ストレージ → データベース
+      VerifyAndRepairAllFiles: すべてのファイルを検証して修復
+      VerifyAndRepairAllFilesDesc: ローカルデータベースとストレージ上のファイル内容を比較します。一致しない場合、どちらを残すか確認されます。
+    Maintenance:
+      Cleanup: クリーンアップを実行
+      CleanupDesc: 最新版以外のすべてのリビジョンを破棄して、使用容量を削減します。実行には、リモートサーバーとローカルクライアントの両方に同程度の空き容量が必要です。
+      DeleteLocalDatabase: Self-hosted LiveSync をリセットまたはアンインストールするため、ローカルデータベースを削除
+      EmergencyRestart: 緊急再起動
+      EmergencyRestartDesc: すべての同期を無効化して再起動します。
+      FreshStartWipe: 初期化ワイプ
+      FreshStartWipeDesc: リモートサーバー上のすべてのデータを削除します。
+      GarbageCollection: ガーベジコレクション V3 (Beta)
+      GarbageCollectionAction: ガーベジコレクションを実行
+      GarbageCollectionDesc: 未使用のチャンクを削除し、データベースサイズを削減するためにガーベジコレクションを実行します。
+      LockServer: サーバーをロック
+      LockServerDesc: 他のデバイスとの同期を防ぐため、リモートサーバーをロックします。
+      OverwriteServerData: このデバイスのファイルでサーバーデータを上書き
+      OverwriteServerDataDesc: このデバイス上のファイルからローカルおよびリモートデータベースを再構築します。
+      OverwriteRemote: リモートを上書き
+      OverwriteRemoteDesc: ローカル DB とパスフレーズでリモートを上書きします。
+      PurgeAllJournalCounter: すべてのジャーナルカウンターを削除
+      PurgeAllJournalCounterDesc: すべてのダウンロードおよびアップロードキャッシュを削除します。
+      RebuildingOperations: 再構築操作 (リモートのみ)
+      Reset: リセット
+      ResetAllJournalCounter: すべてのジャーナルカウンターをリセット
+      ResetAllJournalCounterDesc: すべてのジャーナル履歴を初期化します。次回同期時に、すべての項目が再度受信・送信されます。
+      ResetJournalReceived: ジャーナル受信履歴をリセット
+      ResetJournalReceivedDesc: ジャーナル受信履歴を初期化します。次回同期時に、このデバイスが送信したもの以外のすべての項目が再度ダウンロードされます。
+      ResetReceived: 受信履歴をリセット
+      ResetJournalSent: ジャーナル送信履歴をリセット
+      ResetJournalSentDesc: ジャーナル送信履歴を初期化します。次回同期時に、このデバイスが受信したもの以外のすべての項目が再度送信されます。
+      ResetLocalSyncInfo: 同期情報をリセット
+      ResetLocalSyncInfoDesc: リモートからローカルデータベースを復元または再構築します。
+      ResetSentHistory: 送信履歴をリセット
+      ResetThisDevice: このデバイスの同期状態をリセット
+      Resend: 再送信
+      ResendDesc: すべてのチャンクをリモートへ再送信します。
+      ScheduleAndRestart: 予約して再起動
+      Scram: 緊急停止
+      SendChunks: チャンクを送信
+      Syncing: 同期
+      WarningLockedReadyAction: 準備できました。データベースのロックを解除します
+      WarningLockedReadyText: 意図しないVault破損を防ぐため、リモートデータベースは同期用にロックされています。（このデバイスは「解決済み」としてマークされています。）すべてのデバイスが「解決済み」になったら、データベースのロックを解除してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示され続けます。
+      WarningLockedResolveAction: バックアップを作成しました。このデバイスを解決済みにします
+      WarningLockedResolveText: このデバイスが「解決済み」としてマークされていないため、Vault破損を防ぐ目的でリモートデータベースは同期用にロックされています。Vaultをバックアップし、ローカルデータベースをリセットしてから「このデバイスを解決済みにする」を選択してください。この警告は、レプリケーションでデバイスが解決済みと確認されるまで表示され続けます。
+      WriteRedFlagAndRestart: フラグを立てて再起動
+    Patches:
+      CompatibilityConflict: 互換性（競合時の挙動）
+      CompatibilityDatabase: 互換性（データベース構造）
+      CompatibilityInternalApi: 互換性（内部 API の利用）
+      CompatibilityMetadata: 互換性（メタデータ）
+      CompatibilityRemote: 互換性（リモートデータベース）
+      CompatibilityTrouble: 互換性（対処済みの問題）
+      CurrentAdapter: "現在のアダプター: ${adapter}"
+      DatabaseAdapter: データベースアダプター
+      DatabaseAdapterDesc: 使用するデータベースアダプターを選択します。
+      EdgeCaseBehaviour: 特殊なケースへの対応（動作）
+      EdgeCaseDatabase: 特殊なケースへの対応（データベース）
+      EdgeCaseProcessing: 特殊なケースへの対応（処理）
+      IndexedDbWarning: IndexedDBアダプターは一部の状況で高い性能を発揮しますが、LiveSyncモードで使用するとメモリリークが発生することが分かっています。LiveSyncモードでは代わりにIDBアダプターを使用してください。
+      MigrationWarning: この設定を変更するには既存データの移行が必要で、時間がかかる場合があります。またObsidianの再起動も必要です。続行前に必ずデータをバックアップしてください。
+      MigratingToIdb: すべてのデータをIDBへ移行しています...
+      MigratingToIndexedDb: すべてのデータをIndexedDBへ移行しています...
+      MigrationIdbCompleted: IDBへの移行が完了しました。新しい設定でObsidianをすぐに再起動します。
+      MigrationIdbCompletedFollowUp: IDBへの移行が完了しました。アダプターを切り替えてObsidianを再起動してください。
+      MigrationIndexedDbCompleted: IndexedDBへの移行が完了しました。新しい設定でObsidianをすぐに再起動します。
+      MigrationIndexedDbCompletedFollowUp: IndexedDBへの移行が完了しました。アダプターを切り替えてObsidianを再起動してください。
+      OperationToIdb: IDBへ
+      OperationToIndexedDb: IndexedDBへ
+      Remediation: 是正
+      RemediationChanged: 是正設定が変更されました
+      RemediationNoLimit: 制限は設定されていません
+      RemediationRestartLater: 後で
+      RemediationRestartMessage: Obsidianの再起動を強く推奨します。再起動するまで一部の変更が反映されず、表示が不整合になる可能性があります。今すぐ再起動しますか？
+      RemediationRestartNow: 今すぐ再起動
+      RemediationRestarting: 修復設定が変更されました。Obsidianを再起動しています...
+      RemediationSuffixChanged: 接尾辞が変更されました。データベースを再オープンしています...
+      RemediationWithValue: "上限: ${date}（${timestamp}）"
+      RemoteDatabaseSunset: リモートデータベースの調整 (廃止予定)
+      SwitchToIDB: IDB に切り替える
+      SwitchToIndexedDb: IndexedDB に切り替える
+    PowerUsers:
+      ConfigurationEncryption: 設定の暗号化
+      ConnectionTweak: CouchDB 接続の調整
+      ConnectionTweakDesc: IBM Cloudantのペイロードサイズ上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。
+      Default: デフォルト
+      Developer: 開発者
+      EncryptSensitiveConfig: 機密性の高い設定項目を暗号化
+      PromptPassphraseEveryLaunch: 起動のたびにパスフレーズを確認
+      UseCustomPassphrase: カスタムパスフレーズを使う
+    Remote:
+      Activate: 有効化
+      ActiveSuffix: （有効）
+      AddConnection: 接続を追加
+      AddRemoteDefaultName: 新しいリモート
+      ConfigureAndChangeRemote: リモートを設定して切り替える
+      ConfigureE2EE: E2EE を設定
+      ConfigureRemote: リモートを設定
+      DeleteRemoteConfirm: リモート設定「${name}」を削除しますか？
+      DeleteRemoteTitle: リモート設定を削除
+      DisplayName: 表示名
+      DuplicateRemote: リモート設定を複製
+      DuplicateRemoteSuffix: ${name}（コピー）
+      E2EEConfiguration: E2EE 設定
+      Export: エクスポート
+      FetchRemoteSettings: リモート設定を取得
+      ImportConnection: 接続をインポート
+      ImportConnectionPrompt: 接続文字列を貼り付ける
+      ImportedCouchDb: インポートしたCouchDB
+      ImportedRemote: リモート
+      MoreActions: その他の操作
+      PeerToPeerPanel: ピアツーピア同期
+      RemoteConfigurationPrefix: リモート設定
+      RemoteDatabases: リモートデータベース
+      RemoteName: リモート名
+      RemoteNameCouchDb: CouchDB ${host}
+      RemoteNameP2P: P2P ${room}
+      RemoteNameS3: S3 ${bucket}
+      Rename: 名前を変更
+    Selector:
+      AddDefaultPatterns: デフォルトパターンを追加
+      CrossPlatform: クロスプラットフォーム
+      Default: デフォルト
+      HiddenFiles: 隠しファイル
+      IgnorePatterns: 除外パターン
+      NonSynchronisingFiles: 同期しないファイル
+      NonSynchronisingFilesDesc: （正規表現）設定すると、これに一致するローカル／リモートファイルの変更はすべてスキップされます。
+      NormalFiles: 通常ファイル
+      OverwritePatterns: 上書きパターン
+      OverwritePatternsDesc: マージではなく上書きするファイルを判定するパターン
+      SynchronisingFiles: 同期するファイル
+      SynchronisingFilesDesc: （正規表現）空欄で全ファイルを同期します。正規表現フィルターを指定すると、同期対象ファイルを制限できます。
+      TargetPatterns: 対象パターン
+      TargetPatternsDesc: 同期対象ファイルを判定するパターン
+    Setup:
+      RerunWizardButton: ウィザードを再実行
+      RerunWizardDesc: Self-hosted LiveSync を再設定するため、オンボーディングウィザードを再実行します。
+      RerunWizardName: オンボーディングウィザードを再実行
+    SyncSettings:
+      Merge: マージ
+      Fetch: 取得
+      Overwrite: 上書き
+  SetupWizard:
+    Common:
+      Back: いいえ、前に戻ります
+      Cancel: キャンセル
+      ProceedSelectOption: 続行するには項目を選択してください
+    Invitation:
+      Start: セットアップを開始
+    Intro:
+      ExistingOption: 既存の同期構成に端末を追加します
+      ExistingOptionDesc: 別のPCやスマートフォンですでに同期を使用している場合に選択してください。この端末を既存の同期構成へ接続します。
+      NewOption: はじめて設定します
+      NewOptionDesc: この端末を最初の同期端末として設定する場合に選択してください。
+      ProceedExisting: はい、この端末を既存の同期に追加します
+      ProceedNew: はい、新しい同期を設定します
+      Question: まず、現在の状況に最も近い項目を選択してください。
+      Title: Self-hosted LiveSync へようこそ
+      Guidance: これからいくつかの質問に沿って、同期設定を簡単に進めます。
+    SelectExisting:
+      Guidance: この端末を既存の同期構成に追加しようとしています。
+      ManualOption: リモートを手動で設定
+      ManualOptionDesc: ほかのデバイスと同じリモートを、もう一度手動で設定します。上級者向けです。
+      ProceedManual: 手動設定へ進む
+      ProceedQr: 稼働中の端末に表示された QR コードを、この端末のカメラで読み取ってください。
+      ProceedSetupUri: Setup URI で続行
+      Question: 別の端末から設定を取り込む方法を選択してください。
+      QrOption: QR コードをスキャンする（モバイル推奨）
+      QrOptionDesc: 稼働中の端末に表示された QR コードを、この端末のカメラで読み取ってください。
+      SetupUriOption: Setup URI を使う（推奨）
+      SetupUriOptionDesc: 稼働中の端末で生成した Setup URI を貼り付けてください。
+      Title: 端末の設定方法
+    SelectNew:
+      Guidance: 同期接続を設定します。
+      ManualOption: リモートを手動で設定
+      ManualOptionDesc: Setup URIを持っていない場合や、詳細な設定を行いたい場合の上級者向けオプションです。CouchDBまたはS3互換オブジェクトストレージの代わりにP2P同期を使用する場合にも選択できます。
+      ProceedManual: 手動設定へ進む
+      ProceedSetupUri: Setup URI で続行
+      Question: この同期接続をどのように設定しますか？
+      SetupUriOption: Setup URI を使う（推奨）
+      SetupUriOptionDesc: Setup URIは、接続情報と認証情報を含む1つの文字列です。セットアップスクリプトから取得できる場合は、簡単かつ安全に設定できます。
+      Title: 接続方法
+    OutroAskUserMode:
+      CompatibleOption: リモートはすでに設定済みで、構成に互換性があります（またはこの操作で互換性がある状態になりました）。
+      CompatibleOptionDesc: 確信がない限り、この選択は危険です。サーバー構成がこのデバイスと互換であることを前提にします。互換でない場合、データ損失が発生する可能性があります。影響を理解していることを確認してください。
+      ExistingOption: リモートサーバーはすでに設定済みです。このデバイスを参加させます。
+      ExistingOptionDesc: この選択により、このデバイスは既存サーバーへ参加します。サーバーから既存の同期データをこのデバイスへ取得する必要があります。
+      Guidance: サーバーへの接続設定が完了しました。次の手順として、ローカルデータベース、つまり同期情報を再構築する必要があります。
+      NewOption: 新しいサーバーを初めて設定します / 既存サーバーをリセットします。
+      NewOptionDesc: この選択により、現在このデバイスにあるデータを使ってサーバーを初期化します。サーバー上の既存データは完全に上書きされます。
+      ProceedApplySettings: 設定を適用
+      ProceedNext: 次の手順へ進む
+      Question: 状況を選択してください。
+      Title: "ほぼ完了: 判断が必要です"
+    OutroNewUser:
+      GuidancePrimary: サーバーへの接続設定が完了しました。次の手順として、このデバイスの現在のデータからサーバー上の同期データを構築します。
+      GuidanceWarning: 再起動後、このデバイス上のデータがマスターコピーとしてサーバーへアップロードされます。サーバー上に意図しないデータがある場合、それらは完全に上書きされます。
+      Important: 重要
+      Proceed: 再起動してサーバーを初期化
+      Question: 再起動して最終確認へ進むには、下のボタンを選択してください。
+      Title: "セットアップ完了: サーバー初期化の準備"
+    OutroNewP2PUser:
+      GuidanceNotice: P2Pには上書き対象となる中央サーバー上のコピーがありません。この手順ではこのデバイスのみを準備します。別のデバイスが初期データを取得するときは、このデバイスをオンラインにしておいてください。
+      GuidancePrimary: ピアツーピア接続の設定が完了しました。次に、このVaultの現在のファイルからローカルLiveSyncデータベースを構築します。
+      Important: 注意してください
+      Proceed: 再起動してこのデバイスを準備
+      Question: 下のボタンを選択して再起動し、ローカル初期化の確認へ進んでください。
+      Title: セットアップ完了：このP2Pデバイスを準備
+    RebuildEverythingP2P:
+      ConfirmLocalReset: このデバイスのローカル同期データベースだけがリセットされることを理解しました。
+      ConfirmLocalResetNote: 現在このVaultにあるファイルを使用して再構築します。
+      ConfirmTitle: ⚠️ 以下を確認してください
+      Guidance: この手順では、このデバイスのローカルLiveSyncデータベースを破棄し、現在このVaultにあるファイルから再構築します。ほかのデバイスのデータを削除したり上書きしたりすることはありません。
+      Note: 初期化後、別のデバイスがこのVaultを取得できるように、このデバイスをオンラインにしておいてください。
+      Proceed: 理解した上で、このデバイスを準備
+      Title: 最終確認：このデバイスをP2P用に準備
+    SetupRemote:
+      BucketOption: S3互換オブジェクトストレージ
+      BucketOptionDesc: ジャーナルファイルを使用して同期します。Amazon S3、MinIO、Cloudflare R2などのS3互換オブジェクトストレージを事前に用意する必要があります。
+      CouchDbOptionDesc: 現在の設計に最も適した同期方式です。すべての機能が利用できます。CouchDBインスタンスを事前に設定しておく必要があります。
+      Guidance: この同期設定で使用するリモートの種類を選択してください。
+      P2POption: ピアツーピア（P2P）
+      P2POptionDesc: 端末同士を直接同期できます。サーバーは不要ですが、同期するには両方の端末が同時にオンラインである必要があり、一部機能は制限される場合があります。インターネット接続はシグナリングにのみ必要で、データ転送には使われません。
+      ProceedBucket: オブジェクトストレージの設定へ進む
+      ProceedCouchDb: CouchDB 設定へ進む
+      ProceedP2P: P2Pの設定へ進む
+      Title: 同期先を選択
