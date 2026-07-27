@@ -1,84 +1,86 @@
 # Japanese localisation workflow
 
-This repository is maintained as a Japanese-only fork of Self-hosted LiveSync.
-Future translation work is expected to be done with help from an LLM (large language model), so this document records the branch policy, update checks, and release steps in a form that is easy to follow in later sessions.
-
-## Goals
-
-- Keep the plugin usable as a Japanese-only build.
-- Keep the cost of tracking upstream releases low.
-- Detect upstream message additions and changes with as little manual inspection as possible.
-- Release Japanese builds from this fork for installation via Obsidian BRAT.
+This repository is maintained as a Japanese-only fork of Self-hosted LiveSync. This document records the update, translation, validation, and BRAT release process.
 
 ## Repository roles
 
-- `upstream`: original repository, `https://github.com/vrtmrz/obsidian-livesync`.
-- `origin`: this Japanese fork, `https://github.com/Charahiro/obsidian-livesync-ja`.
-- `ja-localization`: working branch for Japanese localisation and releases.
-- `src/lib`: Git submodule for this fork's `livesync-commonlib-ja`; this contains the main i18n resources.
+- `upstream`: `https://github.com/vrtmrz/obsidian-livesync`
+- `origin`: `https://github.com/Charahiro/obsidian-livesync-ja`
+- `ja-localization`: the long-lived Japanese release branch
+- `codex/ja-<version>-integration`: a temporary integration branch when an upstream release needs conflict resolution and validation
 
-Do not assume that checking the parent repository is enough. Translation resources live in the `src/lib` submodule, so upstream updates can include important message changes only through a submodule commit change.
+Since Self-hosted LiveSync 1.0, Commonlib is installed as the `@vrtmrz/livesync-commonlib` package. The old `src/lib` Git submodule is no longer part of this repository. Do not reintroduce the submodule workflow.
 
-The parent repository's `.gitmodules` intentionally points `src/lib` to:
+## The three translation streams
 
-```text
-https://github.com/Charahiro/livesync-commonlib-ja
-```
+Every upstream update must be checked in all three streams.
 
-When translation resources inside `src/lib` are changed, commit and push them in the submodule repository first. Then commit the updated `src/lib` pointer in the parent repository.
+### 1. YAML catalogue
 
-## Localisation policy
+Edit the source catalogues in:
 
-Use a pragmatic Japanese-only policy.
+- `src/common/messagesYAML/en.yaml`
+- `src/common/messagesYAML/ja.yaml`
 
-- Existing i18n messages: translate in `src/lib/src/common/messagesYAML/ja.yaml`.
-- Generated i18n files: regenerate with `npm run bakei18n`.
-- Svelte screens with hard-coded English: direct Japanese replacement is acceptable.
-- If a hard-coded message has dynamic values or is reused in many places, `$msg(...)` is still acceptable, but it is not required for this fork.
-- Keep translation edits grouped in clearly named commits so future upstream merges are easier to review.
-
-Important files:
-
-- `src/lib/src/common/messagesYAML/en.yaml`: upstream English i18n source.
-- `src/lib/src/common/messagesYAML/ja.yaml`: Japanese i18n source to edit.
-- `src/lib/src/common/i18n.ts`: `$t` and `$msg` implementation.
-- `src/lib/src/common/rosetta.ts`: supported language list and message aggregation.
-- `src/lib/src/common/settingConstants.ts`: many settings labels and descriptions.
-- `src/modules/features/SetupWizard/dialogs/*.svelte`: setup wizard screens with hard-coded UI text.
-- `src/features/P2PSync/P2PReplicator/*.svelte`: P2P pane UI text.
-- `src/features/P2PSync/P2PReplicator/*View.ts`: P2P pane titles, menus, and confirmation dialogues.
-- `src/features/ConfigSync/*.svelte`: customisation sync UI text.
-- `src/features/ConfigSync/*.ts`: customisation sync modal titles, menus, confirmations, and notices.
-- `src/modules/features/GlobalHistory/GlobalHistory.svelte`: global history UI text.
-- `src/modules/features/GlobalHistory/GlobalHistoryView.ts`: global history pane title.
-- `updates_ja.md`: Japanese Markdown shown in the settings Change Log pane. `esbuild.config.mjs` uses this file when present, while keeping upstream `updates.md` unchanged.
-- `docs/troubleshooting_ja.md`: Japanese Markdown fetched by the Setup tab's Online Tips pane. `PaneSetup.ts` intentionally fetches this from the `ja-localization` branch of this fork.
-- Plugin-read documents: Markdown files that are rendered or fetched from the plugin UI must be checked on every upstream update, not only i18n strings and Svelte text. Search for `MarkdownRenderer`, `request(`, `updates.md`, `updates_ja.md`, and `docs/` references to find them. If upstream changes the source document, update the Japanese counterpart such as `updates_ja.md` or `docs/*_ja.md`, and keep the plugin pointing to the Japanese-fork document where applicable.
-- `.prettierrc.mjs`: keeps `endOfLine: "lf"` in this branch. The generated i18n files in `src/lib` are committed with LF line endings, and using CR causes `npm run bakei18n` / `npm run build` to dirty the submodule on Windows without changing message content.
-
-## Current Japanese translation pass
-
-As of 2026-05-05, this fork has translated the main i18n gaps and the following hard-coded UI areas:
-
-- Setup Wizard dialogs under `src/modules/features/SetupWizard/dialogs`.
-- P2P Replicator pane and peer rows under `src/features/P2PSync/P2PReplicator`.
-- Config Sync pane, modal, and related notices under `src/features/ConfigSync`.
-- Global History pane under `src/modules/features/GlobalHistory`.
-
-Known validation notes:
-
-- `npm run build` runs `npm run bakei18n` first and should be used before release.
-- After `npm run bakei18n` or `npm run build`, run this command to avoid noisy generated-file line-ending diffs on this workspace:
+Generated files under `src/common/messagesJson` and `src/common/messages` must not be edited by hand. Regenerate them with:
 
 ```powershell
-.\node_modules\.bin\prettier.cmd --config .\.prettierrc.mjs --end-of-line lf "src/lib/src/common/messagesJson/*.json" "src/lib/src/common/messages/*.ts" --write --log-level error
+npm run i18n:bake
 ```
 
-- `npm run svelte-check` currently reports one pre-existing error in `src/modules/features/ModuleSetupObsidian.ts` around the `Setup.QRCode` message parameter. Treat this as unrelated unless that file is changed.
+Preserve placeholders exactly, including `${NAME}`, `%{name}`, URLs, and Markdown syntax. Keep product and technical names consistent, including Self-hosted LiveSync, Obsidian, Vault, CouchDB, S3, MinIO, R2, P2P, WebRTC, TURN, and Setup URI.
 
-## Upstream release update workflow
+Run the Japanese call-site audit after every catalogue or user-interface change:
 
-Use upstream release tags as the update unit.
+```powershell
+npm run i18n:audit-ja
+```
+
+The audit checks literal calls to `$msg(...)` and equivalent helpers. It fails when a Japanese entry is missing or an English phrase remains unchanged, except for an explicit allow-list of technical terms.
+
+### 2. Plug-in-read Markdown
+
+The plug-in displays Markdown from two paths:
+
+- `updates_ja.md` is embedded by `vite.config.ts` for the Change Log pane when the Japanese file exists.
+- `docs/troubleshooting_ja.md` is fetched by `PaneSetup.ts` for the Setup pane's online tips.
+
+Documents linked from the online tips are part of the same user path. In 1.0, this includes `docs/recovery_ja.md`. On every upstream release, search for new Markdown entry points with:
+
+```powershell
+rg -n 'MarkdownRenderer|request\(|updates\.md|docs/' src vite.config.ts
+```
+
+Compare the source documents and update the Japanese counterparts before tagging a release. Prefer Japanese links where a maintained `*_ja.md` file exists.
+
+### 3. Hard-coded user-interface text
+
+New Svelte, TypeScript, command-palette, Notice, dialogue, menu, tooltip, placeholder, and accessibility text can be added without a catalogue conflict.
+
+Prefer `$msg(...)` and a Japanese catalogue entry when a message has parameters, is reused, or belongs to an upstream-owned workflow. Direct Japanese is acceptable for a Japanese-fork-only leaf view when adding a catalogue key would not improve reuse.
+
+Useful heuristic searches are:
+
+```powershell
+rg -n --glob '*.svelte' '>\s*[A-Za-z][^<{]*<|title="[A-Za-z]|aria-label="[A-Za-z]' src
+rg -n --glob '*.ts' '\.set(Name|Desc|ButtonText|Tooltip|Title)\("[A-Za-z]|name:\s*"[A-Za-z]|title:\s*"[A-Za-z]' src
+```
+
+Review the results manually. Ignore tests, code identifiers, URLs, protocol values, product names, and cryptographic algorithm names.
+
+High-priority areas are:
+
+- `src/modules/features/SetupWizard/dialogs`
+- `src/features/P2PSync/P2PReplicator`
+- `src/modules/features/SettingDialogue`
+- `src/modules/features/DocumentHistory`
+- `src/modules/features/GlobalHistory`
+- `src/features/ConfigSync`
+- recovery, conflict-review, command, Notice, and accessibility text
+
+## Updating from an upstream release
+
+Use upstream release tags as the comparison unit.
 
 1. Fetch upstream tags.
 
@@ -86,177 +88,91 @@ Use upstream release tags as the update unit.
 git fetch upstream --tags
 ```
 
-2. Pick the previous upstream tag and the new upstream tag.
-
-Use exact tag names from upstream. In examples below:
+2. Compare the previous and new upstream tags.
 
 ```powershell
-$OLD = "<previous-upstream-tag>"
-$NEW = "<new-upstream-tag>"
+git diff --name-status <old-tag>..<new-tag>
+git diff <old-tag>..<new-tag> -- src updates.md docs vite.config.ts manifest.json package.json
 ```
 
-3. Inspect parent repository changes.
+3. Create an integration branch and merge the new tag.
 
 ```powershell
-git diff --name-status $OLD..$NEW
-git diff $OLD..$NEW -- src/modules/features src/features src/modules
+git switch -c codex/ja-<version>-integration
+git merge --no-ff <new-tag>
 ```
 
-Focus on files that contain user-visible messages. New English text can be added without causing a Git conflict, so this step is important.
+4. Resolve architecture and implementation conflicts first. Preserve the Japanese manifest metadata, release workflow, Japanese Markdown selection, and fork URLs where they are intentionally different.
 
-4. Inspect the `src/lib` submodule pointer.
+5. Complete all three translation streams: YAML, plug-in-read Markdown, and hard-coded user-interface text.
+
+6. Regenerate and audit translations.
 
 ```powershell
-git diff --submodule=log $OLD..$NEW -- src/lib
+npm run i18n:bake
+npm run i18n:audit-ja
 ```
 
-If the submodule commit changed, compare the submodule contents too. Get the old and new submodule commit IDs from the diff above or from `git ls-tree`.
+7. Run the repository checks.
 
 ```powershell
-git -C src/lib fetch --tags
-git -C src/lib diff <old-src-lib-commit>..<new-src-lib-commit> -- src/common/messagesYAML src/common/messagesJson src/common/settingConstants.ts
-```
-
-5. Merge the upstream tag into the Japanese branch.
-
-```powershell
-git switch ja-localization
-git merge $NEW
-```
-
-Resolve conflicts as Japanese text. If the same conflict recurs across releases, enable Git's conflict-resolution reuse feature:
-
-```powershell
-git config rerere.enabled true
-```
-
-`rerere` means "reuse recorded resolution"; Git can reuse previously recorded conflict resolutions.
-
-6. Update translations.
-
-- Fill missing keys in `src/lib/src/common/messagesYAML/ja.yaml`.
-- Translate newly added hard-coded Svelte UI text directly to Japanese.
-- Translate or refresh plugin-read Markdown documents. At minimum, compare upstream changes to `updates.md` and docs referenced from plugin UI, then update `updates_ja.md`, `docs/troubleshooting_ja.md`, or any other Japanese document used by the plugin. Do this before creating the release tag because GitHub Releases read release notes and built plugin assets from the tagged commit.
-- Preserve placeholders such as `${name}`, `${value}`, `%{key}`, and URLs unless the surrounding code says otherwise.
-- Keep product and technical names consistent: `Self-hosted LiveSync`, `Obsidian`, `Vault`, `CouchDB`, `MinIO`, `S3`, `R2`, `P2P`.
-
-7. Regenerate i18n files.
-
-```powershell
-npm run bakei18n
-```
-
-8. Check missing i18n keys.
-
-```powershell
-node -e "const fs=require('fs');const en=JSON.parse(fs.readFileSync('src/lib/src/common/messagesJson/en.json','utf8'));const ja=JSON.parse(fs.readFileSync('src/lib/src/common/messagesJson/ja.json','utf8'));const missing=Object.keys(en).filter(k=>!(k in ja));console.log(missing.join('\n'));process.exit(missing.length?1:0);"
-```
-
-9. Check remaining English UI text.
-
-This is a heuristic check. It will produce false positives, but it is useful after upstream merges.
-
-```powershell
-rg -n '>[A-Za-z][^<]*<|title="[A-Za-z]|setButtonText\("[A-Za-z]|setName\("[A-Za-z]|setDesc\("[A-Za-z]' src
-```
-
-Review likely user-visible strings. Ignore code identifiers, tests, external names, and intentionally untranslated product names.
-
-10. Build and test.
-
-```powershell
+npm run check
+npm run test:unit
 npm run build
 ```
 
-Run narrower checks if the touched area has tests. For broad localisation-only changes, build success and manual UI inspection are usually the main checks.
+8. Manually inspect the main flows in Obsidian:
+
+- fresh setup and additional-device setup;
+- CouchDB, Object Storage, and P2P configuration;
+- Fetch, Rebuild, and emergency suspension;
+- conflict and file/database inspection;
+- P2P status, peer decisions, and follow controls;
+- settings, command palette, Notices, tooltips, and mobile-width dialogues;
+- Change Log and online troubleshooting Markdown.
 
 ## Release workflow for BRAT
 
-Release from `ja-localization`, not necessarily from `main`.
-
-Recommended Japanese release tag format:
+Use a Japanese tag in this form:
 
 ```text
 ja-<upstream-version>
 ```
 
-Examples:
+For example, Self-hosted LiveSync 1.0.0 uses `ja-1.0.0`.
 
-```text
-ja-0.25.60
-ja-0.25.61
-```
+Before tagging:
 
-Before creating a GitHub Release, confirm that the built release assets expected by Obsidian BRAT are present. Typically these are:
+1. Update `.github/release-notes/ja-release.md`.
+2. Confirm `manifest.json` contains the upstream version and Japanese-fork name, description, author, and URL.
+3. Confirm the working tree is clean and all validation commands pass.
+4. Build once locally and confirm `main.js`, `manifest.json`, and `styles.css` exist.
 
-- `manifest.json`
-- `main.js`
-- `styles.css`
+The workflow at `.github/workflows/release.yml` runs for `ja-*` tags. It installs dependencies, builds, attests the artefacts, verifies the BRAT files, creates a ZIP package, and publishes the GitHub Release.
 
-If the upstream release process changes, follow upstream's asset set and keep this fork's release assets compatible with BRAT.
-
-The plugin listing shown in Obsidian is controlled by `manifest.json`. For this Japanese fork, keep `id` unchanged for compatibility, but keep `name`, `author`, `authorUrl`, and `description` set to Japanese-fork appropriate values.
-
-This fork has a GitHub Actions release workflow at `.github/workflows/release.yml`.
-
-The workflow runs when a tag matching `ja-*` is pushed. It checks out submodules, runs `npm ci`, runs `npm run build`, verifies `main.js`, `manifest.json`, and `styles.css`, then creates a draft GitHub Release.
-
-The Release description is read from:
-
-```text
-.github/release-notes/ja-release.md
-```
-
-Update this file for each release before creating the tag. The workflow checks out the tagged commit, so release note edits made after pushing the tag will not be reflected automatically in that Release.
-
-The workflow uploads these assets:
-
-- `main.js`
-- `manifest.json`
-- `styles.css`
-- `obsidian-livesync-ja-<tag>.zip`
-
-Recommended release command sequence:
+Suggested sequence after review and approval:
 
 ```powershell
 git switch ja-localization
-git status --short --branch
-notepad .github/release-notes/ja-release.md
-git add .github/release-notes/ja-release.md
-git commit -m "Update release notes for ja-<upstream-version>"
-git push
-git tag ja-<upstream-version>
-git push origin ja-<upstream-version>
+git merge --ff-only codex/ja-<version>-integration
+git push origin ja-localization
+git tag ja-<version>
+git push origin ja-<version>
 ```
 
-After the workflow completes, open the draft Release on GitHub, inspect the attached assets, then publish it manually.
+Do not create or push a release tag until the release notes and tagged commit are final. The workflow reads all assets and release notes from that commit.
 
-The workflow also supports manual dispatch with a `tag` input, but the tag should already exist.
+## Handoff checklist
 
-## LLM handoff checklist
+At the start of a future localisation update:
 
-At the beginning of a future localisation session, the assistant should:
-
-1. Read this document.
-2. Check `git status --short --branch`.
-3. Check remotes with `git remote -v`.
-4. Fetch upstream tags if the user asks to update from upstream.
-5. Identify the previous Japanese release tag and corresponding upstream tag.
-6. Compare upstream tag to upstream tag, not Japanese branch to upstream branch, when looking for upstream message changes.
-7. Check `src/lib` submodule changes separately.
-8. Preserve user changes and never reset or discard local edits without explicit permission.
-9. Translate in Japanese, keeping placeholders and technical terms intact.
-10. Check plugin-read documents, especially `updates_ja.md` and `docs/troubleshooting_ja.md`, against the upstream documents used by the plugin UI.
-11. Run `npm run bakei18n` after editing i18n YAML.
-12. Run the missing-key and remaining-English checks before release.
-
-Before pushing localisation work, the assistant must:
-
-1. Check whether `src/lib` has changes with `git -C src/lib status --short --branch`.
-2. If `src/lib` has changes, commit them inside the submodule first.
-3. Push the submodule branch to `https://github.com/Charahiro/livesync-commonlib-ja`.
-4. Only after the submodule push succeeds, commit the updated `src/lib` pointer in the parent repository.
-5. Push the parent repository branch to `https://github.com/Charahiro/obsidian-livesync-ja`.
-6. Verify both repositories are clean with `git status --short --branch` in the parent and in `src/lib`.
-
-Never leave a parent repository commit pointing to a submodule commit that exists only locally.
+1. Read this document and the repository's `AGENTS.md`.
+2. Check the branch, working tree, remotes, and latest Japanese release tag.
+3. Fetch the requested upstream tag.
+4. Compare upstream tag to upstream tag before merging.
+5. Preserve unrelated local work.
+6. Inspect all three translation streams.
+7. Keep placeholders and technical terms intact.
+8. Run `npm run i18n:bake`, `npm run i18n:audit-ja`, `npm run check`, `npm run test:unit`, and `npm run build`.
+9. Record any intentionally untranslated technical strings or deferred manual checks.
+10. Do not push, tag, or publish without explicit authority.
