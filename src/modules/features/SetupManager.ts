@@ -26,6 +26,7 @@ import SetupRemoteP2P from "./SetupWizard/dialogs/SetupRemoteP2P.svelte";
 import SetupRemoteE2EE from "./SetupWizard/dialogs/SetupRemoteE2EE.svelte";
 import { decodeSettingsFromQRCodeData } from "@vrtmrz/livesync-commonlib/compat/API/processSetting";
 import { AbstractModule } from "@/modules/AbstractModule.ts";
+import { $msg } from "@/common/translation";
 import type {
     OutroAskUserModeResultType,
     OutroExistingUserResultType,
@@ -98,7 +99,7 @@ export class SetupManager extends AbstractModule {
         } else if (isUserNewOrExisting === "existing-user") {
             await this.onOnboard(UserMode.ExistingUser);
         } else if (isUserNewOrExisting === "cancelled") {
-            this._log("Onboarding cancelled by user.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.OnboardingCancelled"), LOG_LEVEL_NOTICE);
             return false;
         }
         return false;
@@ -119,7 +120,7 @@ export class SetupManager extends AbstractModule {
             } else if (method === "configure-manually") {
                 await this.onConfigureManually(originalSetting, userMode);
             } else if (method === "cancelled") {
-                this._log("Onboarding cancelled by user.", LOG_LEVEL_NOTICE);
+                this._log($msg("Setup.Notice.OnboardingCancelled"), LOG_LEVEL_NOTICE);
                 return false;
             }
         } else if (userMode === UserMode.ExistingUser) {
@@ -131,7 +132,7 @@ export class SetupManager extends AbstractModule {
             } else if (method === "scan-qr-code") {
                 await this.onPromptQRCodeInstruction();
             } else if (method === "cancelled") {
-                this._log("Onboarding cancelled by user.", LOG_LEVEL_NOTICE);
+                this._log($msg("Setup.Notice.OnboardingCancelled"), LOG_LEVEL_NOTICE);
                 return false;
             }
         }
@@ -150,7 +151,7 @@ export class SetupManager extends AbstractModule {
             setupURI
         );
         if (newSetting === "cancelled") {
-            this._log("Setup URI dialog cancelled.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.SetupUriCancelled"), LOG_LEVEL_NOTICE);
             return false;
         }
         this._log("Setup URI dialog closed.", LOG_LEVEL_VERBOSE);
@@ -182,7 +183,7 @@ export class SetupManager extends AbstractModule {
                       : "settings",
         });
         if (couchConf === "cancelled") {
-            this._log("Manual configuration cancelled.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const newSetting = {
@@ -213,7 +214,7 @@ export class SetupManager extends AbstractModule {
             BucketSyncSetting
         >(SetupRemoteBucket, currentSetting);
         if (bucketConf === "cancelled") {
-            this._log("Manual configuration cancelled.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const newSetting = {
@@ -244,7 +245,7 @@ export class SetupManager extends AbstractModule {
             currentSetting
         );
         if (p2pConf === "cancelled") {
-            this._log("Manual configuration cancelled.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const newSetting = {
@@ -271,7 +272,7 @@ export class SetupManager extends AbstractModule {
             currentSetting
         );
         if (e2eeConf === "cancelled") {
-            this._log("E2EE configuration cancelled.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.E2eeConfigurationCancelled"), LOG_LEVEL_NOTICE);
             return false;
         }
         const newSetting = {
@@ -293,7 +294,7 @@ export class SetupManager extends AbstractModule {
             originalSetting
         );
         if (e2eeConf === "cancelled") {
-            this._log("Manual configuration cancelled.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const currentSetting = {
@@ -318,7 +319,7 @@ export class SetupManager extends AbstractModule {
         } else if (method === "p2p") {
             return await this.onP2PManualSetup(userMode, currentSetting, true);
         } else if (method === "cancelled") {
-            this._log("Manual configuration cancelled.", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
             if (userMode !== UserMode.Unknown) {
                 return await this.onOnboard(userMode);
             }
@@ -347,7 +348,7 @@ export class SetupManager extends AbstractModule {
         let userMode = _userMode;
         if (userMode === UserMode.Unknown) {
             if (isObjectDifferent(this.settings, newConf, true) === false) {
-                this._log("No changes in settings detected. Skipping applying settings from wizard.", LOG_LEVEL_NOTICE);
+                this._log($msg("Setup.Notice.NoChanges"), LOG_LEVEL_NOTICE);
                 return true;
             }
             // const patch = generatePatchObj(this.settings, newConf);
@@ -356,7 +357,7 @@ export class SetupManager extends AbstractModule {
             if (!activate) {
                 extra();
                 const applied = await this.applySettingAndScheduleFetchOnActivation(newConf, UserMode.ExistingUser);
-                if (applied) this._log("Setting Applied", LOG_LEVEL_NOTICE);
+                if (applied) this._log($msg("Setup.Notice.SettingApplied"), LOG_LEVEL_NOTICE);
                 return applied;
             }
             // Check virtual changes
@@ -366,7 +367,7 @@ export class SetupManager extends AbstractModule {
             if (isOnlyVirtualChange) {
                 extra();
                 const applied = await this.applySettingAndScheduleFetchOnActivation(newConf, UserMode.ExistingUser);
-                if (applied) this._log("Settings from wizard applied.", LOG_LEVEL_NOTICE);
+                if (applied) this._log($msg("Setup.Notice.WizardSettingsApplied"), LOG_LEVEL_NOTICE);
                 return applied;
             } else {
                 const userModeResult =
@@ -378,10 +379,10 @@ export class SetupManager extends AbstractModule {
                 } else if (userModeResult === "compatible-existing-user") {
                     extra();
                     const applied = await this.applySettingAndScheduleFetchOnActivation(newConf, UserMode.ExistingUser);
-                    if (applied) this._log("Settings from wizard applied.", LOG_LEVEL_NOTICE);
+                    if (applied) this._log($msg("Setup.Notice.WizardSettingsApplied"), LOG_LEVEL_NOTICE);
                     return applied;
                 } else if (userModeResult === "cancelled") {
-                    this._log("User cancelled applying settings from wizard.", LOG_LEVEL_NOTICE);
+                    this._log($msg("Setup.Notice.WizardApplyCancelled"), LOG_LEVEL_NOTICE);
                     return false;
                 }
             }
@@ -392,7 +393,7 @@ export class SetupManager extends AbstractModule {
             { isP2P: boolean }
         >(component, { isP2P: isP2PMainRemote(newConf) });
         if (confirm === "cancelled") {
-            this._log("User cancelled applying settings from wizard..", LOG_LEVEL_NOTICE);
+            this._log($msg("Setup.Notice.WizardApplyCancelled"), LOG_LEVEL_NOTICE);
             return false;
         }
         if (confirm) {

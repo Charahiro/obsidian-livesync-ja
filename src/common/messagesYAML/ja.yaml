@@ -71,7 +71,7 @@ Device name: デバイス名
 dialog:
   yourLanguageAvailable:
     _value: >-
-      Self-hosted LiveSync に設定されている言語の翻訳があったため、%{Display language}を有効にしました。
+      Self-hosted LiveSync に設定されている言語の翻訳があったため、%{Display Language}を有効にしました。
 
 
       注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！
@@ -80,7 +80,7 @@ dialog:
 
 
       便利に使用できれば幸いです。
-    btnRevertToDefault: Keep %{lang-def}
+    btnRevertToDefault: 表示言語を%{lang-def}に戻す
     Title: 翻訳が利用可能です！
 Disables all synchronization and restart.: すべての同期を無効にして再起動します。
 Disables logging, only shows notifications. Please disable if you report an issue.: ログを無効にし、通知のみを表示します。Issueを報告する場合は無効にしてください。
@@ -90,6 +90,9 @@ Do not check configuration mismatch before replication: サーバーから同期
 Do not keep metadata of deleted files.: 削除済みファイルのメタデータを保持しない
 Do not split chunks in the background: バックグラウンドでチャンクを分割しない
 Do not use internal API: 内部APIを使用しない
+DocumentHistory:
+  displayFileFailed: エディターにファイルを表示できませんでした。
+  oldContentCopied: 古い内容をクリップボードにコピーしました。
 Doctor:
   Button:
     DismissThisVersion: いいえ、次のリリースまで再度確認しない
@@ -201,9 +204,9 @@ K:
   Peer: Peer
   ScanCustomization: Scan customization
   short_p2p_sync: P2P同期
-  title_p2p_sync: Peer-to-Peer Sync
+  title_p2p_sync: ピアツーピア同期
 Keep empty folder: 空フォルダの維持
-lang_def: Default
+lang_def: 既定
 lang-de: Deutsche
 lang-def: "%{lang_def}"
 lang-es: Español
@@ -268,6 +271,11 @@ Memory cache size (by total characters): 全体でキャッシュする文字数
 Memory cache size (by total items): 全体のキャッシュサイズ
 Merge: マージ
 Minimum delay for batch database updating: バッチデータベース更新の最小遅延
+moduleBasicMenu:
+  liveSyncDisabled: LiveSyncを無効にしました。
+  liveSyncEnabled: LiveSyncを有効にしました。
+  liveSyncResumed: Self-hosted LiveSyncを再開しました。
+  liveSyncSuspended: Self-hosted LiveSyncを一時停止しました。
 moduleCheckRemoteSize:
   logCheckingStorageSizes: ストレージサイズを確認中
   logCurrentStorageSize: "リモートストレージサイズ: ${measuredSize}"
@@ -349,6 +357,7 @@ moduleLiveSyncMain:
 moduleLocalDatabase:
   logWaitingForReady: しばらくお待ちください...
 moduleLog:
+  debugInfoCopied: デバッグ情報をクリップボードにコピーしました。Issueへ貼り付けられます。機密情報が含まれる可能性があるため、共有前に内容を確認してください。
   showLog: ログを表示
 moduleMigration:
   docUri: https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use
@@ -456,6 +465,9 @@ moduleMigration:
   titleCaseSensitivity: 大文字小文字の区別
   titleRecommendSetupUri: セットアップURIの使用を推奨
   titleWelcome: Self-hosted LiveSyncへようこそ
+moduleObsidianSettingAsMarkdown:
+  parseFailed: YAMLを解析できませんでした。
+  settingsApplied: 読み込んだ設定を適用しました。
 moduleObsidianMenu:
   replicate: レプリケート
 More actions: その他の操作
@@ -534,6 +546,7 @@ obsidianLiveSyncSettingTab:
   logEncryptionNoSupport: お使いのデバイスは暗号化をサポートしていません。
   logErrorOccurred: エラーが発生しました！！
   logEstimatedSize: "推定サイズ: ${size}"
+  logNoReplicatorAvailable: 現在の設定で利用できるレプリケーターがありません。
   logPassphraseInvalid: パスフレーズが無効です、修正してください。
   logPassphraseNotCompatible: "エラー: パスフレーズがリモートサーバーと適合しません！再度確認してください！"
   logRebuildNote: 同期が無効になりました。必要に応じてフェッチして再有効化してください。
@@ -958,6 +971,15 @@ SettingTab:
   Message:
     AskRebuild: 変更にはリモートデータベースからのフェッチが必要です。続行しますか？
 Setup:
+  Notice:
+    E2eeConfigurationCancelled: E2EE設定をキャンセルしました。
+    ManualConfigurationCancelled: 手動設定をキャンセルしました。
+    NoChanges: 設定の変更が検出されなかったため、ウィザードの設定を適用しませんでした。
+    OnboardingCancelled: オンボーディングをキャンセルしました。
+    SettingApplied: 設定を適用しました。
+    SetupUriCancelled: Setup URIダイアログをキャンセルしました。
+    WizardApplyCancelled: ウィザードの設定適用をキャンセルしました。
+    WizardSettingsApplied: ウィザードの設定を適用しました。
   Apply:
     Buttons:
       ApplyAndFetch: 適用してフェッチ
@@ -1149,6 +1171,10 @@ TweakMismatchResolve:
     EnableAutoAcceptCompatible: 自動受け入れを有効化
     DisableAutoAcceptCompatible: 自動受け入れを無効化
   Message:
+    FetchPreferredValuesFailed: リモートサーバーから優先する調整値を取得できませんでした。
+    RemoteConnectionFailed: リモートサーバーへ接続できませんでした。
+    SettingsAlreadyMatch: リモートデータベースとローカルデータベースの設定は同じです。
+    UnsupportedRemoteType: このリモート種別では優先する調整値を取得できません。
     Main: |-
 
       リモートデータベースの設定は以下の通りです。これらの値は、このデバイスと少なくとも1回同期された他のデバイスによって設定されています。
@@ -1348,32 +1374,57 @@ Ui:
       ConvertNonObfuscated: パス難読化されていないファイルを確認して変換
       ConvertNonObfuscatedDesc: パス難読化なしで保存されたファイルをローカルデータベースで確認し、必要に応じて変換します。
       CopyIssueReport: レポートをクリップボードにコピー
+      ComparisonUnavailable: "${path} のリビジョン ${revision} を比較できませんでした。Vaultファイルまたは選択したリビジョンを読み取れなくなっています"
+      ConversionError: "${path} の変換中に問題が発生しました"
+      ConversionFailed: "${path} の変換に失敗しました"
+      ConversionFinished: 変換が完了しました
+      ConvertedAsConflictedDocument: "${path} を競合ドキュメントとして変換しました"
+      CustomizationSyncItemsRemoved: "${count}件を削除しました。残りの件数を確認するには、この操作をもう一度実行してください。"
       DatabaseLabel: "データベース: ${details}"
+      DatabaseBranchDiscarded: "${path} のデータベースブランチ ${revision} を破棄しました"
       DatabaseToStorage: データベース → ストレージ
       DeleteCustomizationSyncData: カスタマイズ同期データをすべて削除
+      DeletingCustomizationSyncData: カスタマイズ同期データを削除しています
+      DocumentConverted: "${path} を変換しました"
       GeneratedReport: 生成されたレポート
+      InspectionDone: 検査が完了しました
+      InspectionError: "${path} の処理中にエラーが発生しました"
+      InspectionErrorWithoutSemaphore: "処理枠を取得する前に ${path} の処理中にエラーが発生しました"
+      InspectionProgress: "ファイルを確認中: ${current}/${total}"
+      InspectionStarted: ファイルとデータベースの状態の検査を開始します
+      InternalFileNotFound: "内部ファイルから ${path} を見つけられませんでした"
       Missing: 見つかりません
       ModifiedSize: "更新日時: ${modified}, サイズ: ${size}"
       ModifiedSizeActual: "更新日時: ${modified}, サイズ: ${size}（実サイズ: ${actualSize}）"
       PrepareIssueReport: Issue作成用の「レポート」を準備
+      OldDocumentDeleted: "古い ${path} を削除しました"
       RecreateAll: すべて再作成
       RecreateMissingChunks: すべてのファイルの不足チャンクを再作成
       RecreateMissingChunksDesc: すべてのファイルについてチャンクを再作成します。欠損しているチャンクがあった場合、エラーが解消される可能性があります。
       RecoveryAndRepair: 復旧と修復
+      RepairActionFailed: "修復操作「${action}」に失敗しました"
+      RepairOperationFailed: "${description}に失敗しました: ${path}"
       ResetPanel: リセット
       ResetRemoteUsage: 通知しきい値をリセットし、リモートデータベース使用量を確認
       ResetRemoteUsageDesc: リモートストレージサイズのしきい値をリセットし、リモートストレージサイズを再確認します。
       ResolveAllConflictedFiles: すべての競合ファイルを新しい方で解決
       ResolveAllConflictedFilesDesc: 競合しているすべてのファイルを新しい方の内容で解決します。注意：古い方は上書きされ、復元できません。
       RunDoctor: 診断ツールを実行
+      RevisionReadableAfterRetry: "再試行後、${path} のリビジョン ${revision} を読み取れました"
+      RevisionStillUnreadable: "${path} のリビジョン ${revision} は再試行後も読み取れません"
       ScanBrokenFiles: 破損ファイルをスキャン
       ScramSwitches: 緊急対応スイッチ
       ShowHistory: 履歴を表示
       StorageLabel: "ストレージ: ${details}"
       StorageToDatabase: ストレージ → データベース
+      UnreadableRevisionDiscarded: "${path} の読み取れないリビジョン ${revision} を破棄しました"
+      VerificationProblemGone: "${path} は再検証で問題が検出されなくなりました"
       VerifyAndRepairAllFiles: すべてのファイルを検証して修復
       VerifyAndRepairAllFilesDesc: ローカルデータベースとストレージ上のファイル内容を比較します。一致しない場合、どちらを残すか確認されます。
     Maintenance:
+      CleanupCompleted: クリーンアップが完了しました。
+      CleanupFailed: クリーンアップに失敗しました。
+      CleanupStarted: クリーンアップを開始しました。
       Cleanup: クリーンアップを実行
       CleanupDesc: 最新版以外のすべてのリビジョンを破棄して、使用容量を削減します。実行には、リモートサーバーとローカルクライアントの両方に同程度の空き容量が必要です。
       DeleteLocalDatabase: Self-hosted LiveSync をリセットまたはアンインストールするため、ローカルデータベースを削除
@@ -1386,6 +1437,10 @@ Ui:
       GarbageCollectionDesc: 未使用のチャンクを削除し、データベースサイズを削減するためにガーベジコレクションを実行します。
       LockServer: サーバーをロック
       LockServerDesc: 他のデバイスとの同期を防ぐため、リモートサーバーをロックします。
+      JournalCacheCleared: ジャーナルのダウンロード・アップロードキャッシュを消去しました。
+      JournalExchangeCleared: ジャーナルの交換履歴を消去しました。
+      JournalReceivedCleared: ジャーナルの受信履歴を消去しました。
+      JournalSentCleared: ジャーナルの送信履歴を消去しました。
       OverwriteServerData: このデバイスのファイルでサーバーデータを上書き
       OverwriteServerDataDesc: このデバイス上のファイルからローカルおよびリモートデータベースを再構築します。
       OverwriteRemote: リモートを上書き
@@ -1407,6 +1462,7 @@ Ui:
       ResetThisDevice: このデバイスの同期状態をリセット
       Resend: 再送信
       ResendDesc: すべてのチャンクをリモートへ再送信します。
+      RemoteDataDeleted: リモートサーバー上のすべてのデータを削除しました。
       ScheduleAndRestart: 予約して再起動
       Scram: 緊急停止
       SendChunks: チャンクを送信
@@ -1901,3 +1957,140 @@ ReviewHarness:
     Prompt: このシナリオでは、管理対象のテスト用ツリーを1つ作成、読み取り、変更、名前変更、削除します。専用のテストVaultを使用してください。続行しますか？
     PromptTitle: "レビューハーネス：Vaultテスト用ファイルへのアクセス"
   Warning: 専用のテストVaultを使用してください。読み取り専用のシナリオにはその旨が表示されます。Vaultの往復確認は、確認後に固定のテスト用ツリーへ書き込み、処理の終了時に削除します。任意のコマンド、パス、コード、リモート認証情報を受け付けることはありません。
+CompatibilityReview:
+  Action:
+    Back: 互換性レビューへ戻る
+    KeepPaused: 同期を一時停止したままにする
+    Resume: 同期を再開
+    ReviewDetails: 互換性の詳細を確認
+  Details:
+    Message: |-
+      ## 同期が一時停止している理由
+
+      ${reasons}
+
+      ## 一時停止による変更
+
+      - リモートレプリケーションは処理開始前に遮断されます。
+      - 保存済みの自動同期設定は変更されません。
+      - どちらのダイアログを閉じても安全確認は有効なままです。
+
+      ## 次に行うこと
+
+      ${resolution}
+    ResolutionBlocked: 互換性のある最新バージョンのSelf-hosted LiveSyncをインストールしてください。現在のバージョンでは、この一時停止を解除できません。
+    ResolutionResumable: すべてのデバイスを更新した後、互換性レビューの概要へ戻り、同期を明示的に再開してください。その時点で現在の内部バージョンが確認済みとして記録されます。
+  Reason:
+    DatabaseDowngrade: '- このバージョンが使用する内部データベースのバージョンは**${currentVersion}**ですが、このデバイスでは新しいバージョン**${acknowledgedVersion}**が以前に確認されています。古いバージョンから同期を再開することはできません。'
+    DatabaseInvalid: '- 保存されている内部データベースのバージョン情報が不正です。このバージョンでは**${currentVersion}**を使用します。'
+    DatabaseMissing: '- この既存Vaultで、以前に確認した内部データベースのバージョンが見つかりません。Vaultをコピーまたは復元した場合や、新しいObsidianプロファイルで開いた場合に発生します。このバージョンでは**${currentVersion}**を使用します。ローカルデータベースが空でも、自動的に同期を再開して安全であるとは限りません。'
+    DatabaseUpgrade: '- 最後に確認した内部データベースのバージョンは**${acknowledgedVersion}**で、このバージョンでは**${currentVersion}**を使用します。'
+    Legacy: '- 以前の互換性レビューが保留中です：${message}'
+    SettingsFuture: '- 保存済み設定のスキーマは**${sourceVersion}**で、このバージョンが対応するスキーマ**${currentVersion}**より新しくなっています。'
+    SettingsMigrated: '- 設定はスキーマ**${sourceVersion}**から**${currentVersion}**へ移行されており、同期を再開する前に確認が必要です。'
+  Summary:
+    ActionBlocked: 検出された状態をこのバージョンで安全に確認済みにすることはできません。再び同期を試す前にSelf-hosted LiveSyncを更新してください。
+    ActionResumable: 再開する前に互換性の詳細を確認し、このリモートデータベースを使用するすべてのデバイスでSelf-hosted LiveSyncを更新してください。
+    Message: |-
+      互換性の状態を確認する必要があるため、このデバイスではリモート同期を一時停止しています。
+
+      ${action}
+
+      自動同期の設定は変更されていません。このダイアログを閉じても同期は一時停止したままです。
+  Title:
+    Details: 互換性レビューの詳細
+    Summary: 互換性レビューのため同期を一時停止
+' (Alpha)': '（アルファ）'
+' (Beta)': '（ベータ）'
+' (Experimental)': '（実験的）'
+'Active Remote Type': '現在のリモート種別'
+'Application ID': 'アプリケーションID'
+'Auto-accept compatible tweak mismatches': '互換性のある調整値の不一致を自動的に受け入れる'
+'Automatically accepts mismatches that are compatible but potentially lossy by comparing tweak modification times.': '調整値の更新日時を比較し、互換性はあるものの効率低下の可能性がある不一致を自動的に受け入れます。'
+'Automatically broadcast changes to connected peers': '接続済みのピアへ変更を自動通知'
+'Automatically start P2P connection on launch': '起動時にP2P接続を自動開始'
+'Chunk Splitter': 'チャンク分割方式'
+'Chunk revisions are always derived from their content. This stored key is retained only for compatibility.': 'チャンクのリビジョンは常に内容から算出されます。保存済みのこの設定キーは互換性のためだけに維持されています。'
+'Content-derived chunk revisions (obsolete setting)': '内容から算出するチャンクリビジョン（廃止された設定）'
+'Custom Headers': 'カスタムヘッダー'
+"Custom headers for requesting the CouchDB. e.g. `x-custom-header1: value1\n x-custom-header2: value2`": "CouchDBへのリクエストに付加するカスタムヘッダーです。例：`x-custom-header1: value1\n x-custom-header2: value2`"
+"Custom headers for requesting the bucket. e.g. `x-custom-header1: value1\n x-custom-header2: value2`": "バケットへのリクエストに付加するカスタムヘッダーです。例：`x-custom-header1: value1\n x-custom-header2: value2`"
+'Desktop only; uses more battery and network.': 'デスクトップのみ。バッテリーとネットワークの使用量が増えます。'
+'Effectively a directory. Should end with `/`. e.g., `vault-name/`.': '実質的なディレクトリです。末尾を「/」にしてください。例：`vault-name/`'
+"Enable Developers' Debug Tools (If available).": '開発者向けデバッグツールを有効化（利用可能な場合）'
+'Enable P2P Synchronization': 'P2P同期を有効化'
+'Enable forcePathStyle': 'forcePathStyleを有効化'
+'Enable per-file customization sync': 'ファイル単位のカスタマイズ同期を有効化'
+"Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files.": '暗号化パスフレーズです。変更した場合は、新しく暗号化したファイルでサーバーのデータベースを上書きする必要があります。'
+'End-to-End Encryption Algorithm': 'エンドツーエンド暗号化アルゴリズム'
+'File prefix on the bucket': 'バケット内のファイル接頭辞'
+'Files with modification times greater than this value (in seconds since the Unix epoch) will not have their events reflected. Set to 0 to disable this limit.': 'この値（Unixエポックからの秒数）より新しい更新日時を持つファイルのイベントは反映されません。0にすると制限を無効化します。'
+'If enabled, changes will be automatically broadcasted to all connected peers. Notified peers will start fetching the changes.': '有効にすると、接続済みのすべてのピアへ変更を自動通知します。通知を受けたピアは変更の取得を開始します。'
+'If enabled, efficient per-file customization sync will be used. A minor migration is required when enabling this feature, and all devices must be updated to v0.23.18. Enabling this feature will result in losing compatibility with older versions.': '有効にすると、効率的なファイル単位のカスタマイズ同期を使用します。有効化時に小規模な移行が必要で、すべてのデバイスをv0.23.18以降へ更新する必要があります。古いバージョンとの互換性は失われます。'
+'If enabled, the P2P connection will be automatically started when the application launches.': '有効にすると、アプリケーションの起動時にP2P接続を自動的に開始します。'
+'If enabled, the file properties will be encrypted in the remote database. This is useful for protecting sensitive information in file paths, sizes, and IDs of its chunks. If you are using V1 E2EE, this only obfuscates the file path.': '有効にすると、リモートデータベース内のファイル属性を暗号化します。ファイルパス、サイズ、およびチャンクIDの保護に役立ちます。V1 E2EEではファイルパスだけが難読化されます。'
+'If enabled, the forcePathStyle option will be used for bucket operations.': '有効にすると、バケット操作にforcePathStyleオプションを使用します。'
+'If enabled, the plugin will not attempt to connect to the remote database even if the chunk was not found locally.': '有効にすると、ローカルでチャンクが見つからない場合でも、プラグインはリモートデータベースへ接続しません。'
+'If enabled, the request API will be used to avoid `inevitable` CORS problems. This is a workaround and may not work in all cases. PLEASE READ THE DOCUMENTATION BEFORE USING THIS OPTION. This is a less-secure option.': '有効にすると、避けられないCORS問題を回避するためにRequest APIを使用します。これは回避策であり、常に動作するとは限りません。使用前に必ずドキュメントを確認してください。安全性が低下する選択肢です。'
+'If this enabled, JWT will be used for authentication.': '有効にすると、認証にJWTを使用します。'
+'Internal timestamp for resolving compatible tweak mismatches.': '互換性のある調整値の不一致を解決するための内部タイムスタンプです。'
+'JWT Algorithm': 'JWTアルゴリズム'
+'Keep replication active in the background': 'バックグラウンドでレプリケーションを維持'
+'Key ID': 'キーID'
+'Keypair or pre-shared key': '鍵ペアまたは事前共有鍵'
+'Last tweak modified timestamp': '調整値を最後に変更した時刻'
+'Longest chunk line threshold value (Not Configurable from the UI Now).': 'チャンクの最長行しきい値（現在UIから設定不可）'
+'MB per request': '1リクエストあたりのMB'
+'Maximum file modification time for reflected file events': 'イベント反映時の最大ファイル更新日時'
+'Maximum request size for manually resending chunks': 'チャンクを手動再送信する際の最大リクエストサイズ'
+'Minimum Chunk Size (Not Configurable from the UI Now).': '最小チャンクサイズ（現在UIから設定不可）'
+"Move remotely deleted files to the trash, instead of deleting. (This setting is ineffective from Obsidian v1.7.2 onwards, as deletion always respects your Obsidian preferences.)": 'リモートで削除されたファイルを完全削除せずゴミ箱へ移動します。（Obsidian v1.7.2以降では常にObsidianの削除設定が使われるため、この設定は動作に影響しません。）'
+'Now we can choose how to split the chunks; V3 is the most efficient. If you have troubled, please make this Default or Legacy.': 'チャンクの分割方式を選択できます。V3が最も効率的です。問題がある場合は「既定」または「レガシー」を選択してください。'
+'Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.': 'V2を使用してください。V1は非推奨で、将来削除されます。互換性のためにのみ維持されています。'
+'Process files even if seems to be corrupted': '破損している可能性があるファイルも処理'
+'Room ID': 'ルームID'
+'Rotation Duration': 'ローテーション期間'
+'Signalling Relays': 'シグナリングリレー'
+'Subject (whoami)': 'サブジェクト（whoami）'
+'TURN Credential': 'TURN認証情報'
+'TURN Servers': 'TURNサーバー'
+'TURN Username': 'TURNユーザー名'
+"The Application ID for P2P connection. This should be same among your devices. Default is 'self-hosted-livesync' and could not be modified from the UI.": 'P2P接続のアプリケーションIDです。すべてのデバイスで同じ値にする必要があります。既定値は「self-hosted-livesync」で、UIからは変更できません。'
+'The Nostr relay servers to establish connections for P2P connections. Multiple servers can be separated by commas.': 'P2P接続を確立するためのNostrリレーサーバーです。複数のサーバーはカンマで区切ります。'
+'The Passphrase for P2P connection. This should be same among your devices.': 'P2P接続のパスフレーズです。すべてのデバイスで同じ値にする必要があります。'
+'The Room ID for P2P connection. This should be same among your devices.': 'P2P接続のルームIDです。すべてのデバイスで同じ値にする必要があります。'
+'The Rotation duration of token in minutes. Each generated tokens will be valid only within this duration.': 'トークンのローテーション期間を分単位で指定します。生成された各トークンはこの期間内だけ有効です。'
+'The TURN servers to use for P2P connections. Multiple servers can be separated by commas.': 'P2P接続に使用するTURNサーバーです。複数のサーバーはカンマで区切ります。'
+'The algorithm used for JWT authentication.': 'JWT認証に使用するアルゴリズムです。'
+'The credential/password for the TURN servers.': 'TURNサーバーの認証情報またはパスワードです。'
+'The key (PSK in HSxxx in base64, or private key in ESxxx in PEM) used for JWT authentication.': 'JWT認証に使用する鍵です（HSxxxではBase64形式のPSK、ESxxxではPEM形式の秘密鍵）。'
+'The key ID. this should be matched with CouchDB->jwt_keys->ALG:_`kid`.': 'キーIDです。CouchDBのjwt_keysにあるALG:_`kid`と一致させてください。'
+'The subject for JWT authentication. Mostly username.': 'JWT認証のサブジェクトです。通常はユーザー名を指定します。'
+'The username for the TURN servers.': 'TURNサーバーのユーザー名です。'
+'Use JWT instead of Basic Authentication': 'Basic認証の代わりにJWTを使用'
+'Use Only Local Chunks': 'ローカルチャンクのみを使用'
+'Use Request API to avoid `inevitable` CORS problem': '避けられないCORS問題を回避するためRequest APIを使用'
+'While enabled, it causes very performance impact but debugging replication testing and other features will be enabled. Please disable this if you have not read the source code. Requires restart of Obsidian. Sometimes there is no implementation.': '有効にするとパフォーマンスへ大きく影響しますが、レプリケーションテストなどのデバッグ機能が有効になります。ソースコードを確認していない場合は無効にしてください。Obsidianの再起動が必要です。機能が実装されていない場合もあります。'
+'You can enable this setting to process the files with size mismatches, these files can be created by some APIs or integrations.': 'サイズ不一致のあるファイルを処理します。このようなファイルは一部のAPIや連携機能によって作成されることがあります。'
+'xxhash64 is the current default.': '現在の既定値はxxhash64です。'
+'wss://relay1.example.com,wss://relay2.example.com': 'wss://relay1.example.com,wss://relay2.example.com'
+'turn:turn1.example.com,turn:turn2.example.com': 'turn:turn1.example.com,turn:turn2.example.com'
+"x-custom-header1: value1\n x-custom-header2: value2": "x-custom-header1: value1\n x-custom-header2: value2"
+ConflictResolver:
+  CouldNotDeleteConflictedRevisionAfterConcatenation: "連結した内容は保存しましたが、${path} の競合リビジョン ${revision} を削除できませんでした"
+  CouldNotDeleteRevision: "${title} ${path} の競合リビジョン ${revision} を削除できませんでした"
+  CouldNotGetCurrentRevisions: "${path} の現在のリビジョンを取得できませんでした"
+  CouldNotReadConflictedRevision: "${path} の競合リビジョン ${revision} を読み取れませんでした"
+  CouldNotStoreMergedContent: "${path} のマージ済み内容を保存できませんでした"
+  CouldNotStoreConcatenatedContent: "${path} の連結した内容を保存できませんでした"
+  CouldNotWriteResolvedContent: "解決済みの内容をストレージへ書き込めませんでした: ${path}"
+  Done: 完了しました
+  FileMergedAutomatically: "${path} を自動的にマージしました"
+  MergePostponed: "[競合] ${path} は競合しています。ファイルが開かれるまでマージ処理を延期しました。"
+  MergeFailed: "マージ中に問題が発生しました: ${path}（${revision}）"
+  NoConflictedDocuments: 競合しているドキュメントはありません
+  Progress: "確認・処理中: ${current} / ${total}"
+  Resolving: "競合を解決中:"
+  ResolvingAllByNewer: 競合を新しい方の内容で解決しています
+  ResolvingWithSubtitle: "競合を解決中 [${subtitle}]:"
+  ScanFailed: 競合ファイルのスキャン中にエラーが発生しました

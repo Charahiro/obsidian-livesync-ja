@@ -161,7 +161,7 @@ export function paneMaintenance(
                             receivedFiles: new Set(),
                             knownIDs: new Set(),
                         }));
-                        Logger(`Journal received history has been cleared.`, LOG_LEVEL_NOTICE);
+                        Logger($msg("Ui.Settings.Maintenance.JournalReceivedCleared"), LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -183,7 +183,7 @@ export function paneMaintenance(
                             sentIDs: new Set(),
                             sentFiles: new Set(),
                         }));
-                        Logger(`Journal sent history has been cleared.`, LOG_LEVEL_NOTICE);
+                        Logger($msg("Ui.Settings.Maintenance.JournalSentCleared"), LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -301,11 +301,11 @@ export function paneMaintenance(
                     .setDisabled(false)
                     .onClick(async () => {
                         const replicator = this.core.replicator as LiveSyncCouchDBReplicator;
-                        Logger(`Cleanup has been began`, LOG_LEVEL_NOTICE, "compaction");
+                        Logger($msg("Ui.Settings.Maintenance.CleanupStarted"), LOG_LEVEL_NOTICE, "compaction");
                         if (await replicator.compactRemote(this.editingSettings)) {
-                            Logger(`Cleanup has been completed!`, LOG_LEVEL_NOTICE, "compaction");
+                            Logger($msg("Ui.Settings.Maintenance.CleanupCompleted"), LOG_LEVEL_NOTICE, "compaction");
                         } else {
-                            Logger(`Cleanup has been failed!`, LOG_LEVEL_NOTICE, "compaction");
+                            Logger($msg("Ui.Settings.Maintenance.CleanupFailed"), LOG_LEVEL_NOTICE, "compaction");
                         }
                     })
             )
@@ -334,7 +334,7 @@ export function paneMaintenance(
                     .setDisabled(false)
                     .onClick(async () => {
                         await this.getMinioJournalSyncClient().resetCheckpointInfo();
-                        Logger(`Journal exchange history has been cleared.`, LOG_LEVEL_NOTICE);
+                        Logger($msg("Ui.Settings.Maintenance.JournalExchangeCleared"), LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -349,7 +349,7 @@ export function paneMaintenance(
                     .setDisabled(false)
                     .onClick(() => {
                         this.getMinioJournalSyncClient().resetAllCaches();
-                        Logger(`Journal download/upload cache has been cleared.`, LOG_LEVEL_NOTICE);
+                        Logger($msg("Ui.Settings.Maintenance.JournalCacheCleared"), LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);
@@ -372,7 +372,7 @@ export function paneMaintenance(
                             sentFiles: new Set(),
                         }));
                         await this.resetRemoteBucket();
-                        Logger(`Deleted all data on remote server`, LOG_LEVEL_NOTICE);
+                        Logger($msg("Ui.Settings.Maintenance.RemoteDataDeleted"), LOG_LEVEL_NOTICE);
                     })
             )
             .addOnUpdate(this.onlyOnMinIO);

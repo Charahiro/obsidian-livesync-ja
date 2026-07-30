@@ -103,7 +103,7 @@ dialog:
     yourLanguageAvailable:
         _value: >-
             Self-hosted LiveSync had translations for your language, so the %{Display
-            language} setting was enabled.
+            Language} setting was enabled.
 
 
             Note: Not all messages are translated. We are waiting for your
@@ -126,6 +126,9 @@ Do not check configuration mismatch before replication: Do not check configurati
 Do not keep metadata of deleted files.: Do not keep metadata of deleted files.
 Do not split chunks in the background: Do not split chunks in the background
 Do not use internal API: Do not use internal API
+DocumentHistory:
+    displayFileFailed: Unable to display the file in the editor.
+    oldContentCopied: Old content copied to the clipboard.
 Doctor:
     Button:
         DismissThisVersion: No, and do not ask again until the next release
@@ -363,6 +366,11 @@ Memory cache size (by total items): Memory cache size (by total items)
 Merge: Merge
 Minimum delay for batch database updating: Minimum delay for batch database updating
 Minimum interval for syncing: Minimum interval for syncing
+moduleBasicMenu:
+    liveSyncDisabled: LiveSync disabled.
+    liveSyncEnabled: LiveSync enabled.
+    liveSyncResumed: Self-hosted LiveSync resumed.
+    liveSyncSuspended: Self-hosted LiveSync suspended.
 moduleCheckRemoteSize:
     logCheckingStorageSizes: Checking storage sizes
     logCurrentStorageSize: "Remote storage size: ${measuredSize}"
@@ -475,6 +483,7 @@ moduleLiveSyncMain:
 moduleLocalDatabase:
     logWaitingForReady: Waiting for ready...
 moduleLog:
+    debugInfoCopied: Debug information was copied to the clipboard. You can paste it into the issue. It may contain sensitive information, so review it before sharing.
     showLog: Show Log
 moduleMigration:
     docUri: https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use
@@ -638,6 +647,9 @@ moduleMigration:
     titleCaseSensitivity: Case Sensitivity
     titleRecommendSetupUri: Recommendation to use Setup URI
     titleWelcome: Welcome to Self-hosted LiveSync
+moduleObsidianSettingAsMarkdown:
+    parseFailed: Could not parse YAML.
+    settingsApplied: Loaded settings have been applied!
 moduleObsidianMenu:
     replicate: Replicate
 More actions: More actions
@@ -724,6 +736,7 @@ obsidianLiveSyncSettingTab:
     logEncryptionNoSupport: Your device does not support encryption.
     logErrorOccurred: An error occurred!!
     logEstimatedSize: "Estimated size: ${size}"
+    logNoReplicatorAvailable: No replicator is available for the current settings.
     logPassphraseInvalid: Passphrase is not valid, please fix it.
     logPassphraseNotCompatible: "ERROR: Passphrase is not compatible with the remote
         server! Please check it again!"
@@ -1315,6 +1328,15 @@ SettingTab:
         AskRebuild: Your changes require fetching from the remote database. Do you want
             to proceed?
 Setup:
+    Notice:
+        E2eeConfigurationCancelled: E2EE configuration cancelled.
+        ManualConfigurationCancelled: Manual configuration cancelled.
+        NoChanges: No changes in settings were detected. Settings from the wizard were not applied.
+        OnboardingCancelled: Onboarding cancelled by the user.
+        SettingApplied: Setting applied.
+        SetupUriCancelled: Setup URI dialogue cancelled.
+        WizardApplyCancelled: The user cancelled applying settings from the wizard.
+        WizardSettingsApplied: Settings from the wizard were applied.
     Apply:
         Buttons:
             ApplyAndFetch: Apply and Fetch
@@ -1548,6 +1570,10 @@ TweakMismatchResolve:
         EnableAutoAcceptCompatible: Enable auto-accept
         DisableAutoAcceptCompatible: Disable auto-accept
     Message:
+        FetchPreferredValuesFailed: Failed to get the preferred tweak values from the remote server.
+        RemoteConnectionFailed: Failed to connect to the remote server.
+        SettingsAlreadyMatch: The settings in the remote database are the same as the local database.
+        UnsupportedRemoteType: The remote type is not supported for fetching preferred tweak values.
         AutoAcceptCompatibleUndefined: >-
 
             It appears that the settings differ for each device.
@@ -1751,32 +1777,57 @@ Ui:
             ConvertNonObfuscated: Check and convert non-path-obfuscated files
             ConvertNonObfuscatedDesc: Check the local database for files that were stored without path obfuscation and convert them when needed.
             CopyIssueReport: Copy Report to clipboard
+            ComparisonUnavailable: "Could not compare ${path} revision ${revision}; the Vault file or selected live revision is no longer readable"
+            ConversionError: "Something went wrong while converting ${path}"
+            ConversionFailed: "Converting ${path} failed!"
+            ConversionFinished: Converting finished
+            ConvertedAsConflictedDocument: "${path} has been converted as a conflicted document"
+            CustomizationSyncItemsRemoved: "${count} items have been removed. To confirm how many items remain, run this operation again."
             DatabaseLabel: "Database: ${details}"
+            DatabaseBranchDiscarded: "Discarded database branch ${revision} of ${path}"
             DatabaseToStorage: Database -> Storage
             DeleteCustomizationSyncData: Delete all customization sync data
+            DeletingCustomizationSyncData: Deleting customisation sync data
+            DocumentConverted: "${path} has been converted"
             GeneratedReport: Generated report
+            InspectionDone: Inspection completed
+            InspectionError: "Error while processing ${path}"
+            InspectionErrorWithoutSemaphore: "Error while processing ${path} before acquiring the processing slot"
+            InspectionProgress: "Checking ${current}/${total} files"
+            InspectionStarted: Start inspecting file/database state
+            InternalFileNotFound: "Failed to find the file in the internal files: ${path}"
             Missing: Missing
             ModifiedSize: "Modified: ${modified}, Size: ${size}"
             ModifiedSizeActual: "Modified: ${modified}, Size: ${size} (actual size: ${actualSize})"
             PrepareIssueReport: Prepare the 'report' to create an issue
+            OldDocumentDeleted: "Old ${path} has been deleted"
             RecreateAll: Recreate all
             RecreateMissingChunks: Recreate missing chunks for all files
             RecreateMissingChunksDesc: This will recreate chunks for all files. If there were missing chunks, this may fix the errors.
             RecoveryAndRepair: Recovery and Repair
+            RepairActionFailed: "Repair action '${action}' failed"
+            RepairOperationFailed: "${description} failed: ${path}"
             ResetPanel: Reset
             ResetRemoteUsage: Reset notification threshold and check the remote database usage
             ResetRemoteUsageDesc: Reset the remote storage size threshold and check the remote storage size again.
             ResolveAllConflictedFiles: Resolve all conflicted files by the newer one
             ResolveAllConflictedFilesDesc: "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
             RunDoctor: Run Doctor
+            RevisionReadableAfterRetry: "Revision ${revision} of ${path} is readable after retry"
+            RevisionStillUnreadable: "Revision ${revision} of ${path} remains unreadable"
             ScanBrokenFiles: Scan for broken files
             ScramSwitches: Scram Switches
             ShowHistory: Show history
             StorageLabel: "Storage: ${details}"
             StorageToDatabase: Storage -> Database
+            UnreadableRevisionDiscarded: "Discarded unreadable revision ${revision} of ${path}"
+            VerificationProblemGone: "Verification no longer reports a problem for ${path}"
             VerifyAndRepairAllFiles: Verify and repair all files
             VerifyAndRepairAllFilesDesc: Compare the content of files between the local database and storage. If they do not match, you will be asked which one to keep.
         Maintenance:
+            CleanupCompleted: Cleanup has been completed!
+            CleanupFailed: Cleanup has failed!
+            CleanupStarted: Cleanup has begun.
             Cleanup: Perform cleanup
             CleanupDesc: Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.
             DeleteLocalDatabase: Delete local database to reset or uninstall Self-hosted LiveSync
@@ -1789,6 +1840,10 @@ Ui:
             GarbageCollectionDesc: Perform Garbage Collection to remove unused chunks and reduce database size.
             LockServer: Lock Server
             LockServerDesc: Lock the remote server to prevent synchronisation with other devices.
+            JournalCacheCleared: Journal download/upload cache has been cleared.
+            JournalExchangeCleared: Journal exchange history has been cleared.
+            JournalReceivedCleared: Journal received history has been cleared.
+            JournalSentCleared: Journal sent history has been cleared.
             OverwriteServerData: Overwrite Server Data with This Device's Files
             OverwriteServerDataDesc: Rebuild the local and remote database with files from this device.
             OverwriteRemote: Overwrite remote
@@ -1810,6 +1865,7 @@ Ui:
             ResetThisDevice: Reset Synchronisation on This Device
             Resend: Resend
             ResendDesc: Resend all chunks to the remote.
+            RemoteDataDeleted: Deleted all data on the remote server.
             ScheduleAndRestart: Schedule and Restart
             Scram: Scram!
             SendChunks: Send chunks
@@ -2304,3 +2360,140 @@ ReviewHarness:
         Prompt: This scenario creates, reads, modifies, renames, and removes one owned fixture tree. Use a dedicated test Vault. Continue?
         PromptTitle: "Review Harness: Vault fixture access"
     Warning: Use a dedicated test Vault. Read-only scenarios are labelled. The Vault round-trip scenario writes only after confirmation, owns one fixed fixture tree, and removes it in a finally block. The Harness never accepts arbitrary commands, paths, code, or remote credentials.
+CompatibilityReview:
+    Action:
+        Back: Back to compatibility review
+        KeepPaused: Keep synchronisation paused
+        Resume: Resume synchronisation
+        ReviewDetails: Review compatibility details
+    Details:
+        Message: |-
+            ## Why synchronisation is paused
+
+            ${reasons}
+
+            ## What the pause changes
+
+            - Remote replication is blocked before work begins.
+            - Your saved automatic synchronisation preferences remain unchanged.
+            - Closing either dialogue leaves the safety gate active.
+
+            ## What to do next
+
+            ${resolution}
+        ResolutionBlocked: Install a compatible current version of Self-hosted LiveSync. This pause cannot be dismissed by the current installation.
+        ResolutionResumable: After all devices have been updated, return to the compatibility review summary and explicitly resume synchronisation. The current internal version will only then be recorded as acknowledged.
+    Reason:
+        DatabaseDowngrade: '- This installation uses internal database version **${currentVersion}**, but this device previously acknowledged newer version **${acknowledgedVersion}**. An older installation must not resume synchronisation.'
+        DatabaseInvalid: '- The saved internal database version marker is invalid. This installation uses version **${currentVersion}**.'
+        DatabaseMissing: '- No previously acknowledged internal database version was found for this existing Vault. This can happen when a Vault is copied or restored, or when it is opened with a new Obsidian profile. This installation uses version **${currentVersion}**. An empty local database does not mean that it is safe to resume automatically.'
+        DatabaseUpgrade: '- The last acknowledged internal database version was **${acknowledgedVersion}** and this installation uses **${currentVersion}**.'
+        Legacy: '- An earlier compatibility review remains pending: ${message}'
+        SettingsFuture: '- The saved settings use schema **${sourceVersion}**, which is newer than schema **${currentVersion}** supported by this installation.'
+        SettingsMigrated: '- The settings were migrated from schema **${sourceVersion}** to **${currentVersion}** and require review before synchronisation resumes.'
+    Summary:
+        ActionBlocked: This installation cannot safely acknowledge the detected state. Update Self-hosted LiveSync before attempting to synchronise again.
+        ActionResumable: Before resuming, review the compatibility details and update Self-hosted LiveSync on every device which uses this remote database.
+        Message: |-
+            Remote synchronisation is paused on this device because its compatibility state requires attention.
+
+            ${action}
+
+            Your automatic synchronisation preferences have not been changed. Closing this dialogue keeps synchronisation paused.
+    Title:
+        Details: Compatibility review details
+        Summary: Synchronisation paused for compatibility review
+' (Alpha)': ' (Alpha)'
+' (Beta)': ' (Beta)'
+' (Experimental)': ' (Experimental)'
+'Active Remote Type': 'Active Remote Type'
+'Application ID': 'Application ID'
+'Auto-accept compatible tweak mismatches': 'Auto-accept compatible tweak mismatches'
+'Automatically accepts mismatches that are compatible but potentially lossy by comparing tweak modification times.': 'Automatically accepts mismatches that are compatible but potentially lossy by comparing tweak modification times.'
+'Automatically broadcast changes to connected peers': 'Automatically broadcast changes to connected peers'
+'Automatically start P2P connection on launch': 'Automatically start P2P connection on launch'
+'Chunk Splitter': 'Chunk Splitter'
+'Chunk revisions are always derived from their content. This stored key is retained only for compatibility.': 'Chunk revisions are always derived from their content. This stored key is retained only for compatibility.'
+'Content-derived chunk revisions (obsolete setting)': 'Content-derived chunk revisions (obsolete setting)'
+'Custom Headers': 'Custom Headers'
+"Custom headers for requesting the CouchDB. e.g. `x-custom-header1: value1\n x-custom-header2: value2`": "Custom headers for requesting the CouchDB. e.g. `x-custom-header1: value1\n x-custom-header2: value2`"
+"Custom headers for requesting the bucket. e.g. `x-custom-header1: value1\n x-custom-header2: value2`": "Custom headers for requesting the bucket. e.g. `x-custom-header1: value1\n x-custom-header2: value2`"
+'Desktop only; uses more battery and network.': 'Desktop only; uses more battery and network.'
+'Effectively a directory. Should end with `/`. e.g., `vault-name/`.': 'Effectively a directory. Should end with `/`. e.g., `vault-name/`.'
+"Enable Developers' Debug Tools (If available).": "Enable Developers' Debug Tools (If available)."
+'Enable P2P Synchronization': 'Enable P2P Synchronization'
+'Enable forcePathStyle': 'Enable forcePathStyle'
+'Enable per-file customization sync': 'Enable per-file customization sync'
+"Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files.": "Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files."
+'End-to-End Encryption Algorithm': 'End-to-End Encryption Algorithm'
+'File prefix on the bucket': 'File prefix on the bucket'
+'Files with modification times greater than this value (in seconds since the Unix epoch) will not have their events reflected. Set to 0 to disable this limit.': 'Files with modification times greater than this value (in seconds since the Unix epoch) will not have their events reflected. Set to 0 to disable this limit.'
+'If enabled, changes will be automatically broadcasted to all connected peers. Notified peers will start fetching the changes.': 'If enabled, changes will be automatically broadcasted to all connected peers. Notified peers will start fetching the changes.'
+'If enabled, efficient per-file customization sync will be used. A minor migration is required when enabling this feature, and all devices must be updated to v0.23.18. Enabling this feature will result in losing compatibility with older versions.': 'If enabled, efficient per-file customization sync will be used. A minor migration is required when enabling this feature, and all devices must be updated to v0.23.18. Enabling this feature will result in losing compatibility with older versions.'
+'If enabled, the P2P connection will be automatically started when the application launches.': 'If enabled, the P2P connection will be automatically started when the application launches.'
+'If enabled, the file properties will be encrypted in the remote database. This is useful for protecting sensitive information in file paths, sizes, and IDs of its chunks. If you are using V1 E2EE, this only obfuscates the file path.': 'If enabled, the file properties will be encrypted in the remote database. This is useful for protecting sensitive information in file paths, sizes, and IDs of its chunks. If you are using V1 E2EE, this only obfuscates the file path.'
+'If enabled, the forcePathStyle option will be used for bucket operations.': 'If enabled, the forcePathStyle option will be used for bucket operations.'
+'If enabled, the plugin will not attempt to connect to the remote database even if the chunk was not found locally.': 'If enabled, the plugin will not attempt to connect to the remote database even if the chunk was not found locally.'
+'If enabled, the request API will be used to avoid `inevitable` CORS problems. This is a workaround and may not work in all cases. PLEASE READ THE DOCUMENTATION BEFORE USING THIS OPTION. This is a less-secure option.': 'If enabled, the request API will be used to avoid `inevitable` CORS problems. This is a workaround and may not work in all cases. PLEASE READ THE DOCUMENTATION BEFORE USING THIS OPTION. This is a less-secure option.'
+'If this enabled, JWT will be used for authentication.': 'If this enabled, JWT will be used for authentication.'
+'Internal timestamp for resolving compatible tweak mismatches.': 'Internal timestamp for resolving compatible tweak mismatches.'
+'JWT Algorithm': 'JWT Algorithm'
+'Keep replication active in the background': 'Keep replication active in the background'
+'Key ID': 'Key ID'
+'Keypair or pre-shared key': 'Keypair or pre-shared key'
+'Last tweak modified timestamp': 'Last tweak modified timestamp'
+'Longest chunk line threshold value (Not Configurable from the UI Now).': 'Longest chunk line threshold value (Not Configurable from the UI Now).'
+'MB per request': 'MB per request'
+'Maximum file modification time for reflected file events': 'Maximum file modification time for reflected file events'
+'Maximum request size for manually resending chunks': 'Maximum request size for manually resending chunks'
+'Minimum Chunk Size (Not Configurable from the UI Now).': 'Minimum Chunk Size (Not Configurable from the UI Now).'
+"Move remotely deleted files to the trash, instead of deleting. (This setting is ineffective from Obsidian v1.7.2 onwards, as deletion always respects your Obsidian preferences.)": "Move remotely deleted files to the trash, instead of deleting. (This setting is ineffective from Obsidian v1.7.2 onwards, as deletion always respects your Obsidian preferences.)"
+'Now we can choose how to split the chunks; V3 is the most efficient. If you have troubled, please make this Default or Legacy.': 'Now we can choose how to split the chunks; V3 is the most efficient. If you have troubled, please make this Default or Legacy.'
+'Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.': 'Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.'
+'Process files even if seems to be corrupted': 'Process files even if seems to be corrupted'
+'Room ID': 'Room ID'
+'Rotation Duration': 'Rotation Duration'
+'Signalling Relays': 'Signalling Relays'
+'Subject (whoami)': 'Subject (whoami)'
+'TURN Credential': 'TURN Credential'
+'TURN Servers': 'TURN Servers'
+'TURN Username': 'TURN Username'
+"The Application ID for P2P connection. This should be same among your devices. Default is 'self-hosted-livesync' and could not be modified from the UI.": "The Application ID for P2P connection. This should be same among your devices. Default is 'self-hosted-livesync' and could not be modified from the UI."
+'The Nostr relay servers to establish connections for P2P connections. Multiple servers can be separated by commas.': 'The Nostr relay servers to establish connections for P2P connections. Multiple servers can be separated by commas.'
+'The Passphrase for P2P connection. This should be same among your devices.': 'The Passphrase for P2P connection. This should be same among your devices.'
+'The Room ID for P2P connection. This should be same among your devices.': 'The Room ID for P2P connection. This should be same among your devices.'
+'The Rotation duration of token in minutes. Each generated tokens will be valid only within this duration.': 'The Rotation duration of token in minutes. Each generated tokens will be valid only within this duration.'
+'The TURN servers to use for P2P connections. Multiple servers can be separated by commas.': 'The TURN servers to use for P2P connections. Multiple servers can be separated by commas.'
+'The algorithm used for JWT authentication.': 'The algorithm used for JWT authentication.'
+'The credential/password for the TURN servers.': 'The credential/password for the TURN servers.'
+'The key (PSK in HSxxx in base64, or private key in ESxxx in PEM) used for JWT authentication.': 'The key (PSK in HSxxx in base64, or private key in ESxxx in PEM) used for JWT authentication.'
+'The key ID. this should be matched with CouchDB->jwt_keys->ALG:_`kid`.': 'The key ID. this should be matched with CouchDB->jwt_keys->ALG:_`kid`.'
+'The subject for JWT authentication. Mostly username.': 'The subject for JWT authentication. Mostly username.'
+'The username for the TURN servers.': 'The username for the TURN servers.'
+'Use JWT instead of Basic Authentication': 'Use JWT instead of Basic Authentication'
+'Use Only Local Chunks': 'Use Only Local Chunks'
+'Use Request API to avoid `inevitable` CORS problem': 'Use Request API to avoid `inevitable` CORS problem'
+'While enabled, it causes very performance impact but debugging replication testing and other features will be enabled. Please disable this if you have not read the source code. Requires restart of Obsidian. Sometimes there is no implementation.': 'While enabled, it causes very performance impact but debugging replication testing and other features will be enabled. Please disable this if you have not read the source code. Requires restart of Obsidian. Sometimes there is no implementation.'
+'You can enable this setting to process the files with size mismatches, these files can be created by some APIs or integrations.': 'You can enable this setting to process the files with size mismatches, these files can be created by some APIs or integrations.'
+'xxhash64 is the current default.': 'xxhash64 is the current default.'
+'wss://relay1.example.com,wss://relay2.example.com': 'wss://relay1.example.com,wss://relay2.example.com'
+'turn:turn1.example.com,turn:turn2.example.com': 'turn:turn1.example.com,turn:turn2.example.com'
+"x-custom-header1: value1\n x-custom-header2: value2": "x-custom-header1: value1\n x-custom-header2: value2"
+ConflictResolver:
+    CouldNotDeleteConflictedRevisionAfterConcatenation: "Concatenated content was saved, but conflicted revision ${revision} of ${path} could not be deleted"
+    CouldNotDeleteRevision: "${title} Could not delete conflicted revision ${revision} of ${path}"
+    CouldNotGetCurrentRevisions: "Could not get current revisions:${path}"
+    CouldNotReadConflictedRevision: "Could not read conflicted revision ${revision}:${path}"
+    CouldNotStoreMergedContent: "Merged content cannot be stored:${path}"
+    CouldNotStoreConcatenatedContent: "Concatenated content cannot be stored:${path}"
+    CouldNotWriteResolvedContent: "Could not write the resolved content to the storage: ${path}"
+    Done: Done!
+    FileMergedAutomatically: "${path} has been merged automatically"
+    MergePostponed: "[conflict] ${path} is conflicted. The merging process has been postponed until the file is opened."
+    MergeFailed: "Merge: Something went wrong: ${path}, (${revision})"
+    NoConflictedDocuments: There are no conflicted documents
+    Progress: "Check and Processing ${current} / ${total}"
+    Resolving: "Resolving :"
+    ResolvingAllByNewer: Resolving conflicts by newer ones
+    ResolvingWithSubtitle: "Resolving [${subtitle}]:"
+    ScanFailed: Error while scanning conflicted files...

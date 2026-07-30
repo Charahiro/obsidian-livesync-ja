@@ -19,6 +19,7 @@ import { stripAllPrefixes, isPlainText } from "@vrtmrz/livesync-commonlib/compat
 import { EVENT_CONFLICT_CANCELLED, eventHub } from "@/common/events.ts";
 import type { InjectableServiceHub } from "@vrtmrz/livesync-commonlib/compat/services/implements/injectable/InjectableServiceHub";
 import type { LiveSyncCore } from "@/main.ts";
+import { $msg } from "@/common/translation";
 
 export class ModuleConflictResolver extends AbstractModule {
     private async _resolveConflictByDeletingRev(
@@ -27,10 +28,16 @@ export class ModuleConflictResolver extends AbstractModule {
         subTitle = "",
         showNotice = true
     ): Promise<typeof MISSING_OR_ERROR | typeof AUTO_MERGED> {
-        const title = `Resolving ${subTitle ? `[${subTitle}]` : ""}:`;
+        const title = subTitle
+            ? $msg("ConflictResolver.ResolvingWithSubtitle", { subtitle: subTitle })
+            : $msg("ConflictResolver.Resolving");
         if (!(await this.core.fileHandler.deleteRevisionFromDB(path, deleteRevision))) {
             this._log(
-                `${title} Could not delete conflicted revision ${displayRev(deleteRevision)} of ${path}`,
+                $msg("ConflictResolver.CouldNotDeleteRevision", {
+                    title,
+                    revision: displayRev(deleteRevision),
+                    path,
+                }),
                 LOG_LEVEL_NOTICE
             );
             return MISSING_OR_ERROR;
@@ -50,11 +57,11 @@ export class ModuleConflictResolver extends AbstractModule {
         }
         // If no conflicts were found, write the resolved content to the storage.
         if (!(await this.core.fileHandler.dbToStorage(path, stripAllPrefixes(path), true))) {
-            this._log(`Could not write the resolved content to the storage: ${path}`, LOG_LEVEL_NOTICE);
+            this._log($msg("ConflictResolver.CouldNotWriteResolvedContent", { path }), LOG_LEVEL_NOTICE);
             return MISSING_OR_ERROR;
         }
         const level = subTitle.indexOf("same") !== -1 || !showNotice ? LOG_LEVEL_INFO : LOG_LEVEL_NOTICE;
-        this._log(`${path} has been merged automatically`, level);
+        this._log($msg("ConflictResolver.FileMergedAutomatically", { path }), level);
         return AUTO_MERGED;
     }
 
@@ -70,7 +77,7 @@ export class ModuleConflictResolver extends AbstractModule {
             // Merged content is coming.
             // 1. Store the merged content to the storage
             if (!(await this.core.databaseFileAccess.storeContent(path, p))) {
-                this._log(`Merged content cannot be stored:${path}`, LOG_LEVEL_NOTICE);
+                this._log($msg("ConflictResolver.CouldNotStoreMergedContent", { path }), LOG_LEVEL_NOTICE);
                 return MISSING_OR_ERROR;
             }
             // 2. As usual, delete the conflicted revision and if there are no conflicts, write the resolved content to the storage.
@@ -82,14 +89,17 @@ export class ModuleConflictResolver extends AbstractModule {
         // should be one or more conflicts;
         if (leftLeaf == false) {
             // what's going on..
-            this._log(`could not get current revisions:${path}`, LOG_LEVEL_NOTICE);
+            this._log($msg("ConflictResolver.CouldNotGetCurrentRevisions", { path }), LOG_LEVEL_NOTICE);
             return MISSING_OR_ERROR;
         }
         if (rightLeaf == false) {
             // A locally unreadable conflict leaf may still be recoverable from another
             // replica or backup. Keep it visible for explicit repair instead of treating
             // missing chunks as evidence that the branch is obsolete.
-            this._log(`could not read conflicted revision ${rightRev}:${path}`, LOG_LEVEL_NOTICE);
+            this._log(
+                $msg("ConflictResolver.CouldNotReadConflictedRevision", { revision: rightRev, path }),
+                LOG_LEVEL_NOTICE
+            );
             return MISSING_OR_ERROR;
         }
 
@@ -151,10 +161,7 @@ export class ModuleConflictResolver extends AbstractModule {
             if (this.settings.showMergeDialogOnlyOnActive) {
                 const af = this.services.vault.getActiveFilePath();
                 if (af && af != filename) {
-                    this._log(
-                        `[conflict] ${filename} is conflicted. Merging process has been postponed to the file have got opened.`,
-                        LOG_LEVEL_NOTICE
-                    );
+                    this._log($msg("ConflictResolver.MergePostponed", { path: filename }), LOG_LEVEL_NOTICE);
                     return;
                 }
             }
@@ -207,7 +214,7 @@ export class ModuleConflictResolver extends AbstractModule {
         return true;
     }
     private async _resolveAllConflictedFilesByNewerOnes() {
-        this._log(`Resolving conflicts by newer ones`, LOG_LEVEL_NOTICE);
+        this._log($msg("ConflictResolver.ResolvingAllByNewer"), LOG_LEVEL_NOTICE);
 
         const files = await this.core.storageAccess.getFileNames();
 
@@ -216,13 +223,13 @@ export class ModuleConflictResolver extends AbstractModule {
             i++;
             if (i % 10 === 0)
                 this._log(
-                    `Check and Processing ${i} / ${files.length}`,
+                    $msg("ConflictResolver.Progress", { current: `${i}`, total: `${files.length}` }),
                     LOG_LEVEL_NOTICE,
                     "resolveAllConflictedFilesByNewerOnes"
                 );
             await this._anyResolveConflictByNewest(file, false);
         }
-        this._log(`Done!`, LOG_LEVEL_NOTICE, "resolveAllConflictedFilesByNewerOnes");
+        this._log($msg("ConflictResolver.Done"), LOG_LEVEL_NOTICE, "resolveAllConflictedFilesByNewerOnes");
     }
 
     override onBindFunction(core: LiveSyncCore, services: InjectableServiceHub): void {

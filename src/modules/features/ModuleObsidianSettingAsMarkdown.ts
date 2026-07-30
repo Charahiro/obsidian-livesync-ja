@@ -115,7 +115,7 @@ export class ModuleObsidianSettingsAsMarkdown extends AbstractModule {
             }
             newSetting = parsed;
         } catch (ex) {
-            this._log("Could not parse YAML", LOG_LEVEL_NOTICE);
+            this._log($msg("moduleObsidianSettingAsMarkdown.parseFailed"), LOG_LEVEL_NOTICE);
             this._log(ex, LOG_LEVEL_VERBOSE);
             return;
         }
@@ -174,7 +174,7 @@ export class ModuleObsidianSettingsAsMarkdown extends AbstractModule {
                             await this.services.setting.applyExternalSettings(settingToApply, true);
                             this.services.setting.clearUsedPassphrase();
                             if (result == APPLY_ONLY) {
-                                this._log("Loaded settings have been applied!", LOG_LEVEL_NOTICE);
+                                this._log($msg("moduleObsidianSettingAsMarkdown.settingsApplied"), LOG_LEVEL_NOTICE);
                                 return;
                             }
                             if (result == APPLY_AND_REBUILD) {

@@ -30,7 +30,7 @@ import {
     type OnDialogSettings,
     getConfName,
 } from "./settingConstants.ts";
-import { $msg } from "@/common/translation";
+import { $msg, translateIfAvailable } from "@/common/translation";
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
 import { fireAndForget, yieldNextAnimationFrame } from "octagonal-wheels/promises";
 import { EVENT_REQUEST_RELOAD_SETTING_TAB, eventHub } from "@/common/events.ts";
@@ -290,7 +290,7 @@ export class ObsidianLiveSyncSettingTab extends PluginSettingTab {
         const trialSetting = { ...this.editingSettings, ...settingOverride };
         const replicator = await this.services.replicator.getNewReplicator(trialSetting);
         if (!replicator) {
-            Logger("No replicator available for the current settings.", LOG_LEVEL_NOTICE);
+            Logger($msg("obsidianLiveSyncSettingTab.logNoReplicatorAvailable"), LOG_LEVEL_NOTICE);
             return;
         }
         await replicator.tryConnectRemote(trialSetting);
@@ -594,7 +594,7 @@ export class ObsidianLiveSyncSettingTab extends PluginSettingTab {
     };
     async confirmRebuild() {
         if (!(await this.isPassphraseValid())) {
-            Logger(`Passphrase is not valid, please fix it.`, LOG_LEVEL_NOTICE);
+            Logger($msg("obsidianLiveSyncSettingTab.logPassphraseInvalid"), LOG_LEVEL_NOTICE);
             return;
         }
         const OPTION_FETCH = $msg("obsidianLiveSyncSettingTab.optionFetchFromRemote");
@@ -754,7 +754,7 @@ export class ObsidianLiveSyncSettingTab extends PluginSettingTab {
         ) => {
             const el = this.createEl(parentEl, "div", { text: "" }, callback, func);
             setLevelClass(el, level);
-            this.createEl(el, "h4", { text: title, cls: "sls-setting-panel-title" });
+            this.createEl(el, "h4", { text: translateIfAvailable(title), cls: "sls-setting-panel-title" });
             const p = Promise.resolve(el);
             // p.finally(() => {
             //     // Recap at the end.

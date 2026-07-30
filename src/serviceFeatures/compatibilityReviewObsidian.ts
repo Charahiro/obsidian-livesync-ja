@@ -12,44 +12,43 @@ import {
     compatibilityReviewSummaryMarkdown,
 } from "./compatibilityReviewMarkdown.ts";
 
-const REVIEW_DETAILS = "Review compatibility details";
-const KEEP_PAUSED = "Keep synchronisation paused";
-const RESUME = "Resume synchronisation";
-const BACK = "Back to compatibility review";
-
 export class ObsidianCompatibilityReviewUi implements CompatibilityReviewUi {
     private reminder: Notice | undefined;
 
     constructor(private readonly confirm: Confirm) {}
 
     async showSummary(pause: CompatibilityPause): Promise<CompatibilityReviewSummaryAction> {
+        const reviewDetails = $msg("CompatibilityReview.Action.ReviewDetails");
+        const keepPaused = $msg("CompatibilityReview.Action.KeepPaused");
+        const resume = $msg("CompatibilityReview.Action.Resume");
         const buttons = !pause.resumable
-            ? ([REVIEW_DETAILS, KEEP_PAUSED] as const)
-            : ([REVIEW_DETAILS, RESUME, KEEP_PAUSED] as const);
+            ? ([reviewDetails, keepPaused] as const)
+            : ([reviewDetails, resume, keepPaused] as const);
         const result = await this.confirm.confirmWithMessage(
-            "Synchronisation paused for compatibility review",
+            $msg("CompatibilityReview.Title.Summary"),
             compatibilityReviewSummaryMarkdown(pause),
             [...buttons],
-            KEEP_PAUSED,
+            keepPaused,
             undefined,
             "vertical"
         );
-        if (result === REVIEW_DETAILS) return "details";
-        if (result === RESUME) return "resume";
-        if (result === KEEP_PAUSED) return "keep-paused";
+        if (result === reviewDetails) return "details";
+        if (result === resume) return "resume";
+        if (result === keepPaused) return "keep-paused";
         return false;
     }
 
     async showDetails(pause: CompatibilityPause): Promise<CompatibilityReviewDetailsAction> {
+        const back = $msg("CompatibilityReview.Action.Back");
         const result = await this.confirm.confirmWithMessage(
-            "Compatibility review details",
+            $msg("CompatibilityReview.Title.Details"),
             compatibilityReviewDetailsMarkdown(pause),
-            [BACK],
-            BACK,
+            [back],
+            back,
             undefined,
             "vertical"
         );
-        if (result === BACK) return "back";
+        if (result === back) return "back";
         return false;
     }
 

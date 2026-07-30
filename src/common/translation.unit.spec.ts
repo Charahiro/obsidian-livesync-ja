@@ -1,6 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { englishMessageTranslator } from "@vrtmrz/livesync-commonlib/context";
 import { $msg, setLang, translateLiveSyncMessage } from "@/common/translation";
 import { SUPPORTED_I18N_LANGS } from "@/common/rosetta";
 import { liveSyncProvisionalEnglishMessages } from "@/common/messages/LiveSyncProvisionalMessages";
@@ -21,10 +20,31 @@ describe("LiveSync-owned translation catalogue", () => {
         expect($msg("moduleCheckRemoteSize.optionIncreaseLimit", { newMax: "800" }, "def")).toBe("increase to 800MB");
     });
 
-    it("uses Commonlib's canonical English when the application catalogue has no translation", () => {
-        setLang("es");
+    it("uses the application catalogue for translated Commonlib messages", () => {
+        setLang("ja");
 
-        expect(translateLiveSyncMessage("Active Remote Type")).toBe(englishMessageTranslator("Active Remote Type"));
+        expect(translateLiveSyncMessage("Active Remote Type")).toBe("現在のリモート種別");
+        expect(translateLiveSyncMessage("Signalling Relays")).toBe("シグナリングリレー");
+    });
+
+    it("expands the language dialogue keywords in Japanese", () => {
+        setLang("ja");
+
+        expect($msg("dialog.yourLanguageAvailable")).toContain("インターフェースの表示言語を有効にしました");
+        expect($msg("dialog.yourLanguageAvailable")).not.toContain("%{");
+        expect($msg("dialog.yourLanguageAvailable.btnRevertToDefault")).toBe("表示言語を既定に戻す");
+    });
+
+    it("translates repair, patch, and conflict-resolution messages into Japanese", () => {
+        setLang("ja");
+
+        expect($msg("Ui.Settings.Hatch.RecoveryAndRepair")).toBe("復旧と修復");
+        expect($msg("Ui.Settings.Patches.CompatibilityMetadata")).toBe("互換性（メタデータ）");
+        expect($msg("Remote Database Tweak (In sunset)")).toBe("リモートデータベースの調整 (廃止予定)");
+        expect($msg("ConflictResolver.Progress", { current: "10", total: "12" })).toBe(
+            "確認・処理中: 10 / 12"
+        );
+        expect($msg("ConflictResolver.Done")).toBe("完了しました");
     });
 
     it("uses LiveSync-owned provisional English without extending Commonlib's message contract", () => {

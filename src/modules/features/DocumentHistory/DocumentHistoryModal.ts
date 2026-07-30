@@ -619,7 +619,7 @@ export class DocumentHistoryModal extends Modal {
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
                     await compatGlobal.navigator.clipboard.writeText(this.currentText);
-                    Logger(`Old content copied to clipboard`, LOG_LEVEL_NOTICE);
+                    Logger($msg("DocumentHistory.oldContentCopied"), LOG_LEVEL_NOTICE);
                 });
             });
         });
@@ -629,7 +629,7 @@ export class DocumentHistoryModal extends Modal {
                 const leaf = this.plugin.app.workspace.getLeaf(false);
                 await leaf.openFile(targetFile);
             } else {
-                Logger("Unable to display the file in the editor", LOG_LEVEL_NOTICE);
+                Logger($msg("DocumentHistory.displayFileFailed"), LOG_LEVEL_NOTICE);
             }
         };
         buttons.createEl("button", { text: "このリビジョンに戻す" }, (e) => {

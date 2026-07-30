@@ -18,7 +18,7 @@ import {
     type AllNumericItemKey,
     type AllBooleanItemKey,
 } from "./settingConstants.ts";
-import { $msg } from "@/common/translation";
+import { $msg, $t, translateIfAvailable } from "@/common/translation";
 import { wrapMemo, type AutoWireOption, type OnUpdateResult } from "./SettingPane.ts";
 
 export class LiveSyncSetting extends Setting {
@@ -61,10 +61,10 @@ export class LiveSyncSetting extends Setting {
             // throw new Error($msg("liveSyncSetting.errorNoSuchSettingItem", { key }));
             return;
         }
-        const name = `${conf.name}${statusDisplay(conf.status)}`;
+        const name = `${$t(conf.name)}${$t(statusDisplay(conf.status))}`;
         this.setName(name);
         if (conf.desc) {
-            this.setDesc(conf.desc);
+            this.setDesc($t(conf.desc));
         }
 
         this.holdValue = opt?.holdValue || this.holdValue;
@@ -80,7 +80,8 @@ export class LiveSyncSetting extends Setting {
         return conf;
     }
     autoWireComponent<T>(component: ValueComponent<T>, conf?: ConfigurationItem, opt?: AutoWireOption) {
-        this.placeHolderBuf = conf?.placeHolder || opt?.placeHolder || "";
+        const placeHolder = conf?.placeHolder || opt?.placeHolder || "";
+        this.placeHolderBuf = placeHolder ? $t(placeHolder) : "";
         if (conf?.level == LEVEL_ADVANCED) {
             this.settingEl.toggleClass("sls-setting-advanced", true);
         } else if (conf?.level == LEVEL_POWER_USER) {
@@ -226,7 +227,11 @@ export class LiveSyncSetting extends Setting {
                 dropdown.setValue(value);
             });
 
-            dropdown.addOptions(opt.options);
+            dropdown.addOptions(
+                Object.fromEntries(
+                    Object.entries(opt.options).map(([value, label]) => [value, translateIfAvailable(String(label))])
+                )
+            );
 
             this.invalidateValue = () => setValue(LiveSyncSetting.env.editingSettings[key] || "");
             this.invalidateValue();

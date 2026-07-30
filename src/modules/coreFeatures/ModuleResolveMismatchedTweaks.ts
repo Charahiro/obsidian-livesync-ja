@@ -4,16 +4,17 @@ import {
     TweakValuesShouldMatchedTemplate,
     TweakValuesTemplate,
     IncompatibleChanges,
-    confName,
+    statusDisplay,
     type TweakValues,
     type ObsidianLiveSyncSettings,
     type RemoteDBSettings,
     IncompatibleChangesInSpecificPattern,
     CompatibleButLossyChanges,
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
+import { getConfig } from "@vrtmrz/livesync-commonlib/compat/common/settingConstants";
 import { escapeMarkdownValue } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import { AbstractModule } from "@/modules/AbstractModule.ts";
-import { $msg } from "@/common/translation";
+import { $msg, $t } from "@/common/translation";
 import type { InjectableServiceHub } from "@vrtmrz/livesync-commonlib/compat/services/implements/injectable/InjectableServiceHub";
 import type { LiveSyncCore } from "@/main.ts";
 import { REMOTE_P2P } from "@vrtmrz/livesync-commonlib/compat/common/models/setting.const";
@@ -26,6 +27,12 @@ function valueToString(value: string | number | boolean | object | undefined): s
         return JSON.stringify(value);
     }
     return `${value}`;
+}
+
+function translatedConfigName(key: keyof TweakValues): string {
+    const config = getConfig(key as Parameters<typeof getConfig>[0]);
+    if (!config) return `${key}`;
+    return `${$t(config.name)}${$t(statusDisplay(config.status))}`;
 }
 
 export class ModuleResolvingMismatchedTweaks extends AbstractModule {
@@ -156,7 +163,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
             // table += `| ${confName(key)} | ${valueMine} | ${valuePreferred} | \n`;
             tableRows.push(
                 $msg("TweakMismatchResolve.Table.Row", {
-                    name: confName(key),
+                    name: translatedConfigName(key),
                     self: valueToString(valueMine),
                     remote: valueToString(valuePreferred),
                 })
@@ -259,7 +266,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
     async _fetchRemotePreferredTweakValues(trialSetting: RemoteDBSettings): Promise<TweakValues | false> {
         const replicator = await this.services.replicator.getNewReplicator(trialSetting);
         if (!replicator) {
-            this._log("The remote type is not supported for fetching preferred tweak values.", LOG_LEVEL_NOTICE);
+            this._log($msg("TweakMismatchResolve.Message.UnsupportedRemoteType"), LOG_LEVEL_NOTICE);
             return false;
         }
         if (await replicator.tryConnectRemote(trialSetting)) {
@@ -267,10 +274,10 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
             if (preferred) {
                 return preferred;
             }
-            this._log("Failed to get the preferred tweak values from the remote server.", LOG_LEVEL_NOTICE);
+            this._log($msg("TweakMismatchResolve.Message.FetchPreferredValuesFailed"), LOG_LEVEL_NOTICE);
             return false;
         }
-        this._log("Failed to connect to the remote server.", LOG_LEVEL_NOTICE);
+        this._log($msg("TweakMismatchResolve.Message.RemoteConnectionFailed"), LOG_LEVEL_NOTICE);
         return false;
     }
 
@@ -341,7 +348,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
             }
             tableRows.push(
                 $msg("TweakMismatchResolve.Table.Row", {
-                    name: confName(key),
+                    name: translatedConfigName(key),
                     self: currentValueForDisplay,
                     remote: remoteValueForDisplay,
                 })
@@ -350,7 +357,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
         }
 
         if (differenceCount === 0) {
-            this._log("The settings in the remote database are the same as the local database.", LOG_LEVEL_NOTICE);
+            this._log($msg("TweakMismatchResolve.Message.SettingsAlreadyMatch"), LOG_LEVEL_NOTICE);
             return { result: false, requireFetch: false };
         }
         const additionalMessage =

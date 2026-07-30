@@ -2,6 +2,7 @@ import { ChunkAlgorithmNames } from "@vrtmrz/livesync-commonlib/compat/common/ty
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts";
 import type { PageFunctions } from "./SettingPane.ts";
+import { $msg } from "@/common/translation";
 
 export function paneAdvanced(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, { addPanel }: PageFunctions): void {
     void addPanel(paneEl, "メモリキャッシュ").then((paneEl) => {
@@ -47,7 +48,7 @@ export function paneAdvanced(this: ObsidianLiveSyncSettingTab, paneEl: HTMLEleme
         //         clampMax: 100, clampMin: 1, onUpdate: onlyOnCouchDB
         //     })
     });
-    void addPanel(paneEl, "Remote Database Tweak").then((paneEl) => {
+    void addPanel(paneEl, $msg("Remote Database Tweak (In sunset)")).then((paneEl) => {
         new Setting(paneEl).setClass("wizardHidden").autoWireToggle("enableCompression");
     });
 }

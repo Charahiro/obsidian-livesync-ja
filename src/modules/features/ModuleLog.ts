@@ -29,7 +29,7 @@ import { addIcon, debounce, normalizePath, Notice, stringifyYaml, type Workspace
 import { LOG_LEVEL_NOTICE, setGlobalLogFunction } from "octagonal-wheels/common/logger";
 import { LogPaneView, VIEW_TYPE_LOG } from "./Log/LogPaneView.ts";
 import { serialized } from "octagonal-wheels/concurrency/lock";
-import { $msg } from "@/common/translation";
+import { $msg, translateIfAvailable } from "@/common/translation";
 import { P2PLogCollector } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/P2PLogCollector";
 import {
     REMOTE_REQUEST_ACTIVITY_MINIMUM_VISIBLE_MS,
@@ -447,9 +447,7 @@ export class ModuleLog extends AbstractObsidianModule {
 ${stringifyYaml(info)}
 \`\`\`\``;
                 if (await this.services.UI.promptCopyToClipboard("Debug info", yaml)) {
-                    new Notice(
-                        "Debug info copied to clipboard. You can paste it in the issue. Be careful as it may contain sensitive information, review it before sharing."
-                    );
+                    new Notice($msg("moduleLog.debugInfoCopied"));
                 }
             },
         });
@@ -557,22 +555,23 @@ ${stringifyYaml(info)}
         this.logLines.push({ ttl: now.getTime() + 3000, message: newMessage });
 
         if (level >= LOG_LEVEL_NOTICE) {
+            const noticeMessageContent = translateIfAvailable(messageContent);
             if (!key) key = messageContent;
             if (key in this.notifies) {
                 // @ts-ignore
                 const isShown = this.notifies[key].notice.noticeEl?.isShown();
                 if (!isShown) {
-                    this.notifies[key].notice = new Notice(messageContent, 0);
+                    this.notifies[key].notice = new Notice(noticeMessageContent, 0);
                 }
                 cancelTask(`notify-${key}`);
                 if (key == messageContent) {
                     this.notifies[key].count++;
-                    this.notifies[key].notice.setMessage(`(${this.notifies[key].count}):${messageContent}`);
+                    this.notifies[key].notice.setMessage(`(${this.notifies[key].count}):${noticeMessageContent}`);
                 } else {
-                    this.notifies[key].notice.setMessage(`${messageContent}`);
+                    this.notifies[key].notice.setMessage(noticeMessageContent);
                 }
             } else {
-                const notify = new Notice(messageContent, 0);
+                const notify = new Notice(noticeMessageContent, 0);
                 this.notifies[key] = {
                     count: 0,
                     notice: notify,

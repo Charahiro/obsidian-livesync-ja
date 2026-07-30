@@ -119,7 +119,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
         new Setting(paneEl).autoWireToggle("writeLogToTheFile");
     });
 
-    void addPanel(paneEl, "Scram Switches").then((paneEl) => {
+    void addPanel(paneEl, $msg("Ui.Settings.Hatch.ScramSwitches")).then((paneEl) => {
         new Setting(paneEl).autoWireToggle("suspendFileWatching");
         this.addOnSaved("suspendFileWatching", () => this.services.appLifecycle.askRestart());
 
@@ -127,7 +127,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
         this.addOnSaved("suspendParseReplicationResult", () => this.services.appLifecycle.askRestart());
     });
 
-    void addPanel(paneEl, "Recovery and Repair").then((paneEl) => {
+    void addPanel(paneEl, $msg("Ui.Settings.Hatch.RecoveryAndRepair")).then((paneEl) => {
         const resultArea = paneEl.createDiv({ text: "", cls: "sls-repair-results" });
         type RepairMenuAction = {
             title: string;
@@ -161,7 +161,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                     .catch((error) => {
                                         Logger(error, LOG_LEVEL_VERBOSE);
                                         Logger(
-                                            `Repair action '${action.title}' failed`,
+                                            $msg("Ui.Settings.Hatch.RepairActionFailed", {
+                                                action: action.title,
+                                            }),
                                             LOG_LEVEL_NOTICE
                                         );
                                     })
@@ -185,7 +187,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             }
             const file = (await addOn.scanInternalFiles()).find((entry) => entry.path === path);
             if (!file) {
-                Logger(`Failed to find the file in the internal files: ${path}`, LOG_LEVEL_NOTICE);
+                Logger($msg("Ui.Settings.Hatch.InternalFileNotFound", { path }), LOG_LEVEL_NOTICE);
                 return false;
             }
             return { addOn, file };
@@ -263,7 +265,10 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 revision.loadedEntry === false
             ) {
                 Logger(
-                    `Could not compare ${path} revision ${selectedRevision}; the Vault file or selected live revision is no longer readable`,
+                    $msg("Ui.Settings.Hatch.ComparisonUnavailable", {
+                        path,
+                        revision: selectedRevision,
+                    }),
                     LOG_LEVEL_NOTICE
                 );
                 return false;
@@ -330,7 +335,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 if (refreshed.requiresAttention) {
                     addRepairResult(refreshed);
                 } else {
-                    Logger(`Verification no longer reports a problem for ${path}`, LOG_LEVEL_NOTICE);
+                    Logger($msg("Ui.Settings.Hatch.VerificationProblemGone", { path }), LOG_LEVEL_NOTICE);
                 }
             };
             const runMutation = async (
@@ -340,7 +345,10 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 try {
                     const succeeded = await mutation();
                     if (!succeeded) {
-                        Logger(`${description} failed: ${path}`, LOG_LEVEL_NOTICE);
+                        Logger(
+                            $msg("Ui.Settings.Hatch.RepairOperationFailed", { description, path }),
+                            LOG_LEVEL_NOTICE
+                        );
                     }
                 } finally {
                     await refresh();
@@ -369,7 +377,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     }
                     const result = await discardLiveBranch(this.core, path, revision);
                     Logger(
-                        `Discard database branch ${revision} of ${path}: ${result}`,
+                        result === "discarded"
+                            ? $msg("Ui.Settings.Hatch.DatabaseBranchDiscarded", { revision, path })
+                            : `Discard database branch ${revision} of ${path}: ${result}`,
                         result === "discarded" ? LOG_LEVEL_NOTICE : LOG_LEVEL_VERBOSE
                     );
                     await refresh();
@@ -656,8 +666,14 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                             );
                             Logger(
                                 loaded
-                                    ? `Revision ${metadata.revision} of ${path} is readable after retry`
-                                    : `Revision ${metadata.revision} of ${path} remains unreadable`,
+                                    ? $msg("Ui.Settings.Hatch.RevisionReadableAfterRetry", {
+                                          revision: metadata.revision!,
+                                          path,
+                                      })
+                                    : $msg("Ui.Settings.Hatch.RevisionStillUnreadable", {
+                                          revision: metadata.revision!,
+                                          path,
+                                      }),
                                 LOG_LEVEL_NOTICE
                             );
                             await refresh();
@@ -695,7 +711,12 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                 metadata.revision!
                             );
                             Logger(
-                                `Discard unreadable revision ${metadata.revision} of ${path}: ${result}`,
+                                result === "discarded"
+                                    ? $msg("Ui.Settings.Hatch.UnreadableRevisionDiscarded", {
+                                          revision: metadata.revision!,
+                                          path,
+                                      })
+                                    : `Discard unreadable revision ${metadata.revision} of ${path}: ${result}`,
                                 result === "discarded" ? LOG_LEVEL_NOTICE : LOG_LEVEL_VERBOSE
                             );
                             await refresh();
@@ -837,7 +858,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     .setCta()
                     .onClick(async () => {
                         resultArea.replaceChildren();
-                        Logger("Start inspecting file/database state", LOG_LEVEL_NOTICE, "verify");
+                        Logger($msg("Ui.Settings.Hatch.InspectionStarted"), LOG_LEVEL_NOTICE, "verify");
                         this.core.localDatabase.clearCaches();
                         const allPaths = await collectFileDatabaseInfoPaths(this.core);
                         let i = 0;
@@ -845,7 +866,10 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                             i++;
                             if (i % 25 == 0)
                                 Logger(
-                                    `Checking ${i}/${allPaths.length} files \n`,
+                                    $msg("Ui.Settings.Hatch.InspectionProgress", {
+                                        current: `${i}`,
+                                        total: `${allPaths.length}`,
+                                    }),
                                     LOG_LEVEL_NOTICE,
                                     "verify-processed"
                                 );
@@ -878,26 +902,34 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                         Logger(`Compare: SAME: ${path}`);
                                     }
                                 } catch (ex) {
-                                    Logger(`Error while processing ${path}`, LOG_LEVEL_NOTICE);
+                                    Logger(
+                                        $msg("Ui.Settings.Hatch.InspectionError", { path }),
+                                        LOG_LEVEL_NOTICE
+                                    );
                                     Logger(ex, LOG_LEVEL_VERBOSE);
                                 } finally {
                                     releaser();
                                     incProc();
                                 }
                             } catch (ex) {
-                                Logger(`Error while processing without semaphore ${path}`, LOG_LEVEL_NOTICE);
+                                Logger(
+                                    $msg("Ui.Settings.Hatch.InspectionErrorWithoutSemaphore", { path }),
+                                    LOG_LEVEL_NOTICE
+                                );
                                 Logger(ex, LOG_LEVEL_VERBOSE);
                             }
                         });
                         await Promise.all(processes);
-                        Logger("done", LOG_LEVEL_NOTICE, "verify");
+                        Logger($msg("Ui.Settings.Hatch.InspectionDone"), LOG_LEVEL_NOTICE, "verify");
                         // Logger(`${i}/${files.length}\n`, LOG_LEVEL_NOTICE, "verify-processed");
                     })
             );
         new Setting(paneEl)
             .setName($msg("Resolve All conflicted files by the newer one"))
             .setDesc(
-                "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
+                $msg(
+                    "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
+                )
             )
             .addButton((button) =>
                 button
@@ -965,41 +997,60 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                     const ret = await this.core.localDatabase.putRaw(newDoc, { force: true });
                                     if (ret.ok) {
                                         Logger(
-                                            `${docName} has been converted as conflicted document`,
+                                            $msg("Ui.Settings.Hatch.ConvertedAsConflictedDocument", {
+                                                path: docName,
+                                            }),
                                             LOG_LEVEL_NOTICE
                                         );
                                         doc._deleted = true;
                                         if ((await this.core.localDatabase.putRaw(doc)).ok) {
-                                            Logger(`Old ${docName} has been deleted`, LOG_LEVEL_NOTICE);
+                                            Logger(
+                                                $msg("Ui.Settings.Hatch.OldDocumentDeleted", { path: docName }),
+                                                LOG_LEVEL_NOTICE
+                                            );
                                         }
                                         await this.services.conflict.queueCheckForIfOpen(docName as FilePathWithPrefix);
                                     } else {
-                                        Logger(`Converting ${docName} Failed!`, LOG_LEVEL_NOTICE);
+                                        Logger(
+                                            $msg("Ui.Settings.Hatch.ConversionFailed", { path: docName }),
+                                            LOG_LEVEL_NOTICE
+                                        );
                                         Logger(ret, LOG_LEVEL_VERBOSE);
                                     }
                                 } catch (ex: unknown) {
                                     if (isNotFoundError(ex)) {
                                         // We can perform this safely
                                         if ((await this.core.localDatabase.putRaw(newDoc)).ok) {
-                                            Logger(`${docName} has been converted`, LOG_LEVEL_NOTICE);
+                                            Logger(
+                                                $msg("Ui.Settings.Hatch.DocumentConverted", { path: docName }),
+                                                LOG_LEVEL_NOTICE
+                                            );
                                             doc._deleted = true;
                                             if ((await this.core.localDatabase.putRaw(doc)).ok) {
-                                                Logger(`Old ${docName} has been deleted`, LOG_LEVEL_NOTICE);
+                                                Logger(
+                                                    $msg("Ui.Settings.Hatch.OldDocumentDeleted", {
+                                                        path: docName,
+                                                    }),
+                                                    LOG_LEVEL_NOTICE
+                                                );
                                             }
                                         }
                                     } else {
-                                        Logger(`Something went wrong while converting ${docName}`, LOG_LEVEL_NOTICE);
+                                        Logger(
+                                            $msg("Ui.Settings.Hatch.ConversionError", { path: docName }),
+                                            LOG_LEVEL_NOTICE
+                                        );
                                         Logger(ex, LOG_LEVEL_VERBOSE);
                                         // Something wrong.
                                     }
                                 }
                             }
                         }
-                        Logger(`Converting finished`, LOG_LEVEL_NOTICE);
+                        Logger($msg("Ui.Settings.Hatch.ConversionFinished"), LOG_LEVEL_NOTICE);
                     })
             );
     });
-    void addPanel(paneEl, "Reset").then((paneEl) => {
+    void addPanel(paneEl, $msg("Ui.Settings.Hatch.ResetPanel")).then((paneEl) => {
         new Setting(paneEl).setName($msg("Back to non-configured")).addButton((button) =>
             button
                 .setButtonText($msg("Back"))
@@ -1017,7 +1068,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 .setDisabled(false)
                 .setWarning()
                 .onClick(async () => {
-                    Logger(`Deleting customization sync data`, LOG_LEVEL_NOTICE);
+                    Logger($msg("Ui.Settings.Hatch.DeletingCustomizationSyncData"), LOG_LEVEL_NOTICE);
                     const entriesToDelete = await this.core.localDatabase.allDocsRaw({
                         startkey: "ix:",
                         endkey: "ix:\u{10ffff}",
@@ -1030,7 +1081,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     const r = await this.core.localDatabase.bulkDocsRaw(newData);
                     // Do not care about the result.
                     Logger(
-                        `${r.length} items have been removed, to confirm how many items are left, please perform it again.`,
+                        $msg("Ui.Settings.Hatch.CustomizationSyncItemsRemoved", {
+                            count: `${r.length}`,
+                        }),
                         LOG_LEVEL_NOTICE
                     );
                 })
