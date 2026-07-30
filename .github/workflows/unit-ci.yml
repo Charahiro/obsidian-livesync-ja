@@ -5,8 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
-      - beta
+      - ja-localization
     paths:
       - 'src/**'
       - 'test/**'
@@ -26,8 +25,6 @@ on:
       - 'utils/couchdb/**'
       - 'utils/flyio/**'
       - 'utils/setup/**'
-      - '.github/workflows/prepare-release.yml'
-      - '.github/workflows/finalise-release.yml'
       - '.github/workflows/release.yml'
       - '.github/workflows/unit-ci.yml'
   pull_request:
@@ -50,8 +47,6 @@ on:
       - 'utils/couchdb/**'
       - 'utils/flyio/**'
       - 'utils/setup/**'
-      - '.github/workflows/prepare-release.yml'
-      - '.github/workflows/finalise-release.yml'
       - '.github/workflows/release.yml'
       - '.github/workflows/unit-ci.yml'
 
