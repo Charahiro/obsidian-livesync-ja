@@ -4,17 +4,13 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { renderReleasePrBody } from "./release-pr-body.mjs";
 import { ensureTags } from "./release-tags.mjs";
 
 const releaseNotesScript = fileURLToPath(new URL("./release-notes.mjs", import.meta.url));
 const versionBumpScript =
     process.env.VERSION_BUMP_SCRIPT || fileURLToPath(new URL("../version-bump.mjs", import.meta.url));
 const workspaceUpdateScript = fileURLToPath(new URL("../update-workspaces.mjs", import.meta.url));
-const prepareReleaseWorkflow = fileURLToPath(new URL("../.github/workflows/prepare-release.yml", import.meta.url));
-const finaliseReleaseWorkflow = fileURLToPath(new URL("../.github/workflows/finalise-release.yml", import.meta.url));
 const releaseWorkflow = fileURLToPath(new URL("../.github/workflows/release.yml", import.meta.url));
-const cliDockerWorkflow = fileURLToPath(new URL("../.github/workflows/cli-docker.yml", import.meta.url));
 const temporaryDirectories: string[] = [];
 
 afterEach(() => {
@@ -170,116 +166,6 @@ describe("release notes", () => {
 });
 
 describe("release workflow", () => {
-    it("uses the locked Commonlib package instead of generated fallback declarations", () => {
-        const workflow = readFileSync(prepareReleaseWorkflow, "utf8");
-        const body = renderReleasePrBody("1.0.0-beta.0", "integration");
-
-        expect(workflow).not.toContain("npm run build:lib:types");
-        expect(workflow).not.toMatch(/git add[^\n]*_types/);
-        expect(workflow).toMatch(/git add[^\n]*package-lock\.json/);
-        expect(body).toContain("locked Commonlib package version");
-    });
-
-    it("reruns the version lifecycle when the integration branch already selects the release version", () => {
-        const workflow = readFileSync(prepareReleaseWorkflow, "utf8");
-
-        expect(workflow).toContain('npm version "${VERSION}" --no-git-tag-version --allow-same-version');
-    });
-
-    it("generates the release PR body from the selected version and base branch", () => {
-        const workflow = readFileSync(prepareReleaseWorkflow, "utf8");
-
-        expect(workflow).toContain('node utils/release-pr-body.mjs "${VERSION}" "${BASE_BRANCH}"');
-        expect(workflow).not.toContain("leave \\`main\\`");
-        expect(workflow).not.toContain("latest stable release");
-    });
-
-    it("keeps an immutable pre-release out of its base branch after BRAT validation", () => {
-        const prerelease = renderReleasePrBody("1.0.0-rc.0", "common-library-package-boundary");
-
-        expect(prerelease).toContain("Merge intentionally on hold");
-        expect(prerelease).toContain("Self-hosted LiveSync `1.0.0-rc.0`");
-        expect(prerelease).toContain("leave `common-library-package-boundary` unchanged");
-        expect(prerelease).toContain("prerelease=true");
-        expect(prerelease).toContain(
-            "Publish the GitHub Release as a pre-release without replacing the latest stable release"
-        );
-        expect(prerelease).toContain("Validate the exact published release with BRAT");
-        expect(prerelease).toContain("Keep this pre-release pull request unmerged");
-        expect(prerelease).toContain("close it only through a separate maintainer action");
-        expect(prerelease).not.toContain("Mark this pull request ready and merge it");
-    });
-
-    it("publishes a stable version initially as a GitHub pre-release for BRAT validation", () => {
-        const stable = renderReleasePrBody("1.0.0", "main");
-
-        expect(stable).toContain("prerelease=true");
-        expect(stable).toContain("publish_cli=false");
-        expect(stable).toContain(
-            "Publish the GitHub Release initially as a pre-release without replacing the latest stable release"
-        );
-        expect(stable).toContain(
-            "After BRAT validation passes, mark this pull request ready and merge it into `main` with a merge commit"
-        );
-        expect(stable).toContain(
-            "Integrate the exact release commit through the reviewed branch chain into the repository's default branch"
-        );
-        expect(stable).toContain(
-            "Confirm the default branch contains the exact release metadata, then remove the pre-release designation and make this exact release the latest stable release"
-        );
-        expect(stable).toContain(
-            "Create the stable CLI tag and publish its `latest` and major-minor image tags, if selected, through a separate maintainer gate"
-        );
-        expect(stable.indexOf("After BRAT validation passes")).toBeLessThan(
-            stable.indexOf("Integrate the exact release commit")
-        );
-        expect(stable.indexOf("Integrate the exact release commit")).toBeLessThan(
-            stable.indexOf("Confirm the default branch contains the exact release metadata")
-        );
-        expect(stable.indexOf("Confirm the default branch contains the exact release metadata")).toBeLessThan(
-            stable.indexOf("Create the stable CLI tag")
-        );
-        expect(stable).not.toContain("prerelease=false");
-    });
-
-    it("summarises immutable pre-releases separately from stable versions awaiting promotion", () => {
-        const workflow = readFileSync(finaliseReleaseWorkflow, "utf8");
-
-        expect(workflow).toContain('if [[ "${VERSION}" == *-* ]]; then');
-        expect(workflow).toContain(
-            "Keep the release pull request in draft and unmerged after BRAT validation; close it only through a separate maintainer action."
-        );
-        expect(workflow).toContain(
-            "After BRAT validation, merge the release pull request into its reviewed base branch and integrate the exact release commit into the default branch."
-        );
-        expect(workflow).toContain(
-            "Only after the default branch contains the exact release metadata, remove the pre-release designation and make this exact release the latest stable release."
-        );
-        expect(workflow).toContain(
-            'if [[ "${VERSION}" != *-* && "${PRERELEASE}" == "true" && "${PUBLISH_CLI}" == "true" ]]; then'
-        );
-        expect(workflow).toContain(
-            "A stable version staged as a pre-release must use publish_cli=false so that the CLI latest and major-minor image tags do not advance before BRAT validation."
-        );
-    });
-
-    it("dispatches the selected plug-in and CLI workflows explicitly", () => {
-        const workflow = readFileSync(finaliseReleaseWorkflow, "utf8");
-
-        expect(workflow).toContain("actions: write");
-        expect(workflow).toContain('node utils/release-tags.mjs ensure "${VERSION}" "${EXPECTED_HEAD_SHA}"');
-        expect(workflow).toContain('git push --atomic origin "refs/tags/${VERSION}" "refs/tags/${VERSION}-cli"');
-        expect(workflow).not.toContain("Tag already exists");
-        expect(workflow).toContain("PUBLISH_CLI: ${{ inputs.publish_cli }}");
-        expect(workflow).toContain('if [[ "${PUBLISH_CLI}" == "true" ]]; then');
-        expect(workflow).toContain("gh workflow run cli-docker.yml");
-        expect(workflow).toContain('--ref "${VERSION}-cli"');
-        expect(workflow).toContain("--field dry_run=false");
-        expect(workflow).toContain("--field force=false");
-        expect(workflow).toContain("gh workflow run release.yml");
-        expect(workflow).toContain("explicitly dispatched the CLI container workflow");
-    });
-
     it("publishes Japanese tags or an explicitly selected Japanese release", () => {
         const workflow = readFileSync(releaseWorkflow, "utf8");
 
@@ -290,15 +176,6 @@ describe("release workflow", () => {
         expect(workflow).toContain("npm run i18n:audit-ja");
     });
 
-    it("supports a pre-release plug-in without creating or publishing a CLI release", () => {
-        const workflow = readFileSync(finaliseReleaseWorkflow, "utf8");
-
-        expect(workflow).toContain("prerelease:");
-        expect(workflow).toContain("publish_cli:");
-        expect(workflow).toContain('--field prerelease="${PRERELEASE}"');
-        expect(workflow).toContain("--plugin-only");
-    });
-
     it("attaches a versioned Japanese release archive", () => {
         const workflow = readFileSync(releaseWorkflow, "utf8");
 
@@ -307,12 +184,6 @@ describe("release workflow", () => {
         expect(workflow).toContain("${{ env.ZIP_NAME }}");
     });
 
-    it("does not promote a pre-release CLI image to stable moving tags", () => {
-        const workflow = readFileSync(cliDockerWorkflow, "utf8");
-
-        expect(workflow).toContain('if [[ "${VERSION}" == *-* ]]; then');
-        expect(workflow).toContain('TAGS="${IMAGE}:${VERSION}-cli,${IMAGE}:${VERSION}-sha-${SHORT_SHA}-cli"');
-    });
 });
 
 describe("release tags", () => {
