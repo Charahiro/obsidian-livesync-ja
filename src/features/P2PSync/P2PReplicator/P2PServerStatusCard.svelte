@@ -95,40 +95,40 @@
 </script>
 
 <div class="server-status">
-    <h3>シグナリング状態</h3>
+    <h3>{translateMessage("Signalling Status")}</h3>
 
     <div class="status-item">
-        <span>接続：</span>
+        <span>{translateMessage("Connection:")}</span>
         <span class="status-value {isConnected ? 'connected' : 'disconnected'}">
-            {isConnected ? "🟢 接続済み" : "🔴 未接続"}
+            {isConnected ? translateMessage("🟢 Connected") : translateMessage("🔴 Disconnected")}
         </span>
     </div>
 
     <div class="status-item status-action">
         {#if !isConnected}
-            <button onclick={onOpenConnection}>接続を開始</button>
+            <button onclick={onOpenConnection}>{translateMessage("Open connection")}</button>
         {:else}
-            <button onclick={onDisconnect}>切断</button>
+            <button onclick={onDisconnect}>{translateMessage("Disconnect")}</button>
         {/if}
     </div>
 
     {#if serverInfo}
         <div class="status-item">
-            <span>ルームID末尾：</span>
-            <span class="room-suffix-display" title={roomSuffix || "未設定"}>
+            <span>{translateMessage("Room ID suffix:")}</span>
+            <span class="room-suffix-display" title={roomSuffix || translateMessage("Not configured")}>
                 {roomSuffix || "-"}
             </span>
         </div>
 
         <div class="status-item">
-            <span>ピアID：</span>
+            <span>{translateMessage("Peer ID:")}</span>
             <span class="peer-id-display" title={serverInfo.serverPeerId}>
                 {serverInfo.serverPeerId.slice(0, 12)}...
             </span>
         </div>
 
         <div class="status-item">
-            <span>端末数：</span>
+            <span>{translateMessage("Devices:")}</span>
             <span>{serverInfo.knownAdvertisements.length}</span>
         </div>
     {/if}
@@ -146,7 +146,7 @@
                 ? translateMessage("Stop announcing changes")
                 : translateMessage("Start announcing changes")}
         >
-            {isBroadcasting ? '📡 オン' : '📡 オフ'}
+            {isBroadcasting ? translateMessage("📡 On") : translateMessage("📡 Off")}
         </button>
     </div>
     {/if}
@@ -154,39 +154,39 @@
     {#if core}
     <div class="status-item status-action diag-toggle-row">
         <label class="broadcast-label" for="diag-toggle">
-            🕵️ 診断
+            {translateMessage("🕵️ Diag")}
         </label>
         <button
             id="diag-toggle"
             class="broadcast-button {useDiagRTC ? 'is-on' : 'is-off'}"
             onclick={toggleDiagRTC}
             title={useDiagRTC
-                ? '診断用RTCPeerConnectionは有効です'
-                : '統計取得に診断用RTCPeerConnectionを使用'}
+                ? translateMessage("Diagnostic RTCPeerConnection is enabled")
+                : translateMessage("Use Diagnostic RTCPeerConnection for statistics")}
         >
-            {useDiagRTC ? 'オン' : 'オフ'}
+            {useDiagRTC ? translateMessage("On") : translateMessage("Off")}
         </button>
     </div>
     {/if}
 
     {#if serverInfo}
         <div class="diag-section">
-            <h4>統計</h4>
+            <h4>{translateMessage("Stats")}</h4>
             <div class="diag-grid">
                 <div class="diag-item">
-                    <span>着信：</span>
+                    <span>{translateMessage("Incoming:")}</span>
                     <span>{serverInfo.diag.totalNewConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>接続成功：</span>
+                    <span>{translateMessage("Connected:")}</span>
                     <span>{serverInfo.diag.totalSuccessfulConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>失敗：</span>
+                    <span>{translateMessage("Failed:")}</span>
                     <span>{serverInfo.diag.totalFailedConnections}</span>
                 </div>
                 <div class="diag-item">
-                    <span>切断：</span>
+                    <span>{translateMessage("Closed:")}</span>
                     <span>{serverInfo.diag.totalClosedConnections}</span>
                 </div>
             </div>

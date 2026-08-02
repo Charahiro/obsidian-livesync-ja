@@ -7,6 +7,7 @@
     import { DocumentHistoryModal } from "@/modules/features/DocumentHistory/DocumentHistoryModal.ts";
     import { isPlainText, stripAllPrefixes } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/path";
     import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore.ts";
+    import { $msg as translateMessage } from "@/common/translation";
     export let plugin: ObsidianLiveSyncPlugin;
     export let core: LiveSyncBaseCore;
 
@@ -199,37 +200,43 @@
 </script>
 
 <div class="globalhistory">
-    <h1>Vault履歴</h1>
+    <h1>Vault history</h1>
     <div class="control">
         <div class="row">
-            <label for="">開始:</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
+            <label for="">From:</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
         </div>
-        <div class="row"><label for="">終了:</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
+        <div class="row"><label for="">To:</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
         <div class="row">
-            <label for="">情報:</label>
-            <label><input type="checkbox" bind:checked={showDiffInfo} disabled={loading} /><span>差分</span></label>
+            <label for="">Info:</label>
             <label
-                ><input type="checkbox" bind:checked={showChunkCorrected} disabled={loading} /><span>チャンク</span
+                ><input type="checkbox" bind:checked={showDiffInfo} disabled={loading} /><span
+                    >{translateMessage("Diff")}</span
                 ></label
             >
             <label
-                ><input type="checkbox" bind:checked={checkStorageDiff} disabled={loading} /><span>ファイル整合性</span
+                ><input type="checkbox" bind:checked={showChunkCorrected} disabled={loading} /><span
+                    >{translateMessage("Chunks")}</span
+                ></label
+            >
+            <label
+                ><input type="checkbox" bind:checked={checkStorageDiff} disabled={loading} /><span
+                    >{translateMessage("File integrity")}</span
                 ></label
             >
         </div>
     </div>
     {#if loading}
-        <div class="">情報を収集中...</div>
+        <div class="">{translateMessage("Gathering information...")}</div>
     {/if}
     <table>
         <tbody>
             <tr>
-                <th> 日時 </th>
-                <th> パス </th>
-                <th> リビジョン </th>
-                <th> 状態 </th>
+                <th> {translateMessage("Date")} </th>
+                <th> {translateMessage("Path")} </th>
+                <th> {translateMessage("Rev")} </th>
+                <th> {translateMessage("Stat")} </th>
                 {#if showChunkCorrected}
-                    <th> チャンク </th>
+                    <th> {translateMessage("Chunks")} </th>
                 {/if}
             </tr>
             <tr>
@@ -237,7 +244,7 @@
                     {#if loading}
                         <div class=""></div>
                     {:else}
-                        <div><button on:click={() => nextWeek()}>+1週間</button></div>
+                        <div><button on:click={() => nextWeek()}>{translateMessage("+1 week")}</button></div>
                     {/if}
                 </td>
             </tr>
@@ -286,7 +293,7 @@
                     {#if loading}
                         <div class=""></div>
                     {:else}
-                        <div><button on:click={() => prevWeek()}>+1週間</button></div>
+                        <div><button on:click={() => prevWeek()}>{translateMessage("+1 week")}</button></div>
                     {/if}
                 </td>
             </tr>

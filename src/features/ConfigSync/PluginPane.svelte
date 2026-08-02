@@ -23,6 +23,7 @@
     import { HiddenFileSync } from "@/features/HiddenFileSync/CmdHiddenFileSync.ts";
     import { LOG_LEVEL_NOTICE, Logger } from "octagonal-wheels/common/logger";
     import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore.ts";
+    import { $msg as translateMessage } from "@/common/translation";
     export let plugin: ObsidianLiveSyncPlugin;
     export let core :LiveSyncBaseCore;
     // $: core = plugin.core;
@@ -32,15 +33,17 @@
 
     const addOn = core.getAddOn<ConfigSync>(ConfigSync.name)!;
     if (!addOn) {
-        const msg =
-            "アドオンモジュール (ConfigSync) が読み込まれていません。想定外の状態です。この問題を報告してください。";
+        const msg = translateMessage(
+            "AddOn Module (ConfigSync) has not been loaded. This is very unexpected situation. Please report this issue."
+        );
         Logger(msg, LOG_LEVEL_NOTICE);
         throw new Error(msg);
     }
     const addOnHiddenFileSync = core.getAddOn<HiddenFileSync>(HiddenFileSync.name) as HiddenFileSync;
     if (!addOnHiddenFileSync) {
-        const msg =
-            "アドオンモジュール (HiddenFileSync) が読み込まれていません。想定外の状態です。この問題を報告してください。";
+        const msg = translateMessage(
+            "AddOn Module (HiddenFileSync) has not been loaded. This is very unexpected situation. Please report this issue."
+        );
         Logger(msg, LOG_LEVEL_NOTICE);
         throw new Error(msg);
     }
@@ -92,9 +95,9 @@
     }
 
     const displays = {
-        CONFIG: "設定",
-        THEME: "テーマ",
-        SNIPPET: "CSSスニペット",
+        CONFIG: translateMessage("Configuration"),
+        THEME: translateMessage("Themes"),
+        SNIPPET: translateMessage("Snippets"),
     };
     async function scanAgain() {
         await addOn.scanAllConfigFiles(true);
@@ -156,20 +159,20 @@
     }
     function askOverwriteModeForAutomatic(evt: MouseEvent, key: string) {
         const menu = new Menu();
-        menu.addItem((item) => item.setTitle("初回の動作").setIsLabel(true));
+        menu.addItem((item) => item.setTitle(translateMessage("Initial Action")).setIsLabel(true));
         menu.addSeparator();
         menu.addItem((item) => {
-            item.setTitle(`↑: リモートを上書き`).onClick((e) => {
+            item.setTitle(translateMessage("↑: Overwrite Remote")).onClick((e) => {
                 applyAutomaticSync(key, "pushForce");
             });
         })
             .addItem((item) => {
-                item.setTitle(`↓: ローカルを上書き`).onClick((e) => {
+                item.setTitle(translateMessage("↓: Overwrite Local")).onClick((e) => {
                     applyAutomaticSync(key, "pullForce");
                 });
             })
             .addItem((item) => {
-                item.setTitle(`⇅: 新しい方を使用`).onClick((e) => {
+                item.setTitle(translateMessage("⇅: Use newer")).onClick((e) => {
                     applyAutomaticSync(key, "safe");
                 });
             });
@@ -201,10 +204,10 @@
         [MODE_SHINY]: ICON_EMOJI_FLAGGED,
     };
     const TITLES: { [key: number]: string } = {
-        [MODE_SELECTIVE]: "選択",
-        [MODE_PAUSED]: "無視",
-        [MODE_AUTOMATIC]: "自動",
-        [MODE_SHINY]: "フラグ付き選択",
+        [MODE_SELECTIVE]: translateMessage("Selective"),
+        [MODE_PAUSED]: translateMessage("Ignore"),
+        [MODE_AUTOMATIC]: translateMessage("Automatic"),
+        [MODE_SHINY]: translateMessage("Flagged Selective"),
     };
     const PREFIX_PLUGIN_ALL = "PLUGIN_ALL";
     const PREFIX_PLUGIN_DATA = "PLUGIN_DATA";
@@ -329,28 +332,30 @@
 
 <div class="buttonsWrap">
     <div class="buttons">
-        <button on:click={() => scanAgain()}>変更をスキャン</button>
-        <button on:click={() => replicate()}>一度だけ同期</button>
-        <button on:click={() => requestUpdate()}>更新</button>
+        <button on:click={() => scanAgain()}>{translateMessage("Scan changes")}</button>
+        <button on:click={() => replicate()}>{translateMessage("Sync once")}</button>
+        <button on:click={() => requestUpdate()}>{translateMessage("Refresh")}</button>
         {#if isMaintenanceMode}
-            <button on:click={() => requestReload()}>再読み込み</button>
+            <button on:click={() => requestReload()}>{translateMessage("Reload")}</button>
         {/if}
     </div>
     <div class="buttons">
-        <button on:click={() => selectAllNewest(true)}>すべての新しい項目を選択</button>
-        <button on:click={() => selectAllNewest(false)}>{ICON_EMOJI_FLAGGED} フラグ付きの新しい項目を選択</button>
-        <button on:click={() => resetSelectNewest()}>すべて解除</button>
-        <button on:click={() => applyAll()} class="mod-cta">選択した項目をすべて適用</button>
+        <button on:click={() => selectAllNewest(true)}>{translateMessage("Select All Shiny")}</button>
+        <button on:click={() => selectAllNewest(false)}
+            >{ICON_EMOJI_FLAGGED} {translateMessage("Select Flagged Shiny")}</button
+        >
+        <button on:click={() => resetSelectNewest()}>{translateMessage("Deselect all")}</button>
+        <button on:click={() => applyAll()} class="mod-cta">{translateMessage("Apply All Selected")}</button>
     </div>
 </div>
 <div class="loading">
     {#if loading || $pluginV2Progress !== 0}
-        <span>一覧を更新中...{$pluginV2Progress == 0 ? "" : ` (${$pluginV2Progress})`}</span>
+        <span>{translateMessage("Updating list...")}{$pluginV2Progress == 0 ? "" : ` (${$pluginV2Progress})`}</span>
     {/if}
 </div>
 <div class="list">
     {#if list.length == 0}
-        <div class="center">項目がありません。</div>
+        <div class="center">{translateMessage("No Items.")}</div>
     {:else}
         {#each displayEntries as [key, label]}
             <div>
@@ -382,7 +387,7 @@
             </div>
         {/each}
         <div>
-            <h3>プラグイン</h3>
+            <h3>{translateMessage("Plugins")}</h3>
             {#each pluginEntries as [name, listX]}
                 {@const bindKeyAll = `${PREFIX_PLUGIN_ALL}/${name}`}
                 {@const modeAll = automaticListDisp.get(bindKeyAll) ?? MODE_SELECTIVE}
@@ -417,7 +422,7 @@
                             >
                                 {getIcon(modeMain)}
                             </button>
-                            <span class="name">本体</span>
+                            <span class="name">MAIN</span>
                         </div>
                         <div class="body">
                             {#if modeMain == MODE_SELECTIVE || modeMain == MODE_SHINY}
@@ -440,7 +445,7 @@
                             >
                                 {getIcon(modeData)}
                             </button>
-                            <span class="name">データ</span>
+                            <span class="name">DATA</span>
                         </div>
                         <div class="body">
                             {#if modeData == MODE_SELECTIVE || modeData == MODE_SHINY}
@@ -464,7 +469,7 @@
                                 >
                                     {getIcon(modeEtc)}
                                 </button>
-                                <span class="name">その他のファイル</span>
+                                <span class="name">{translateMessage("Other files")}</span>
                             </div>
                             <div class="body">
                                 {#if modeEtc == MODE_SELECTIVE || modeEtc == MODE_SHINY}
@@ -492,9 +497,9 @@
 {#if isMaintenanceMode}
     <div class="buttons">
         <div>
-            <h3>メンテナンスコマンド</h3>
+            <h3>{translateMessage("Maintenance Commands")}</h3>
             <div class="maintenancerow">
-                <label for="">すべて削除: </label>
+                <label for="">{translateMessage("Delete All of")} </label>
                 <select bind:value={deleteTerm}>
                     {#each allTerms as term}
                         <option value={term}>{term}</option>
@@ -513,10 +518,20 @@
     </div>
 {/if}
 <div class="buttons">
-    <label><span>適用不要な項目を非表示</span><input type="checkbox" bind:checked={hideEven} /></label>
+    <label
+        ><span>{translateMessage("Hide not applicable items")}</span><input
+            type="checkbox"
+            bind:checked={hideEven}
+        /></label
+    >
 </div>
 <div class="buttons">
-    <label><span>メンテナンスモード</span><input type="checkbox" bind:checked={isMaintenanceMode} /></label>
+    <label
+        ><span>{translateMessage("Maintenance mode")}</span><input
+            type="checkbox"
+            bind:checked={isMaintenanceMode}
+        /></label
+    >
 </div>
 
 <style>

@@ -3,6 +3,7 @@
     import type { FilePath, LoadedEntry } from "@vrtmrz/livesync-commonlib/compat/common/types";
     import { decodeBinary, readString } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/convert";
     import { getDocData, isObjectDifferent, mergeObject } from "@vrtmrz/livesync-commonlib/compat/common/utils";
+    import { $msg as translateMessage } from "@/common/translation";
 
     interface Props {
         docs?: LoadedEntry[];
@@ -21,8 +22,8 @@
             Promise.resolve();
         }) as (keepRev?: string, mergedStr?: string) => Promise<void>),
         filename = $bindable("" as FilePath),
-        nameA = $bindable("候補A"),
-        nameB = $bindable("候補B"),
+        nameA = $bindable("A"),
+        nameB = $bindable("B"),
         defaultSelect = $bindable("" as string),
         keepOrder = $bindable(false),
         hideLocal = $bindable(false),
@@ -115,21 +116,21 @@
         let newModes = [] as typeof modesSrc;
 
         if (!hideLocal) {
-            newModes.push(["", "今はしない"]);
-            newModes.push(["A", nameA || "候補A"]);
+            newModes.push(["", translateMessage("Not now")]);
+            newModes.push(["A", nameA || "A"]);
         }
-        newModes.push(["B", nameB || "候補B"]);
-        newModes.push(["AB", `${nameA || "候補A"} + ${nameB || "候補B"}`]);
-        newModes.push(["BA", `${nameB || "候補B"} + ${nameA || "候補A"}`]);
+        newModes.push(["B", nameB || "B"]);
+        newModes.push(["AB", `${nameA || "A"} + ${nameB || "B"}`]);
+        newModes.push(["BA", `${nameB || "B"} + ${nameA || "A"}`]);
         return newModes;
     });
 </script>
 
 <h2>{filename}</h2>
 {#if !docA || !docB}
-    <div class="message">少しお待ちください。</div>
+    <div class="message">{translateMessage("Just for a minute, please!")}</div>
     <div class="buttons">
-        <button onclick={apply}>閉じる</button>
+        <button onclick={apply}>{translateMessage("Dismiss")}</button>
     </div>
 {:else}
     <div class="options">
@@ -152,7 +153,7 @@
             {/each}
         </div>
     {:else}
-        プレビューはありません
+        {translateMessage("NO PREVIEW")}
     {/if}
 
     <div class="infos">
@@ -162,24 +163,24 @@
                     <th>{nameA}</th>
                     <td
                         >{#if docA._id == docB._id}
-                            リビジョン:{revStringToRevNumber(docA._rev)}
+                            Rev:{revStringToRevNumber(docA._rev)}
                         {/if}
                         {new Date(docA.mtime).toLocaleString()}</td
                     >
                     <td>
-                        {docAContent && docAContent.length} 文字
+                        {docAContent && docAContent.length} letters
                     </td>
                 </tr>
                 <tr>
                     <th>{nameB}</th>
                     <td
                         >{#if docA._id == docB._id}
-                            リビジョン:{revStringToRevNumber(docB._rev)}
+                            Rev:{revStringToRevNumber(docB._rev)}
                         {/if}
                         {new Date(docB.mtime).toLocaleString()}</td
                     >
                     <td>
-                        {docBContent && docBContent.length} 文字
+                        {docBContent && docBContent.length} letters
                     </td>
                 </tr>
             </tbody>
@@ -188,9 +189,9 @@
 
     <div class="buttons">
         {#if hideLocal}
-            <button onclick={cancel}>キャンセル</button>
+            <button onclick={cancel}>Cancel</button>
         {/if}
-        <button onclick={apply}>適用</button>
+        <button onclick={apply}>Apply</button>
     </div>
 {/if}
 

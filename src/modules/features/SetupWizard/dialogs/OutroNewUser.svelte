@@ -36,23 +36,35 @@
             important={true}
             commit={() => setResult(TYPE_APPLY)}
         />
-        <Decision title={msg("Ui.SetupWizard.Common.Back")} commit={() => setResult(TYPE_CANCELLED)} />
+        <Decision title={msg("No, please take me back")} commit={() => setResult(TYPE_CANCELLED)} />
     </UserDecisions>
 {:else}
-    <DialogHeader title={msg("Ui.SetupWizard.OutroNewUser.Title")} />
+    <DialogHeader title={msg("Setup Complete: Preparing to Initialise Server")} />
     <Guidance>
-        <p>{msg("Ui.SetupWizard.OutroNewUser.GuidancePrimary")}</p>
         <p>
-            <strong>{msg("Ui.SetupWizard.OutroNewUser.Important")}</strong>
+            {msg("The connection to the server has been configured successfully. As the next step,")} <strong
+                >{msg(
+                    "the synchronisation data on the server will be built based on the current data on this device."
+                )}</strong
+            >
+        </p>
+        <p>
+            <strong>{msg("IMPORTANT")}</strong>
             <br />
-            {msg("Ui.SetupWizard.OutroNewUser.GuidanceWarning")}
+            {msg(
+                "After restarting, the data on this device will be uploaded to the server as the 'master copy'. Please be aware that any unintended data currently on the server will be completely overwritten."
+            )}
         </p>
     </Guidance>
     <Instruction>
-        <Question>{msg("Ui.SetupWizard.OutroNewUser.Question")}</Question>
+        <Question>{msg("Please select the button below to restart and proceed to the final confirmation.")}</Question>
     </Instruction>
     <UserDecisions>
-        <Decision title={msg("Ui.SetupWizard.OutroNewUser.Proceed")} important={true} commit={() => setResult(TYPE_APPLY)} />
-        <Decision title={msg("Ui.SetupWizard.Common.Back")} commit={() => setResult(TYPE_CANCELLED)} />
+        <Decision
+            title={msg("Restart and Initialise Server")}
+            important={true}
+            commit={() => setResult(TYPE_APPLY)}
+        />
+        <Decision title={msg("No, please take me back")} commit={() => setResult(TYPE_CANCELLED)} />
     </UserDecisions>
 {/if}

@@ -1,7 +1,6 @@
 import { TFile, Modal, App, DIFF_DELETE, DIFF_EQUAL, DIFF_INSERT, diff_match_patch } from "@/deps.ts";
 import { getPathFromTFile, isValidPath } from "@/common/utils.ts";
 import { decodeBinary, readString } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/convert";
-import { $msg } from "@/common/translation";
 import ObsidianLiveSyncPlugin from "@/main.ts";
 import {
     type DocumentID,
@@ -75,6 +74,11 @@ export class DocumentHistoryModal extends Modal {
     currentDeleted = false;
     initialRev?: string;
 
+    // Revision navigation state (◀/▶ beside the range slider)
+    revPrevBtn!: HTMLButtonElement;
+    revNextBtn!: HTMLButtonElement;
+    revNavIndicator!: HTMLSpanElement;
+
     // Diff navigation state
     currentDiffIndex = -1;
     diffNavContainer!: HTMLDivElement;
@@ -85,6 +89,8 @@ export class DocumentHistoryModal extends Modal {
     searchKeyword = "";
     searchResults: { rev: string; index: number; matchType: "Content" | "Diff" }[] = [];
     currentSearchIndex = -1;
+    searchPrevBtn!: HTMLButtonElement;
+    searchNextBtn!: HTMLButtonElement;
     searchResultIndicator!: HTMLSpanElement;
     searchProgressIndicator!: HTMLSpanElement;
     searchTimeout: number | null = null;
@@ -124,16 +130,18 @@ export class DocumentHistoryModal extends Modal {
             this.revs_info = w._revs_info?.filter((e) => e?.status == "available") ?? [];
             this.range.max = `${Math.max(this.revs_info.length - 1, 0)}`;
             this.range.value = this.range.max;
-            this.fileInfo.setText(`${this.file} / ${this.revs_info.length} 件のリビジョン`);
+            this.fileInfo.setText(`${this.file} / ${this.revs_info.length} revisions`);
             await this.loadRevs(initialRev);
+            this.updateRevisionNavUI();
         } catch (ex) {
             if (isErrorOfMissingDoc(ex)) {
                 this.range.max = "0";
                 this.range.value = "";
                 this.range.disabled = true;
-                this.contentView.setText(`このノートの履歴はありません。`);
+                this.contentView.setText(`We don't have any history for this note.`);
+                this.updateRevisionNavUI();
             } else {
-                this.contentView.setText(`ファイルの読み込み中にエラーが発生しました。`);
+                this.contentView.setText(`Error while loading file.`);
                 Logger(ex, LOG_LEVEL_VERBOSE);
             }
         }
@@ -149,6 +157,37 @@ export class DocumentHistoryModal extends Modal {
         const index = this.revs_info.length - 1 - (Number(this.range.value) || 0);
         const rev = this.revs_info[index];
         await this.showExactRev(rev.rev);
+        this.updateRevisionNavUI();
+    }
+
+    navigateVersion(direction: "older" | "newer") {
+        const current = Number(this.range.value) || 0;
+        const max = Number(this.range.max) || 0;
+
+        if (direction === "older" && current > 0) {
+            this.range.value = `${current - 1}`;
+        } else if (direction === "newer" && current < max) {
+            this.range.value = `${current + 1}`;
+        } else {
+            return;
+        }
+
+        this.updateRevisionNavUI();
+        void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
+    }
+
+    updateRevisionNavUI() {
+        if (!this.revNavIndicator) return;
+
+        const total = this.revs_info.length;
+        const max = Number(this.range.max) || 0;
+        const current = Number(this.range.value) || 0;
+
+        this.revNavIndicator.setText(total > 0 ? `Rev ${current + 1}/${total}` : "\u2014");
+
+        const disabled = !!this.range.disabled || total <= 1;
+        this.revPrevBtn.disabled = disabled || current <= 0;
+        this.revNextBtn.disabled = disabled || current >= max;
     }
     BlobURLs = new Map<string, string>();
 
@@ -245,12 +284,12 @@ export class DocumentHistoryModal extends Modal {
         if (w === false) {
             this.currentDeleted = true;
             this.info.empty();
-            this.contentView.appendText("このリビジョンを読み取れませんでした");
+            this.contentView.appendText("Could not read this revision");
             this.contentView.createEl("br");
             this.contentView.appendText(`(${rev})`);
         } else {
             this.currentDoc = w;
-            this.info.setText(`更新日時: ${new Date(w.mtime).toLocaleString()}`);
+            this.info.setText(`Modified:${new Date(w.mtime).toLocaleString()}`);
             const w1data = readDocument(w);
             this.currentDeleted = !!w.deleted;
             if (typeof w1data == "string") {
@@ -304,7 +343,7 @@ export class DocumentHistoryModal extends Modal {
                         if (this.currentDeleted) {
                             this.appendDeletedNotice();
                         }
-                        this.contentView.appendText($msg("Binary file"));
+                        this.contentView.appendText("Binary file");
                     }
                 } else {
                     if (this.currentDeleted) {
@@ -392,6 +431,7 @@ export class DocumentHistoryModal extends Modal {
         if (!keyword) {
             this.searchResultIndicator.setText("");
             this.searchProgressIndicator.setText("");
+            this.updateSearchUI();
             return;
         }
 
@@ -400,7 +440,7 @@ export class DocumentHistoryModal extends Modal {
         const totalRevs = this.revs_info.length;
         const end = Math.min(totalRevs, limit);
 
-        this.searchProgressIndicator.setText("検索中...");
+        this.searchProgressIndicator.setText("Searching...");
 
         const dmp = new diff_match_patch();
 
@@ -409,7 +449,7 @@ export class DocumentHistoryModal extends Modal {
             const revInfo = this.revs_info[i];
             const rev = revInfo.rev;
 
-            this.searchProgressIndicator.setText(`検索中 ${i + 1}/${end}...`);
+            this.searchProgressIndicator.setText(`Searching ${i + 1}/${end}...`);
 
             const doc = await db.getDBEntry(this.file, { rev: rev }, false, false, true);
             if (doc === false) continue;
@@ -454,17 +494,21 @@ export class DocumentHistoryModal extends Modal {
             }
         }
 
-        this.searchProgressIndicator.setText("完了");
+        this.searchProgressIndicator.setText("Done");
         this.updateSearchUI();
     }
 
     updateSearchUI() {
         if (this.searchResults.length === 0) {
-            this.searchResultIndicator.setText(this.searchKeyword ? "一致なし" : "");
+            this.searchResultIndicator.setText(this.searchKeyword ? "No matches found" : "");
         } else {
             const current = this.currentSearchIndex >= 0 ? this.currentSearchIndex + 1 : 0;
-            this.searchResultIndicator.setText(`${current}/${this.searchResults.length} 件`);
+            this.searchResultIndicator.setText(`${current}/${this.searchResults.length} matches`);
         }
+
+        const hasResults = this.searchResults.length > 0;
+        this.searchPrevBtn.disabled = !hasResults;
+        this.searchNextBtn.disabled = !hasResults;
     }
 
     navigateSearch(direction: "prev" | "next") {
@@ -491,7 +535,7 @@ export class DocumentHistoryModal extends Modal {
 
     override onOpen() {
         const { contentEl } = this;
-        this.titleEl.setText("ドキュメント履歴");
+        this.titleEl.setText("Document History");
         contentEl.empty();
         this.fileInfo = contentEl.createDiv("");
         this.fileInfo.addClass("op-info");
@@ -504,7 +548,7 @@ export class DocumentHistoryModal extends Modal {
 
         const searchInput = searchRow.createEl("input", {
             type: "text",
-            placeholder: "履歴内を検索（直近100件）...",
+            placeholder: "Search in history (last 100)...",
         });
         searchInput.addClass("history-search-input");
         searchInput.addEventListener("input", () => {
@@ -516,12 +560,14 @@ export class DocumentHistoryModal extends Modal {
             }, 500);
         });
 
-        searchRow.createEl("button", { text: "\u25B2" }, (e) => {
-            e.title = "前の一致";
+        this.searchPrevBtn = searchRow.createEl("button", { text: "\u25B2" }, (e) => {
+            e.title = "Previous match";
+            e.disabled = true;
             e.addEventListener("click", () => this.navigateSearch("prev"));
         });
-        searchRow.createEl("button", { text: "\u25BC" }, (e) => {
-            e.title = "次の一致";
+        this.searchNextBtn = searchRow.createEl("button", { text: "\u25BC" }, (e) => {
+            e.title = "Next match";
+            e.disabled = true;
             e.addEventListener("click", () => this.navigateSearch("next"));
         });
 
@@ -531,17 +577,36 @@ export class DocumentHistoryModal extends Modal {
         this.searchProgressIndicator = searchRow.createSpan({ text: "" });
         this.searchProgressIndicator.addClass("history-search-progress-indicator");
 
-        const divView = contentEl.createDiv("");
-        divView.addClass("op-flex");
+        const revNavRow = contentEl.createDiv({ cls: "history-rev-nav-row" });
 
-        divView.createEl("input", { type: "range" }, (e) => {
+        this.revPrevBtn = revNavRow.createEl("button", { text: "\u25C0" }, (e) => {
+            e.addClass("history-rev-nav-btn");
+            e.title = "Older revision";
+            e.disabled = true;
+            e.addEventListener("click", () => this.navigateVersion("older"));
+        });
+
+        revNavRow.createEl("input", { type: "range" }, (e) => {
             this.range = e;
-            e.addEventListener("change", (e) => {
+            e.addEventListener("change", () => {
+                this.updateRevisionNavUI();
                 void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
             });
-            e.addEventListener("input", (e) => {
+            e.addEventListener("input", () => {
+                this.updateRevisionNavUI();
                 void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
             });
+        });
+
+        this.revNextBtn = revNavRow.createEl("button", { text: "\u25B6" }, (e) => {
+            e.addClass("history-rev-nav-btn");
+            e.title = "Newer revision";
+            e.disabled = true;
+            e.addEventListener("click", () => this.navigateVersion("newer"));
+        });
+
+        this.revNavIndicator = revNavRow.createSpan({ text: "\u2014" }, (e) => {
+            e.addClass("history-rev-indicator");
         });
         const diffOptionsRow = contentEl.createDiv("");
         diffOptionsRow.addClass("op-info");
@@ -568,7 +633,7 @@ export class DocumentHistoryModal extends Modal {
                     void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
                 });
             });
-            label.appendText("差分を強調表示");
+            label.appendText("Highlight diff");
         });
 
         const diffOnlyLabel = diffOptionsRow.createEl("label", {});
@@ -582,7 +647,7 @@ export class DocumentHistoryModal extends Modal {
                 void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
             });
         });
-        diffOnlyLabel.appendText("差分のみ");
+        diffOnlyLabel.appendText("Diff only");
         diffOnlyLabel.addClass("diff-only-label");
         diffOnlyLabel.setCssStyles({ display: this.showDiff ? "inline-block" : "none" });
         this.diffOnlyLabel = diffOnlyLabel;
@@ -592,13 +657,13 @@ export class DocumentHistoryModal extends Modal {
         this.diffNavContainer.addClass("diff-nav");
         this.diffNavContainer.setCssStyles({ display: this.showDiff ? "flex" : "none" });
 
-        this.diffNavContainer.createEl("button", { text: "\u25B2 前へ" }, (e) => {
+        this.diffNavContainer.createEl("button", { text: "\u25B2 Prev" }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => {
                 this.navigateDiff("prev");
             });
         });
-        this.diffNavContainer.createEl("button", { text: "\u25BC 次へ" }, (e) => {
+        this.diffNavContainer.createEl("button", { text: "\u25BC Next" }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => {
                 this.navigateDiff("next");
@@ -606,20 +671,21 @@ export class DocumentHistoryModal extends Modal {
         });
         this.diffNavIndicator = this.diffNavContainer.createSpan({ text: "\u2014" });
         this.diffNavIndicator.addClass("diff-nav-indicator");
+
         this.info = contentEl.createDiv("");
         this.info.addClass("op-info");
         fireAndForget(async () => await this.loadFile(this.initialRev));
-        const div = contentEl.createDiv({ text: "古いリビジョンを読み込んでいます..." });
+        const div = contentEl.createDiv({ text: "Loading old revisions..." });
         this.contentView = div;
         div.addClass("op-scrollable");
         div.addClass("op-pre");
         const buttons = contentEl.createDiv("");
-        buttons.createEl("button", { text: "クリップボードにコピー" }, (e) => {
+        buttons.createEl("button", { text: "Copy to clipboard" }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
                     await compatGlobal.navigator.clipboard.writeText(this.currentText);
-                    Logger($msg("DocumentHistory.oldContentCopied"), LOG_LEVEL_NOTICE);
+                    Logger(`Old content copied to clipboard`, LOG_LEVEL_NOTICE);
                 });
             });
         });
@@ -629,10 +695,10 @@ export class DocumentHistoryModal extends Modal {
                 const leaf = this.plugin.app.workspace.getLeaf(false);
                 await leaf.openFile(targetFile);
             } else {
-                Logger($msg("DocumentHistory.displayFileFailed"), LOG_LEVEL_NOTICE);
+                Logger("Unable to display the file in the editor", LOG_LEVEL_NOTICE);
             }
         };
-        buttons.createEl("button", { text: "このリビジョンに戻す" }, (e) => {
+        buttons.createEl("button", { text: "Back to this revision" }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {

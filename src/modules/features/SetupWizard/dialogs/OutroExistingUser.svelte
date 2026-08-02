@@ -25,7 +25,7 @@
             )}
         </p>
         <p>
-            <strong>{translateMessage("Ui.SetupWizard.OutroExistingUser.Important")}</strong>
+            <strong>{translateMessage("PLEASE NOTE")}</strong>
             <br />
             {translateMessage(
                 "After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data."
@@ -43,27 +43,40 @@
             important={true}
             commit={() => setResult(TYPE_APPLY)}
         />
-        <Decision title={translateMessage("Ui.SetupWizard.Common.Back")} commit={() => setResult(TYPE_CANCELLED)} />
+        <Decision title={translateMessage("No, please take me back")} commit={() => setResult(TYPE_CANCELLED)} />
     </UserDecisions>
 {:else}
-    <DialogHeader title={translateMessage("Ui.SetupWizard.OutroExistingUser.Title")} />
+    <DialogHeader title={translateMessage("Setup Complete: Preparing to Fetch Synchronisation Data")} />
     <Guidance>
-        <p>{translateMessage("Ui.SetupWizard.OutroExistingUser.GuidancePrimary")}</p>
         <p>
-            <strong>{translateMessage("Ui.SetupWizard.OutroExistingUser.Important")}</strong>
+            {translateMessage("The connection to the server has been configured successfully. As the next step,")}
+            <strong
+                >{translateMessage(
+                    "the latest synchronisation data will be downloaded from the server to this device."
+                )}</strong
+            >
+        </p>
+        <p>
+            <strong>{translateMessage("PLEASE NOTE")}</strong>
             <br />
-            {translateMessage("Ui.SetupWizard.OutroExistingUser.GuidanceWarning")}
+            {translateMessage(
+                "After restarting, the database on this device will be rebuilt using data from the server. If there are any unsynchronised files in this vault, conflicts may occur with the server data."
+            )}
         </p>
     </Guidance>
     <Instruction>
-        <Question>{translateMessage("Ui.SetupWizard.OutroExistingUser.Question")}</Question>
+        <Question
+            >{translateMessage(
+                "Please select the button below to restart and proceed to the data fetching confirmation."
+            )}</Question
+        >
     </Instruction>
     <UserDecisions>
         <Decision
-            title={translateMessage("Ui.SetupWizard.OutroExistingUser.Proceed")}
+            title={translateMessage("Restart and Fetch Data")}
             important={true}
             commit={() => setResult(TYPE_APPLY)}
         />
-        <Decision title={translateMessage("Ui.SetupWizard.Common.Back")} commit={() => setResult(TYPE_CANCELLED)} />
+        <Decision title={translateMessage("No, please take me back")} commit={() => setResult(TYPE_CANCELLED)} />
     </UserDecisions>
 {/if}

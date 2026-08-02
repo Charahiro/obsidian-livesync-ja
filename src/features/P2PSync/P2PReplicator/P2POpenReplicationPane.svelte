@@ -12,6 +12,7 @@
     import type { LiveSyncTrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/LiveSyncTrysteroReplicator";
     import { delay, fireAndForget } from "octagonal-wheels/promises";
     import P2PServerStatusCard from "./P2PServerStatusCard.svelte";
+    import { $msg as translateMessage } from "@/common/translation";
 
     interface Props {
         liveSyncReplicator: LiveSyncTrysteroReplicator;
@@ -48,11 +49,11 @@
     async function handleSync(peerId: string) {
         try {
             syncingPeerId = peerId;
-            Logger(`${peerId} との同期を開始します`, logLevel);
+            Logger(`Starting sync with ${peerId}`, logLevel);
             await onSync(peerId);
-            Logger(`${peerId} との同期が完了しました`, logLevel);
+            Logger(`Sync completed with ${peerId}`, logLevel);
         } catch (e) {
-            Logger(`同期中にエラーが発生しました: ${e instanceof Error ? e.message : String(e)}`, logLevel);
+            Logger(`Error during sync: ${e instanceof Error ? e.message : String(e)}`, logLevel);
         } finally {
             syncingPeerId = null;
         }
@@ -60,23 +61,22 @@
     async function handleSyncThenClose(peerId: string) {
         try {
             syncingPeerId = peerId;
-            Logger(`${peerId} との同期を開始します`, logLevel);
+            Logger(`Starting sync with ${peerId}`, logLevel);
             await onSyncAndClose(peerId);
-            Logger(`${peerId} との同期が完了しました`, logLevel);
+            Logger(`Sync completed with ${peerId}`, logLevel);
         } catch (e) {
-            Logger(`同期中にエラーが発生しました: ${e instanceof Error ? e.message : String(e)}`, logLevel);
+            Logger(`Error during sync: ${e instanceof Error ? e.message : String(e)}`, logLevel);
         } finally {
             syncingPeerId = null;
         }
     }
 
-
     async function disconnect() {
         try {
             await liveSyncReplicator.close();
-            Logger("シグナリング接続を閉じました。", logLevel);
+            Logger("Signalling connection closed.", logLevel);
         } catch (e) {
-            Logger(`シグナリング接続の終了に失敗しました: ${e instanceof Error ? e.message : String(e)}`, logLevel);
+            Logger(`Failed to close signalling connection: ${e instanceof Error ? e.message : String(e)}`, logLevel);
         }
     }
     async function onCloseAndDisconnect() {
@@ -85,11 +85,11 @@
     }
 
     function getAcceptanceStatus(peer: P2PServerInfo["knownAdvertisements"][number]) {
-        if (peer.isTemporaryAccepted === true) return "承認済み（このセッションのみ）";
-        if (peer.isAccepted === true) return "承認済み";
-        if (peer.isTemporaryAccepted === false) return "拒否（このセッションのみ）";
-        if (peer.isAccepted === false) return "拒否";
-        return "新規";
+        if (peer.isTemporaryAccepted === true) return translateMessage("ACCEPTED (in session)");
+        if (peer.isAccepted === true) return translateMessage("ACCEPTED");
+        if (peer.isTemporaryAccepted === false) return translateMessage("DENIED (in session)");
+        if (peer.isAccepted === false) return translateMessage("DENIED");
+        return translateMessage("NEW");
     }
 
     function getAcceptanceStatusClass(peer: P2PServerInfo["knownAdvertisements"][number]) {
@@ -103,7 +103,7 @@
     <P2PServerStatusCard {getLiveSyncReplicator} showBroadcastToggle={false} />
 
     <div class="peers-section">
-        <h3>利用可能なピア</h3>
+        <h3>{translateMessage("Available Peers")}</h3>
         {#if serverInfo && serverInfo.knownAdvertisements.length > 0}
             <div class="peers-list">
                 {#each serverInfo.knownAdvertisements as peer (peer.peerId)}
@@ -127,14 +127,18 @@
                                     disabled={syncingPeerId !== null}
                                     onclick={() => handleSync(peer.peerId)}
                                 >
-                                    {syncingPeerId === peer.peerId ? "同期中..." : "同期"}
+                                    {syncingPeerId === peer.peerId
+                                        ? translateMessage("Syncing...")
+                                        : translateMessage("Sync")}
                                 </button>
                                 <button
                                     class="btn {rebuildMode ? 'btn-primary' : 'btn-secondary'}"
                                     disabled={syncingPeerId !== null}
                                     onclick={() => handleSyncThenClose(peer.peerId)}
                                 >
-                                    {syncingPeerId === peer.peerId ? "同期中..." : "同期を開始して閉じる"}
+                                    {syncingPeerId === peer.peerId
+                                        ? translateMessage("Syncing...")
+                                        : translateMessage("Start Sync & Close")}
                                 </button>
                             {:else}
                                 <button
@@ -142,7 +146,9 @@
                                     disabled={syncingPeerId !== null}
                                     onclick={() => handleSyncThenClose(peer.peerId)}
                                 >
-                                    {syncingPeerId === peer.peerId ? "同期中..." : "同期"}
+                                    {syncingPeerId === peer.peerId
+                                        ? translateMessage("Syncing...")
+                                        : translateMessage("Sync")}
                                 </button>
                             {/if}
                         </div>
@@ -150,16 +156,22 @@
                 {/each}
             </div>
         {:else if serverInfo}
-            <p class="no-peers">利用可能なデバイスがありません。他のデバイスの接続を待っています...</p>
+            <p class="no-peers">
+                {translateMessage("No devices available. Waiting for other devices to connect...")}
+            </p>
         {/if}
     </div>
 
     <div class="footer">
         {#if rebuildMode}
-            <button class="btn btn-cancel" onclick={onClose} disabled={syncingPeerId !== null}>スキップして閉じる</button>
+            <button class="btn btn-cancel" onclick={onClose} disabled={syncingPeerId !== null}
+                >{translateMessage("Skip and close")}</button
+            >
         {:else}
-            <button class="btn btn-cancel" onclick={onClose}>閉じる</button>
-            <button class="btn btn-cancel" onclick={onCloseAndDisconnect}>閉じて切断</button>
+            <button class="btn btn-cancel" onclick={onClose}>{translateMessage("Close")}</button>
+            <button class="btn btn-cancel" onclick={onCloseAndDisconnect}
+                >{translateMessage("Close & Disconnect")}</button
+            >
         {/if}
     </div>
 </div>

@@ -10,6 +10,7 @@
     import InfoNote from "@/modules/services/LiveSyncUI/components/InfoNote.svelte";
     import ExtraItems from "@/modules/services/LiveSyncUI/components/ExtraItems.svelte";
     import Check from "@/modules/services/LiveSyncUI/components/Check.svelte";
+    import { $msg as translateMessage } from "@/common/translation";
     import {
         TYPE_BACKUP_DONE,
         TYPE_BACKUP_SKIPPED,
@@ -48,82 +49,110 @@
     }
 </script>
 
-<DialogHeader title="このデバイスの同期をリセット" />
+<DialogHeader title={translateMessage("Reset Synchronisation on This Device")} />
 <Guidance
-    >サーバー上の最新データを使って、このデバイスのローカルデータベースを再構築します。この操作は同期の不整合を解消し、正しい動作を復旧するためのものです。</Guidance
+    >{translateMessage(
+        "This will rebuild the local database on this device using the most recent data from the server. This action is designed to resolve synchronisation inconsistencies and restore correct functionality."
+    )}</Guidance
 >
-<Guidance important title="⚠️ 重要なお知らせ">
+<Guidance important title={translateMessage("⚠️ Important Notice")}>
     <strong
-        >このデバイスのVaultに未同期の変更がある場合、リセット後にサーバー上のバージョンと食い違う可能性があります。その結果、大量のファイル競合が発生することがあります。</strong
+        >{translateMessage(
+            "If you have unsynchronised changes in your Vault on this device, they will likely diverge from the server's versions after the reset. This may result in a large number of file conflicts."
+        )}</strong
     ><br />
-    また、サーバーデータに既に競合がある場合、それらはそのままこのデバイスへ同期されるため、ローカルで解決する必要があります。
+    {translateMessage(
+        "Furthermore, if conflicts are already present in the server data, they will be synchronised to this device as they are, and you will need to resolve them locally."
+    )}
 </Guidance>
 <hr />
 <Instruction>
     <Question
-        ><strong>新しい競合の発生を最小限に抑えるため</strong>、現在のVaultの状態に最も近いものを選択してください。選択内容に基づいて、最も適切な方法でファイルを確認します。</Question
+        ><strong>{translateMessage("To minimise the creation of new conflicts")}</strong>{translateMessage(
+            ", please select the option that best describes the current state of your Vault. The application will then check your files in the most appropriate way based on your selection."
+        )}</Question
     >
     <Options>
         <Option
             selectedValue={TYPE_IDENTICAL}
-            title="このVaultのファイルはサーバー上のものとほぼ同一です。"
+            title={translateMessage("The files in this Vault are almost identical to the server's.")}
             bind:value={vaultType}
         >
-            （例: 別のパソコンで復元した直後、またはバックアップから復旧した直後）
+            {translateMessage(
+                "(e.g., immediately after restoring on another computer, or having recovered from a backup)"
+            )}
         </Option>
         <Option
             selectedValue={TYPE_INDEPENDENT}
-            title="このVaultは空、またはサーバーに存在しない新規ファイルのみを含んでいます。"
+            title={translateMessage("This Vault is empty, or contains only new files that are not on the server.")}
             bind:value={vaultType}
         >
-            （例: 新しいスマートフォンで初めて設定する、まっさらな状態から始める）
+            {translateMessage("(e.g., setting up for the first time on a new smartphone, starting from a clean slate)")}
         </Option>
         <Option
             selectedValue={TYPE_UNBALANCED}
-            title="このVaultとサーバー上のファイルに差異がある可能性があります。"
+            title={translateMessage("There may be differences between the files in this Vault and the server.")}
             bind:value={vaultType}
         >
-            （例: オフライン中に多くのファイルを編集した後）
+            {translateMessage("(e.g., after editing many files whilst offline)")}
             <InfoNote info>
-                この場合、Self-hosted LiveSyncはすべてのファイルのメタデータを再作成し、意図的に競合を生成します。ファイル内容が同一であれば、それらの競合は自動的に解決されます。
+                {translateMessage(
+                    "In this scenario, Self-hosted LiveSync will recreate metadata for every file and deliberately generate conflicts. Where the file content is identical, these conflicts will be resolved automatically."
+                )}
             </InfoNote>
         </Option>
     </Options>
 </Instruction>
 <hr />
 <Instruction>
-    <Question>続行前にバックアップを作成しましたか？</Question>
+    <Question>{translateMessage("Have you created a backup before proceeding?")}</Question>
     <InfoNote>
-        Vaultフォルダーを安全な場所へコピーしておくことを推奨します。大量の競合が発生した場合や、誤った同期先と同期してしまった場合の保険になります。
+        {translateMessage(
+            "We recommend that you copy your Vault folder to a safe location. This will provide a safeguard in case a large number of conflicts arise, or if you accidentally synchronise with an incorrect destination."
+        )}
     </InfoNote>
     <Options>
-        <Option selectedValue={TYPE_BACKUP_DONE} title="Vaultのバックアップを作成しました。" bind:value={backupType} />
+        <Option
+            selectedValue={TYPE_BACKUP_DONE}
+            title={translateMessage("I have created a backup of my Vault.")}
+            bind:value={backupType}
+        />
         <Option
             selectedValue={TYPE_BACKUP_SKIPPED}
-            title="リスクを理解したうえで、バックアップなしで続行します。"
+            title={translateMessage("I understand the risks and will proceed without a backup.")}
             bind:value={backupType}
         />
         <Option
             selectedValue={TYPE_UNABLE_TO_BACKUP}
-            title="Vaultのバックアップを作成できません。"
+            title={translateMessage("I am unable to create a backup of my Vault.")}
             bind:value={backupType}
         >
             <InfoNote error visible={backupType === TYPE_UNABLE_TO_BACKUP}>
                 <strong
-                    >続行前にバックアップを作成することを強く推奨します。バックアップなしで続行すると、データ損失につながる可能性があります。
+                    >{translateMessage(
+                        "It is strongly advised to create a backup before proceeding. Continuing without a backup may lead to data loss."
+                    )}
                 </strong>
                 <br />
-                リスクを理解したうえで続行する場合は、その選択肢を選んでください。
+                {translateMessage("If you understand the risks and still wish to proceed, select so.")}
             </InfoNote>
         </Option>
     </Options>
 </Instruction>
 <Instruction>
-    <ExtraItems title="詳細設定">
-        <Check title="サーバーから設定を取得しない" bind:value={preventFetchingConfig} />
+    <ExtraItems title={translateMessage("Advanced")}>
+        <Check
+            title={translateMessage("Prevent fetching configuration from server")}
+            bind:value={preventFetchingConfig}
+        />
     </ExtraItems>
 </Instruction>
 <UserDecisions>
-    <Decision title="リセットして同期を再開" important disabled={!canProceed} commit={() => commit()} />
-    <Decision title="キャンセル" commit={() => setResult(TYPE_CANCEL)} />
+    <Decision
+        title={translateMessage("Reset and Resume Synchronisation")}
+        important
+        disabled={!canProceed}
+        commit={() => commit()}
+    />
+    <Decision title={translateMessage("Cancel")} commit={() => setResult(TYPE_CANCEL)} />
 </UserDecisions>

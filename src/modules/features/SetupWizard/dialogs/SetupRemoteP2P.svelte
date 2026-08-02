@@ -123,7 +123,9 @@
             try {
                 const result = await probeP2PSetupConnection(replicator);
                 if (!result.ok) {
-                    return `Failed to connect to the signalling relay: ${result.reason}`;
+                    return translateMessage("Failed to connect to the signalling relay: ${reason}", {
+                        reason: `${result.reason}`,
+                    });
                 }
                 return "";
             } finally {
@@ -157,7 +159,7 @@
                 return;
             }
         } catch (e) {
-            error = `Error during connection test: ${e}`;
+            error = translateMessage("Error during connection test: ${reason}", { reason: `${e}` });
             return;
         }
     }
@@ -178,9 +180,9 @@
     });
 </script>
 
-<DialogHeader title="P2P設定" />
-<Guidance>ピアツーピア同期に必要な情報を入力してください。</Guidance>
-<InputRow label="有効">
+<DialogHeader title={translateMessage("P2P Configuration")} />
+<Guidance>{translateMessage("Please enter the Peer-to-Peer Synchronisation information below.")}</Guidance>
+<InputRow label={translateMessage("Enabled")}>
     <input type="checkbox" name="p2p-enabled" bind:checked={syncSetting.P2P_Enabled} />
 </InputRow>
 <InputRow label={translateMessage("Signalling relay URLs")}>
@@ -208,7 +210,7 @@
         rel="noopener noreferrer">{translateMessage("Learn more about P2P connections")}</a
     >.
 </InfoNote>
-<InputRow label="グループID">
+<InputRow label={translateMessage("Group ID")}>
     <input
         type="text"
         name="p2p-room-id"
@@ -218,16 +220,24 @@
         spellcheck="false"
         bind:value={syncSetting.P2P_roomID}
     />
-    <button class="button" onclick={() => generateDefaultGroupId()}>ランダムIDを生成</button>
+    <button class="button" onclick={() => generateDefaultGroupId()}>{translateMessage("Generate Random ID")}</button>
 </InputRow>
-<InputRow label="パスフレーズ">
-    <Password name="p2p-password" placeholder="パスフレーズを入力" bind:value={syncSetting.P2P_passphrase} />
+<InputRow label={translateMessage("Passphrase")}>
+    <Password
+        name="p2p-password"
+        placeholder={translateMessage("Enter your passphrase")}
+        bind:value={syncSetting.P2P_passphrase}
+    />
 </InputRow>
 <InfoNote>
-    グループIDとパスフレーズで端末のグループを識別します。同期するすべての端末で同じグループIDとパスフレーズを使用してください。<br />
-    グループIDは自動生成される形式に限らず、任意の文字列を使用できます。
+    {translateMessage(
+        "The Group ID and passphrase are used to identify your group of devices. Make sure to use the same Group ID and passphrase on all devices you want to synchronise."
+    )}<br />
+    {translateMessage(
+        "Note that the Group ID is not limited to the generated format; you can use any string as the Group ID."
+    )}
 </InfoNote>
-<InputRow label="端末のピアID">
+<InputRow label={translateMessage("Device Peer ID")}>
     <input
         type="text"
         name="p2p-device-peer-id"
@@ -238,11 +248,13 @@
         bind:value={syncSetting.P2P_DevicePeerName}
     />
 </InputRow>
-<InputRow label="P2P接続を自動開始">
+<InputRow label={translateMessage("Auto Start P2P Connection")}>
     <input type="checkbox" name="p2p-auto-start" bind:checked={syncSetting.P2P_AutoStart} />
 </InputRow>
 <InfoNote>
-    有効にすると、プラグインの起動時にP2P接続を自動的に開始します。
+    {translateMessage(
+        'If "Auto Start P2P Connection" is enabled, the P2P connection will be started automatically when the plug-in launches.'
+    )}
 </InfoNote>
 <InputRow label={translateMessage("Announce changes automatically after connecting")}>
     <input type="checkbox" name="p2p-auto-broadcast" bind:checked={syncSetting.P2P_AutoBroadcast} />
@@ -252,9 +264,11 @@
         "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection."
     )}
 </InfoNote>
-<ExtraItems title="詳細設定">
+<ExtraItems title={translateMessage("Advanced Settings")}>
     <InfoNote>
-        TURNサーバーの設定は、厳格なNATやファイアウォールによって端末間の直接接続が妨げられる場合にのみ必要です。通常は空欄のままで構いません。
+        {translateMessage(
+            "TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P connections. In most cases, you can leave these fields blank."
+        )}
     </InfoNote>
     <InfoNote warning>
         {translateMessage(
@@ -266,7 +280,7 @@
             rel="noopener noreferrer">{translateMessage("Learn more about signalling and TURN")}</a
         >.
     </InfoNote>
-    <InputRow label="TURNサーバーURL（コンマ区切り）">
+    <InputRow label={translateMessage("TURN Server URLs (comma-separated)")}>
         <textarea
             name="p2p-turn-servers"
             placeholder="turn:turn.example.com:3478,turn:turn.example.com:443"
@@ -276,21 +290,21 @@
             rows="5"
         ></textarea>
     </InputRow>
-    <InputRow label="TURNユーザー名">
+    <InputRow label={translateMessage("TURN Username")}>
         <input
             type="text"
             name="p2p-turn-username"
-            placeholder="TURNユーザー名を入力"
+            placeholder={translateMessage("Enter TURN username")}
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
             bind:value={syncSetting.P2P_turnUsername}
         />
     </InputRow>
-    <InputRow label="TURN認証情報">
+    <InputRow label={translateMessage("TURN Credential")}>
         <Password
             name="p2p-turn-credential"
-            placeholder="TURN認証情報を入力"
+            placeholder={translateMessage("Enter TURN credential")}
             bind:value={syncSetting.P2P_turnCredential}
         />
     </InputRow>
@@ -299,11 +313,16 @@
     {error}
 </InfoNote>
 {#if processing}
-    接続を確認しています。しばらくお待ちください。
+    {translateMessage("Checking connection... Please wait.")}
 {:else}
     <UserDecisions>
-        <Decision title="設定をテストして続行" important disabled={!canProceed} commit={() => checkAndCommit()} />
-        <Decision title="そのまま続行" commit={() => commit()} />
-        <Decision title="キャンセル" commit={() => cancel()} />
+        <Decision
+            title={translateMessage("Test Settings and Continue")}
+            important
+            disabled={!canProceed}
+            commit={() => checkAndCommit()}
+        />
+        <Decision title={translateMessage("Continue anyway")} commit={() => commit()} />
+        <Decision title={translateMessage("Cancel")} commit={() => cancel()} />
     </UserDecisions>
 {/if}

@@ -77,13 +77,13 @@ function suggestRemoteConfigurationName(parsed: RemoteConfigurationResult): stri
             const url = new URL(parsed.settings.couchDB_URI);
             return `CouchDB ${url.host}`;
         } catch {
-            return $msg("Imported CouchDB");
+            return "Imported CouchDB";
         }
     }
     if (parsed.type === "s3") {
         return `S3 ${parsed.settings.bucket || parsed.settings.endpoint}`;
     }
-    return `P2P ${parsed.settings.P2P_roomID || $msg("Remote")}`;
+    return `P2P ${parsed.settings.P2P_roomID || "Remote"}`;
 }
 
 export function paneRemoteConfig(
@@ -102,9 +102,9 @@ export function paneRemoteConfig(
                 info: getE2EEConfigSummary(this.editingSettings),
             });
         };
-        void addPanel(paneEl, $msg("E2EE Configuration"), () => {}).then((paneEl) => {
+        void addPanel(paneEl, "E2EE Configuration", () => {}).then((paneEl) => {
             new SveltePanel(InfoPanel, paneEl, E2EESummaryWritable);
-            const setupButton = new Setting(paneEl).setName($msg("Configure E2EE"));
+            const setupButton = new Setting(paneEl).setName("Configure E2EE");
             setupButton
                 .addButton((button) =>
                     button
@@ -114,7 +114,7 @@ export function paneRemoteConfig(
                             await setupManager.onlyE2EEConfiguration(UserMode.Update, originalSettings);
                             updateE2EESummary();
                         })
-                        .setButtonText($msg("Configure"))
+                        .setButtonText("Configure")
                         .setWarning()
                 )
                 .addButton((button) =>
@@ -125,7 +125,7 @@ export function paneRemoteConfig(
                             await setupManager.onConfigureManually(originalSettings, UserMode.Update);
                             updateE2EESummary();
                         })
-                        .setButtonText($msg("Configure And Change Remote"))
+                        .setButtonText("Configure And Change Remote")
                         .setWarning()
                 );
             updateE2EESummary();
@@ -244,11 +244,7 @@ export function paneRemoteConfig(
                 configPassphraseStore: this.editingSettings.configPassphraseStore,
             });
             const addRemoteConfiguration = async () => {
-                const name = await this.services.UI.confirm.askString(
-                    $msg("Remote name"),
-                    $msg("Display name"),
-                    $msg("New Remote")
-                );
+                const name = await this.services.UI.confirm.askString("Remote name", "Display name", "New Remote");
                 if (name === false) {
                     return;
                 }
@@ -260,7 +256,7 @@ export function paneRemoteConfig(
                 const configs = cloneRemoteConfigurations(this.editingSettings.remoteConfigurations);
                 configs[id] = {
                     id,
-                    name: name.trim() || $msg("New Remote"),
+                    name: name.trim() || "New Remote",
                     uri: serializeRemoteConfiguration(nextSettings),
                     isEncrypted: false,
                 };
@@ -273,8 +269,8 @@ export function paneRemoteConfig(
             };
             const importRemoteConfiguration = async () => {
                 const importedURI = await this.services.UI.confirm.askString(
-                    $msg("Import connection"),
-                    $msg("Paste a connection string"),
+                    "Import connection",
+                    "Paste a connection string",
                     ""
                 );
                 if (importedURI === false) {
@@ -296,11 +292,7 @@ export function paneRemoteConfig(
                 }
 
                 const defaultName = suggestRemoteConfigurationName(parsed);
-                const name = await this.services.UI.confirm.askString(
-                    $msg("Remote name"),
-                    $msg("Display name"),
-                    defaultName
-                );
+                const name = await this.services.UI.confirm.askString("Remote name", "Display name", defaultName);
                 if (name === false) {
                     return;
                 }
@@ -321,12 +313,12 @@ export function paneRemoteConfig(
                 refreshList();
             };
             actions.addButton((button) =>
-                setEmojiButton(button, "➕", $msg("Add new connection")).onClick(async () => {
+                setEmojiButton(button, "➕", "Add new connection").onClick(async () => {
                     await addRemoteConfiguration();
                 })
             );
             actions.addButton((button) =>
-                setEmojiButton(button, "📥", $msg("Import connection")).onClick(async () => {
+                setEmojiButton(button, "📥", "Import connection").onClick(async () => {
                     await importRemoteConfiguration();
                 })
             );
@@ -340,11 +332,11 @@ export function paneRemoteConfig(
 
                     if (config.id === this.editingSettings.activeConfigurationId) {
                         row.nameEl.addClass("sls-active-remote-name");
-                        row.nameEl.appendText($msg(" (Active)"));
+                        row.nameEl.appendText(" (Active)");
                     }
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "🔧", $msg("Configure")).onClick(async () => {
+                        setEmojiButton(btn, "🔧", "Configure").onClick(async () => {
                             let parsed: RemoteConfigurationResult;
                             try {
                                 parsed = ConnectionStringParser.parse(config.uri);
@@ -385,7 +377,7 @@ export function paneRemoteConfig(
                     row.addButton((btn) =>
                         btn
                             .setButtonText("✅")
-                            .setTooltip($msg("Activate"), { delay: 10, placement: "top" })
+                            .setTooltip("Activate", { delay: 10, placement: "top" })
                             .setDisabled(config.id === this.editingSettings.activeConfigurationId)
                             .onClick(async () => {
                                 this.editingSettings.activeConfigurationId = config.id;
@@ -395,13 +387,13 @@ export function paneRemoteConfig(
                     );
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "…", $msg("More actions")).onClick(() => {
+                        setEmojiButton(btn, "…", "More actions").onClick(() => {
                             const menu = new Menu()
                                 .addItem((item) => {
-                                    item.setTitle(`🪪 ${$msg("Rename")}`).onClick(async () => {
+                                    item.setTitle("🪪 Rename").onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            $msg("Remote name"),
-                                            $msg("Display name"),
+                                            "Remote name",
+                                            "Display name",
                                             config.name
                                         );
                                         if (nextName === false) {
@@ -420,18 +412,18 @@ export function paneRemoteConfig(
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle(`📤 ${$msg("Export")}`).onClick(async () => {
+                                    item.setTitle("📤 Export").onClick(async () => {
                                         await this.services.UI.promptCopyToClipboard(
-                                            $msg("Remote configuration: ${NAME}", { NAME: config.name }),
+                                            `Remote configuration: ${config.name}`,
                                             config.uri
                                         );
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle(`🧬 ${$msg("Duplicate")}`).onClick(async () => {
+                                    item.setTitle("🧬 Duplicate").onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            $msg("Duplicate remote"),
-                                            $msg("Display name"),
+                                            "Duplicate remote",
+                                            "Display name",
                                             `${config.name} (Copy)`
                                         );
                                         if (nextName === false) {
@@ -454,7 +446,7 @@ export function paneRemoteConfig(
                                 })
                                 .addSeparator()
                                 .addItem((item) => {
-                                    item.setTitle(`📡 ${$msg("Fetch remote settings")}`).onClick(async () => {
+                                    item.setTitle("📡 Fetch remote settings").onClick(async () => {
                                         let parsed: RemoteConfigurationResult;
                                         try {
                                             parsed = ConnectionStringParser.parse(config.uri);
@@ -487,9 +479,9 @@ export function paneRemoteConfig(
                                 })
                                 .addSeparator()
                                 .addItem((item) => {
-                                    item.setTitle(`🗑 ${$msg("Delete")}`).onClick(async () => {
+                                    item.setTitle($msg("🗑 Delete")).onClick(async () => {
                                         const confirmed = await this.services.UI.confirm.askYesNoDialog(
-                                            $msg("Delete remote configuration '${NAME}'?", { NAME: config.name }),
+                                            $msg("Delete remote configuration '${name}'?", { name: config.name }),
                                             { title: $msg("Delete Remote Configuration"), defaultOption: "No" }
                                         );
                                         if (confirmed !== "yes") {

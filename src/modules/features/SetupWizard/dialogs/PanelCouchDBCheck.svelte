@@ -23,7 +23,11 @@
             detectedIssues = fixResults;
         } catch (e) {
             Logger(e, LOG_LEVEL_VERBOSE, "setup-couchdb-check");
-            detectedIssues.push({ message: `Error during testAndFixSettings: ${e}`, result: "error", classes: [] });
+            detectedIssues.push({
+                message: translateMessage("Error during testAndFixSettings: ${reason}", { reason: `${e}` }),
+                result: "error",
+                classes: [],
+            });
         }
     }
     function isErrorResult(result: ConfigCheckResult): result is ResultError<unknown> | ResultErrorMessage {
@@ -71,7 +75,9 @@
         </div>
         {#if isFixableError(issue)}
             <div class="operations">
-                <button onclick={() => fixIssue(issue)} class="mod-cta" disabled={processing}>修正</button>
+                <button onclick={() => fixIssue(issue)} class="mod-cta" disabled={processing}
+                    >{translateMessage("Fix")}</button
+                >
             </div>
         {/if}
     </div>
@@ -83,15 +89,15 @@
     <details open={!isAllSuccess}>
         <summary>
             {#if detectedIssues.length === 0}
-                まだ確認を実行していません。
+                {translateMessage("No checks have been performed yet.")}
             {:else if isAllSuccess}
-                すべての確認に合格しました。
+                {translateMessage("All checks passed successfully!")}
             {:else}
-                問題を{errorIssueCount}件検出しました。
+                {translateMessage("${count} issue(s) detected!", { count: `${errorIssueCount}` })}
             {/if}
         </summary>
         {#if detectedIssues.length > 0}
-            <h3>問題検出ログ：</h3>
+            <h3>{translateMessage("Issue detection log:")}</h3>
             {#each detectedIssues as issue}
                 {@render result(issue)}
             {/each}

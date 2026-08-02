@@ -13,6 +13,7 @@
     import { decryptString } from "@vrtmrz/livesync-commonlib/compat/encryption/stringEncryption";
     import type { GuestDialogProps } from "@/modules/services/LiveSyncUI/svelteDialog";
     import { TYPE_CANCELLED, type UseSetupURIResultType } from "./setupDialogTypes";
+    import { $msg as translateMessage } from "@/common/translation";
 
     type Props = GuestDialogProps<UseSetupURIResultType, string>;
     const { setResult, getInitialData }: Props = $props();
@@ -34,7 +35,7 @@
         error = "";
         if (!seemsValid) return;
         if (!passphrase) {
-            error = "パスフレーズが必要です。";
+            error = translateMessage("Passphrase is required.");
             return;
         }
         try {
@@ -47,7 +48,7 @@
             // Logger("Settings imported successfully", LOG_LEVEL_NOTICE);
             return;
         } catch (e) {
-            error = "セットアップURIを解析できませんでした。";
+            error = translateMessage("Failed to parse Setup-URI.");
             return;
         }
     }
@@ -56,13 +57,17 @@
     }
 </script>
 
-<DialogHeader title="セットアップURIの入力" />
+<DialogHeader title={translateMessage("Enter Setup URI")} />
 <Guidance
-    >サーバーのインストール時、または別のデバイスで生成したセットアップURIと、Vaultのパスフレーズを入力してください。<br />
-    コマンドパレットから「設定を新しいセットアップURIとしてコピー」を実行すると、新しいセットアップURIを生成できます。</Guidance
+    >{translateMessage(
+        "Please enter the Setup URI that was generated during server installation or on another device, along with the vault passphrase."
+    )}<br />
+    {translateMessage(
+        'Note that you can generate a new Setup URI by running the "Copy settings as a new Setup URI" command in the command palette.'
+    )}</Guidance
 >
 
-<InputRow label="セットアップURI">
+<InputRow label={translateMessage("Setup-URI")}>
     <input
         type="text"
         placeholder="obsidian://setuplivesync?settings=...."
@@ -73,12 +78,12 @@
         required
     />
 </InputRow>
-<InfoNote visible={seemsValid}>セットアップURIは有効で、使用できます。</InfoNote>
+<InfoNote visible={seemsValid}>{translateMessage("The Setup-URI is valid and ready to use.")}</InfoNote>
 <InfoNote warning visible={!seemsValid && setupURI.trim() != ""}>
-    セットアップURIが有効ではないようです。正しくコピーされているか確認してください。
+    {translateMessage("The Setup-URI does not appear to be valid. Please check that you have copied it correctly.")}
 </InfoNote>
-<InputRow label="パスフレーズ">
-    <Password placeholder="パスフレーズを入力" bind:value={passphrase} required />
+<InputRow label={translateMessage("Passphrase")}>
+    <Password placeholder={translateMessage("Enter your passphrase")} bind:value={passphrase} required />
 </InputRow>
 <InfoNote error visible={error.trim() != ""}>
     {error}
@@ -86,10 +91,10 @@
 
 <UserDecisions>
     <Decision
-        title="設定をテストして続行"
+        title={translateMessage("Test Settings and Continue")}
         important={true}
         disabled={!canProceed}
         commit={() => processSetupURI()}
     />
-    <Decision title="キャンセル" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title={translateMessage("Cancel")} commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

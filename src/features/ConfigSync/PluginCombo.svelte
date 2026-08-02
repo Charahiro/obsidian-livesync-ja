@@ -11,6 +11,7 @@
     import type ObsidianLiveSyncPlugin from "@/main";
     // import { askString } from "../../common/utils";
     import { Menu } from "@/deps.ts";
+    import { $msg as translateMessage } from "@/common/translation";
 
     export let list: IPluginDataExDisplay[] = [];
     export let thisTerm = "";
@@ -61,25 +62,25 @@
             // NO OP. what's happened?
             freshness = "";
         } else if (local && !remote) {
-            freshness = "ローカルのみ";
+            freshness = translateMessage("Local only");
         } else if (remote && !local) {
-            freshness = "リモートのみ";
+            freshness = translateMessage("Remote only");
             canApply = true;
         } else {
             const dtDiff = (local?.mtime ?? 0) - (remote?.mtime ?? 0);
             const diff = timeDeltaToHumanReadable(Math.abs(dtDiff));
             if (dtDiff / 1000 < -10) {
                 // freshness = "✓ Newer";
-                freshness = `新しい (${diff})`;
+                freshness = translateMessage("Newer (${diff})", { diff });
                 canApply = true;
                 contentCheck = true;
             } else if (dtDiff / 1000 > 10) {
                 // freshness = "⚠ Older";
-                freshness = `古い (${diff})`;
+                freshness = translateMessage("Older (${diff})", { diff });
                 canApply = true;
                 contentCheck = true;
             } else {
-                freshness = "同じ";
+                freshness = translateMessage("Same");
                 canApply = false;
                 contentCheck = true;
             }
@@ -89,11 +90,17 @@
         if (local?.version || remote?.version) {
             const compare = `${localVersionStr}`.localeCompare(remoteVersionStr, undefined, { numeric: true });
             if (compare == 0) {
-                version = "同じ";
+                version = translateMessage("Same");
             } else if (compare < 0) {
-                version = `低い (${localVersionStr} < ${remoteVersionStr})`;
+                version = translateMessage("Lower (${local} < ${remote})", {
+                    local: localVersionStr,
+                    remote: remoteVersionStr,
+                });
             } else if (compare > 0) {
-                version = `高い (${localVersionStr} > ${remoteVersionStr})`;
+                version = translateMessage("Higher (${local} > ${remote})", {
+                    local: localVersionStr,
+                    remote: remoteVersionStr,
+                });
             }
         }
 
@@ -135,19 +142,19 @@
             })
             .reduce((p, c) => p | (c as number), 0 as number);
         if (matchingStatus == 0b0000100) {
-            equivalency = "同じ";
+            equivalency = translateMessage("Same");
             canApply = false;
         } else if (matchingStatus <= 0b0000100) {
-            equivalency = "同じ、またはローカルのみ";
+            equivalency = translateMessage("Same or local only");
             canApply = false;
         } else if (matchingStatus == 0b0010000) {
             canApply = true;
             canCompare = true;
-            equivalency = "差分あり";
+            equivalency = translateMessage("Different");
         } else {
             canApply = true;
             canCompare = true;
-            equivalency = "混在";
+            equivalency = translateMessage("Mixed");
         }
         return { equivalency, canApply, canCompare };
     }
@@ -244,7 +251,7 @@
         if (selected == "") {
             // NO OP.
         } else if (selected == thisTerm) {
-            freshness = "このデバイス";
+            freshness = translateMessage("This device");
             canApply = false;
         } else {
             const local = list.find((e) => e.term == thisTerm);
@@ -289,11 +296,11 @@
             return;
         } else {
             if (!remote && !local) {
-                Logger(`リモート項目とローカル項目の両方が見つかりません`, LOG_LEVEL_INFO);
+                Logger(`Could not find both remote and local item`, LOG_LEVEL_INFO);
             } else if (!remote) {
-                Logger(`リモート項目が見つかりません`, LOG_LEVEL_INFO);
+                Logger(`Could not find remote item`, LOG_LEVEL_INFO);
             } else if (!local) {
-                Logger(`ローカル項目が見つかりません`, LOG_LEVEL_INFO);
+                Logger(`Could not locally item`, LOG_LEVEL_INFO);
             }
         }
     }
@@ -304,11 +311,11 @@
         if (!local) return;
         if (!selectedItem) return;
         const menu = new Menu();
-        menu.addItem((item) => item.setTitle("ファイルを比較").setIsLabel(true));
+        menu.addItem((item) => item.setTitle(translateMessage("Compare file")).setIsLabel(true));
         menu.addSeparator();
         const files = unique(local.files.map((e) => e.filename).concat(selectedItem.files.map((e) => e.filename)));
         const convDate = (dt: PluginDataExFile | undefined) => {
-            if (!dt) return "(なし)";
+            if (!dt) return translateMessage("(Missing)");
             const d = new Date(dt.mtime);
             return d.toLocaleString();
         };
@@ -332,13 +339,17 @@
     async function duplicateItem() {
         const local = list.find((e) => e.term == thisTerm);
         if (!local) {
-            Logger(`ローカル項目が見つかりません`, LOG_LEVEL_VERBOSE);
+            Logger(`Could not find local item`, LOG_LEVEL_VERBOSE);
             return;
         }
-        const duplicateTermName = await core.confirm.askString("複製", "デバイス名", "");
+        const duplicateTermName = await core.confirm.askString(
+            translateMessage("Duplicate"),
+            translateMessage("device name"),
+            ""
+        );
         if (duplicateTermName) {
             if (duplicateTermName.contains("/")) {
-                Logger(`デバイス名に "/" は使用できません`, LOG_LEVEL_NOTICE);
+                Logger(translateMessage('We can not use "/" to the device name'), LOG_LEVEL_NOTICE);
                 return;
             }
             const key = `${plugin.core.services.API.getSystemConfigDir()}/${local.files[0].filename}`;
@@ -391,7 +402,7 @@
     {/if}
 {:else}
     <span class="spacer"></span>
-    <span class="message even">すべて同じ、または存在しません</span>
+    <span class="message even">{translateMessage("All the same or non-existent")}</span>
     <!-- svelte-ignore a11y_consider_explicit_label -->
     <button disabled></button>
     <!-- svelte-ignore a11y_consider_explicit_label -->

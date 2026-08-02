@@ -22,11 +22,11 @@
     let userType = $state<SelectMethodNewUserResultType>(TYPE_CANCELLED);
     let proceedTitle = $derived.by(() => {
         if (userType === TYPE_USE_SETUP_URI) {
-            return translateMessage("Ui.SetupWizard.SelectNew.ProceedSetupUri");
+            return translateMessage("Proceed with Setup URI");
         } else if (userType === TYPE_CONFIGURE_MANUALLY) {
             return translateMessage("Ui.SetupWizard.SelectNew.ProceedManual");
         } else {
-            return translateMessage("Ui.SetupWizard.Common.ProceedSelectOption");
+            return translateMessage("Please select an option to proceed");
         }
     });
     const canProceed = $derived.by(() => {
@@ -34,14 +34,14 @@
     });
 </script>
 
-<DialogHeader title={translateMessage("Ui.SetupWizard.SelectNew.Title")} />
+<DialogHeader title={translateMessage("Connection Method")} />
 <Guidance>{translateMessage("Ui.SetupWizard.SelectNew.Guidance")}</Guidance>
 <Instruction>
     <Question>{translateMessage("Ui.SetupWizard.SelectNew.Question")}</Question>
     <Options>
         <Option
             selectedValue={TYPE_USE_SETUP_URI}
-            title={translateMessage("Ui.SetupWizard.SelectNew.SetupUriOption")}
+            title={translateMessage("Use a Setup URI (Recommended)")}
             bind:value={userType}
         >
             {translateMessage("Ui.SetupWizard.SelectNew.SetupUriOptionDesc")}
@@ -60,5 +60,5 @@
 </Instruction>
 <UserDecisions>
     <Decision title={proceedTitle} important={canProceed} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title={translateMessage("Ui.SetupWizard.Common.Cancel")} commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title={translateMessage("Cancel")} commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

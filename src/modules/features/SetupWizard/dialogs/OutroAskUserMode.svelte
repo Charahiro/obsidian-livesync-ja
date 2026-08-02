@@ -14,6 +14,7 @@
         TYPE_NEW,
         TYPE_COMPATIBLE_EXISTING,
     } from "./setupDialogTypes";
+    import { $msg as translateMessage } from "@/common/translation";
 
     type Props = {
         setResult: (result: OutroAskUserModeResultType) => void;
@@ -25,54 +26,66 @@
     });
     const proceedMessage = $derived.by(() => {
         if (userType === TYPE_NEW) {
-            return "次のステップへ進む";
+            return translateMessage("Proceed to the next step.");
         } else if (userType === TYPE_EXISTING) {
-            return "次のステップへ進む";
+            return translateMessage("Proceed to the next step.");
         } else if (userType === TYPE_COMPATIBLE_EXISTING) {
-            return "設定を適用";
+            return translateMessage("Apply the settings");
         } else {
-            return "続行するには選択してください";
+            return translateMessage("Please select an option to proceed");
         }
     });
 </script>
 
-<DialogHeader title="ほぼ完了: 判断が必要です" />
+<DialogHeader title={translateMessage("Mostly Complete: Decision Required")} />
 <Guidance>
-    サーバーへの接続設定が完了しました。次の手順では、<strong
-        >ローカルデータベース、つまり同期情報を再構成する必要があります。</strong
+    {translateMessage("The connection to the server has been configured successfully. As the next step,")} <strong
+        >{translateMessage(
+            "the local database, that is to say the synchronisation information, must be reconstituted."
+        )}</strong
     >
 </Guidance>
 <Instruction>
-    <Question>現在の状況を選択してください。</Question>
+    <Question>{translateMessage("Please select your situation.")}</Question>
     <Option
-        title="新しいサーバーを初めてセットアップする / 既存サーバーをリセットしたい"
+        title={translateMessage(
+            "I am setting up a new server for the first time / I want to reset my existing server."
+        )}
         bind:value={userType}
         selectedValue={TYPE_NEW}
     >
         <InfoNote>
-            このオプションを選択すると、このデバイス上の現在のデータを使ってサーバーを初期化します。サーバー上の既存データは完全に上書きされます。
+            {translateMessage(
+                "Selecting this option will result in the current data on this device being used to initialise the server. Any existing data on the server will be completely overwritten."
+            )}
         </InfoNote>
     </Option>
     <Option
-        title="リモートサーバーは既にセットアップ済みで、このデバイスを参加させたい"
+        title={translateMessage("My remote server is already set up. I want to join this device.")}
         bind:value={userType}
         selectedValue={TYPE_EXISTING}
     >
         <InfoNote>
-            このオプションを選択すると、このデバイスを既存サーバーに参加させます。サーバーからこのデバイスへ既存の同期データを取得する必要があります。
+            {translateMessage(
+                "Selecting this option will result in this device joining the existing server. You need to fetching the existing synchronisation data from the server to this device."
+            )}
         </InfoNote>
     </Option>
     <Option
-        title="リモートは既にセットアップ済みで、構成に互換性がある（またはこの操作で互換性が得られた）"
+        title={translateMessage(
+            "The remote is already set up, and the configuration is compatible (or got compatible by this operation)."
+        )}
         bind:value={userType}
         selectedValue={TYPE_COMPATIBLE_EXISTING}
     >
         <InfoNote warning>
-            確信がない場合、この選択は少し危険です。サーバー構成がこのデバイスと互換性を持つことを前提にします。そうでない場合、データ損失が発生する可能性があります。内容を理解している場合のみ選択してください。
+            {translateMessage(
+                "Unless you are certain, selecting this options is bit dangerous. It assumes that the server configuration is compatible with this device. If this is not the case, data loss may occur. Please ensure you know what you are doing."
+            )}
         </InfoNote>
     </Option>
 </Instruction>
 <UserDecisions>
     <Decision title={proceedMessage} important={true} disabled={!canProceed} commit={() => setResult(userType)} />
-    <Decision title="いいえ、戻ります" commit={() => setResult(TYPE_CANCELLED)} />
+    <Decision title={translateMessage("No, please take me back")} commit={() => setResult(TYPE_CANCELLED)} />
 </UserDecisions>

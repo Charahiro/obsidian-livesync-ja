@@ -1362,7 +1362,7 @@ export class ConfigSync extends LiveSyncCommands {
     async storeCustomizationFiles(path: FilePath, termOverRide?: string) {
         const term = termOverRide || this.services.setting.getDeviceAndVaultName();
         if (term == "") {
-            this._log("We have to configure the device name", LOG_LEVEL_NOTICE);
+            this._log($msg("We have to configure the device name"), LOG_LEVEL_NOTICE);
             return;
         }
         if (this.useV2) {
@@ -1552,7 +1552,7 @@ export class ConfigSync extends LiveSyncCommands {
             this._log("Scanning customizing files.", logLevel, "scan-all-config");
             const term = this.services.setting.getDeviceAndVaultName();
             if (term == "") {
-                this._log("We have to configure the device name", LOG_LEVEL_NOTICE);
+                this._log($msg("We have to configure the device name"), LOG_LEVEL_NOTICE);
                 return;
             }
             const filesAll = await this.scanInternalFiles();

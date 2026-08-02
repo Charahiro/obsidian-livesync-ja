@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { CustomRegExpSource } from "@vrtmrz/livesync-commonlib/compat/common/types";
     import { isInvertedRegExp, isValidRegExp } from "@vrtmrz/livesync-commonlib/compat/common/utils";
+    import { $msg as translateMessage } from "@/common/translation";
 
     export let patterns = [] as CustomRegExpSource[];
     export let originals = [] as CustomRegExpSource[];
@@ -31,26 +32,26 @@
         <!-- svelte-ignore a11y-label-has-associated-control -->
         <li>
             <label>{modified[idx]}{statusName[idx]}</label>
-            <span class="chip">{isInvertedExp[idx] ? "反転" : ""}</span>
+            <span class="chip">{isInvertedExp[idx] ? translateMessage("INVERTED") : ""}</span>
             <input type="text" bind:value={pattern} class={modified[idx]} />
             <button class="iconbutton" on:click={() => remove(idx)}>🗑</button>
         </li>
     {/each}
     <li>
         <label>
-            <button on:click={() => add()}>追加</button>
+            <button on:click={() => add()}>Add</button>
         </label>
     </li>
     <li class="buttons">
         <button
             on:click={() => apply(patterns)}
             disabled={statusName.some((e) => e === CHECK_NG) || modified.every((e) => e === "")}
-            >適用
+            >Apply
         </button>
         <button
             on:click={() => revert()}
             disabled={statusName.some((e) => e === CHECK_NG) || modified.every((e) => e === "")}
-            >戻す
+            >Revert
         </button>
     </li>
 </ul>

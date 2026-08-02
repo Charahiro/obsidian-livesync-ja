@@ -58,64 +58,89 @@
         </Check>
     </Guidance>
 {:else}
-    <DialogHeader title={msg("Ui.SetupWizard.RebuildEverything.Title")} />
-    <Guidance>{msg("Ui.SetupWizard.RebuildEverything.Guidance")}</Guidance>
-    <InfoNote>{msg("Ui.SetupWizard.RebuildEverything.Note")}</InfoNote>
-    <Guidance important title={msg("Ui.SetupWizard.RebuildEverything.ConfirmTitle")}>
+    <DialogHeader title={msg("Final Confirmation: Overwrite Server Data with This Device's Files")} />
+    <Guidance
+        >{msg(
+            "This procedure will first delete all existing synchronisation data from the server. Following this, the server data will be completely rebuilt, using the current state of your Vault on this device (including its local database) as"
+        )} <strong>{msg("the single, authoritative master copy")}</strong>.</Guidance
+    >
+    <InfoNote>
+        {msg(
+            "You should perform this operation only in exceptional circumstances, such as when the server data is completely corrupted, when changes on all other devices are no longer needed, or when the database size has become unusually large in comparison to the Vault size."
+        )}
+    </InfoNote>
+    <Guidance important title={msg("⚠️ Please Confirm the Following")}>
         <Check
-            title={msg("Ui.SetupWizard.RebuildEverything.ConfirmOtherChanges")}
+            title={msg("I understand that all changes made on other smartphones or computers possibly could be lost.")}
             bind:value={confirmationCheck1}
         >
-            <InfoNote>{msg("Ui.SetupWizard.RebuildEverything.ConfirmOtherChangesNote")}</InfoNote>
+            <InfoNote>{msg("There is a way to resolve this on other devices.")}</InfoNote>
+            <InfoNote>{msg("Of course, we can back up the data before proceeding.")}</InfoNote>
         </Check>
         <Check
-            title={msg("Ui.SetupWizard.RebuildEverything.ConfirmOtherDevices")}
+            title={msg(
+                "I understand that other devices will no longer be able to synchronise, and will need to be reset the synchronisation information."
+            )}
             bind:value={confirmationCheck2}
         >
-            <InfoNote>{msg("Ui.SetupWizard.RebuildEverything.ConfirmOtherDevicesNote")}</InfoNote>
+            <InfoNote>{msg("by resetting the remote, you will be informed on other devices.")}</InfoNote>
         </Check>
-        <Check title={msg("Ui.SetupWizard.RebuildEverything.ConfirmIrreversible")} bind:value={confirmationCheck3} />
+        <Check
+            title={msg("I understand that this action is irreversible once performed.")}
+            bind:value={confirmationCheck3}
+        />
     </Guidance>
 {/if}
 <hr />
 <Instruction>
-    <Question>{msg("Ui.SetupWizard.RebuildEverything.BackupQuestion")}</Question>
-    <InfoNote warning>{msg("Ui.SetupWizard.RebuildEverything.BackupWarning")}</InfoNote>
+    <Question>{msg("Have you created a backup before proceeding?")}</Question>
+    <InfoNote warning>
+        {msg(
+            "This is an extremely powerful operation. We strongly recommend that you copy your Vault folder to a safe location."
+        )}
+    </InfoNote>
     <Options>
         <Option
             selectedValue={TYPE_BACKUP_DONE}
-            title={msg("Ui.SetupWizard.RebuildEverything.BackupDone")}
+            title={msg("I have created a backup of my Vault.")}
             bind:value={backupType}
         />
         <Option
             selectedValue={TYPE_BACKUP_SKIPPED}
-            title={msg("Ui.SetupWizard.RebuildEverything.BackupSkipped")}
+            title={msg("I understand the risks and will proceed without a backup.")}
             bind:value={backupType}
         />
         <Option
             selectedValue={TYPE_UNABLE_TO_BACKUP}
-            title={msg("Ui.SetupWizard.RebuildEverything.BackupUnable")}
+            title={msg("I am unable to create a backup of my Vaults.")}
             bind:value={backupType}
         >
             <InfoNote error visible={backupType === TYPE_UNABLE_TO_BACKUP}>
-                <strong>{msg("Ui.SetupWizard.RebuildEverything.BackupUnableNote")}</strong>
+                <strong
+                    >{msg("You should create a new synchronisation destination and rebuild your data there.")} <br />
+                    {msg(
+                        "After that, synchronise to a brand new vault on each other device with the new remote one by one."
+                    )}</strong
+                >
             </InfoNote>
         </Option>
     </Options>
 </Instruction>
 {#if !isP2P}
     <Instruction>
-        <ExtraItems title={msg("Ui.SetupWizard.RebuildEverything.Advanced")}>
-            <Check title={msg("Ui.SetupWizard.RebuildEverything.PreventFetchingConfig")} bind:value={preventFetchingConfig} />
+        <ExtraItems title={msg("Advanced")}>
+            <Check title={msg("Prevent fetching configuration from server")} bind:value={preventFetchingConfig} />
         </ExtraItems>
     </Instruction>
 {/if}
 <UserDecisions>
     <Decision
-        title={isP2P ? msg("Ui.SetupWizard.RebuildEverythingP2P.Proceed") : msg("Ui.SetupWizard.RebuildEverything.Proceed")}
+        title={isP2P
+            ? msg("Ui.SetupWizard.RebuildEverythingP2P.Proceed")
+            : msg("I Understand, Overwrite Server")}
         important
         disabled={!canProceed}
         commit={() => commit()}
     />
-    <Decision title={msg("Ui.SetupWizard.Common.Cancel")} commit={() => setResult(TYPE_CANCEL)} />
+    <Decision title={msg("Cancel")} commit={() => setResult(TYPE_CANCEL)} />
 </UserDecisions>

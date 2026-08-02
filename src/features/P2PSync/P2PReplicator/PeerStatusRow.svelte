@@ -1,6 +1,7 @@
 <script lang="ts">
     import { AcceptedStatus, type PeerStatus } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/P2PReplicatorPaneCommon";
     import type { P2PReplicatorHandle } from "./P2PReplicatorPaneHost";
+    import { $msg as translateMessage } from "@/common/translation";
 
     interface Props {
         peerStatus: PeerStatus;
@@ -22,34 +23,44 @@
 
     let statusChips = $derived.by(() =>
         [
-            peer.isWatching ? ["監視中"] : [],
-            peer.isFetching ? ["取得中"] : [],
-            peer.isSending ? ["送信中"] : [],
+            peer.isWatching ? ["WATCHING"] : [],
+            peer.isFetching ? ["FETCHING"] : [],
+            peer.isSending ? ["SENDING"] : [],
         ].flat()
     );
+    const chipLabels: Record<string, string> = {
+        WATCHING: translateMessage("WATCHING"),
+        FETCHING: translateMessage("FETCHING"),
+        SENDING: translateMessage("SENDING"),
+    };
     let acceptedStatusChip = $derived.by(() =>
         select(
             peer.accepted.toString(),
             {
-                [AcceptedStatus.ACCEPTED]: "承認済み",
-                [AcceptedStatus.ACCEPTED_IN_SESSION]: "承認済み（このセッションのみ）",
-                [AcceptedStatus.DENIED_IN_SESSION]: "拒否（このセッションのみ）",
-                [AcceptedStatus.DENIED]: "拒否",
-                [AcceptedStatus.UNKNOWN]: "新規",
+                [AcceptedStatus.ACCEPTED]: "ACCEPTED",
+                [AcceptedStatus.ACCEPTED_IN_SESSION]: "ACCEPTED (in session)",
+                [AcceptedStatus.DENIED_IN_SESSION]: "DENIED (in session)",
+                [AcceptedStatus.DENIED]: "DENIED",
+                [AcceptedStatus.UNKNOWN]: "NEW",
             },
             ""
         ) ?? ""
     );
+    const acceptedStatusLabels: Record<string, string> = {
+        ACCEPTED: translateMessage("ACCEPTED"),
+        "ACCEPTED (in session)": translateMessage("ACCEPTED (in session)"),
+        "DENIED (in session)": translateMessage("DENIED (in session)"),
+        DENIED: translateMessage("DENIED"),
+        NEW: translateMessage("NEW"),
+    };
     const classList = {
-        ["送信中"]: "connected",
-        ["取得中"]: "connected",
-        ["監視中"]: "connected-live",
-        ["待機中"]: "waiting",
-        ["承認済み"]: "accepted",
-        ["承認済み（このセッションのみ）"]: "accepted",
-        ["拒否"]: "denied",
-        ["拒否（このセッションのみ）"]: "denied",
-        ["新規"]: "unknown",
+        ["SENDING"]: "connected",
+        ["FETCHING"]: "connected",
+        ["WATCHING"]: "connected-live",
+        ["WAITING"]: "waiting",
+        ["ACCEPTED"]: "accepted",
+        ["DENIED"]: "denied",
+        ["NEW"]: "unknown",
     };
     let isAccepted = $derived.by(
         () => peer.accepted === AcceptedStatus.ACCEPTED || peer.accepted === AcceptedStatus.ACCEPTED_IN_SESSION
@@ -77,13 +88,13 @@
     const peerAttrLabels = $derived.by(() => {
         const attrs = [];
         if (peer.syncOnConnect) {
-            attrs.push("✔ 同期");
+            attrs.push(translateMessage("✔ SYNC"));
         }
         if (peer.watchOnConnect) {
-            attrs.push("✔ 監視");
+            attrs.push(translateMessage("✔ WATCH"));
         }
         if (peer.syncOnReplicationCommand) {
-            attrs.push("✔ 選択");
+            attrs.push(translateMessage("✔ SELECT"));
         }
         return attrs;
     });
@@ -115,12 +126,14 @@
         </div>
         <div class="status-chips">
             <div class="row">
-                <span class="chip {select(acceptedStatusChip, classList)}">{acceptedStatusChip}</span>
+                <span class="chip {select(acceptedStatusChip, classList)}"
+                    >{acceptedStatusLabels[acceptedStatusChip] ?? acceptedStatusChip}</span
+                >
             </div>
             {#if isAccepted}
                 <div class="row">
                     {#each statusChips as chip}
-                        <span class="chip {select(chip, classList)}">{chip}</span>
+                        <span class="chip {select(chip, classList)}">{chipLabels[chip] ?? chip}</span>
                     {/each}
                 </div>
             {/if}
@@ -136,15 +149,25 @@
             <div class="row">
                 {#if isNew}
                     {#if !isAccepted}
-                        <button class="button" onclick={() => makeDecision(true, true)}>このセッションのみ承認</button>
-                        <button class="button mod-cta" onclick={() => makeDecision(true, false)}>承認</button>
+                        <button class="button" onclick={() => makeDecision(true, true)}
+                            >{translateMessage("Accept in session")}</button
+                        >
+                        <button class="button mod-cta" onclick={() => makeDecision(true, false)}
+                            >{translateMessage("Accept")}</button
+                        >
                     {/if}
                     {#if !isDenied}
-                        <button class="button" onclick={() => makeDecision(false, true)}>このセッションのみ拒否</button>
-                        <button class="button mod-warning" onclick={() => makeDecision(false, false)}>拒否</button>
+                        <button class="button" onclick={() => makeDecision(false, true)}
+                            >{translateMessage("Deny in session")}</button
+                        >
+                        <button class="button mod-warning" onclick={() => makeDecision(false, false)}
+                            >{translateMessage("Deny")}</button
+                        >
                     {/if}
                 {:else}
-                    <button class="button mod-warning" onclick={() => revokeDecision()}>取り消し</button>
+                    <button class="button mod-warning" onclick={() => revokeDecision()}
+                        >{translateMessage("Revoke")}</button
+                    >
                 {/if}
             </div>
         </div>
@@ -157,9 +180,9 @@
                     <!-- <button class="button" onclick={replicateFrom} disabled={peer.isFetching}>📥</button>
                     <button class="button" onclick={replicateTo} disabled={peer.isSending}>📤</button> -->
                     {#if peer.isWatching}
-                        <button class="button" onclick={stopWatching}>停止 ⚡</button>
+                        <button class="button" onclick={stopWatching}>{translateMessage("Stop ⚡")}</button>
                     {:else}
-                        <button class="button" onclick={startWatching} title="ライブ監視">⚡</button>
+                        <button class="button" onclick={startWatching} title={translateMessage("live")}>⚡</button>
                     {/if}
                     {#if showPeerMenu}
                         <button class="button" onclick={moreMenu}>...</button>
