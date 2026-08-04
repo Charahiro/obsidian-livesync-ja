@@ -181,45 +181,47 @@ export function panePatches(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElemen
         new Setting(paneEl).autoWireToggle("disableCheckingConfigMismatch");
     });
     void addPanel(paneEl, $msg("Ui.Settings.Patches.Remediation")).then((paneEl) => {
-        let dateEl: HTMLSpanElement;
-        const remediationSetting = new Setting(paneEl).setAuto("maxMTimeForReflectEvents");
-        remediationSetting.addText((text) => {
-            const updateDateText = () => {
-                if (this.editingSettings.maxMTimeForReflectEvents == 0) {
-                    dateEl.textContent = $msg("Ui.Settings.Patches.RemediationNoLimit");
-                } else {
+        const setting = new Setting(paneEl);
+        const dateEl = setting.controlEl.createSpan();
+        setting
+            .addText((text) => {
+                const updateDateText = () => {
+                    if (this.editingSettings.maxMTimeForReflectEvents == 0) {
+                        dateEl.textContent = $msg("Ui.Settings.Patches.RemediationNoLimit");
+                    } else {
+                        const date = new Date(this.editingSettings.maxMTimeForReflectEvents);
+                        dateEl.textContent = $msg("Ui.Settings.Patches.RemediationWithValue", {
+                            date: date.toLocaleString(),
+                            timestamp: `${this.editingSettings.maxMTimeForReflectEvents}`,
+                        });
+                    }
+                    this.requestUpdate();
+                };
+                text.inputEl.type = "datetime-local";
+                if (this.editingSettings.maxMTimeForReflectEvents > 0) {
                     const date = new Date(this.editingSettings.maxMTimeForReflectEvents);
-                    dateEl.textContent = $msg("Ui.Settings.Patches.RemediationWithValue", {
-                        date: date.toLocaleString(),
-                        timestamp: `${this.editingSettings.maxMTimeForReflectEvents}`,
-                    });
+                    const isoString = date.toISOString().slice(0, 16);
+                    text.setValue(isoString);
+                } else {
+                    text.setValue("");
                 }
-                this.requestUpdate();
-            };
-            text.inputEl.before((dateEl = activeDocument.createSpan()));
-            text.inputEl.type = "datetime-local";
-            if (this.editingSettings.maxMTimeForReflectEvents > 0) {
-                const date = new Date(this.editingSettings.maxMTimeForReflectEvents);
-                const isoString = date.toISOString().slice(0, 16);
-                text.setValue(isoString);
-            } else {
-                text.setValue("");
-            }
-            text.onChange((value) => {
-                if (value == "") {
-                    this.editingSettings.maxMTimeForReflectEvents = 0;
+                text.onChange((value) => {
+                    if (value == "") {
+                        this.editingSettings.maxMTimeForReflectEvents = 0;
+                        updateDateText();
+                        return;
+                    }
+                    const date = new Date(value);
+                    if (!isNaN(date.getTime())) {
+                        this.editingSettings.maxMTimeForReflectEvents = date.getTime();
+                    }
                     updateDateText();
-                    return;
-                }
-                const date = new Date(value);
-                if (!isNaN(date.getTime())) {
-                    this.editingSettings.maxMTimeForReflectEvents = date.getTime();
-                }
+                });
                 updateDateText();
-            });
-            updateDateText();
-        });
-        remediationSetting.addApplyButton(["maxMTimeForReflectEvents"]);
+                return text;
+            })
+            .setAuto("maxMTimeForReflectEvents")
+            .addApplyButton(["maxMTimeForReflectEvents"]);
 
         this.addOnSaved("maxMTimeForReflectEvents", async (key) => {
             const restartNow = $msg("Ui.Settings.Patches.RemediationRestartNow");
