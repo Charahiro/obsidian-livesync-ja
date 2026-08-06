@@ -28,6 +28,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: ", please select the option that best describes the current state of your Vault. The application will then check your files in the most appropriate way based on your selection.",
             es: ", selecciona la opción que mejor describa el estado actual de tu Vault. La aplicación comprobará entonces tus archivos de la forma más adecuada según tu elección.",
             ja: "、Vault の現在の状態を最もよく表すオプションを選択してください。アプリケーションは、選択に基づいて最も適切な方法でファイルをチェックします。",
+            ko: ", 이 보관함의 현재 상태를 가장 잘 설명하는 옵션을 선택해 주세요. 선택하신 내용에 따라 가장 적절한 방식으로 파일을 확인합니다.",
         },
     "(Active)": {
         def: "(Active)",
@@ -72,16 +73,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "(e.g., after editing many files whilst offline)",
         es: "(p. ej., tras editar muchos archivos sin conexión)",
         ja: "(例: オフライン中に多くのファイルを編集した後)",
+        ko: "(예: 오프라인 상태에서 많은 파일을 편집한 뒤)",
     },
     "(e.g., immediately after restoring on another computer, or having recovered from a backup)": {
         def: "(e.g., immediately after restoring on another computer, or having recovered from a backup)",
         es: "(p. ej., justo después de restaurar en otro ordenador o de recuperar una copia de seguridad)",
         ja: "(例: 別のコンピュータで復元した直後、またはバックアップから復元した直後)",
+        ko: "(예: 다른 컴퓨터에서 복원한 직후이거나 백업에서 복구한 경우)",
     },
     "(e.g., setting up for the first time on a new smartphone, starting from a clean slate)": {
         def: "(e.g., setting up for the first time on a new smartphone, starting from a clean slate)",
         es: "(p. ej., configurando por primera vez un móvil nuevo, empezando de cero)",
         ja: "(例: 新しいスマートフォンで、白紙の状態から初めてセットアップする場合)",
+        ko: "(예: 새 스마트폰에서 처음 설정하여 빈 상태에서 시작하는 경우)",
     },
     "(ex. Read chunks online) If this option is enabled, LiveSync reads chunks online directly instead of replicating them locally. Increasing Custom chunk size is recommended.":
         {
@@ -119,6 +123,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "(Missing)",
         es: "(Falta)",
         ja: "(なし)",
+        ko: "(없음)",
     },
     "(Not recommended) If set, credentials will be stored in the file.": {
         def: "(Not recommended) If set, credentials will be stored in the file.",
@@ -188,21 +193,25 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "↑: Overwrite Remote",
         es: "↑: Sobrescribir remoto",
         ja: "↑: リモートを上書き",
+        ko: "↑: 원격 덮어쓰기",
     },
     "↓: Overwrite Local": {
         def: "↓: Overwrite Local",
         es: "↓: Sobrescribir local",
         ja: "↓: ローカルを上書き",
+        ko: "↓: 로컬 덮어쓰기",
     },
     "⇅: Use newer": {
         def: "⇅: Use newer",
         es: "⇅: Usar el más nuevo",
         ja: "⇅: 新しい方を使用",
+        ko: "⇅: 더 새로운 쪽 사용",
     },
     "+1 week": {
         def: "+1 week",
         es: "+1 semana",
         ja: "+1週間",
+        ko: "+1주",
     },
     "> [!INFO]- The connected devices have been detected as follows:\n${devices}": {
         def: "> [!INFO]- The connected devices have been detected as follows:\n${devices}",
@@ -225,11 +234,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "⚠️ Important Notice",
         es: "⚠️ Aviso importante",
         ja: "⚠️ 重要なお知らせ",
+        ko: "⚠️ 중요 안내",
     },
     "⚠️ Please Confirm the Following": {
         def: "⚠️ Please Confirm the Following",
         es: "⚠️ Confirma lo siguiente",
         ja: "⚠️以下をご確認ください",
+        ko: "⚠️ 다음 내용을 확인해 주세요",
     },
     "✅ Matches Vault": {
         def: "✅ Matches Vault",
@@ -243,16 +254,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "✔ SELECT",
         es: "✔ SELECCIONAR",
         ja: "✔ 選択",
+        ko: "✔ 선택",
     },
     "✔ SYNC": {
         def: "✔ SYNC",
         es: "✔ SINCRONIZAR",
         ja: "✔ 同期",
+        ko: "✔ 동기화",
     },
     "✔ WATCH": {
         def: "✔ WATCH",
         es: "✔ OBSERVAR",
         ja: "✔ 監視",
+        ko: "✔ 감시",
     },
     "📁 Vault: ${SIZE} B · ${TIME}": {
         def: "📁 Vault: ${SIZE} B · ${TIME}",
@@ -270,11 +284,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "📡 Off",
         es: "📡 Desactivado",
         ja: "📡 オフ",
+        ko: "📡 꺼짐",
     },
     "📡 On": {
         def: "📡 On",
         es: "📡 Activado",
         ja: "📡 オン",
+        ko: "📡 켜짐",
     },
     "📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B": {
         def: "📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B",
@@ -288,6 +304,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "🔴 Disconnected",
         es: "🔴 Desconectado",
         ja: "🔴 未接続",
+        ko: "🔴 연결 끊김",
     },
     "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})": {
         def: "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})",
@@ -297,6 +314,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "🕵️ Diag",
         es: "🕵️ Diagnóstico",
         ja: "🕵️診断",
+        ko: "🕵️ 진단",
     },
     "🗄️ Local DB: missing": {
         def: "🗄️ Local DB: missing",
@@ -306,6 +324,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "🗑 Delete",
         es: "🗑 Eliminar",
         ja: "🗑 削除",
+        ko: "🗑 삭제",
     },
     "🗑️ Logical deletion": {
         def: "🗑️ Logical deletion",
@@ -319,11 +338,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "🟢 Connected",
         es: "🟢 Conectado",
         ja: "🟢 接続済み",
+        ko: "🟢 연결됨",
     },
     "${count} issue(s) detected!": {
         def: "${count} issue(s) detected!",
         es: "¡${count} problema(s) detectado(s)!",
         ja: "${count} の問題が検出されました。",
+        ko: "${count}개의 문제가 감지되었습니다!",
     },
     "${ROLE}: ${REVISION}": {
         def: "${ROLE}: ${REVISION}",
@@ -348,21 +369,25 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Accept",
         es: "Aceptar",
         ja: "承認",
+        ko: "수락",
     },
     "Accept in session": {
         def: "Accept in session",
         es: "Aceptar en esta sesión",
         ja: "このセッションで承認",
+        ko: "이 세션에서만 수락",
     },
     ACCEPTED: {
         def: "ACCEPTED",
         es: "ACEPTADO",
         ja: "承認済み",
+        ko: "수락됨",
     },
     "ACCEPTED (in session)": {
         def: "ACCEPTED (in session)",
         es: "ACEPTADO (en esta sesión)",
         ja: "承認済み（このセッションのみ）",
+        ko: "수락됨 (이 세션에서만)",
     },
     "Access Key": {
         def: "Access Key",
@@ -378,11 +403,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Access Key ID",
         es: "ID de clave de acceso",
         ja: "アクセスキーID",
+        ko: "액세스 키 ID",
     },
     Action: {
         def: "Action",
         es: "Acción",
         ja: "アクション",
+        ko: "작업",
     },
     Activate: {
         def: "Activate",
@@ -430,21 +457,25 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "AddOn Module (ConfigSync) has not been loaded. This is very unexpected situation. Please report this issue.",
         es: "El módulo complementario (ConfigSync) no se ha cargado. Esta situación es muy inesperada. Informa de este problema.",
         ja: "アドオン モジュール (ConfigSync) がロードされていません。これは非常に予期せぬ状況です。この問題を報告してください。",
+        ko: "애드온 모듈(ConfigSync)이 로드되지 않았습니다. 매우 예기치 못한 상황입니다. 이 문제를 신고해 주세요.",
     },
     "AddOn Module (HiddenFileSync) has not been loaded. This is very unexpected situation. Please report this issue.": {
         def: "AddOn Module (HiddenFileSync) has not been loaded. This is very unexpected situation. Please report this issue.",
         es: "El módulo complementario (HiddenFileSync) no se ha cargado. Esta situación es muy inesperada. Informa de este problema.",
         ja: "アドオン モジュール (HiddenFileSync) がロードされていません。これは非常に予期せぬ状況です。この問題を報告してください。",
+        ko: "애드온 모듈(HiddenFileSync)이 로드되지 않았습니다. 매우 예기치 못한 상황입니다. 이 문제를 신고해 주세요.",
     },
     Advanced: {
         def: "Advanced",
         es: "Avanzado",
         ja: "詳細設定",
+        ko: "고급",
     },
     "Advanced Settings": {
         def: "Advanced Settings",
         es: "Ajustes avanzados",
         ja: "詳細設定",
+        ko: "고급 설정",
     },
     "After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data.":
         {
@@ -456,22 +487,26 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "After restarting, the data on this device will be uploaded to the server as the 'master copy'. Please be aware that any unintended data currently on the server will be completely overwritten.",
             es: "Tras reiniciar, los datos de este dispositivo se subirán al servidor como «copia maestra». Ten en cuenta que cualquier dato no deseado que haya ahora en el servidor se sobrescribirá por completo.",
             ja: "再起動後、このデバイス上のデータは「マスターコピー」としてサーバーにアップロードされます。現在サーバー上にある意図しないデータは完全に上書きされることに注意してください。",
+            ko: "재시작하면 이 기기의 데이터가 '원본'으로서 서버에 업로드됩니다. 현재 서버에 있는 의도치 않은 데이터는 모두 완전히 덮어써진다는 점에 유의해 주세요.",
         },
     "After restarting, the database on this device will be rebuilt using data from the server. If there are any unsynchronised files in this vault, conflicts may occur with the server data.":
         {
             def: "After restarting, the database on this device will be rebuilt using data from the server. If there are any unsynchronised files in this vault, conflicts may occur with the server data.",
             es: "Tras reiniciar, la base de datos de este dispositivo se reconstruirá con los datos del servidor. Si hay archivos sin sincronizar en este vault, pueden producirse conflictos con los datos del servidor.",
             ja: "再起動後、このデバイスのデータベースはサーバーのデータを使用して再構築されます。このVaultに未同期のファイルがある場合、サーバーデータとの競合が発生する可能性があります。",
+            ko: "재시작하면 서버의 데이터를 사용해 이 기기의 데이터베이스가 재구축됩니다. 이 보관함에 동기화되지 않은 파일이 있다면 서버 데이터와 충돌이 발생할 수 있습니다.",
         },
     "After that, synchronise to a brand new vault on each other device with the new remote one by one.": {
         def: "After that, synchronise to a brand new vault on each other device with the new remote one by one.",
         es: "Después, sincroniza con un vault totalmente nuevo en cada uno de los demás dispositivos, uno por uno, usando el nuevo remoto.",
         ja: "その後、新しいリモートを使用して、他の各デバイスの新しいVaultへ一台ずつ同期してください。",
+        ko: "그런 다음 다른 기기에서도 하나씩 새 원격을 사용해 완전히 새로운 보관함에 동기화하세요.",
     },
     "All checks passed successfully!": {
         def: "All checks passed successfully!",
         es: "¡Todas las comprobaciones se han superado correctamente!",
         ja: "すべての確認が完了しました。",
+        ko: "모든 검사를 통과했습니다!",
     },
     "All devices have the same progress value (${progress}). Your devices seem to be synchronised. And be able to proceed with Garbage Collection.":
         {
@@ -487,22 +522,38 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "All the same or non-existent",
         es: "Todo igual o inexistente",
         ja: "全て同じか存在しない",
+        ko: "모두 동일하거나 존재하지 않음",
     },
     "Allow in session": {
         def: "Allow in session",
         es: "Permitir en esta sesión",
         ja: "このセッションで許可",
+        ko: "이 세션에서만 허용",
     },
     "Allow permanently": {
         def: "Allow permanently",
         es: "Permitir permanentemente",
         ja: "常に許可",
+        ko: "항상 허용",
+    },
+    "Allow sleep during synchronisation": {
+        def: "Allow sleep during synchronisation",
+        ja: "同期中にスリープを許可",
+    },
+    "Allow sleep during synchronisation on the desktop": {
+        def: "Allow sleep during synchronisation on the desktop",
+        ja: "デスクトップで同期中にスリープを許可",
+    },
+    "Allow the operating system to sleep while finite synchronisation operations are in progress.": {
+        def: "Allow the operating system to sleep while finite synchronisation operations are in progress.",
+        ja: "有限の同期操作中に、オペレーティングシステムがスリープすることを許可します。",
     },
     "Also, please note that if you are using Peer-to-Peer synchronization, this configuration will be used when you switch to other methods and connect to a remote server in the future.":
         {
             def: "Also, please note that if you are using Peer-to-Peer synchronization, this configuration will be used when you switch to other methods and connect to a remote server in the future.",
             es: "Además, si usas sincronización punto a punto, esta configuración se aplicará cuando en el futuro cambies a otros métodos y te conectes a un servidor remoto.",
             ja: "また、ピアツーピア同期を使用している場合は、将来他の方法に切り替えてリモートサーバーに接続するときにこの構成が使用されることに注意してください。",
+            ko: "또한 Peer-to-Peer 동기화를 사용 중이라면, 이 구성은 나중에 다른 방식으로 전환하여 원격 서버에 연결할 때 사용된다는 점에 유의해 주세요.",
         },
     "Always prompt merge conflicts": {
         def: "Always prompt merge conflicts",
@@ -570,6 +621,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Apply All Selected",
         es: "Aplicar todo lo seleccionado",
         ja: "選択したものをすべて適用",
+        ko: "선택 항목 모두 적용",
     },
     "Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.": {
         def: "Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.",
@@ -617,6 +669,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Apply the settings",
         es: "Aplicar los ajustes",
         ja: "設定を適用",
+        ko: "설정 적용",
     },
     "Apply this revision to Vault": {
         def: "Apply this revision to Vault",
@@ -635,11 +688,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Auto Connect",
         es: "Conexión automática",
         ja: "自動接続",
+        ko: "자동 연결",
     },
     "Auto Start P2P Connection": {
         def: "Auto Start P2P Connection",
         es: "Iniciar la conexión P2P automáticamente",
         ja: "P2P接続を自動開始",
+        ko: "P2P 연결 자동 시작",
     },
     "Auto-accept compatible tweak mismatches": {
         def: "Auto-accept compatible tweak mismatches",
@@ -649,6 +704,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Automatic",
         es: "Automático",
         ja: "自動",
+        ko: "자동",
     },
     "Automatically accepts mismatches that are compatible but potentially lossy by comparing tweak modification times.":
         {
@@ -678,6 +734,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Available Peers",
         es: "Pares disponibles",
         ja: "利用可能なピア",
+        ko: "사용 가능한 피어",
     },
     Back: {
         def: "Back",
@@ -764,6 +821,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Broadcasting?",
         es: "¿Difusión?",
         ja: "変更を通知中？",
+        ko: "브로드캐스트란?",
     },
     "Bucket Name": {
         def: "Bucket Name",
@@ -780,6 +838,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "by resetting the remote, you will be informed on other devices.",
         es: "al restablecer el remoto, se te avisará en los demás dispositivos.",
         ja: "リモートをリセットすると、他のデバイスに通知されます。",
+        ko: "원격을 초기화하면 다른 기기에서 알림을 받게 됩니다.",
     },
     Cancel: {
         def: "Cancel",
@@ -816,6 +875,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "Changing the encryption algorithm will prevent access to any data previously encrypted with a different algorithm. Ensure that all your devices are configured to use the same algorithm to maintain access to your data.",
             es: "Cambiar el algoritmo de cifrado impedirá acceder a los datos cifrados previamente con otro algoritmo. Asegúrate de que todos tus dispositivos usen el mismo algoritmo para no perder el acceso a tus datos.",
             ja: "暗号化アルゴリズムを変更すると、以前に別のアルゴリズムで暗号化されたデータにはアクセスできなくなります。データへのアクセスを維持するために、すべてのデバイスが同じアルゴリズムを使用するように構成されていることを確認してください。",
+            ko: "암호화 알고리즘을 변경하면 이전에 다른 알고리즘으로 암호화된 데이터에는 접근할 수 없게 됩니다. 데이터에 계속 접근할 수 있도록 모든 기기가 동일한 알고리즘을 사용하도록 설정해 주세요.",
         },
     "Changing this setting requires migrating existing data (a bit time may be taken) and restarting Obsidian. Please make sure to back up your data before proceeding.":
         {
@@ -861,6 +921,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Checking connection... Please wait.",
         es: "Comprobando la conexión... Espera un momento.",
         ja: "接続を確認しています...しばらくお待ちください。",
+        ko: "연결을 확인하는 중입니다... 잠시만 기다려 주세요.",
     },
     "Choose a file to inspect": {
         def: "Choose a file to inspect",
@@ -882,26 +943,31 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Chunks",
         es: "Fragmentos (chunks)",
         ja: "チャンク",
+        ko: "청크",
     },
     Close: {
         def: "Close",
         es: "Cerrar",
         ja: "閉じる",
+        ko: "닫기",
     },
     "Close & Disconnect": {
         def: "Close & Disconnect",
         es: "Cerrar y desconectar",
         ja: "閉じて切断する",
+        ko: "닫고 연결 끊기",
     },
     "Close this dialog": {
         def: "Close this dialog",
         es: "Cerrar este diálogo",
         ja: "このダイアログを閉じる",
+        ko: "이 대화 상자 닫기",
     },
     "Closed:": {
         def: "Closed:",
         es: "Cerradas:",
         ja: "停止:",
+        ko: "종료됨:",
     },
     "cmdConfigSync.showCustomizationSync": {
         def: "Show Customization sync",
@@ -928,11 +994,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Command",
         es: "Comando",
         ja: "指示",
+        ko: "명령",
     },
     Communicating: {
         def: "Communicating",
         es: "Comunicando",
         ja: "通信中",
+        ko: "통신 중",
     },
     "Compaction in progress on remote database...": {
         def: "Compaction in progress on remote database...",
@@ -974,6 +1042,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Compare file",
         es: "Comparar archivo",
         ja: "ファイルを比較",
+        ko: "파일 비교",
     },
     "Compare the content of files between on local database and storage. If not matched, you will be asked which one you want to keep.":
         {
@@ -1141,6 +1210,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Configuration",
         es: "Configuración",
         ja: "設定",
+        ko: "구성",
     },
     "Configuration Encryption": {
         def: "Configuration Encryption",
@@ -1276,6 +1346,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Connect",
         es: "Conectar",
         ja: "接続する",
+        ko: "연결",
     },
     "Connect to existing database and continue": {
         def: "Connect to existing database and continue",
@@ -1285,11 +1356,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Connected to Signaling Server (as Peer ID: ${peerId})",
         es: "Conectado al servidor de señalización (como ID de par: ${peerId})",
         ja: "シグナリング サーバーに接続 (ピア ID: ${peerId} として)",
+        ko: "시그널링 서버에 연결되었습니다 (피어 ID: ${peerId})",
     },
     "Connected:": {
         def: "Connected:",
         es: "Conectadas:",
         ja: "接続済み:",
+        ko: "연결됨:",
     },
     "Connection Method": {
         def: "Connection Method",
@@ -1308,11 +1381,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Connection Settings",
         es: "Ajustes de conexión",
         ja: "接続設定",
+        ko: "연결 설정",
     },
     "Connection:": {
         def: "Connection:",
         es: "Conexión:",
         ja: "接続:",
+        ko: "연결:",
     },
     "Content-derived chunk revisions (obsolete setting)": {
         def: "Content-derived chunk revisions (obsolete setting)",
@@ -1322,6 +1397,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Continue anyway",
         es: "Continuar de todos modos",
         ja: "それでも続行",
+        ko: "무시하고 계속",
     },
     "Continue to CouchDB setup": {
         def: "Continue to CouchDB setup",
@@ -1403,6 +1479,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "CouchDB Configuration",
         es: "Configuración de CouchDB",
         ja: "CouchDB設定",
+        ko: "CouchDB 구성",
     },
     "CouchDB Connection Tweak": {
         def: "CouchDB Connection Tweak",
@@ -1430,6 +1507,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Create P2P remote",
         es: "Crear remoto P2P",
         ja: "P2P リモートの作成",
+        ko: "P2P 원격 만들기",
     },
     "Cross-platform": {
         def: "Cross-platform",
@@ -1457,6 +1535,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Custom Headers",
         es: "Encabezados personalizados",
         ja: "カスタムヘッダー",
+        ko: "사용자 지정 헤더",
     },
     "Custom headers for requesting the bucket. e.g. `x-custom-header1: value1\n x-custom-header2: value2`": {
         def: "Custom headers for requesting the bucket. e.g. `x-custom-header1: value1\n x-custom-header2: value2`",
@@ -1503,6 +1582,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Data to Copy",
         es: "Datos a copiar",
         ja: "コピーするデータ",
+        ko: "복사할 데이터",
     },
     "Database -> Storage": {
         def: "Database -> Storage",
@@ -1562,6 +1642,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Date",
         es: "Fecha",
         ja: "日付",
+        ko: "날짜",
     },
     Default: {
         def: "Default",
@@ -1625,6 +1706,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Delete All of",
         es: "Eliminar todo de",
         ja: "すべて削除",
+        ko: "모두 삭제할 대상",
     },
     "Delete local database to reset or uninstall Self-hosted LiveSync": {
         def: "Delete local database to reset or uninstall Self-hosted LiveSync",
@@ -1676,6 +1758,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Delete remote configuration '${name}'?",
         es: "¿Eliminar la configuración remota «${name}»?",
         ja: "リモート構成「${name}」を削除しますか?",
+        ko: "'${name}' 원격 구성을 삭제할까요?",
     },
     "Delete remote configuration '${NAME}'?": {
         def: "Delete remote configuration '${NAME}'?",
@@ -1685,31 +1768,37 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "DENIED",
         es: "DENEGADO",
         ja: "拒否されました",
+        ko: "거부됨",
     },
     "DENIED (in session)": {
         def: "DENIED (in session)",
         es: "DENEGADO (en esta sesión)",
         ja: "拒否されました (セッション中)",
+        ko: "거부됨 (이 세션에서만)",
     },
     Deny: {
         def: "Deny",
         es: "Denegar",
         ja: "拒否",
+        ko: "거부",
     },
     "Deny in session": {
         def: "Deny in session",
         es: "Denegar en esta sesión",
         ja: "セッション中に拒否する",
+        ko: "이 세션에서만 거부",
     },
     "Deny permanently": {
         def: "Deny permanently",
         es: "Denegar permanentemente",
         ja: "永久に拒否する",
+        ko: "항상 거부",
     },
     "Deselect all": {
         def: "Deselect all",
         es: "Deseleccionar todo",
         ja: "すべての選択を解除します",
+        ko: "선택 모두 해제",
     },
     desktop: {
         def: "desktop",
@@ -1724,10 +1813,15 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Desktop only; uses more battery and network.",
         ja: "デスクトップのみ。バッテリーとネットワークの使用量が増えます。",
     },
+    "Desktop only. Allow sleep on this device even when the general option is disabled.": {
+        def: "Desktop only. Allow sleep on this device even when the general option is disabled.",
+        ja: "デスクトップ専用です。一般設定が無効の場合でも、このデバイスでのスリープを許可します。",
+    },
     "Detected Peers": {
         def: "Detected Peers",
         es: "Pares detectados",
         ja: "検出されたピア",
+        ko: "감지된 피어",
     },
     Developer: {
         def: "Developer",
@@ -1751,6 +1845,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "device name",
         es: "nombre del dispositivo",
         ja: "デバイス名",
+        ko: "기기 이름",
     },
     "Device name": {
         def: "Device name",
@@ -1768,11 +1863,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: 'Device name to identify the device. Please use shorter one for the stable peer detection, i.e., "iphone-16" or "macbook-2021".',
             es: "Nombre para identificar el dispositivo. Usa uno corto para que la detección de pares sea estable, por ejemplo «iphone-16» o «macbook-2021».",
             ja: "デバイスを識別するためのデバイス名。安定したピア検出を行うには、短いもの (「iphone-16」または「macbook-2021」) を使用してください。",
+            ko: '기기를 식별하기 위한 기기 이름입니다. 피어를 안정적으로 감지할 수 있도록 "iphone-16"이나 "macbook-2021"처럼 짧은 이름을 사용해 주세요.',
         },
     "Device Peer ID": {
         def: "Device Peer ID",
         es: "ID de par del dispositivo",
         ja: "端末のピアID",
+        ko: "기기 피어 ID",
     },
     "Device Setup Method": {
         def: "Device Setup Method",
@@ -1787,11 +1884,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Devices:",
         es: "Dispositivos:",
         ja: "デバイス:",
+        ko: "기기:",
     },
     "Diagnostic RTCPeerConnection is enabled": {
         def: "Diagnostic RTCPeerConnection is enabled",
         es: "El RTCPeerConnection de diagnóstico está habilitado",
         ja: "診断用RTCPeerConnectionは有効です",
+        ko: "진단용 RTCPeerConnection이 활성화되어 있습니다",
     },
     "dialog.yourLanguageAvailable": {
         def: "Self-hosted LiveSync had translations for your language, so the Display language setting was enabled.\n\nNote: Not all messages are translated. We are waiting for your contributions!\nNote 2: If you create an Issue, **please revert to Default** and then take screenshots, messages and logs. This can be done in the setting dialogue.\nMay you find it easy to use!",
@@ -1831,11 +1930,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Diff",
         es: "Diferencias",
         ja: "差分",
+        ko: "차이",
     },
     Different: {
         def: "Different",
         es: "Distinto",
         ja: "差分あり",
+        ko: "다름",
     },
     "Disables all synchronization and restart.": {
         def: "Disables all synchronization and restart.",
@@ -1883,11 +1984,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Disconnect",
         es: "Desconectar",
         ja: "切断する",
+        ko: "연결 끊기",
     },
     Dismiss: {
         def: "Dismiss",
         es: "Descartar",
         ja: "却下する",
+        ko: "닫기",
     },
     "Display language": {
         def: "Display language",
@@ -2299,6 +2402,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Enable P2P Replicator",
         es: "Habilitar el replicador P2P",
         ja: "P2P レプリケーターを有効にする",
+        ko: "P2P 복제기 활성화",
     },
     "Enable P2P Synchronization": {
         def: "Enable P2P Synchronization",
@@ -2345,12 +2449,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Enabled",
         es: "Habilitado",
         ja: "有効",
+        ko: "활성화됨",
     },
     "Enabling end-to-end encryption ensures that your data is encrypted on your device before being sent to the remote server. This means that even if someone gains access to the server, they won't be able to read your data without the passphrase. Make sure to remember your passphrase, as it will be required to decrypt your data on other devices.":
         {
             def: "Enabling end-to-end encryption ensures that your data is encrypted on your device before being sent to the remote server. This means that even if someone gains access to the server, they won't be able to read your data without the passphrase. Make sure to remember your passphrase, as it will be required to decrypt your data on other devices.",
             es: "Activar el cifrado de extremo a extremo garantiza que tus datos se cifren en tu dispositivo antes de enviarse al servidor remoto. Así, aunque alguien acceda al servidor, no podrá leer tus datos sin la frase de contraseña. Recuérdala bien, porque será necesaria para descifrar tus datos en los demás dispositivos.",
             ja: "エンドツーエンド暗号化を有効にすると、データはリモートサーバーに送信される前にデバイス上で暗号化されます。これは、たとえ誰かがサーバーにアクセスしたとしても、パスフレーズがなければデータを読み取ることはできないことを意味します。他のデバイス上のデータを復号化するときにパスフレーズが必要になるため、必ずパスフレーズを覚えておいてください。",
+            ko: "종단 간 암호화를 활성화하면 데이터가 원격 서버로 전송되기 전에 기기에서 암호화됩니다. 따라서 누군가 서버에 접근하더라도 패스프레이즈 없이는 데이터를 읽을 수 없습니다. 다른 기기에서 데이터를 복호화할 때 필요하므로 패스프레이즈를 반드시 기억해 두세요.",
         },
     "Encrypt contents on the remote database. If you use the plugin's synchronization feature, enabling this is recommended.":
         {
@@ -2383,6 +2489,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Encryption Algorithm",
         es: "Algoritmo de cifrado",
         ja: "暗号化アルゴリズム",
+        ko: "암호화 알고리즘",
     },
     "Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files.": {
         def: "Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files.",
@@ -2444,6 +2551,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Enter a folder prefix (optional)",
         es: "Introduce un prefijo de carpeta (opcional)",
         ja: "フォルダー接頭辞を入力（任意）",
+        ko: "폴더 접두사를 입력하세요 (선택 사항)",
     },
     "Enter Server Information": {
         def: "Enter Server Information",
@@ -2458,6 +2566,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Enter Setup URI",
         es: "Introducir el Setup URI",
         ja: "セットアップURIの入力",
+        ko: "Setup URI 입력",
     },
     "Enter the server information manually": {
         def: "Enter the server information manually",
@@ -2472,81 +2581,97 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Enter TURN credential",
         es: "Introduce la credencial de TURN",
         ja: "TURN認証情報を入力",
+        ko: "TURN 자격 증명을 입력하세요",
     },
     "Enter TURN username": {
         def: "Enter TURN username",
         es: "Introduce el usuario de TURN",
         ja: "TURNユーザー名を入力",
+        ko: "TURN 사용자 이름을 입력하세요",
     },
     "Enter your Access Key ID": {
         def: "Enter your Access Key ID",
         es: "Introduce tu ID de clave de acceso",
         ja: "アクセスキーIDを入力",
+        ko: "액세스 키 ID를 입력하세요",
     },
     "Enter your Bucket Name": {
         def: "Enter your Bucket Name",
         es: "Introduce el nombre de tu bucket",
         ja: "バケット名を入力",
+        ko: "버킷 이름을 입력하세요",
     },
     "Enter your database name": {
         def: "Enter your database name",
         es: "Introduce el nombre de tu base de datos",
         ja: "データベース名を入力",
+        ko: "데이터베이스 이름을 입력하세요",
     },
     "Enter your JWT Key ID": {
         def: "Enter your JWT Key ID",
         es: "Introduce el ID de tu clave JWT",
         ja: "JWTキーIDを入力",
+        ko: "JWT 키 ID를 입력하세요",
     },
     "Enter your JWT secret or private key": {
         def: "Enter your JWT secret or private key",
         es: "Introduce tu secreto JWT o tu clave privada",
         ja: "JWTシークレットまたは秘密鍵を入力",
+        ko: "JWT 시크릿 또는 개인 키를 입력하세요",
     },
     "Enter your JWT Subject (CouchDB Username)": {
         def: "Enter your JWT Subject (CouchDB Username)",
         es: "Introduce el sujeto JWT (usuario de CouchDB)",
         ja: "JWTサブジェクト（CouchDBユーザー名）を入力",
+        ko: "JWT 주체(CouchDB 사용자 이름)를 입력하세요",
     },
     "Enter your passphrase": {
         def: "Enter your passphrase",
         es: "Introduce tu frase de contraseña",
         ja: "パスフレーズを入力",
+        ko: "패스프레이즈를 입력하세요",
     },
     "Enter your password": {
         def: "Enter your password",
         es: "Introduce tu contraseña",
         ja: "パスワードを入力",
+        ko: "비밀번호를 입력하세요",
     },
     "Enter your Region (e.g., us-east-1, auto for R2)": {
         def: "Enter your Region (e.g., us-east-1, auto for R2)",
         es: "Introduce tu región (p. ej., us-east-1, o auto para R2)",
         ja: "リージョンを入力（例: us-east-1、R2ではauto）",
+        ko: "리전을 입력하세요 (예: us-east-1, R2는 auto)",
     },
     "Enter your Secret Access Key": {
         def: "Enter your Secret Access Key",
         es: "Introduce tu clave de acceso secreta",
         ja: "シークレットアクセスキーを入力",
+        ko: "시크릿 액세스 키를 입력하세요",
     },
     "Enter your username": {
         def: "Enter your username",
         es: "Introduce tu usuario",
         ja: "ユーザー名を入力",
+        ko: "사용자 이름을 입력하세요",
     },
     "Error during connection test: ${reason}": {
         def: "Error during connection test: ${reason}",
         es: "Error durante la prueba de conexión: ${reason}",
         ja: "接続テスト中にエラーが発生しました: ${reason}",
+        ko: "연결 테스트 중 오류가 발생했습니다: ${reason}",
     },
     "Error during testAndFixSettings: ${reason}": {
         def: "Error during testAndFixSettings: ${reason}",
         es: "Error durante testAndFixSettings: ${reason}",
         ja: "testAndFixSettings 中のエラー: ${reason}",
+        ko: "testAndFixSettings 실행 중 오류가 발생했습니다: ${reason}",
     },
     "Experimental Settings": {
         def: "Experimental Settings",
         es: "Ajustes experimentales",
         ja: "実験的な設定",
+        ko: "실험적 설정",
     },
     Export: {
         def: "Export",
@@ -2579,26 +2704,31 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Failed to connect to the server: ${reason}",
         es: "No se pudo conectar al servidor: ${reason}",
         ja: "サーバーに接続できませんでした: ${reason}",
+        ko: "서버에 연결하지 못했습니다: ${reason}",
     },
     "Failed to connect to the server. Please check your settings.": {
         def: "Failed to connect to the server. Please check your settings.",
         es: "No se pudo conectar al servidor. Revisa tus ajustes.",
         ja: "サーバーに接続できませんでした。設定を確認してください。",
+        ko: "서버에 연결하지 못했습니다. 설정을 확인해 주세요.",
     },
     "Failed to connect to the signalling relay: ${reason}": {
         def: "Failed to connect to the signalling relay: ${reason}",
         es: "No se pudo conectar al relé de señalización: ${reason}",
         ja: "信号リレーへの接続に失敗しました: ${reason}",
+        ko: "시그널링 중계 서버에 연결하지 못했습니다: ${reason}",
     },
     "Failed to create replicator instance.": {
         def: "Failed to create replicator instance.",
         es: "No se pudo crear la instancia del replicador.",
         ja: "レプリケーターインスタンスを作成できませんでした。",
+        ko: "복제기 인스턴스를 생성하지 못했습니다.",
     },
     "Failed to parse Setup-URI.": {
         def: "Failed to parse Setup-URI.",
         es: "No se pudo interpretar el Setup-URI.",
         ja: "セットアップURIを解析できませんでした。",
+        ko: "Setup-URI를 해석하지 못했습니다.",
     },
     "Failed to start one-shot replication before Garbage Collection. Garbage Collection Cancelled.": {
         def: "Failed to start one-shot replication before Garbage Collection. Garbage Collection Cancelled.",
@@ -2622,6 +2752,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Failed:",
         es: "Fallidas:",
         ja: "失敗した：",
+        ko: "실패:",
     },
     Fetch: {
         def: "Fetch",
@@ -2671,16 +2802,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "FETCHING",
         es: "OBTENIENDO",
         ja: "フェッチ中",
+        ko: "가져오는 중",
     },
     "Fetching status...": {
         def: "Fetching status...",
         es: "Obteniendo el estado...",
         ja: "ステータスを取得中...",
+        ko: "상태를 가져오는 중입니다...",
     },
     "File integrity": {
         def: "File integrity",
         es: "Integridad de archivos",
         ja: "ファイルの整合性",
+        ko: "파일 무결성",
     },
     "File prefix on the bucket": {
         def: "File prefix on the bucket",
@@ -2722,6 +2856,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Final Confirmation: Overwrite Server Data with This Device's Files",
         es: "Confirmación final: sobrescribir los datos del servidor con los archivos de este dispositivo",
         ja: "最終確認: サーバーのデータをこのデバイスのファイルで上書きします",
+        ko: "최종 확인: 이 기기의 파일로 서버 데이터 덮어쓰기",
     },
     "Finalise the process and resume normal operation": {
         def: "Finalise the process and resume normal operation",
@@ -2740,6 +2875,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Fix",
         es: "Corregir",
         ja: "修理",
+        ko: "수정",
     },
     "Flag and restart": {
         def: "Flag and restart",
@@ -2754,11 +2890,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Flagged Selective",
         es: "Selectivo marcado",
         ja: "フラグ付き選択",
+        ko: "플래그 지정 선택적",
     },
     "Folder Prefix": {
         def: "Folder Prefix",
         es: "Prefijo de carpeta",
         ja: "フォルダー接頭辞",
+        ko: "폴더 접두사",
     },
     "Follow changes": {
         def: "Follow changes",
@@ -2777,6 +2915,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "For HS256/HS512 algorithms, provide the shared secret key. For ES256/ES512 algorithms, provide the pkcs8 PEM-formatted private key.",
             es: "Para los algoritmos HS256/HS512, indica la clave secreta compartida. Para ES256/ES512, indica la clave privada en formato PEM pkcs8.",
             ja: "HS256/HS512 アルゴリズムの場合は、共有秘密キーを指定します。 ES256/ES512 アルゴリズムの場合は、pkcs8 PEM 形式の秘密キーを指定します。",
+            ko: "HS256/HS512 알고리즘에는 공유 시크릿 키를, ES256/ES512 알고리즘에는 pkcs8 PEM 형식의 개인 키를 입력하세요.",
         },
     "Forces the file to be synced when opened.": {
         def: "Forces the file to be synced when opened.",
@@ -2803,6 +2942,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "Furthermore, if conflicts are already present in the server data, they will be synchronised to this device as they are, and you will need to resolve them locally.",
             es: "Además, si ya hay conflictos en los datos del servidor, se sincronizarán tal cual a este dispositivo y tendrás que resolverlos localmente.",
             ja: "なお、サーバーデータに既に競合が存在する場合は、そのまま本機に同期されるため、ローカルで解決する必要があります。",
+            ko: "또한 서버 데이터에 이미 충돌이 존재한다면 그 상태 그대로 이 기기에 동기화되므로, 로컬에서 직접 해결해야 합니다.",
         },
     "Garbage Collection cancelled by user.": {
         def: "Garbage Collection cancelled by user.",
@@ -2876,6 +3016,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Gathering information...",
         es: "Recopilando información...",
         ja: "情報収集中...",
+        ko: "정보를 수집하는 중입니다...",
     },
     "Generate full report for opening the issue with debug info": {
         def: "Generate full report for opening the issue with debug info",
@@ -2885,11 +3026,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Generate Random ID",
         es: "Generar un ID aleatorio",
         ja: "ランダムIDの生成",
+        ko: "임의 ID 생성",
     },
     "Group ID": {
         def: "Group ID",
         es: "ID de grupo",
         ja: "グループID",
+        ko: "그룹 ID",
     },
     "Handle files as Case-Sensitive": {
         def: "Handle files as Case-Sensitive",
@@ -2906,6 +3049,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Have you created a backup before proceeding?",
         es: "¿Has creado una copia de seguridad antes de continuar?",
         ja: "続行する前にバックアップを作成しましたか?",
+        ko: "진행하기 전에 백업을 만드셨나요?",
     },
     HERE: {
         def: "HERE",
@@ -2916,6 +3060,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "Hidden file synchronization have been temporarily disabled. Please enable them after the fetching, if you need them.",
             es: "La sincronización de archivos ocultos se ha desactivado temporalmente. Vuelve a activarla después de la obtención si la necesitas.",
             ja: "隠しファイルの同期は一時的に無効になっています。必要に応じて、取得後に有効にしてください。",
+            ko: "숨김 파일 동기화가 일시적으로 비활성화되었습니다. 필요하다면 가져오기가 끝난 뒤에 다시 활성화해 주세요.",
         },
     "Hidden Files": {
         def: "Hidden Files",
@@ -2938,11 +3083,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Hide not applicable items",
         es: "Ocultar elementos no aplicables",
         ja: "該当しない項目を非表示にする",
+        ko: "해당 없는 항목 숨기기",
     },
     "Higher (${local} > ${remote})": {
         def: "Higher (${local} > ${remote})",
         es: "Superior (${local} > ${remote})",
         ja: "高い (${local} > ${remote})",
+        ko: "더 높음 (${local} > ${remote})",
     },
     "Highlight diff": {
         def: "Highlight diff",
@@ -2977,6 +3124,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "However, This should not be enabled if you want to increase your secrecy more.",
         es: "Sin embargo, esto no debería habilitarse si quieres aumentar aún más tu privacidad.",
         ja: "ただし、機密性をさらに高めたい場合は、これを有効にしないでください。",
+        ko: "다만 기밀성을 더 높이고 싶다면 이 옵션은 활성화하지 않는 것이 좋습니다.",
     },
     "I am adding a device to an existing synchronisation setup": {
         def: "I am adding a device to an existing synchronisation setup",
@@ -3000,21 +3148,25 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "I am setting up a new server for the first time / I want to reset my existing server.",
         es: "Estoy configurando un servidor nuevo por primera vez / quiero restablecer mi servidor actual.",
         ja: "初めて新しいサーバーをセットアップしています/既存のサーバーをリセットしたいです。",
+        ko: "새 서버를 처음 설정하거나, 기존 서버를 초기화하려고 합니다.",
     },
     "I am unable to create a backup of my Vault.": {
         def: "I am unable to create a backup of my Vault.",
         es: "No puedo crear una copia de seguridad de mi Vault.",
         ja: "Vaultのバックアップを作成できません。",
+        ko: "보관함을 백업할 수 없습니다.",
     },
     "I am unable to create a backup of my Vaults.": {
         def: "I am unable to create a backup of my Vaults.",
         es: "No puedo crear una copia de seguridad de mis Vaults.",
         ja: "Vault のバックアップを作成できません。",
+        ko: "보관함들을 백업할 수 없습니다.",
     },
     "I have created a backup of my Vault.": {
         def: "I have created a backup of my Vault.",
         es: "He creado una copia de seguridad de mi Vault.",
         ja: "Vaultのバックアップを作成しました。",
+        ko: "보관함을 백업했습니다.",
     },
     "I know my server details, let me enter them": {
         def: "I know my server details, let me enter them",
@@ -3029,33 +3181,39 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "I understand that all changes made on other smartphones or computers possibly could be lost.",
         es: "Entiendo que todos los cambios hechos en otros móviles u ordenadores podrían perderse.",
         ja: "他のスマートフォンやコンピュータで行った変更はすべて失われる可能性があることを理解しています。",
+        ko: "다른 스마트폰이나 컴퓨터에서 변경한 내용이 모두 사라질 수 있다는 점을 이해합니다.",
     },
     "I understand that other devices will no longer be able to synchronise, and will need to be reset the synchronisation information.":
         {
             def: "I understand that other devices will no longer be able to synchronise, and will need to be reset the synchronisation information.",
             es: "Entiendo que los demás dispositivos ya no podrán sincronizar y que habrá que restablecer su información de sincronización.",
             ja: "他のデバイスは同期できなくなり、同期情報をリセットする必要があることを理解しています。",
+            ko: "다른 기기는 더 이상 동기화할 수 없게 되며, 동기화 정보를 초기화해야 한다는 점을 이해합니다.",
         },
     "I understand that this action is irreversible once performed.": {
         def: "I understand that this action is irreversible once performed.",
         es: "Entiendo que esta acción es irreversible una vez realizada.",
         ja: "この操作は一度実行すると元に戻せないことを理解しています。",
+        ko: "이 작업은 한 번 수행하면 되돌릴 수 없다는 점을 이해합니다.",
     },
     "I understand the risks and will proceed without a backup.": {
         def: "I understand the risks and will proceed without a backup.",
         es: "Entiendo los riesgos y continuaré sin copia de seguridad.",
         ja: "リスクを理解したうえで、バックアップなしで続行します。",
+        ko: "위험을 이해하며 백업 없이 진행하겠습니다.",
     },
     "I Understand, Overwrite Server": {
         def: "I Understand, Overwrite Server",
         es: "Lo entiendo, sobrescribir el servidor",
         ja: "わかりました、サーバーを上書きします",
+        ko: "이해했습니다, 서버 덮어쓰기",
     },
     'If "Auto Start P2P Connection" is enabled, the P2P connection will be started automatically when the plug-in launches.':
         {
             def: 'If "Auto Start P2P Connection" is enabled, the P2P connection will be started automatically when the plug-in launches.',
             es: "Si «Iniciar la conexión P2P automáticamente» está activado, la conexión P2P se iniciará al arrancar el complemento.",
             ja: "「P2P 接続の自動開始」が有効になっている場合、プラグインの起動時に P2P 接続が自動的に開始されます。",
+            ko: '"P2P 연결 자동 시작"이 활성화되어 있으면 플러그인이 시작될 때 P2P 연결이 자동으로 시작됩니다.',
         },
     "If disabled(toggled), chunks will be split on the UI thread (Previous behaviour).": {
         def: "If disabled(toggled), chunks will be split on the UI thread (Previous behaviour).",
@@ -3236,18 +3394,21 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "If you cannot avoid CORS issues, you might want to try this option. It uses Obsidian's internal API to communicate with the CouchDB server. Not compliant with web standards, but works. Note that this might break in future Obsidian versions.",
             es: "Si no puedes evitar problemas de CORS, prueba esta opción. Usa la API interna de Obsidian para comunicarse con el servidor CouchDB. No cumple los estándares web, pero funciona. Ten en cuenta que podría dejar de funcionar en versiones futuras de Obsidian.",
             ja: "CORS の問題を回避できない場合は、このオプションを試してみることをお勧めします。 Obsidian の内部 API を使用して CouchDB サーバーと通信します。 Web 標準には準拠していませんが、動作します。これは、将来の Obsidian バージョンでは壊れる可能性があることに注意してください。",
+            ko: "CORS 문제를 피할 수 없다면 이 옵션을 시도해 볼 수 있습니다. Obsidian의 내부 API를 사용해 CouchDB 서버와 통신합니다. 웹 표준을 따르지는 않지만 동작합니다. 향후 Obsidian 버전에서 동작하지 않을 수 있다는 점에 유의하세요.",
         },
     "If you cannot avoid CORS issues, you might want to try this option. It uses Obsidian's internal API to communicate with the S3 server. Not compliant with web standards, but works. Note that this might break in future Obsidian versions.":
         {
             def: "If you cannot avoid CORS issues, you might want to try this option. It uses Obsidian's internal API to communicate with the S3 server. Not compliant with web standards, but works. Note that this might break in future Obsidian versions.",
             es: "Si no puedes evitar problemas de CORS, prueba esta opción. Usa la API interna de Obsidian para comunicarse con el servidor S3. No cumple los estándares web, pero funciona. Ten en cuenta que podría dejar de funcionar en versiones futuras de Obsidian.",
             ja: "CORS の問題を回避できない場合は、このオプションを試してみることをお勧めします。 Obsidian の内部 API を使用して S3 サーバーと通信します。 Web 標準には準拠していませんが、動作します。これは、将来の Obsidian バージョンでは壊れる可能性があることに注意してください。",
+            ko: "CORS 문제를 피할 수 없다면 이 옵션을 시도해 볼 수 있습니다. Obsidian의 내부 API를 사용해 S3 서버와 통신합니다. 웹 표준을 따르지는 않지만 동작합니다. 향후 Obsidian 버전에서 동작하지 않을 수 있다는 점에 유의하세요.",
         },
     "If you have unsynchronised changes in your Vault on this device, they will likely diverge from the server's versions after the reset. This may result in a large number of file conflicts.":
         {
             def: "If you have unsynchronised changes in your Vault on this device, they will likely diverge from the server's versions after the reset. This may result in a large number of file conflicts.",
             es: "Si tienes cambios sin sincronizar en el Vault de este dispositivo, es probable que divergan de las versiones del servidor tras el restablecimiento. Esto puede provocar un gran número de conflictos de archivos.",
             ja: "このデバイス上の Vault に同期されていない変更がある場合、リセット後にその変更はサーバーのバージョンと異なる可能性があります。これにより、多数のファイルの競合が発生する可能性があります。",
+            ko: "이 기기의 보관함에 동기화되지 않은 변경 사항이 있다면, 초기화 후 서버의 버전과 어긋나기 쉽습니다. 그 결과 많은 파일에서 충돌이 발생할 수 있습니다.",
         },
     "If you reached the payload size limit when using IBM Cloudant, please decrease batch size and batch limit to a lower value.":
         {
@@ -3261,23 +3422,27 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "If you understand the risks and still wish to proceed, select so.",
         es: "Si entiendes los riesgos y aun así quieres continuar, indícalo.",
         ja: "リスクを理解した上で続行したい場合は、そう選択してください。",
+        ko: "위험을 이해하고도 진행하려면 그렇게 선택해 주세요.",
     },
     "If you want to store the data in a specific folder within the bucket, you can specify a folder prefix here. Otherwise, leave it blank to store data at the root of the bucket.":
         {
             def: "If you want to store the data in a specific folder within the bucket, you can specify a folder prefix here. Otherwise, leave it blank to store data at the root of the bucket.",
             es: "Si quieres guardar los datos en una carpeta concreta del bucket, indica aquí un prefijo de carpeta. Si no, déjalo vacío para guardarlos en la raíz del bucket.",
             ja: "バケット内の特定のフォルダーにデータを保存する場合は、ここでフォルダーのプレフィックスを指定できます。それ以外の場合は、空白のままにしてデータをバケットのルートに保存します。",
+            ko: "버킷 안의 특정 폴더에 데이터를 저장하려면 여기에 폴더 접두사를 지정할 수 있습니다. 그렇지 않다면 비워 두어 버킷 최상위에 데이터를 저장하세요.",
         },
     "If you want to use `LiveSync`, you should broadcast changes. All `watching` peers which detects this will start the replication for fetching.":
         {
             def: "If you want to use `LiveSync`, you should broadcast changes. All `watching` peers which detects this will start the replication for fetching.",
             es: "Si quieres usar `LiveSync`, debes difundir los cambios. Todos los pares que estén `observando` y lo detecten iniciarán la replicación para obtenerlos.",
             ja: "`LiveSync`を使用する場合は変更を通知してください。これを検出したすべての`watching`ピアは、取得のために複製を開始します。",
+            ko: "`LiveSync`를 사용하려면 변경 사항을 브로드캐스트해야 합니다. 이를 감지한 모든 `watching` 상태의 피어가 가져오기를 위한 복제를 시작합니다.",
         },
     Ignore: {
         def: "Ignore",
         es: "Ignorar",
         ja: "無視",
+        ko: "무시",
     },
     "Ignore and Proceed": {
         def: "Ignore and Proceed",
@@ -3320,6 +3485,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "IMPORTANT",
         es: "IMPORTANTE",
         ja: "重要",
+        ko: "중요",
     },
     "Imported CouchDB": {
         def: "Imported CouchDB",
@@ -3330,12 +3496,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "In most cases, you should stick with the default algorithm (${algorithm}), This setting is only required if you have an existing Vault encrypted in a different format.",
             es: "En la mayoría de los casos deberías mantener el algoritmo predeterminado (${algorithm}). Este ajuste solo es necesario si ya tienes un Vault cifrado en otro formato.",
             ja: "ほとんどの場合、デフォルトのアルゴリズム (${algorithm}) を使用する必要があります。この設定は、既存の Vault が別の形式で暗号化されている場合にのみ必要です。",
+            ko: "대부분의 경우 기본 알고리즘(${algorithm})을 그대로 사용하는 것이 좋습니다. 이 설정은 기존 보관함이 다른 형식으로 암호화되어 있는 경우에만 필요합니다.",
         },
     "In this scenario, Self-hosted LiveSync will recreate metadata for every file and deliberately generate conflicts. Where the file content is identical, these conflicts will be resolved automatically.":
         {
             def: "In this scenario, Self-hosted LiveSync will recreate metadata for every file and deliberately generate conflicts. Where the file content is identical, these conflicts will be resolved automatically.",
             es: "En este caso, Self-hosted LiveSync recreará los metadatos de todos los archivos y generará conflictos a propósito. Cuando el contenido del archivo sea idéntico, esos conflictos se resolverán automáticamente.",
             ja: "このシナリオでは、自己ホスト型 LiveSync がすべてのファイルのメタデータを再作成し、意図的に競合を生成します。ファイルの内容が同一の場合、これらの競合は自動的に解決されます。",
+            ko: "이 경우 Self-hosted LiveSync는 모든 파일의 메타데이터를 다시 만들면서 의도적으로 충돌을 발생시킵니다. 파일 내용이 동일한 경우 이러한 충돌은 자동으로 해결됩니다.",
         },
     "Include in the P2P synchronisation command": {
         def: "Include in the P2P synchronisation command",
@@ -3345,6 +3513,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Incoming:",
         es: "Entrantes:",
         ja: "受信:",
+        ko: "수신:",
     },
     "Incubate Chunks in Document": {
         def: "Incubate Chunks in Document",
@@ -3360,6 +3529,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Initial Action",
         es: "Acción inicial",
         ja: "初回の動作",
+        ko: "초기 작업",
     },
     "Initialise all journal history, On the next sync, every item will be received and sent.": {
         def: "Initialise all journal history, On the next sync, every item will be received and sent.",
@@ -3407,52 +3577,62 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "INVERTED",
         es: "INVERTIDO",
         ja: "反転",
+        ko: "반전됨",
     },
     "Issue detection log:": {
         def: "Issue detection log:",
         es: "Registro de detección de problemas:",
         ja: "問題検出ログ:",
+        ko: "문제 감지 로그:",
     },
     "It is strongly advised to create a backup before proceeding. Continuing without a backup may lead to data loss.": {
         def: "It is strongly advised to create a backup before proceeding. Continuing without a backup may lead to data loss.",
         es: "Se recomienda encarecidamente crear una copia de seguridad antes de continuar. Continuar sin copia de seguridad puede provocar pérdida de datos.",
         ja: "続行する前にバックアップを作成することを強くお勧めします。バックアップせずに続行すると、データが失われる可能性があります。",
+        ko: "진행하기 전에 백업을 만드시기를 강력히 권장합니다. 백업 없이 진행하면 데이터가 손실될 수 있습니다.",
     },
     "Just for a minute, please!": {
         def: "Just for a minute, please!",
         es: "¡Solo un momento, por favor!",
         ja: "ちょっとだけお願いします！",
+        ko: "잠시만 기다려 주세요!",
     },
     "JWT (JSON Web Token) authentication allows you to securely authenticate with the CouchDB server using tokens. Ensure that your CouchDB server is configured to accept JWTs and that the provided key and settings match the server's configuration. Incidentally, I have not verified it very thoroughly.":
         {
             def: "JWT (JSON Web Token) authentication allows you to securely authenticate with the CouchDB server using tokens. Ensure that your CouchDB server is configured to accept JWTs and that the provided key and settings match the server's configuration. Incidentally, I have not verified it very thoroughly.",
             es: "La autenticación JWT (JSON Web Token) permite autenticarse de forma segura con el servidor CouchDB mediante tokens. Asegúrate de que tu servidor CouchDB esté configurado para aceptar JWT y de que la clave y los ajustes indicados coincidan con la configuración del servidor. Por cierto, no lo he verificado a fondo.",
             ja: "JWT (JSON Web Token) 認証を使用すると、トークンを使用して CouchDB サーバーで安全に認証できます。 CouchDB サーバーが JWT を受け入れるように構成されていること、および提供されたキーと設定がサーバーの構成と一致していることを確認してください。ちなみに、あまりしっかりと検証したわけではありません。",
+            ko: "JWT(JSON Web Token) 인증을 사용하면 토큰으로 CouchDB 서버에 안전하게 인증할 수 있습니다. CouchDB 서버가 JWT를 받아들이도록 설정되어 있는지, 그리고 입력한 키와 설정이 서버 구성과 일치하는지 확인해 주세요. 참고로 이 기능은 그리 철저하게 검증되지는 않았습니다.",
         },
     "JWT Algorithm": {
         def: "JWT Algorithm",
         es: "Algoritmo JWT",
         ja: "JWTアルゴリズム",
+        ko: "JWT 알고리즘",
     },
     "JWT Expiration Duration (minutes)": {
         def: "JWT Expiration Duration (minutes)",
         es: "Duración de caducidad del JWT (minutos)",
         ja: "JWT有効期間（分）",
+        ko: "JWT 만료 시간(분)",
     },
     "JWT Key": {
         def: "JWT Key",
         es: "Clave JWT",
         ja: "JWTキー",
+        ko: "JWT 키",
     },
     "JWT Key ID (kid)": {
         def: "JWT Key ID (kid)",
         es: "ID de clave JWT (kid)",
         ja: "JWTキーID（kid）",
+        ko: "JWT 키 ID (kid)",
     },
     "JWT Subject (sub)": {
         def: "JWT Subject (sub)",
         es: "Sujeto JWT (sub)",
         ja: "JWTサブジェクト（sub）",
+        ko: "JWT 주체 (sub)",
     },
     "K.exp": {
         def: "Experimental",
@@ -3695,6 +3875,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "live",
         es: "en vivo",
         ja: "ライブ監視",
+        ko: "실시간",
     },
     "LiveSync could not handle multiple vaults which have same name without different prefix, This should be automatically configured.":
         {
@@ -3974,6 +4155,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Local only",
         es: "Solo local",
         ja: "ローカルのみ",
+        ko: "로컬에만 있음",
     },
     Lock: {
         def: "Lock",
@@ -4060,16 +4242,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Lower (${local} < ${remote})",
         es: "Inferior (${local} < ${remote})",
         ja: "下位 (${local} < ${remote})",
+        ko: "더 낮음 (${local} < ${remote})",
     },
     "Maintenance Commands": {
         def: "Maintenance Commands",
         es: "Comandos de mantenimiento",
         ja: "メンテナンスコマンド",
+        ko: "유지보수 명령",
     },
     "Maintenance mode": {
         def: "Maintenance mode",
         es: "Modo de mantenimiento",
         ja: "メンテナンスモード",
+        ko: "유지보수 모드",
     },
     "Mark this revision as the Vault version": {
         def: "Mark this revision as the Vault version",
@@ -4211,6 +4396,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Mixed",
         es: "Mixto",
         ja: "混在",
+        ko: "혼합",
     },
     "moduleBasicMenu.liveSyncDisabled": {
         def: "LiveSync disabled.",
@@ -5063,6 +5249,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Mostly Complete: Decision Required",
         es: "Casi terminado: se requiere una decisión",
         ja: "ほぼ完了: 判断が必要です",
+        ko: "거의 완료: 결정이 필요합니다",
     },
     "Move remotely deleted files to the trash, instead of deleting.": {
         def: "Move remotely deleted files to the trash, instead of deleting.",
@@ -5087,11 +5274,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "My remote server is already set up. I want to join this device.",
         es: "Mi servidor remoto ya está configurado. Quiero añadir este dispositivo.",
         ja: "リモートサーバーは既にセットアップ済みで、このデバイスを参加させたい",
+        ko: "원격 서버가 이미 설정되어 있습니다. 이 기기를 참여시키고 싶습니다.",
     },
     Name: {
         def: "Name",
         es: "Nombre",
         ja: "名前",
+        ko: "이름",
     },
     "Network warning style": {
         def: "Network warning style",
@@ -5106,6 +5295,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "NEW",
         es: "NUEVO",
         ja: "新規",
+        ko: "신규",
     },
     "New Remote": {
         def: "New Remote",
@@ -5120,6 +5310,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Newer (${diff})",
         es: "Más nuevo (${diff})",
         ja: "新しい (${diff})",
+        ko: "더 새로움 (${diff})",
     },
     Next: {
         def: "Next",
@@ -5134,6 +5325,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "No checks have been performed yet.",
         es: "Todavía no se ha realizado ninguna comprobación.",
         ja: "まだチェックは行われていません。",
+        ko: "아직 검사를 수행하지 않았습니다.",
     },
     "No connected device information found. Cancelling Garbage Collection.": {
         def: "No connected device information found. Cancelling Garbage Collection.",
@@ -5148,16 +5340,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "No Connection",
         es: "Sin conexión",
         ja: "接続がありません",
+        ko: "연결 없음",
     },
     "No devices available. Waiting for other devices to connect...": {
         def: "No devices available. Waiting for other devices to connect...",
         es: "No hay dispositivos disponibles. Esperando a que se conecten otros dispositivos...",
         ja: "利用可能なデバイスがありません。他のデバイスの接続を待機しています...",
+        ko: "사용 가능한 기기가 없습니다. 다른 기기가 연결되기를 기다리는 중입니다...",
     },
     "No Items.": {
         def: "No Items.",
         es: "Sin elementos.",
         ja: "アイテムはありません。",
+        ko: "항목이 없습니다.",
     },
     "No limit configured": {
         def: "No limit configured",
@@ -5172,6 +5367,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "NO PREVIEW",
         es: "SIN VISTA PREVIA",
         ja: "プレビューなし",
+        ko: "미리 보기 없음",
     },
     "No shared ancestor is available for this conflict. The live revisions remain available for explicit review.": {
         def: "No shared ancestor is available for this conflict. The live revisions remain available for explicit review.",
@@ -5236,22 +5432,26 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Not configured",
         es: "Sin configurar",
         ja: "未設定",
+        ko: "구성되지 않음",
     },
     "Not now": {
         def: "Not now",
         es: "Ahora no",
         ja: "今はしない",
+        ko: "나중에",
     },
     "Note that the Group ID is not limited to the generated format; you can use any string as the Group ID.": {
         def: "Note that the Group ID is not limited to the generated format; you can use any string as the Group ID.",
         es: "El ID de grupo no está limitado al formato generado: puedes usar cualquier cadena de texto.",
         ja: "グループ ID は生成された形式に限定されないことに注意してください。グループ ID として任意の文字列を使用できます。",
+        ko: "그룹 ID는 생성된 형식으로 제한되지 않으며, 어떤 문자열이든 그룹 ID로 사용할 수 있습니다.",
     },
     'Note that you can generate a new Setup URI by running the "Copy settings as a new Setup URI" command in the command palette.':
         {
             def: 'Note that you can generate a new Setup URI by running the "Copy settings as a new Setup URI" command in the command palette.',
             es: "Puedes generar un Setup URI nuevo ejecutando el comando «Copy settings as a new Setup URI» en la paleta de comandos.",
             ja: "コマンド パレットで [設定を新しいセットアップ URI としてコピー] コマンドを実行すると、新しいセットアップ URI を生成できることに注意してください。",
+            ko: '명령 팔레트에서 "Copy settings as a new Setup URI" 명령을 실행하면 새 Setup URI를 생성할 수 있습니다.',
         },
     "Notify all setting files": {
         def: "Notify all setting files",
@@ -5323,12 +5523,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Obfuscate Properties",
         es: "Ofuscar propiedades",
         ja: "プロパティを難読化",
+        ko: "속성 난독화",
     },
     "Obfuscating properties (e.g., path of file, size, creation and modification dates) adds an additional layer of security by making it harder to identify the structure and names of your files and folders on the remote server. This helps protect your privacy and makes it more difficult for unauthorized users to infer information about your data.":
         {
             def: "Obfuscating properties (e.g., path of file, size, creation and modification dates) adds an additional layer of security by making it harder to identify the structure and names of your files and folders on the remote server. This helps protect your privacy and makes it more difficult for unauthorized users to infer information about your data.",
             es: "Ofuscar las propiedades (p. ej., la ruta del archivo, el tamaño y las fechas de creación y modificación) añade una capa extra de seguridad, ya que dificulta identificar la estructura y los nombres de tus archivos y carpetas en el servidor remoto. Esto ayuda a proteger tu privacidad y hace más difícil que usuarios no autorizados deduzcan información sobre tus datos.",
             ja: "プロパティ (ファイルのパス、サイズ、作成日、変更日など) を難読化すると、リモートサーバー上のファイルやフォルダーの構造と名前を特定することが難しくなり、セキュリティ層がさらに強化されます。これにより、プライバシーが保護され、権限のないユーザーがデータに関する情報を推測することがより困難になります。",
+            ko: "속성(예: 파일 경로, 크기, 생성 및 수정 날짜)을 난독화하면 원격 서버에서 파일과 폴더의 구조 및 이름을 파악하기 어려워져 보안이 한층 강화됩니다. 이는 개인 정보를 보호하는 데 도움이 되며, 권한 없는 사용자가 데이터에 대한 정보를 추측하기 어렵게 만듭니다.",
         },
     "Obsidian version": {
         def: "Obsidian version",
@@ -7095,11 +7297,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Of course, we can back up the data before proceeding.",
         es: "Por supuesto, se puede hacer una copia de seguridad de los datos antes de continuar.",
         ja: "もちろん、続行する前にデータをバックアップすることができます。",
+        ko: "물론 진행하기 전에 데이터를 백업할 수 있습니다.",
     },
     Off: {
         def: "Off",
         es: "Desactivado",
         ja: "オフ",
+        ko: "꺼짐",
     },
     Ok: {
         def: "Ok",
@@ -7123,6 +7327,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Older (${diff})",
         es: "Más antiguo (${diff})",
         ja: "古い (${diff})",
+        ko: "더 오래됨 (${diff})",
     },
     "Older fallback (Slow, W/O WebAssembly)": {
         def: "Older fallback (Slow, W/O WebAssembly)",
@@ -7137,26 +7342,31 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "On",
         es: "Activado",
         ja: "オン",
+        ko: "켜짐",
     },
     "On the source device, from the command palette, run the 'Show settings as a QR code' command.": {
         def: "On the source device, from the command palette, run the 'Show settings as a QR code' command.",
         es: "En el dispositivo de origen, ejecuta desde la paleta de comandos «Show settings as a QR code».",
         ja: "ソース デバイスのコマンド パレットから、[設定を QR コードとして表示] コマンドを実行します。",
+        ko: "원본 기기에서 명령 팔레트를 열고 'Show settings as a QR code' 명령을 실행합니다.",
     },
     "On the source device, open Obsidian.": {
         def: "On the source device, open Obsidian.",
         es: "En el dispositivo de origen, abre Obsidian.",
         ja: "ソースデバイスで、Obsidian を開きます。",
+        ko: "원본 기기에서 Obsidian을 엽니다.",
     },
     "On this device, please keep this Vault open.": {
         def: "On this device, please keep this Vault open.",
         es: "En este dispositivo, mantén este Vault abierto.",
         ja: "このデバイスでは、この Vault を開いたままにしてください。",
+        ko: "이 기기에서는 이 보관함을 계속 열어 두세요.",
     },
     "On this device, switch to the camera app or use a QR code scanner to scan the displayed QR code.": {
         def: "On this device, switch to the camera app or use a QR code scanner to scan the displayed QR code.",
         es: "En este dispositivo, cambia a la aplicación de cámara o usa un lector de QR para escanear el código mostrado.",
         ja: "本端末でカメラアプリに切り替えるか、QRコードスキャナーを使用して、表示されたQRコードをスキャンします。",
+        ko: "이 기기에서 카메라 앱으로 전환하거나 QR 코드 스캐너를 사용해 화면에 표시된 QR 코드를 스캔합니다.",
     },
     Open: {
         def: "Open",
@@ -7170,11 +7380,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Open connection",
         es: "Abrir conexión",
         ja: "オープン接続",
+        ko: "연결 열기",
     },
     "Open P2P Setup...": {
         def: "Open P2P Setup...",
         es: "Abrir la configuración P2P...",
         ja: "P2P セットアップを開く...",
+        ko: "P2P 설정 열기...",
     },
     "Open the dialog": {
         def: "Open the dialog",
@@ -7188,6 +7400,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Other files",
         es: "Otros archivos",
         ja: "その他のファイル",
+        ko: "기타 파일",
     },
     Overwrite: {
         def: "Overwrite",
@@ -7241,6 +7454,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "P2P Configuration",
         es: "Configuración P2P",
         ja: "P2P設定",
+        ko: "P2P 구성",
     },
     "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.": {
         def: "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.",
@@ -7250,6 +7464,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "P2P Status",
         es: "Estado P2P",
         ja: "P2Pステータス",
+        ko: "P2P 상태",
     },
     "P2P Status pane": {
         def: "P2P Status pane",
@@ -7497,6 +7712,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Passphrase is required.",
         es: "Se requiere la frase de contraseña.",
         ja: "パスフレーズが必要です。",
+        ko: "패스프레이즈가 필요합니다.",
     },
     "Passphrase of sensitive configuration items": {
         def: "Passphrase of sensitive configuration items",
@@ -7550,6 +7766,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Path",
         es: "Ruta",
         ja: "パス",
+        ko: "경로",
     },
     "Path Obfuscation": {
         def: "Path Obfuscation",
@@ -7587,11 +7804,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Peer ID:",
         es: "ID de par:",
         ja: "ピアID:",
+        ko: "피어 ID:",
     },
     "Peer to Peer Replicator": {
         def: "Peer to Peer Replicator",
         es: "Replicador Punto a Punto",
         ja: "ピアツーピア レプリケーター",
+        ko: "Peer to Peer 복제기",
     },
     "Peer-to-Peer only": {
         def: "Peer-to-Peer only",
@@ -7615,6 +7834,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Peers",
         es: "Pares",
         ja: "ピア",
+        ko: "피어",
     },
     "Per-file-saved customization sync": {
         def: "Per-file-saved customization sync",
@@ -7676,6 +7896,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "PERMANENT",
         es: "PERMANENTE",
         ja: "永続",
+        ko: "영구",
     },
     "Pick a file to resolve conflict": {
         def: "Pick a file to resolve conflict",
@@ -7698,11 +7919,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "Please be aware that the End-to-End Encryption passphrase is not validated until the synchronisation process actually commences. This is a security measure designed to protect your data.",
             es: "Ten en cuenta que la frase de contraseña del cifrado de extremo a extremo no se valida hasta que comienza realmente la sincronización. Es una medida de seguridad para proteger tus datos.",
             ja: "エンドツーエンド暗号化パスフレーズは、同期プロセスが実際に開始されるまで検証されないことに注意してください。これはデータを保護するために設計されたセキュリティ対策です。",
+            ko: "종단 간 암호화 패스프레이즈는 동기화가 실제로 시작되기 전까지 검증되지 않는다는 점에 유의해 주세요. 이는 데이터를 보호하기 위한 보안 조치입니다.",
         },
     "Please configure your end-to-end encryption settings.": {
         def: "Please configure your end-to-end encryption settings.",
         es: "Configura los ajustes de cifrado de extremo a extremo.",
         ja: "エンドツーエンド暗号化の設定を行ってください。",
+        ko: "종단 간 암호화 설정을 구성해 주세요.",
     },
     "Please disable 'Read chunks online' in settings to use Garbage Collection.": {
         def: "Please disable 'Read chunks online' in settings to use Garbage Collection.",
@@ -7726,32 +7949,38 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Please enter the CouchDB server information below.",
         es: "Introduce a continuación los datos del servidor CouchDB.",
         ja: "以下に CouchDB サーバー情報を入力してください。",
+        ko: "아래에 CouchDB 서버 정보를 입력해 주세요.",
     },
     "Please enter the details required to connect to your S3/MinIO/R2 compatible object storage service.": {
         def: "Please enter the details required to connect to your S3/MinIO/R2 compatible object storage service.",
         es: "Introduce los datos necesarios para conectarte a tu servicio de almacenamiento de objetos compatible con S3/MinIO/R2.",
         ja: "S3/MinIO/R2 互換オブジェクト ストレージ サービスに接続するために必要な詳細を入力してください。",
+        ko: "S3/MinIO/R2 호환 오브젝트 스토리지 서비스에 연결하는 데 필요한 정보를 입력해 주세요.",
     },
     "Please enter the Peer-to-Peer Synchronisation information below.": {
         def: "Please enter the Peer-to-Peer Synchronisation information below.",
         es: "Introduce a continuación los datos de la sincronización punto a punto.",
         ja: "以下にピアツーピア同期の情報を入力してください。",
+        ko: "아래에 Peer-to-Peer 동기화 정보를 입력해 주세요.",
     },
     "Please enter the Setup URI that was generated during server installation or on another device, along with the vault passphrase.":
         {
             def: "Please enter the Setup URI that was generated during server installation or on another device, along with the vault passphrase.",
             es: "Introduce el Setup URI generado durante la instalación del servidor o en otro dispositivo, junto con la frase de contraseña del vault.",
             ja: "サーバーのインストール中または別のデバイスで生成されたセットアップ URI とボールトのパスフレーズを入力してください。",
+            ko: "서버 설치 과정이나 다른 기기에서 생성된 Setup URI를 보관함 패스프레이즈와 함께 입력해 주세요.",
         },
     "Please follow the steps below to import settings from your existing device.": {
         def: "Please follow the steps below to import settings from your existing device.",
         es: "Sigue los pasos siguientes para importar los ajustes desde tu dispositivo actual.",
         ja: "既存のデバイスから設定をインポートするには、次の手順に従ってください。",
+        ko: "기존 기기에서 설정을 가져오려면 아래 단계를 따라 주세요.",
     },
     "PLEASE NOTE": {
         def: "PLEASE NOTE",
         es: "TEN EN CUENTA",
         ja: "ご注意ください",
+        ko: "유의 사항",
     },
     "Please select 'Cancel' explicitly to cancel this operation.": {
         def: "Please select 'Cancel' explicitly to cancel this operation.",
@@ -7775,6 +8004,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Please select an active P2P remote configuration to change P2P sync targets.",
         es: "Selecciona una configuración remota P2P activa para cambiar los destinos de sincronización P2P.",
         ja: "P2P 同期ターゲットを変更するには、アクティブな P2P リモート構成を選択してください。",
+        ko: "P2P 동기화 대상을 변경하려면 활성 P2P 원격 구성을 선택해 주세요.",
     },
     "Please select an option to proceed": {
         def: "Please select an option to proceed",
@@ -7789,11 +8019,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Please select the button below to restart and proceed to the data fetching confirmation.",
         es: "Pulsa el botón de abajo para reiniciar y pasar a la confirmación de la obtención de datos.",
         ja: "下のボタンを選択して再起動し、データ取得の確認に進んでください。",
+        ko: "아래 버튼을 선택하면 재시작 후 데이터 가져오기 확인 단계로 진행합니다.",
     },
     "Please select the button below to restart and proceed to the final confirmation.": {
         def: "Please select the button below to restart and proceed to the final confirmation.",
         es: "Pulsa el botón de abajo para reiniciar y pasar a la confirmación final.",
         ja: "下のボタンを選択して再起動し、最終確認へお進みください。",
+        ko: "아래 버튼을 선택하면 재시작 후 최종 확인 단계로 진행합니다.",
     },
     "Please select the type of server to which you are connecting.": {
         def: "Please select the type of server to which you are connecting.",
@@ -7808,6 +8040,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Please select your situation.",
         es: "Selecciona tu situación.",
         ja: "あなたの状況を選択してください。",
+        ko: "현재 상황을 선택해 주세요.",
     },
     "Please set device name to identify this device. This name should be unique among your devices. While not configured, we cannot enable this feature.":
         {
@@ -7831,6 +8064,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Please understand that this is intended behaviour.",
         es: "Comprende que este es el comportamiento previsto.",
         ja: "これは意図された動作であることをご理解ください。",
+        ko: "이는 의도된 동작이라는 점을 이해해 주세요.",
     },
     "Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.":
         {
@@ -7850,6 +8084,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Plugins",
         es: "Complementos",
         ja: "プラグイン",
+        ko: "플러그인",
     },
     "Prepare the 'report' to create an issue": {
         def: "Prepare the 'report' to create an issue",
@@ -7880,11 +8115,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Prevent fetching configuration from server",
         es: "Impedir la obtención de la configuración desde el servidor",
         ja: "サーバーから設定を取得しない",
+        ko: "서버에서 구성 가져오기 방지",
     },
     Proceed: {
         def: "Proceed",
         es: "Continuar",
         ja: "続行",
+        ko: "진행",
     },
     "Proceed Garbage Collection": {
         def: "Proceed Garbage Collection",
@@ -7899,6 +8136,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Proceed to the next step.",
         es: "Continuar al paso siguiente.",
         ja: "次のステップへ進む",
+        ko: "다음 단계로 진행합니다.",
     },
     "Proceed with Setup URI": {
         def: "Proceed with Setup URI",
@@ -8173,6 +8411,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Refresh",
         es: "Actualizar",
         ja: "リフレッシュ",
+        ko: "새로 고침",
     },
     Region: {
         def: "Region",
@@ -8188,11 +8427,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Relay settings",
         es: "Ajustes del relé",
         ja: "リレー設定",
+        ko: "중계 서버 설정",
     },
     Reload: {
         def: "Reload",
         es: "Recargar",
         ja: "リロード",
+        ko: "다시 불러오기",
     },
     Remediation: {
         def: "Remediation",
@@ -8251,6 +8492,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Remote only",
         es: "Solo remoto",
         ja: "リモートのみ",
+        ko: "원격에만 있음",
     },
     "Remote server type": {
         def: "Remote server type",
@@ -8285,6 +8527,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Replicate now",
         es: "Replicar ahora",
         ja: "今すぐ同期",
+        ko: "지금 복제",
     },
     "Replicate now by P2P": {
         def: "Replicate now by P2P",
@@ -8298,11 +8541,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Replicating",
         es: "Replicando",
         ja: "同期中",
+        ko: "복제 중",
     },
     "Replicating...": {
         def: "Replicating...",
         es: "Replicando...",
         ja: "同期中...",
+        ko: "복제 중입니다...",
     },
     "Replicator.Dialogue.Cleaned.Action.Cleanup": {
         def: "Cleanup",
@@ -8546,6 +8791,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Reset and Resume Synchronisation",
         es: "Restablecer y reanudar la sincronización",
         ja: "リセットして同期を再開",
+        ko: "동기화 초기화 후 재개",
     },
     "Reset journal received history": {
         def: "Reset journal received history",
@@ -8677,11 +8923,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Restart and Fetch Data",
         es: "Reiniciar y obtener los datos",
         ja: "再起動とデータの取得",
+        ko: "재시작 후 데이터 가져오기",
     },
     "Restart and Initialise Server": {
         def: "Restart and Initialise Server",
         es: "Reiniciar e inicializar el servidor",
         ja: "サーバーの再起動と初期化",
+        ko: "재시작 후 서버 초기화",
     },
     "Restart and Select Source Device": {
         def: "Restart and Select Source Device",
@@ -8734,11 +8982,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Rev",
         es: "Rev",
         ja: "改訂版",
+        ko: "리비전",
     },
     "Revert changes": {
         def: "Revert changes",
         es: "Revertir cambios",
         ja: "変更を元に戻す",
+        ko: "변경 사항 되돌리기",
     },
     "Review why": {
         def: "Review why",
@@ -9068,16 +9318,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Revoke",
         es: "Revocar",
         ja: "取り消す",
+        ko: "철회",
     },
     "Room ID": {
         def: "Room ID",
         es: "ID de sala",
         ja: "ルームID",
+        ko: "룸 ID",
     },
     "Room ID suffix:": {
         def: "Room ID suffix:",
         es: "Sufijo del ID de sala:",
         ja: "ルーム ID サフィックス:",
+        ko: "룸 ID 접미사:",
     },
     "Rotation Duration": {
         def: "Rotation Duration",
@@ -9098,6 +9351,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "S3/MinIO/R2 Configuration",
         es: "Configuración de S3/MinIO/R2",
         ja: "S3/MinIO/R2設定",
+        ko: "S3/MinIO/R2 구성",
     },
     "S3/MinIO/R2 Object Storage": {
         def: "S3/MinIO/R2 Object Storage",
@@ -9112,16 +9366,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Same",
         es: "Igual",
         ja: "同じ",
+        ko: "동일",
     },
     "Same or local only": {
         def: "Same or local only",
         es: "Igual o solo local",
         ja: "同じ、またはローカルのみ",
+        ko: "동일하거나 로컬에만 있음",
     },
     "Save and Apply": {
         def: "Save and Apply",
         es: "Guardar y aplicar",
         ja: "保存して適用",
+        ko: "저장 후 적용",
     },
     "Save settings to a markdown file. You will be notified when new settings arrive. You can set different files by the platform.":
         {
@@ -9174,6 +9431,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Scan changes",
         es: "Buscar cambios",
         ja: "変更のスキャン",
+        ko: "변경 사항 검사",
     },
     "Scan changes on customization sync": {
         def: "Scan changes on customization sync",
@@ -9270,6 +9528,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Scan QR Code",
         es: "Escanear código QR",
         ja: "QRコードをスキャン",
+        ko: "QR 코드 스캔",
     },
     "Scan storage and database again": {
         def: "Scan storage and database again",
@@ -9334,6 +9593,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Secret Access Key",
         es: "Clave de acceso secreta",
         ja: "シークレットアクセスキー",
+        ko: "시크릿 액세스 키",
     },
     "Secret Key": {
         def: "Secret Key",
@@ -9349,21 +9609,25 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Select active P2P remote",
         es: "Seleccionar el remoto P2P activo",
         ja: "アクティブな P2P リモートを選択します",
+        ko: "활성 P2P 원격 선택",
     },
     "Select All Shiny": {
         def: "Select All Shiny",
         es: "Seleccionar todo lo nuevo",
         ja: "光沢のあるものをすべて選択",
+        ko: "새 항목 모두 선택",
     },
     "Select Flagged Shiny": {
         def: "Select Flagged Shiny",
         es: "Seleccionar lo nuevo marcado",
         ja: "フラグ付き光沢を選択",
+        ko: "플래그된 새 항목 선택",
     },
     "Select P2P remote...": {
         def: "Select P2P remote...",
         es: "Seleccionar remoto P2P...",
         ja: "P2P リモートを選択...",
+        ko: "P2P 원격 선택...",
     },
     "Select Remote Configuration": {
         def: "Select Remote Configuration",
@@ -9387,17 +9651,20 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "Selecting this option will result in the current data on this device being used to initialise the server. Any existing data on the server will be completely overwritten.",
             es: "Al elegir esta opción, los datos actuales de este dispositivo se usarán para inicializar el servidor. Cualquier dato existente en el servidor se sobrescribirá por completo.",
             ja: "このオプションを選択すると、このデバイス上の現在のデータがサーバーの初期化に使用されます。サーバー上の既存のデータは完全に上書きされます。",
+            ko: "이 옵션을 선택하면 이 기기의 현재 데이터로 서버를 초기화합니다. 서버에 있는 기존 데이터는 모두 완전히 덮어써집니다.",
         },
     "Selecting this option will result in this device joining the existing server. You need to fetching the existing synchronisation data from the server to this device.":
         {
             def: "Selecting this option will result in this device joining the existing server. You need to fetching the existing synchronisation data from the server to this device.",
             es: "Al elegir esta opción, este dispositivo se unirá al servidor existente. Tendrás que obtener del servidor los datos de sincronización ya existentes.",
             ja: "このオプションを選択すると、このデバイスが既存のサーバーに参加します。既存の同期データをサーバーからこのデバイスに取得する必要があります。",
+            ko: "이 옵션을 선택하면 이 기기가 기존 서버에 참여합니다. 서버에 있는 기존 동기화 데이터를 이 기기로 가져와야 합니다.",
         },
     Selective: {
         def: "Selective",
         es: "Selectivo",
         ja: "選択",
+        ko: "선택적",
     },
     "Self-hosted LiveSync has paused remote synchronisation for compatibility review. ": {
         def: "Self-hosted LiveSync has paused remote synchronisation for compatibility review. ",
@@ -9425,6 +9692,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "SENDING",
         es: "ENVIANDO",
         ja: "送信中",
+        ko: "전송 중",
     },
     "Server URI": {
         def: "Server URI",
@@ -9440,6 +9708,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "SESSION",
         es: "SESIÓN",
         ja: "セッション",
+        ko: "세션",
     },
     "Setting.GenerateKeyPair.Desc": {
         def: 'We have generated a key pair!\n\nNote: This key pair will never be shown again. Please save it in a safe place. If you have lost it, you need to generate a new key pair.\nNote 2: The public key is in spki format, and the Private key is in pkcs8 format. For the sake of convenience, newlines are converted to `\\n` in public key.\nNote 3: The public key should be configured in the remote database, and the private key should be configured in local devices.\n\n>[!FOR YOUR EYES ONLY]-\n> <div class="sls-keypair">\n>\n> ### Public Key\n> ```\n${public_key}\n> ```\n>\n> ### Private Key\n> ```\n${private_key}\n> ```\n>\n> </div>\n\n>[!Both for copying]-\n>\n> <div class="sls-keypair">\n>\n> ```\n${public_key}\n${private_key}\n> ```\n>\n> </div>\n\n',
@@ -9540,11 +9809,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Setup Complete: Preparing to Fetch Synchronisation Data",
         es: "Configuración completada: preparando la obtención de los datos de sincronización",
         ja: "セットアップの完了: 同期データを取得する準備をしています",
+        ko: "설정 완료: 동기화 데이터를 가져올 준비 중",
     },
     "Setup Complete: Preparing to Initialise Server": {
         def: "Setup Complete: Preparing to Initialise Server",
         es: "Configuración completada: preparando la inicialización del servidor",
         ja: "セットアップの完了: サーバーの初期化の準備中",
+        ko: "설정 완료: 서버를 초기화할 준비 중",
     },
     "Setup URI": {
         def: "Setup URI",
@@ -9563,6 +9834,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Setup-URI",
         es: "Setup-URI",
         ja: "セットアップURI",
+        ko: "Setup-URI",
     },
     "Setup.Apply.Buttons.ApplyAndFetch": {
         def: "Apply and Fetch",
@@ -10275,6 +10547,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Signaling Server Connection",
         es: "Conexión al servidor de señalización",
         ja: "シグナリングサーバー接続",
+        ko: "시그널링 서버 연결",
     },
     "Signalling relay URLs": {
         def: "Signalling relay URLs",
@@ -10288,11 +10561,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Signalling Status",
         es: "Estado de la señalización",
         ja: "信号ステータス",
+        ko: "시그널링 상태",
     },
     "Skip and close": {
         def: "Skip and close",
         es: "Omitir y cerrar",
         ja: "スキップして閉じる",
+        ko: "건너뛰고 닫기",
     },
     "Skip and proceed": {
         def: "Skip and proceed",
@@ -10302,6 +10577,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Snippets",
         es: "Fragmentos",
         ja: "CSSスニペット",
+        ko: "스니펫",
     },
     "Some configuration has arrived. Select ": {
         def: "Some configuration has arrived. Select ",
@@ -10330,16 +10606,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Start Broadcasting",
         es: "Iniciar difusión",
         ja: "変更の通知を開始",
+        ko: "브로드캐스트 시작",
     },
     "Start change-broadcasting on Connect": {
         def: "Start change-broadcasting on Connect",
         es: "Iniciar la difusión de cambios al conectar",
         ja: "接続時に変更の通知を開始",
+        ko: "연결 시 변경 사항 브로드캐스트 시작",
     },
     "Start Sync & Close": {
         def: "Start Sync & Close",
         es: "Iniciar sincronización y cerrar",
         ja: "同期を開始して閉じる",
+        ko: "동기화 시작 후 닫기",
     },
     "Starts synchronisation when a file is saved.": {
         def: "Starts synchronisation when a file is saved.",
@@ -10355,16 +10634,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Stat",
         es: "Estado",
         ja: "ステータス",
+        ko: "상태",
     },
     Stats: {
         def: "Stats",
         es: "Estadísticas",
         ja: "統計",
+        ko: "통계",
     },
     "Stop ⚡": {
         def: "Stop ⚡",
         es: "Detener ⚡",
         ja: "やめて⚡",
+        ko: "중지 ⚡",
     },
     "Stop announcing changes": {
         def: "Stop announcing changes",
@@ -10374,6 +10656,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Stop Broadcasting",
         es: "Detener difusión",
         ja: "変更の通知を停止",
+        ko: "브로드캐스트 중지",
     },
     "Stop following changes from this device": {
         def: "Stop following changes from this device",
@@ -10418,6 +10701,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Strongly Recommended",
         es: "Muy recomendado",
         ja: "強く推奨",
+        ko: "적극 권장",
     },
     "Subject (whoami)": {
         def: "Subject (whoami)",
@@ -10475,6 +10759,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Sync",
         es: "Sincronizar",
         ja: "同期",
+        ko: "동기화",
     },
     "Sync after merging file": {
         def: "Sync after merging file",
@@ -10554,6 +10839,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Sync once",
         es: "Sincronizar una vez",
         ja: "一度同期する",
+        ko: "한 번 동기화",
     },
     "Synchronisation Issues Detected": {
         def: "Synchronisation Issues Detected",
@@ -10594,6 +10880,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Syncing...",
         es: "Sincronizando...",
         ja: "同期中...",
+        ko: "동기화 중입니다...",
     },
     "Target patterns": {
         def: "Target patterns",
@@ -10612,6 +10899,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Test Settings and Continue",
         es: "Probar los ajustes y continuar",
         ja: "設定をテストして続行",
+        ko: "설정 테스트 후 계속",
     },
     "Testing only - Resolve file conflicts by syncing newer copies of the file, this can overwrite modified files. Be Warned.":
         {
@@ -10637,6 +10925,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "The connection to the server has been configured successfully. As the next step,",
         es: "La conexión con el servidor se ha configurado correctamente. Como paso siguiente,",
         ja: "サーバーへの接続は正常に構成されました。次のステップとして、",
+        ko: "서버 연결이 성공적으로 구성되었습니다. 다음 단계로,",
     },
     "The credential/password for the TURN servers.": {
         def: "The credential/password for the TURN servers.",
@@ -10656,6 +10945,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "The files in this Vault are almost identical to the server's.",
         es: "Los archivos de este Vault son casi idénticos a los del servidor.",
         ja: "この Vault 内のファイルはサーバーのファイルとほぼ同じです。",
+        ko: "이 보관함의 파일은 서버의 파일과 거의 동일합니다.",
     },
     "The following accepted nodes are missing its node information:\n- ${missingNodes}\n\nThis indicates that they have not been connected for some time or have been left on an older version.\nIt is preferable to update all devices if possible. If you have any devices that are no longer in use, you can clear all accepted nodes by locking the remote once.":
         {
@@ -10673,6 +10963,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "The Group ID and passphrase are used to identify your group of devices. Make sure to use the same Group ID and passphrase on all devices you want to synchronise.",
             es: "El ID de grupo y la frase de contraseña identifican tu grupo de dispositivos. Usa el mismo ID de grupo y la misma frase de contraseña en todos los dispositivos que quieras sincronizar.",
             ja: "グループ ID とパスフレーズは、デバイスのグループを識別するために使用されます。同期するすべてのデバイスで同じグループ ID とパスフレーズを使用してください。",
+            ko: "그룹 ID와 패스프레이즈는 기기 그룹을 식별하는 데 사용됩니다. 동기화하려는 모든 기기에서 동일한 그룹 ID와 패스프레이즈를 사용해야 합니다.",
         },
     "The Hash algorithm for chunk IDs": {
         def: "The Hash algorithm for chunk IDs",
@@ -10705,11 +10996,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "the latest synchronisation data will be downloaded from the server to this device.",
         es: "se descargarán a este dispositivo los datos de sincronización más recientes del servidor.",
         ja: "最新の同期データがサーバーからこのデバイスにダウンロードされます。",
+        ko: "서버의 최신 동기화 데이터를 이 기기로 내려받습니다.",
     },
     "the local database, that is to say the synchronisation information, must be reconstituted.": {
         def: "the local database, that is to say the synchronisation information, must be reconstituted.",
         es: "hay que reconstruir la base de datos local, es decir, la información de sincronización.",
         ja: "ローカル データベース、つまり同期情報を再構成する必要があります。",
+        ko: "로컬 데이터베이스, 즉 동기화 정보를 다시 구성해야 합니다.",
     },
     "The maximum duration for which chunks can be incubated within the document. Chunks exceeding this period will graduate to independent chunks.":
         {
@@ -10782,6 +11075,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "The remote is already set up, and the configuration is compatible (or got compatible by this operation).",
         es: "El remoto ya está configurado y la configuración es compatible (o pasa a serlo con esta operación).",
         ja: "リモートはすでに設定済みで、構成には互換性があります（または、この操作で互換性のある状態になりました）。",
+        ko: "원격은 이미 설정되어 있으며, 구성도 호환됩니다(또는 이번 작업으로 호환되었습니다).",
     },
     "The Room ID for P2P connection. This should be same among your devices.": {
         def: "The Room ID for P2P connection. This should be same among your devices.",
@@ -10800,16 +11094,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "The Setup-URI does not appear to be valid. Please check that you have copied it correctly.",
         es: "El Setup-URI no parece válido. Comprueba que lo hayas copiado correctamente.",
         ja: "Setup-URI が有効ではないようです。正しくコピーできているか確認してください。",
+        ko: "Setup-URI가 유효하지 않은 것으로 보입니다. 올바르게 복사했는지 확인해 주세요.",
     },
     "The Setup-URI is valid and ready to use.": {
         def: "The Setup-URI is valid and ready to use.",
         es: "El Setup-URI es válido y está listo para usarse.",
         ja: "Setup-URI は有効で、すぐに使用できます。",
+        ko: "Setup-URI가 유효하며 사용할 준비가 되었습니다.",
     },
     "the single, authoritative master copy": {
         def: "the single, authoritative master copy",
         es: "la única copia maestra de referencia",
         ja: "単一の権威あるマスターコピー",
+        ko: "유일하고 확실한 원본이 됩니다",
     },
     "The subject for JWT authentication. Mostly username.": {
         def: "The subject for JWT authentication. Mostly username.",
@@ -10819,6 +11116,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "the synchronisation data on the server will be built based on the current data on this device.",
         es: "los datos de sincronización del servidor se construirán a partir de los datos actuales de este dispositivo.",
         ja: "サーバー上の同期データは、このデバイス上の現在のデータに基づいて構築されます。",
+        ko: "이 기기의 현재 데이터를 바탕으로 서버의 동기화 데이터를 구축합니다.",
     },
     "The TURN servers to use for P2P connections. Multiple servers can be separated by commas.": {
         def: "The TURN servers to use for P2P connections. Multiple servers can be separated by commas.",
@@ -10832,37 +11130,44 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Themes",
         es: "Temas",
         ja: "テーマ",
+        ko: "테마",
     },
     "There is a way to resolve this on other devices.": {
         def: "There is a way to resolve this on other devices.",
         es: "Hay una forma de resolver esto en los demás dispositivos.",
         ja: "他のデバイスではこれを解決する方法があります。",
+        ko: "다른 기기에서 이를 해결할 방법이 있습니다.",
     },
     "There may be differences between the files in this Vault and the server.": {
         def: "There may be differences between the files in this Vault and the server.",
         es: "Puede haber diferencias entre los archivos de este Vault y los del servidor.",
         ja: "このVaultとサーバー上のファイルに差異がある可能性があります。",
+        ko: "이 보관함의 파일과 서버의 파일 사이에 차이가 있을 수 있습니다.",
     },
     "Therefore, we ask that you exercise extreme caution when configuring server information manually. If an incorrect passphrase is entered, the data on the server will become corrupted.":
         {
             def: "Therefore, we ask that you exercise extreme caution when configuring server information manually. If an incorrect passphrase is entered, the data on the server will become corrupted.",
             es: "Por tanto, extrema la precaución al configurar manualmente los datos del servidor. Si introduces una frase de contraseña incorrecta, los datos del servidor se corromperán.",
             ja: "したがって、サーバー情報を手動で設定する場合は、細心の注意を払ってください。間違ったパスフレーズを入力すると、サーバー上のデータが破損します。",
+            ko: "따라서 서버 정보를 수동으로 구성할 때에는 각별히 주의해 주시기 바랍니다. 잘못된 패스프레이즈를 입력하면 서버의 데이터가 손상됩니다.",
         },
     "This can isolate your connections between devices. Use the same Room ID for the same devices.": {
         def: "This can isolate your connections between devices. Use the same Room ID for the same devices.",
         es: "Esto permite aislar tus conexiones entre dispositivos. Usa el mismo ID de sala para los mismos dispositivos.",
         ja: "これにより、デバイス間の接続が分離される可能性があります。同じデバイスには同じルーム ID を使用してください。",
+        ko: "이를 통해 기기 간 연결을 서로 격리할 수 있습니다. 같은 기기들끼리는 동일한 룸 ID를 사용하세요.",
     },
     "This device": {
         def: "This device",
         es: "Este dispositivo",
         ja: "このデバイス",
+        ko: "이 기기",
     },
     "This device name": {
         def: "This device name",
         es: "Nombre de este dispositivo",
         ja: "このデバイス名",
+        ko: "이 기기의 이름",
     },
     "This feature enables direct synchronisation between devices. No server is required, but both devices must be online at the same time for synchronisation to occur, and some features may be limited. Internet connection is only required to signalling (detecting peers) and not for data transfer.":
         {
@@ -10902,6 +11207,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "This is an extremely powerful operation. We strongly recommend that you copy your Vault folder to a safe location.",
             es: "Esta es una operación extremadamente potente. Te recomendamos encarecidamente copiar la carpeta de tu Vault a un lugar seguro.",
             ja: "これは非常に強力な操作です。 Vault フォルダーを安全な場所にコピーすることを強くお勧めします。",
+            ko: "이는 매우 강력한 작업입니다. 보관함 폴더를 안전한 위치에 복사해 두시기를 강력히 권장합니다.",
         },
     "This is the most suitable synchronisation method for the design. All functions are available. You must have set up a CouchDB instance.":
         {
@@ -10932,28 +11238,33 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "This password is used to encrypt the connection. Use something long enough.",
         es: "Esta contraseña se usa para cifrar la conexión. Usa algo suficientemente largo.",
         ja: "このパスワードは接続を暗号化するために使用されます。十分に長いものを使いましょう。",
+        ko: "이 비밀번호는 연결을 암호화하는 데 사용됩니다. 충분히 긴 값을 사용하세요.",
     },
     "This procedure will first delete all existing synchronisation data from the server. Following this, the server data will be completely rebuilt, using the current state of your Vault on this device (including its local database) as":
         {
             def: "This procedure will first delete all existing synchronisation data from the server. Following this, the server data will be completely rebuilt, using the current state of your Vault on this device (including its local database) as",
             es: "Este procedimiento eliminará primero todos los datos de sincronización existentes en el servidor. A continuación, los datos del servidor se reconstruirán por completo usando el estado actual del Vault de este dispositivo (incluida su base de datos local) como",
             ja: "この手順では、まず既存の同期データをすべてサーバーから削除します。これに続いて、このデバイス上の Vault の現在の状態 (ローカル データベースを含む) を使用して、サーバーデータが完全に再構築されます。",
+            ko: "이 절차는 먼저 서버에서 기존 동기화 데이터를 모두 삭제합니다. 그다음 이 기기에 있는 보관함의 현재 상태(로컬 데이터베이스 포함)를 바탕으로 서버 데이터를 완전히 재구축합니다. 즉, 이 기기의 데이터가",
         },
     "This setting must be the same even when connecting to multiple synchronisation destinations.": {
         def: "This setting must be the same even when connecting to multiple synchronisation destinations.",
         es: "Este ajuste debe ser el mismo incluso si te conectas a varios destinos de sincronización.",
         ja: "この設定は複数の同期先に接続する場合でも同じにする必要があります。",
+        ko: "이 설정은 여러 동기화 대상에 연결하는 경우에도 동일해야 합니다.",
     },
     "This Vault is empty, or contains only new files that are not on the server.": {
         def: "This Vault is empty, or contains only new files that are not on the server.",
         es: "Este Vault está vacío o solo contiene archivos nuevos que no están en el servidor.",
         ja: "このVaultは空、またはサーバーに存在しない新規ファイルのみを含んでいます。",
+        ko: "이 보관함은 비어 있거나, 서버에 없는 새 파일만 포함하고 있습니다.",
     },
     "This will rebuild the local database on this device using the most recent data from the server. This action is designed to resolve synchronisation inconsistencies and restore correct functionality.":
         {
             def: "This will rebuild the local database on this device using the most recent data from the server. This action is designed to resolve synchronisation inconsistencies and restore correct functionality.",
             es: "Esto reconstruirá la base de datos local de este dispositivo con los datos más recientes del servidor. La acción está pensada para resolver inconsistencias de sincronización y restaurar el funcionamiento correcto.",
             ja: "これにより、サーバーからの最新のデータを使用して、このデバイス上にローカル データベースが再構築されます。このアクションは、同期の不一致を解決し、正しい機能を復元するように設計されています。",
+            ko: "서버의 최신 데이터를 사용해 이 기기의 로컬 데이터베이스를 재구축합니다. 이 작업은 동기화 불일치를 해결하고 정상적인 동작을 복구하기 위한 것입니다.",
         },
     "This will recreate chunks for all files. If there were missing chunks, this may fix the errors.": {
         def: "This will recreate chunks for all files. If there were missing chunks, this may fix the errors.",
@@ -10976,6 +11287,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "To minimise the creation of new conflicts",
         es: "Para minimizar la creación de nuevos conflictos",
         ja: "新たな競合の発生を最小限に抑えるため",
+        ko: "새로운 충돌 발생을 최소화하기 위해",
     },
     "Toggle All Sync.": {
         def: "Toggle All Sync.",
@@ -10996,6 +11308,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "TURN Credential",
         es: "Credencial de TURN",
         ja: "TURN認証情報",
+        ko: "TURN 자격 증명",
     },
     "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust.":
         {
@@ -11007,11 +11320,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P connections. In most cases, you can leave these fields blank.",
             es: "Los ajustes del servidor TURN solo son necesarios si estás detrás de un NAT estricto o de un cortafuegos que impide las conexiones P2P directas. En la mayoría de los casos puedes dejar estos campos vacíos.",
             ja: "TURN サーバー設定は、直接 P2P 接続を妨げる厳格な NAT またはファイアウォールの内側にいる場合にのみ必要です。ほとんどの場合、これらのフィールドは空白のままにしても問題ありません。",
+            ko: "TURN 서버 설정은 직접적인 P2P 연결을 막는 엄격한 NAT나 방화벽 뒤에 있는 경우에만 필요합니다. 대부분의 경우 이 항목들은 비워 두어도 됩니다.",
         },
     "TURN Server URLs (comma-separated)": {
         def: "TURN Server URLs (comma-separated)",
         es: "URL de servidores TURN (separadas por comas)",
         ja: "TURNサーバーURL（コンマ区切り）",
+        ko: "TURN 서버 URL (쉼표로 구분)",
     },
     "TURN Servers": {
         def: "TURN Servers",
@@ -11021,6 +11336,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "TURN Username",
         es: "Usuario de TURN",
         ja: "TURNユーザー名",
+        ko: "TURN 사용자 이름",
     },
     "turn:turn1.example.com,turn:turn2.example.com": {
         def: "turn:turn1.example.com,turn:turn2.example.com",
@@ -13351,16 +13667,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "Unless you are certain, selecting this options is bit dangerous. It assumes that the server configuration is compatible with this device. If this is not the case, data loss may occur. Please ensure you know what you are doing.",
             es: "Si no estás seguro, elegir esta opción es algo arriesgado. Da por supuesto que la configuración del servidor es compatible con este dispositivo. Si no lo es, puede haber pérdida de datos. Asegúrate de saber lo que haces.",
             ja: "確信がない限り、このオプションを選択するのは少し危険です。サーバー構成がこのデバイスと互換性があることを前提としています。そうでない場合、データ損失が発生する可能性があります。自分が何をしているのかを必ず理解してください。",
+            ko: "확신이 없다면 이 옵션을 선택하는 것은 다소 위험합니다. 이 옵션은 서버 구성이 이 기기와 호환된다고 가정합니다. 그렇지 않은 경우 데이터가 손실될 수 있습니다. 무엇을 하려는지 충분히 이해한 상태에서 진행해 주세요.",
         },
     "Updating list...": {
         def: "Updating list...",
         es: "Actualizando lista...",
         ja: "リストを更新中...",
+        ko: "목록을 갱신하는 중입니다...",
     },
     URL: {
         def: "URL",
         es: "URL",
         ja: "URL（接続先）",
+        ko: "URL",
     },
     "Use ${NAME}": {
         def: "Use ${NAME}",
@@ -13401,6 +13720,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Use Diagnostic RTCPeerConnection for statistics",
         es: "Usar el RTCPeerConnection de diagnóstico para las estadísticas",
         ja: "統計取得に診断用RTCPeerConnectionを使用",
+        ko: "통계에 진단용 RTCPeerConnection 사용",
     },
     "Use dynamic iteration count": {
         def: "Use dynamic iteration count",
@@ -13416,16 +13736,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Use internal API",
         es: "Usar la API interna",
         ja: "内部APIを使用",
+        ko: "내부 API 사용",
     },
     "Use Internal API": {
         def: "Use Internal API",
         es: "Usar la API interna",
         ja: "内部APIを使用",
+        ko: "내부 API 사용",
     },
     "Use JWT Authentication": {
         def: "Use JWT Authentication",
         es: "Usar autenticación JWT",
         ja: "JWT認証を使用",
+        ko: "JWT 인증 사용",
     },
     "Use JWT instead of Basic Authentication": {
         def: "Use JWT instead of Basic Authentication",
@@ -13439,11 +13762,13 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Use Path-Style Access",
         es: "Usar acceso de tipo ruta (path-style)",
         ja: "パス形式アクセスを使用",
+        ko: "경로 방식(Path-Style) 접근 사용",
     },
     "Use Random Number": {
         def: "Use Random Number",
         es: "Usar número aleatorio",
         ja: "乱数を使用する",
+        ko: "임의의 숫자 사용",
     },
     "Use Request API to avoid `inevitable` CORS problem": {
         def: "Use Request API to avoid `inevitable` CORS problem",
@@ -13505,6 +13830,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Use vrtmrz's relay",
         es: "Usar el relé de vrtmrz",
         ja: "vrtmrz のリレーを使用する",
+        ko: "vrtmrz의 중계 서버 사용",
     },
     username: {
         def: "username",
@@ -13581,16 +13907,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "WATCHING",
         es: "OBSERVANDO",
         ja: "見てる",
+        ko: "감시 중",
     },
     'We can not use "/" to the device name': {
         def: 'We can not use "/" to the device name',
         es: 'No se puede usar "/" en el nombre del dispositivo',
         ja: "デバイス名に「/」は使用できません",
+        ko: '기기 이름에는 "/"를 사용할 수 없습니다',
     },
     "We can use only Secure (HTTPS) connections on Obsidian Mobile.": {
         def: "We can use only Secure (HTTPS) connections on Obsidian Mobile.",
         es: "En Obsidian Mobile solo se pueden usar conexiones seguras (HTTPS).",
         ja: "Obsidian Mobile では安全な (HTTPS) 接続のみを使用できます。",
+        ko: "Obsidian 모바일에서는 보안(HTTPS) 연결만 사용할 수 있습니다.",
     },
     "We cannot change the device name while this feature is enabled. Please disable this feature to change the device name.":
         {
@@ -13605,12 +13934,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "We have to configure the device name",
         es: "Hay que configurar el nombre del dispositivo",
         ja: "デバイス名を設定する必要があります",
+        ko: "기기 이름을 설정해야 합니다",
     },
     "We recommend that you copy your Vault folder to a safe location. This will provide a safeguard in case a large number of conflicts arise, or if you accidentally synchronise with an incorrect destination.":
         {
             def: "We recommend that you copy your Vault folder to a safe location. This will provide a safeguard in case a large number of conflicts arise, or if you accidentally synchronise with an incorrect destination.",
             es: "Te recomendamos copiar la carpeta de tu Vault a un lugar seguro. Así tendrás una salvaguarda en caso de que surjan muchos conflictos o de que sincronices por error con un destino incorrecto.",
             ja: "Vault フォルダーを安全な場所にコピーすることをお勧めします。これにより、多数の競合が発生した場合や、誤って間違った宛先と同期した場合に備えて安全策が提供されます。",
+            ko: "보관함 폴더를 안전한 위치에 복사해 두시기를 권장합니다. 충돌이 대량으로 발생하거나 실수로 잘못된 대상과 동기화한 경우에 대비할 수 있습니다.",
         },
     "We will now guide you through a few questions to simplify the synchronisation setup.": {
         def: "We will now guide you through a few questions to simplify the synchronisation setup.",
@@ -13752,6 +14083,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "You can configure in the Obsidian Plugin Settings.",
         es: "Puedes configurarlo en los ajustes del complemento de Obsidian.",
         ja: "Obsidian プラグイン設定で設定できます。",
+        ko: "Obsidian 플러그인 설정에서 구성할 수 있습니다.",
     },
     "You can enable this setting to process the files with size mismatches, these files can be created by some APIs or integrations.":
         {
@@ -13762,12 +14094,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "You should create a new synchronisation destination and rebuild your data there.",
         es: "Deberías crear un nuevo destino de sincronización y reconstruir allí tus datos.",
         ja: "新しい同期先を作成し、そこでデータを再構築する必要があります。",
+        ko: "새로운 동기화 대상을 만들고 그곳에서 데이터를 재구축해야 합니다.",
     },
     "You should perform this operation only in exceptional circumstances, such as when the server data is completely corrupted, when changes on all other devices are no longer needed, or when the database size has become unusually large in comparison to the Vault size.":
         {
             def: "You should perform this operation only in exceptional circumstances, such as when the server data is completely corrupted, when changes on all other devices are no longer needed, or when the database size has become unusually large in comparison to the Vault size.",
             es: "Solo deberías realizar esta operación en circunstancias excepcionales: cuando los datos del servidor estén completamente corruptos, cuando ya no necesites los cambios de los demás dispositivos o cuando el tamaño de la base de datos sea inusualmente grande respecto al del Vault.",
             ja: "この操作は、サーバーデータが完全に破損している場合、他のすべてのデバイスでの変更が不要になった場合、データベース サイズが Vault サイズと比較して異常に大きくなった場合など、例外的な状況でのみ実行してください。",
+            ko: "이 작업은 서버 데이터가 완전히 손상된 경우, 다른 모든 기기의 변경 사항이 더 이상 필요하지 않은 경우, 또는 데이터베이스 크기가 보관함 크기에 비해 비정상적으로 커진 경우처럼 예외적인 상황에서만 수행해야 합니다.",
         },
     "Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings.":
         {
