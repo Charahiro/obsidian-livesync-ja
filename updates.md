@@ -12,6 +12,22 @@ Earlier releases remain available in the 0.25 release history and the legacy rel
 
 ## Unreleased
 
+## 1.0.4
+
+5th August, 2026
+
+### Synchronisation and storage
+
+#### Fixed
+
+- Testing or saving a fresh remote configuration no longer tries to access the local database while constructing a replicator, avoiding 'Local database is not ready yet' failures before local database initialisation (#1064).
+
+### Command-line tool
+
+#### Fixed
+
+- Successful setup and remote-configuration commands now retain their settings changes. Other commands leave the settings file unchanged unless `--write-settings` is supplied, and temporary CLI suspension values are never written (#1070).
+
 ## 1.0.3
 
 3rd August, 2026
