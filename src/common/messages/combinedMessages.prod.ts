@@ -1499,6 +1499,19 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             def: "Could not fetch configuration from remote. If you are new to Self-hosted LiveSync, this might be expected. Otherwise, check your network or server settings.",
             ja: "リモートから設定を取得できませんでした。Self-hosted LiveSyncを新しく設定している場合は正常なことがあります。それ以外の場合は、ネットワークまたはサーバー設定を確認してください。",
         },
+    "Could Not Read Synchronisation Settings": {
+        def: "Could Not Read Synchronisation Settings",
+        ja: "同期設定を読み取れません",
+    },
+    "Could not read the remote's synchronisation settings. Check the connection and credentials, then retry.": {
+        def: "Could not read the remote's synchronisation settings. Check the connection and credentials, then retry.",
+        ja: "リモートの同期設定を読み取れませんでした。接続と認証情報を確認してから再試行してください。",
+    },
+    "Could not read the remote's synchronisation settings. Retry, or continue the overwrite with this device's settings. A working connection is still required.":
+        {
+            def: "Could not read the remote's synchronisation settings. Retry, or continue the overwrite with this device's settings. A working connection is still required.",
+            ja: "リモートの同期設定を読み取れませんでした。再試行するか、このデバイスの設定で上書きを続行してください。続行には有効な接続が必要です。",
+        },
     "Create or connect to database and continue": {
         def: "Create or connect to database and continue",
         ja: "データベースを作成または接続して続行",
@@ -5373,6 +5386,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "No shared ancestor is available for this conflict. The live revisions remain available for explicit review.",
         ja: "この競合には利用可能な共通の祖先がありません。有効なリビジョンは個別に確認できます。",
     },
+    "No Synchronisation Settings Found": {
+        def: "No Synchronisation Settings Found",
+        ja: "同期設定が見つかりません",
+    },
     "No, please take me back": {
         def: "No, please take me back",
         es: "No, volver atrás",
@@ -8970,6 +8987,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Resume file and database processing, and restart Obsidian now?",
         ja: "ファイルとデータベースの処理を再開し、Obsidianを今すぐ再起動しますか？",
     },
+    Retry: {
+        def: "Retry",
+        ja: "再試行",
+    },
     "Retry (recommended)": {
         def: "Retry (recommended)",
         ja: "再試行（推奨）",
@@ -10573,6 +10594,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Skip and proceed",
         ja: "スキップして続行",
     },
+    "Skips checking and applying synchronisation settings from the remote.": {
+        def: "Skips checking and applying synchronisation settings from the remote.",
+        ja: "リモートの同期設定の確認と適用を省略します。",
+    },
     Snippets: {
         def: "Snippets",
         es: "Fragmentos",
@@ -11085,6 +11110,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "The Rotation duration of token in minutes. Each generated tokens will be valid only within this duration.",
         ja: "トークンのローテーション期間を分単位で指定します。生成された各トークンはこの期間内だけ有効です。",
     },
+    "The selected remote has no saved synchronisation settings. This is normal for a new remote. Use this device's settings, or cancel if you expected existing settings.":
+        {
+            def: "The selected remote has no saved synchronisation settings. This is normal for a new remote. Use this device's settings, or cancel if you expected existing settings.",
+            ja: "選択したリモートには保存済みの同期設定がありません。新しいリモートでは正常な状態です。このデバイスの設定を使用するか、既存の設定があるはずの場合はキャンセルしてください。",
+        },
     "The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}":
         {
             def: "The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}",
@@ -13816,6 +13846,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Использовать корзину",
         zh: "使用回收站",
     },
+    "Use this device's settings": {
+        def: "Use this device's settings",
+        ja: "このデバイスの設定を使用",
+    },
     "Use timeouts instead of heartbeats": {
         def: "Use timeouts instead of heartbeats",
         es: "Usar timeouts en lugar de latidos",
@@ -14107,6 +14141,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         {
             def: "Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings.",
             ja: "このデバイスの設定がサーバー設定と一部異なっていたため、互換性のない部分をサーバー設定で置き換えました。",
+        },
+    "Your settings differed slightly from the server's. The plug-in has supplemented the incompatible parts with the server settings!":
+        {
+            def: "Your settings differed slightly from the server's. The plug-in has supplemented the incompatible parts with the server settings!",
+            ja: "このデバイスの設定がサーバー設定と一部異なっていたため、互換性のない部分をサーバー設定で補完しました。",
         },
     "Compute revisions for chunks (Previous behaviour)": {
         es: "Calcular revisiones para chunks (comportamiento anterior)",
