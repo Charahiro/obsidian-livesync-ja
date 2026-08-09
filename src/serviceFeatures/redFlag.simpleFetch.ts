@@ -206,7 +206,7 @@ export async function askAndPerformFastSetupOnScheduledFetchAll(
         return await cancelScheduledInitialisation(host, cleanupFlag);
     }
 
-    return await processVaultInitialisation(host, log, async () => {
+    const performFastSetup = async () => {
         // 1. Perform fast DB fetch (download remote DB content to local DB)
         await host.serviceModules.rebuilder.$fetchLocalDBFast(false);
 
@@ -242,5 +242,6 @@ export async function askAndPerformFastSetupOnScheduledFetchAll(
         clearRememberedSimpleFetchMode(host);
         log("Simple fetch and scan operation completed.", LOG_LEVEL_NOTICE);
         return true;
-    });
+    };
+    return await processVaultInitialisation(host, log, performFastSetup, "keep-on-failure");
 }
