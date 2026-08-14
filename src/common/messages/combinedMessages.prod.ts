@@ -566,6 +566,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "始终提示合并冲突",
         "zh-tw": "總是提示合併衝突",
     },
+    "An exact target is already present; repair can remove the obsolete ID.": {
+        def: "An exact target is already present; repair can remove the obsolete ID.",
+        ja: "同一の対象がすでに存在するため、修復により古いIDを削除できます。",
+    },
     Analyse: {
         def: "Analyse",
         es: "Analizar",
@@ -2680,6 +2684,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "testAndFixSettings 中のエラー: ${reason}",
         ko: "testAndFixSettings 실행 중 오류가 발생했습니다: ${reason}",
     },
+    "Expected document ID: ${ID}": {
+        def: "Expected document ID: ${ID}",
+        ja: "想定されるドキュメントID：${ID}",
+    },
     "Experimental Settings": {
         def: "Experimental Settings",
         es: "Ajustes experimentales",
@@ -3739,6 +3747,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Keep replication active in the background",
         ja: "バックグラウンドでレプリケーションを維持",
     },
+    "Keep unchanged": {
+        def: "Keep unchanged",
+        ja: "変更せずに保持",
+    },
     "Key ID": {
         def: "Key ID",
         ja: "キーID",
@@ -4379,6 +4391,20 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "병합",
         ru: "Объединить",
         zh: "合并",
+    },
+    "Metadata document ID repair and the ordinary Vault scan completed. Run this inspection again after synchronisation.":
+        {
+            def: "Metadata document ID repair and the ordinary Vault scan completed. Run this inspection again after synchronisation.",
+            ja: "メタデータドキュメントIDの修復と通常のVaultスキャンが完了しました。同期後にもう一度この点検を実行してください。",
+        },
+    "Metadata document ID repair completed, but the ordinary Vault scan did not run. Keep synchronisation paused, resolve the scan condition, then run 'Scan storage and database again'.":
+        {
+            def: "Metadata document ID repair completed, but the ordinary Vault scan did not run. Keep synchronisation paused, resolve the scan condition, then run 'Scan storage and database again'.",
+            ja: "メタデータドキュメントIDの修復は完了しましたが、通常のVaultスキャンは実行されませんでした。同期を停止したままスキャンの実行条件を解消してから、「ストレージとデータベースを再スキャン」を実行してください。",
+        },
+    "Metadata entry requires review and was left unchanged": {
+        def: "Metadata entry requires review and was left unchanged",
+        ja: "メタデータ項目は確認が必要なため、変更せずに残しました",
     },
     "Minimum Chunk Size (Not Configurable from the UI Now).": {
         def: "Minimum Chunk Size (Not Configurable from the UI Now).",
@@ -7385,6 +7411,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "本端末でカメラアプリに切り替えるか、QRコードスキャナーを使用して、表示されたQRコードをスキャンします。",
         ko: "이 기기에서 카메라 앱으로 전환하거나 QR 코드 스캐너를 사용해 화면에 표시된 QR 코드를 스캔합니다.",
     },
+    "One-step repair is unavailable because this entry is ambiguous, no longer current, or unsafe to change.": {
+        def: "One-step repair is unavailable because this entry is ambiguous, no longer current, or unsafe to change.",
+        ja: "この項目は曖昧であるか、現在の状態ではないか、安全に変更できないため、一括修復を実行できません。",
+    },
     Open: {
         def: "Open",
         es: "Abrir",
@@ -8540,6 +8570,30 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "重命名",
         "zh-tw": "重新命名",
     },
+    "Repair failed before the source was removed. Run inspection again before retrying.": {
+        def: "Repair failed before the source was removed. Run inspection again before retrying.",
+        ja: "移動元を削除する前に修復に失敗しました。再試行する前にもう一度点検を実行してください。",
+    },
+    "Repair is available for this entry.": {
+        def: "Repair is available for this entry.",
+        ja: "この項目は修復できます。",
+    },
+    "Repair Metadata document ID": {
+        def: "Repair Metadata document ID",
+        ja: "メタデータドキュメントIDを修復",
+    },
+    "Repair Metadata ID": {
+        def: "Repair Metadata ID",
+        ja: "メタデータIDを修復",
+    },
+    "Repair stopped after creating the target. The source was retained. Run inspection again before retrying.": {
+        def: "Repair stopped after creating the target. The source was retained. Run inspection again before retrying.",
+        ja: "移動先を作成した後に修復が停止しました。移動元は保持されています。再試行する前にもう一度点検を実行してください。",
+    },
+    "Repair this Metadata document ID": {
+        def: "Repair this Metadata document ID",
+        ja: "このメタデータドキュメントIDを修復",
+    },
     "Replicate now": {
         def: "Replicate now",
         es: "Replicar ahora",
@@ -9564,6 +9618,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "使用当前设备的摄像头扫描另一台已在使用设备上显示的二维码。",
         "zh-tw": "使用目前裝置的相機掃描另一台已在使用裝置上顯示的 QR Code。",
     },
+    "Scan Vault files and local-database Metadata for conflicts, missing chunks, identity mismatches, and differences. Each result provides actions for one exact entry or revision.":
+        {
+            def: "Scan Vault files and local-database Metadata for conflicts, missing chunks, identity mismatches, and differences. Each result provides actions for one exact entry or revision.",
+            ja: "Vaultファイルとローカルデータベースのメタデータを対象に、競合、不足チャンク、IDの不一致、および差異を調べます。各結果から、対象の項目またはリビジョンに対する操作を実行できます。",
+        },
     "Schedule and Restart": {
         def: "Schedule and Restart",
         es: "Programar y reiniciar",
@@ -10623,6 +10682,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Some files failed to synchronise. What would you like to do?",
         ja: "一部のファイルを同期できませんでした。どうしますか？",
     },
+    "Source revision: ${REVISION}": {
+        def: "Source revision: ${REVISION}",
+        ja: "元のリビジョン：${REVISION}",
+    },
     "Start announcing changes": {
         def: "Start announcing changes",
         ja: "変更の通知を開始",
@@ -10721,6 +10784,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "Store Vault file as a new local database document": {
         def: "Store Vault file as a new local database document",
         ja: "Vaultファイルを新しいローカルデータベース文書として保存",
+    },
+    "Stored document ID: ${ID}": {
+        def: "Stored document ID: ${ID}",
+        ja: "保存済みドキュメントID：${ID}",
     },
     "Strongly Recommended": {
         def: "Strongly Recommended",
@@ -11009,6 +11076,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "IndexedDB 適配器在某些情況下通常能提供較佳效能，但在 LiveSync 模式下已發現可能導致記憶體洩漏。使用 LiveSync 模式時，請改用 IDB 適配器。",
         },
+    "The inspected state changed. No repair was performed; run inspection again.": {
+        def: "The inspected state changed. No repair was performed; run inspection again.",
+        ja: "点検後に状態が変化しました。修復は行われていません。もう一度点検を実行してください。",
+    },
     "The key (PSK in HSxxx in base64, or private key in ESxxx in PEM) used for JWT authentication.": {
         def: "The key (PSK in HSxxx in base64, or private key in ESxxx in PEM) used for JWT authentication.",
         ja: "JWT認証に使用する鍵です（HSxxxではBase64形式のPSK、ESxxxではPEM形式の秘密鍵）。",
@@ -11138,6 +11209,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "単一の権威あるマスターコピー",
         ko: "유일하고 확실한 원본이 됩니다",
     },
+    "The stored document ID and recorded path are handled by different synchronisation features.": {
+        def: "The stored document ID and recorded path are handled by different synchronisation features.",
+        ja: "保存されているドキュメントIDと記録されたパスは、異なる同期機能で処理されます。",
+    },
+    "The stored document ID does not match the ID derived from its recorded path.": {
+        def: "The stored document ID does not match the ID derived from its recorded path.",
+        ja: "保存されているドキュメントIDが、記録されたパスから導出されるIDと一致しません。",
+    },
     "The subject for JWT authentication. Mostly username.": {
         def: "The subject for JWT authentication. Mostly username.",
         ja: "JWT認証のサブジェクトです。通常はユーザー名を指定します。",
@@ -11248,6 +11327,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             ru: "Это наиболее подходящий для данной архитектуры способ синхронизации. Доступны все функции. Необходимо заранее развернуть экземпляр CouchDB。",
             zh: "这是最符合当前设计的同步方式，所有功能均可用。你需要事先部署好 CouchDB 实例。",
             "zh-tw": "這是最符合目前設計的同步方式，所有功能皆可使用。你需要事先部署好 CouchDB 實例。",
+        },
+    "This moves one local Metadata entry to the ID derived from its recorded path.\n\n**File:** `${FILE}`<br>\n**Source:** `${SOURCE}@${REVISION}`<br>\n**Target:** `${TARGET}`\n\nThe target is verified before the source is removed. Its CouchDB revision ancestry cannot be preserved.\n\n> [!warning] Before repairing\n> - Back up this device.\n> - If file-name case or path obfuscation was intentionally changed for the whole database, use Rebuild instead.\n> - If other devices share this database, pause them, allow this device to upload the repair, then resume them one at a time.":
+        {
+            def: "This moves one local Metadata entry to the ID derived from its recorded path.\n\n**File:** `${FILE}`<br>\n**Source:** `${SOURCE}@${REVISION}`<br>\n**Target:** `${TARGET}`\n\nThe target is verified before the source is removed. Its CouchDB revision ancestry cannot be preserved.\n\n> [!warning] Before repairing\n> - Back up this device.\n> - If file-name case or path obfuscation was intentionally changed for the whole database, use Rebuild instead.\n> - If other devices share this database, pause them, allow this device to upload the repair, then resume them one at a time.",
+            ja: "記録されたパスから導出したIDへ、ローカルのメタデータ項目を1件移動します。\n\n**ファイル：** `${FILE}`<br>\n**移動元：** `${SOURCE}@${REVISION}`<br>\n**移動先：** `${TARGET}`\n\n移動元を削除する前に、移動先を書き込み、検証します。CouchDBのリビジョン履歴は維持できません。\n\n> [!warning] 修復前の注意\n> - この端末をバックアップしてください。\n> - データベース全体に対してファイル名の大文字・小文字またはパスの難読化を意図的に変更した場合は、代わりに再構築を行ってください。\n> - このデータベースをほかの端末と共有している場合は、それらを停止し、この端末から修復をアップロードしてから、1台ずつ再開してください。",
         },
     "This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required.":
         {
