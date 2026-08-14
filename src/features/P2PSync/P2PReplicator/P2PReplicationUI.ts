@@ -3,6 +3,7 @@ import { Logger } from "@vrtmrz/livesync-commonlib/compat/common/logger";
 import { LOG_LEVEL_NOTICE, LOG_LEVEL_INFO } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import type { LiveSyncTrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/LiveSyncTrysteroReplicator";
 import { P2POpenReplicationModal } from "./P2POpenReplicationModal";
+import { $msg } from "@/common/translation";
 
 /**
  * Creates an openReplicationUI factory for Obsidian environments.
@@ -110,12 +111,15 @@ export function createOpenRebuildUI(
                     activeSynchronisations++;
                     try {
                         replicator.setOnSetup();
-                        Logger(`Rebuilding from peer ${peerId}`, logLevel);
+                        Logger($msg("JapaneseUI.P2P.RebuildingFrom", { peerId }), logLevel);
                         const result = await replicator.replicateFrom(peerId, showResult, true);
                         sessionResult = result?.ok ?? false;
                     } catch (e) {
                         Logger(
-                            `Error in rebuild from ${peerId}: ${e instanceof Error ? e.message : String(e)}`,
+                            $msg("JapaneseUI.P2P.RebuildError", {
+                                peerId,
+                                error: e instanceof Error ? e.message : String(e),
+                            }),
                             logLevel
                         );
                         sessionResult = false;

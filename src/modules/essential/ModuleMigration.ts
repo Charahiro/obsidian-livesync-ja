@@ -153,7 +153,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
 
         const noticeGroups = this.core.services.context.noticeGroups;
         noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "checking", {
-            message: "Checking for incomplete documents...",
+            message: $msg("JapaneseUI.Runtime.IncompleteChecking"),
         });
         this._log("Checking for incomplete documents...", LOG_LEVEL_VERBOSE);
 
@@ -185,7 +185,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
                 try {
                     storageFileContent = await this.core.storageAccess.readHiddenFileBinary(path);
                 } catch (e) {
-                    Logger(`Failed to read file ${path}: Possibly unprocessed or missing`);
+                    Logger($msg("JapaneseUI.Runtime.IncompleteFileReadFailed", { path }));
                     Logger(e, LOG_LEVEL_VERBOSE);
                     continue;
                 }
@@ -215,16 +215,16 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
                 }
             }
             if (errorFiles.length == 0) {
-                Logger("No size mismatches found", LOG_LEVEL_INFO);
+                Logger($msg("JapaneseUI.Runtime.NoSizeMismatches"), LOG_LEVEL_INFO);
                 noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "result", {
-                    message: "No size mismatches found",
+                    message: $msg("JapaneseUI.Runtime.NoSizeMismatches"),
                 });
                 await this.core.kvDB.set("checkIncompleteDocs", true);
                 return Promise.resolve(true);
             }
-            Logger(`Found ${errorFiles.length} size mismatches`, LOG_LEVEL_INFO);
+            Logger($msg("JapaneseUI.Runtime.FoundSizeMismatches", { count: `${errorFiles.length}` }), LOG_LEVEL_INFO);
             noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "result", {
-                message: `Found ${errorFiles.length} size mismatches`,
+                    message: $msg("JapaneseUI.Runtime.FoundSizeMismatches", { count: `${errorFiles.length}` }),
             });
             // We have to repair them following rules and situations:
             // A. DB Recorded != DB Stored
@@ -271,16 +271,16 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
                     // Overwrite the database with the files on the storage
                     const stubFile = await this.core.storageAccess.getFileStub(file.path);
                     if (stubFile == null) {
-                        Logger(`Could not find stub file for ${file.path}`, LOG_LEVEL_NOTICE);
+                        Logger($msg("JapaneseUI.Runtime.StubNotFound", { path: file.path }), LOG_LEVEL_NOTICE);
                         continue;
                     }
 
                     stubFile.stat.mtime = Date.now();
                     const result = await this.core.fileHandler.storeFileToDB(stubFile, true, false);
                     if (result) {
-                        Logger(`Successfully restored ${file.path} from storage`);
+                        Logger($msg("JapaneseUI.Runtime.RestoredFromStorage", { path: file.path }));
                     } else {
-                        Logger(`Failed to restore ${file.path} from storage`, LOG_LEVEL_NOTICE);
+                        Logger($msg("JapaneseUI.Runtime.RestoreFromStorageFailed", { path: file.path }), LOG_LEVEL_NOTICE);
                     }
                 }
             } else if (ret === DISMISS) {
@@ -291,7 +291,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
             return Promise.resolve(true);
         } catch (error) {
             noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "result", {
-                message: "The incomplete document check could not be completed.",
+                message: $msg("JapaneseUI.Runtime.IncompleteCheckFailed"),
             });
             throw error;
         } finally {
@@ -300,7 +300,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
     }
 
     async hasCompromisedChunks(): Promise<boolean> {
-        Logger(`Checking for compromised chunks...`, LOG_LEVEL_VERBOSE);
+        Logger($msg("JapaneseUI.Runtime.CheckingCompromisedChunks"), LOG_LEVEL_VERBOSE);
         if (!this.settings.encrypt) {
             // If not encrypted, we do not need to check for compromised chunks.
             return true;
@@ -310,18 +310,21 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
         const remote = this.services.replicator.getActiveReplicator();
         const remoteCompromised = this.services.API.isOnline ? await remote?.countCompromisedChunks() : 0;
         if (localCompromised === false) {
-            Logger(`Failed to count compromised chunks in local database`, LOG_LEVEL_NOTICE);
+            Logger($msg("JapaneseUI.Runtime.CompromisedLocalCountFailed"), LOG_LEVEL_NOTICE);
             return false;
         }
         if (remoteCompromised === false) {
-            Logger(`Failed to count compromised chunks in remote database`, LOG_LEVEL_NOTICE);
+            Logger($msg("JapaneseUI.Runtime.CompromisedRemoteCountFailed"), LOG_LEVEL_NOTICE);
             return false;
         }
         if (remoteCompromised === 0 && localCompromised === 0) {
             return true;
         }
         Logger(
-            `Found compromised chunks : ${localCompromised} in local, ${remoteCompromised} in remote`,
+            $msg("JapaneseUI.Runtime.CompromisedChunksFound", {
+                local: `${localCompromised}`,
+                remote: `${remoteCompromised}`,
+            }),
             LOG_LEVEL_NOTICE
         );
         const title = $msg("moduleMigration.insecureChunkExist.title");

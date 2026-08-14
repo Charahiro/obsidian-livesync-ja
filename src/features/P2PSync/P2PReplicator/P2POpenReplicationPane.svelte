@@ -49,11 +49,11 @@
     async function handleSync(peerId: string) {
         try {
             syncingPeerId = peerId;
-            Logger(`Starting sync with ${peerId}`, logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SyncStarting", { peerId }), logLevel);
             await onSync(peerId);
-            Logger(`Sync completed with ${peerId}`, logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SyncCompleted", { peerId }), logLevel);
         } catch (e) {
-            Logger(`Error during sync: ${e instanceof Error ? e.message : String(e)}`, logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SyncError", { error: e instanceof Error ? e.message : String(e) }), logLevel);
         } finally {
             syncingPeerId = null;
         }
@@ -61,11 +61,11 @@
     async function handleSyncThenClose(peerId: string) {
         try {
             syncingPeerId = peerId;
-            Logger(`Starting sync with ${peerId}`, logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SyncStarting", { peerId }), logLevel);
             await onSyncAndClose(peerId);
-            Logger(`Sync completed with ${peerId}`, logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SyncCompleted", { peerId }), logLevel);
         } catch (e) {
-            Logger(`Error during sync: ${e instanceof Error ? e.message : String(e)}`, logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SyncError", { error: e instanceof Error ? e.message : String(e) }), logLevel);
         } finally {
             syncingPeerId = null;
         }
@@ -74,9 +74,9 @@
     async function disconnect() {
         try {
             await liveSyncReplicator.close();
-            Logger("Signalling connection closed.", logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SignallingClosed"), logLevel);
         } catch (e) {
-            Logger(`Failed to close signalling connection: ${e instanceof Error ? e.message : String(e)}`, logLevel);
+            Logger(translateMessage("JapaneseUI.P2P.SignallingCloseFailed", { error: e instanceof Error ? e.message : String(e) }), logLevel);
         }
     }
     async function onCloseAndDisconnect() {

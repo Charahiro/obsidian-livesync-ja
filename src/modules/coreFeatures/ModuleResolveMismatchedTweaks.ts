@@ -78,7 +78,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
             this.settings.autoAcceptCompatibleTweak = true;
             await this.services.setting.saveSettingData();
             autoAcceptCompatibleTweak = true;
-            Logger("Automatic alignment of compatible chunk settings has been enabled.");
+            Logger($msg("JapaneseUI.Runtime.CompatibleChunkSettingsAligned"));
         }
 
         if (autoAcceptCompatibleTweak !== true) return undefined;

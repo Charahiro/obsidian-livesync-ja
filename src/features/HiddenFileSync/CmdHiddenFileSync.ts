@@ -1256,9 +1256,9 @@ Offline Changed files: ${files.length}`;
                 const updatePluginName = manifest.name;
                 const itemKey = `plugin:${updatePluginId}`;
                 noticeGroups.setItem(HIDDEN_FILE_NOTICE_GROUP, itemKey, {
-                    message: `Files in ${updatePluginName} were updated.`,
+                    message: $msg("JapaneseUI.Runtime.HiddenFilesUpdated", { name: updatePluginName }),
                     action: {
-                        label: `Reload ${updatePluginName}`,
+                        label: $msg("JapaneseUI.Runtime.ReloadPlugin", { name: updatePluginName }),
                         onSelect: () => {
                             fireAndForget(async () => {
                                 this._log(
@@ -1281,7 +1281,7 @@ Offline Changed files: ${files.length}`;
                 hasNoticeItems = true;
             }
         } catch (ex) {
-            this._log("Error on checking plugin status.");
+            this._log($msg("JapaneseUI.Runtime.PluginStatusCheckFailed"));
             this._log(ex, LOG_LEVEL_VERBOSE);
         }
 
@@ -1289,9 +1289,9 @@ Offline Changed files: ${files.length}`;
         if (updatedFolders.indexOf(this.services.API.getSystemConfigDir()) >= 0) {
             if (!this.services.appLifecycle.isReloadingScheduled()) {
                 noticeGroups.setItem(HIDDEN_FILE_NOTICE_GROUP, "restart", {
-                    message: "Other Obsidian settings files were updated.",
+                    message: $msg("JapaneseUI.Runtime.OtherSettingsUpdated"),
                     action: {
-                        label: "Schedule an Obsidian restart",
+                        label: $msg("JapaneseUI.Runtime.ScheduleRestart"),
                         onSelect: () => {
                             this.services.appLifecycle.scheduleRestart();
                             noticeGroups.removeItem(HIDDEN_FILE_NOTICE_GROUP, "restart");

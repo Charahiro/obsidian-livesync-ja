@@ -11,7 +11,7 @@ import { LOG_LEVEL_NOTICE, Logger } from "octagonal-wheels/common/logger";
 import { isNotFoundError } from "@vrtmrz/livesync-commonlib/compat/common/utils.doc";
 import type PouchDB from "pouchdb-core";
 import type {} from "pouchdb-replication";
-import { $t } from "@/common/translation.ts";
+import { $msg, $t } from "@/common/translation.ts";
 
 /**
  * Generates a summary of P2P configuration settings
@@ -116,14 +116,14 @@ type PouchDBOpenFunction = () => Promise<PouchDB.Database> | PouchDB.Database;
 export async function migrateDatabases(operationName: string, from: PouchDB.Database, openTo: PouchDBOpenFunction) {
     const dbTo = await openTo();
     await dbTo.info(); // ensure created
-    Logger(`Opening destination database for migration: ${operationName}.`, LOG_LEVEL_NOTICE, "migration");
+    Logger($msg("JapaneseUI.Runtime.MigrationOpening", { operation: operationName }), LOG_LEVEL_NOTICE, "migration");
     // destroy existing data
     await dbTo.destroy();
-    Logger(`Destroyed existing destination database for migration: ${operationName}.`, LOG_LEVEL_NOTICE, "migration");
+    Logger($msg("JapaneseUI.Runtime.MigrationDestroyed", { operation: operationName }), LOG_LEVEL_NOTICE, "migration");
 
     const dbTo2 = await openTo();
     await dbTo2.info(); // ensure created
-    Logger(`Re-created destination database for migration: ${operationName}.`, LOG_LEVEL_NOTICE, "migration");
+    Logger($msg("JapaneseUI.Runtime.MigrationRecreated", { operation: operationName }), LOG_LEVEL_NOTICE, "migration");
 
     const info = await from.info();
     const totalDocs = info.doc_count || 0;
@@ -134,19 +134,19 @@ export async function migrateDatabases(operationName: string, from: PouchDB.Data
         })
         .on("change", (info) => {
             Logger(
-                `Replicating... Docs replicated: ${info.docs_written} / ${totalDocs}`,
+                $msg("JapaneseUI.Runtime.MigrationProgress", { done: `${info.docs_written}`, total: `${totalDocs}` }),
                 LOG_LEVEL_NOTICE,
                 "migration"
             );
         });
     if (result.ok) {
-        Logger(`Replication completed for migration: ${operationName}.`, LOG_LEVEL_NOTICE, "migration");
+        Logger($msg("JapaneseUI.Runtime.MigrationCompleted", { operation: operationName }), LOG_LEVEL_NOTICE, "migration");
     } else {
         throw new Error(`Replication failed for migration: ${operationName}.`);
     }
     await copyMigrationDocs(MILESTONE_DOCID, from, dbTo2);
     await copyMigrationDocs(NODEINFO_DOCID, from, dbTo2);
-    Logger(`Copied migration documents for migration: ${operationName}.`, LOG_LEVEL_NOTICE, "migration");
+    Logger($msg("JapaneseUI.Runtime.MigrationDocumentsCopied", { operation: operationName }), LOG_LEVEL_NOTICE, "migration");
     await dbTo2.close();
     return true;
 }

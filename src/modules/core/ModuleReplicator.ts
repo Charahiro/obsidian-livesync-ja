@@ -151,7 +151,7 @@ export class ModuleReplicator extends AbstractModule {
      * @param showMessage If true, show message to the user.
      */
     async cleaned(showMessage: boolean) {
-        Logger(`The remote database has been cleaned.`, showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
+        Logger($msg("JapaneseUI.Runtime.RemoteDatabaseCleaned"), showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
         await skipIfDuplicated("cleanup", async () => {
             const count = await purgeUnreferencedChunks(this.localDatabase.localDatabase, true);
             const message = $msg("Replicator.Dialogue.Cleaned.Message", { count: `${count}` });
@@ -196,12 +196,12 @@ export class ModuleReplicator extends AbstractModule {
                             this.localDatabase.clearCaches();
                             await this.services.replicator.getActiveReplicator()?.markRemoteResolved(this.settings);
                             Logger(
-                                "The local database has been cleaned up.",
+                                $msg("JapaneseUI.Runtime.LocalDatabaseCleaned"),
                                 showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
                             );
                         } else {
                             Logger(
-                                "Replication has been cancelled. Please try it again.",
+                                $msg("JapaneseUI.Runtime.ReplicationCancelled"),
                                 showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
                             );
                         }
@@ -215,7 +215,7 @@ export class ModuleReplicator extends AbstractModule {
     private async onReplicationFailed(showMessage: boolean = false): Promise<boolean> {
         const activeReplicator = this.services.replicator.getActiveReplicator();
         if (!activeReplicator) {
-            Logger(`No active replicator found`, LOG_LEVEL_INFO);
+            Logger($msg("JapaneseUI.Runtime.NoActiveReplicator"), LOG_LEVEL_INFO);
             return false;
         }
         if (activeReplicator.tweakSettingsMismatched && activeReplicator.preferredTweakValue) {

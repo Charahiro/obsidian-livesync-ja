@@ -3872,6 +3872,34 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Auto Accepting",
         ja: "自動承諾",
     },
+    "JapaneseUI.P2P.RebuildError": {
+        def: "Error rebuilding from ${peerId}: ${error}",
+        ja: "${peerId} からの再構築中にエラーが発生しました: ${error}",
+    },
+    "JapaneseUI.P2P.RebuildingFrom": {
+        def: "Rebuilding from peer ${peerId}",
+        ja: "ピア ${peerId} から再構築しています",
+    },
+    "JapaneseUI.P2P.SignallingClosed": {
+        def: "Signalling connection closed.",
+        ja: "シグナリング接続を閉じました。",
+    },
+    "JapaneseUI.P2P.SignallingCloseFailed": {
+        def: "Failed to close the signalling connection: ${error}",
+        ja: "シグナリング接続を閉じられませんでした: ${error}",
+    },
+    "JapaneseUI.P2P.SyncCompleted": {
+        def: "Synchronisation with ${peerId} completed",
+        ja: "${peerId} との同期が完了しました",
+    },
+    "JapaneseUI.P2P.SyncError": {
+        def: "Error during synchronisation: ${error}",
+        ja: "同期中にエラーが発生しました: ${error}",
+    },
+    "JapaneseUI.P2P.SyncStarting": {
+        def: "Starting synchronisation with ${peerId}",
+        ja: "${peerId} との同期を開始しています",
+    },
     "JapaneseUI.RegExp.Add": {
         def: "Add",
         ja: "追加",
@@ -3975,6 +4003,134 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "JapaneseUI.RemoteConfiguration.Rename": {
         def: "🪪 Rename",
         ja: "🪪 名前を変更",
+    },
+    "JapaneseUI.Runtime.CheckingCompromisedChunks": {
+        def: "Checking for compromised chunks...",
+        ja: "破損チャンクを確認中…",
+    },
+    "JapaneseUI.Runtime.CompatibleChunkSettingsAligned": {
+        def: "Automatic alignment of compatible chunk settings has been enabled.",
+        ja: "互換性のあるチャンク設定の自動調整を有効にしました。",
+    },
+    "JapaneseUI.Runtime.CompromisedChunksFound": {
+        def: "Found compromised chunks: ${local} locally, ${remote} remotely",
+        ja: "破損チャンクを検出しました: ローカル ${local} 件、リモート ${remote} 件",
+    },
+    "JapaneseUI.Runtime.CompromisedLocalCountFailed": {
+        def: "Failed to count compromised chunks in the local database",
+        ja: "ローカルデータベース内の破損チャンクを数えられませんでした",
+    },
+    "JapaneseUI.Runtime.CompromisedRemoteCountFailed": {
+        def: "Failed to count compromised chunks in the remote database",
+        ja: "リモートデータベース内の破損チャンクを数えられませんでした",
+    },
+    "JapaneseUI.Runtime.ConfigAddOnLoadFailed": {
+        def: "Could not load the add-on ${name}",
+        ja: "アドオン ${name} を読み込めませんでした",
+    },
+    "JapaneseUI.Runtime.ConfigBothItemsMissing": {
+        def: "Could not find either the remote or local item",
+        ja: "リモート項目とローカル項目のどちらも見つかりませんでした",
+    },
+    "JapaneseUI.Runtime.ConfigLocalItemMissing": {
+        def: "Could not find the local item",
+        ja: "ローカル項目が見つかりませんでした",
+    },
+    "JapaneseUI.Runtime.ConfigRemoteItemMissing": {
+        def: "Could not find the remote item",
+        ja: "リモート項目が見つかりませんでした",
+    },
+    "JapaneseUI.Runtime.FoundSizeMismatches": {
+        def: "Found ${count} size mismatches",
+        ja: "${count} 件のサイズ不一致を検出しました",
+    },
+    "JapaneseUI.Runtime.HiddenFilesUpdated": {
+        def: "Files in ${name} were updated.",
+        ja: "${name} のファイルが更新されました。",
+    },
+    "JapaneseUI.Runtime.IncompleteCheckFailed": {
+        def: "The incomplete document check could not be completed.",
+        ja: "不完全なドキュメントの確認を完了できませんでした。",
+    },
+    "JapaneseUI.Runtime.IncompleteChecking": {
+        def: "Checking for incomplete documents...",
+        ja: "不完全なドキュメントを確認中…",
+    },
+    "JapaneseUI.Runtime.IncompleteFileReadFailed": {
+        def: "Failed to read ${path}: possibly unprocessed or missing",
+        ja: "${path} を読み取れませんでした。未処理または見つからない可能性があります",
+    },
+    "JapaneseUI.Runtime.LocalDatabaseCleaned": {
+        def: "The local database has been cleaned up.",
+        ja: "ローカルデータベースをクリーンアップしました。",
+    },
+    "JapaneseUI.Runtime.MigrationCompleted": {
+        def: "Replication completed for migration: ${operation}.",
+        ja: "データベース移行の同期が完了しました: ${operation}。",
+    },
+    "JapaneseUI.Runtime.MigrationDestroyed": {
+        def: "Destroyed existing destination database for migration: ${operation}.",
+        ja: "既存の移行先データベースを削除しました: ${operation}。",
+    },
+    "JapaneseUI.Runtime.MigrationDocumentsCopied": {
+        def: "Copied migration documents for migration: ${operation}.",
+        ja: "移行用ドキュメントをコピーしました: ${operation}。",
+    },
+    "JapaneseUI.Runtime.MigrationOpening": {
+        def: "Opening destination database for migration: ${operation}.",
+        ja: "移行先データベースを開いています: ${operation}。",
+    },
+    "JapaneseUI.Runtime.MigrationProgress": {
+        def: "Replicating... Documents replicated: ${done} / ${total}",
+        ja: "同期中… 処理済みドキュメント: ${done} / ${total}",
+    },
+    "JapaneseUI.Runtime.MigrationRecreated": {
+        def: "Re-created destination database for migration: ${operation}.",
+        ja: "移行先データベースを再作成しました: ${operation}。",
+    },
+    "JapaneseUI.Runtime.NoActiveReplicator": {
+        def: "No active replicator found",
+        ja: "有効なレプリケーターがありません",
+    },
+    "JapaneseUI.Runtime.NoSizeMismatches": {
+        def: "No size mismatches found",
+        ja: "サイズの不一致はありません",
+    },
+    "JapaneseUI.Runtime.OtherSettingsUpdated": {
+        def: "Other Obsidian settings files were updated.",
+        ja: "ほかのObsidian設定ファイルが更新されました。",
+    },
+    "JapaneseUI.Runtime.PluginStatusCheckFailed": {
+        def: "Error while checking plug-in status.",
+        ja: "プラグインの状態確認中にエラーが発生しました。",
+    },
+    "JapaneseUI.Runtime.ReloadPlugin": {
+        def: "Reload ${name}",
+        ja: "${name} を再読み込み",
+    },
+    "JapaneseUI.Runtime.RemoteDatabaseCleaned": {
+        def: "The remote database has been cleaned.",
+        ja: "リモートデータベースはクリーンアップ済みです。",
+    },
+    "JapaneseUI.Runtime.ReplicationCancelled": {
+        def: "Replication was cancelled. Please try again.",
+        ja: "同期をキャンセルしました。もう一度実行してください。",
+    },
+    "JapaneseUI.Runtime.RestoredFromStorage": {
+        def: "Restored ${path} from storage",
+        ja: "${path} をストレージから復元しました",
+    },
+    "JapaneseUI.Runtime.RestoreFromStorageFailed": {
+        def: "Failed to restore ${path} from storage",
+        ja: "${path} をストレージから復元できませんでした",
+    },
+    "JapaneseUI.Runtime.ScheduleRestart": {
+        def: "Schedule an Obsidian restart",
+        ja: "Obsidianの再起動を予約",
+    },
+    "JapaneseUI.Runtime.StubNotFound": {
+        def: "Could not find stub file for ${path}",
+        ja: "${path} のスタブファイルが見つかりませんでした",
     },
     "Just for a minute, please!": {
         def: "Just for a minute, please!",
