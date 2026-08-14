@@ -17,6 +17,7 @@ import { isPlainText, stripPrefix } from "@vrtmrz/livesync-commonlib/compat/stri
 import { scheduleOnceIfDuplicated } from "octagonal-wheels/concurrency/lock";
 import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore.ts";
 import { compatGlobal } from "@vrtmrz/livesync-commonlib/compat/common/coreEnvFunctions";
+import { $msg } from "@/common/translation.ts";
 import {
     DOCUMENT_HISTORY_PREFERENCE_KEYS,
     loadDocumentHistoryPreference,
@@ -130,7 +131,9 @@ export class DocumentHistoryModal extends Modal {
             this.revs_info = w._revs_info?.filter((e) => e?.status == "available") ?? [];
             this.range.max = `${Math.max(this.revs_info.length - 1, 0)}`;
             this.range.value = this.range.max;
-            this.fileInfo.setText(`${this.file} / ${this.revs_info.length} revisions`);
+            this.fileInfo.setText(
+                $msg("JapaneseUI.DocumentHistory.FileInfo", { file: this.file, count: `${this.revs_info.length}` })
+            );
             await this.loadRevs(initialRev);
             this.updateRevisionNavUI();
         } catch (ex) {
@@ -138,10 +141,10 @@ export class DocumentHistoryModal extends Modal {
                 this.range.max = "0";
                 this.range.value = "";
                 this.range.disabled = true;
-                this.contentView.setText(`We don't have any history for this note.`);
+                this.contentView.setText($msg("JapaneseUI.DocumentHistory.NoHistory"));
                 this.updateRevisionNavUI();
             } else {
-                this.contentView.setText(`Error while loading file.`);
+                this.contentView.setText($msg("JapaneseUI.DocumentHistory.LoadError"));
                 Logger(ex, LOG_LEVEL_VERBOSE);
             }
         }
@@ -183,7 +186,11 @@ export class DocumentHistoryModal extends Modal {
         const max = Number(this.range.max) || 0;
         const current = Number(this.range.value) || 0;
 
-        this.revNavIndicator.setText(total > 0 ? `Rev ${current + 1}/${total}` : "\u2014");
+        this.revNavIndicator.setText(
+            total > 0
+                ? $msg("JapaneseUI.DocumentHistory.Revision", { current: `${current + 1}`, total: `${total}` })
+                : "\u2014"
+        );
 
         const disabled = !!this.range.disabled || total <= 1;
         this.revPrevBtn.disabled = disabled || current <= 0;
@@ -267,7 +274,7 @@ export class DocumentHistoryModal extends Modal {
     }
 
     appendDeletedNotice(usePreformatted = true) {
-        const notice = "(At this revision, the file has been deleted)";
+        const notice = $msg("JapaneseUI.DocumentHistory.DeletedAtRevision");
         if (usePreformatted) {
             this.contentView.appendText(`${notice}\n`);
         } else {
@@ -284,12 +291,12 @@ export class DocumentHistoryModal extends Modal {
         if (w === false) {
             this.currentDeleted = true;
             this.info.empty();
-            this.contentView.appendText("Could not read this revision");
+            this.contentView.appendText($msg("JapaneseUI.DocumentHistory.CannotReadRevision"));
             this.contentView.createEl("br");
             this.contentView.appendText(`(${rev})`);
         } else {
             this.currentDoc = w;
-            this.info.setText(`Modified:${new Date(w.mtime).toLocaleString()}`);
+            this.info.setText($msg("JapaneseUI.DocumentHistory.Modified", { time: new Date(w.mtime).toLocaleString() }));
             const w1data = readDocument(w);
             this.currentDeleted = !!w.deleted;
             if (typeof w1data == "string") {
@@ -343,7 +350,7 @@ export class DocumentHistoryModal extends Modal {
                         if (this.currentDeleted) {
                             this.appendDeletedNotice();
                         }
-                        this.contentView.appendText("Binary file");
+                        this.contentView.appendText($msg("JapaneseUI.DocumentHistory.BinaryFile"));
                     }
                 } else {
                     if (this.currentDeleted) {
@@ -440,7 +447,7 @@ export class DocumentHistoryModal extends Modal {
         const totalRevs = this.revs_info.length;
         const end = Math.min(totalRevs, limit);
 
-        this.searchProgressIndicator.setText("Searching...");
+        this.searchProgressIndicator.setText($msg("JapaneseUI.DocumentHistory.Searching"));
 
         const dmp = new diff_match_patch();
 
@@ -449,7 +456,9 @@ export class DocumentHistoryModal extends Modal {
             const revInfo = this.revs_info[i];
             const rev = revInfo.rev;
 
-            this.searchProgressIndicator.setText(`Searching ${i + 1}/${end}...`);
+            this.searchProgressIndicator.setText(
+                $msg("JapaneseUI.DocumentHistory.SearchingProgress", { current: `${i + 1}`, total: `${end}` })
+            );
 
             const doc = await db.getDBEntry(this.file, { rev: rev }, false, false, true);
             if (doc === false) continue;
@@ -494,16 +503,18 @@ export class DocumentHistoryModal extends Modal {
             }
         }
 
-        this.searchProgressIndicator.setText("Done");
+        this.searchProgressIndicator.setText($msg("JapaneseUI.DocumentHistory.Done"));
         this.updateSearchUI();
     }
 
     updateSearchUI() {
         if (this.searchResults.length === 0) {
-            this.searchResultIndicator.setText(this.searchKeyword ? "No matches found" : "");
+            this.searchResultIndicator.setText(this.searchKeyword ? $msg("JapaneseUI.DocumentHistory.NoMatches") : "");
         } else {
             const current = this.currentSearchIndex >= 0 ? this.currentSearchIndex + 1 : 0;
-            this.searchResultIndicator.setText(`${current}/${this.searchResults.length} matches`);
+            this.searchResultIndicator.setText(
+                $msg("JapaneseUI.DocumentHistory.Matches", { current: `${current}`, total: `${this.searchResults.length}` })
+            );
         }
 
         const hasResults = this.searchResults.length > 0;
@@ -535,7 +546,7 @@ export class DocumentHistoryModal extends Modal {
 
     override onOpen() {
         const { contentEl } = this;
-        this.titleEl.setText("Document History");
+        this.titleEl.setText($msg("JapaneseUI.DocumentHistory.Title"));
         contentEl.empty();
         this.fileInfo = contentEl.createDiv("");
         this.fileInfo.addClass("op-info");
@@ -548,7 +559,7 @@ export class DocumentHistoryModal extends Modal {
 
         const searchInput = searchRow.createEl("input", {
             type: "text",
-            placeholder: "Search in history (last 100)...",
+            placeholder: $msg("JapaneseUI.DocumentHistory.SearchPlaceholder"),
         });
         searchInput.addClass("history-search-input");
         searchInput.addEventListener("input", () => {
@@ -561,12 +572,12 @@ export class DocumentHistoryModal extends Modal {
         });
 
         this.searchPrevBtn = searchRow.createEl("button", { text: "\u25B2" }, (e) => {
-            e.title = "Previous match";
+            e.title = $msg("JapaneseUI.DocumentHistory.PreviousMatch");
             e.disabled = true;
             e.addEventListener("click", () => this.navigateSearch("prev"));
         });
         this.searchNextBtn = searchRow.createEl("button", { text: "\u25BC" }, (e) => {
-            e.title = "Next match";
+            e.title = $msg("JapaneseUI.DocumentHistory.NextMatch");
             e.disabled = true;
             e.addEventListener("click", () => this.navigateSearch("next"));
         });
@@ -581,7 +592,7 @@ export class DocumentHistoryModal extends Modal {
 
         this.revPrevBtn = revNavRow.createEl("button", { text: "\u25C0" }, (e) => {
             e.addClass("history-rev-nav-btn");
-            e.title = "Older revision";
+            e.title = $msg("JapaneseUI.DocumentHistory.OlderRevision");
             e.disabled = true;
             e.addEventListener("click", () => this.navigateVersion("older"));
         });
@@ -600,7 +611,7 @@ export class DocumentHistoryModal extends Modal {
 
         this.revNextBtn = revNavRow.createEl("button", { text: "\u25B6" }, (e) => {
             e.addClass("history-rev-nav-btn");
-            e.title = "Newer revision";
+            e.title = $msg("JapaneseUI.DocumentHistory.NewerRevision");
             e.disabled = true;
             e.addEventListener("click", () => this.navigateVersion("newer"));
         });
@@ -633,7 +644,7 @@ export class DocumentHistoryModal extends Modal {
                     void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
                 });
             });
-            label.appendText("Highlight diff");
+            label.appendText($msg("JapaneseUI.DocumentHistory.HighlightDiff"));
         });
 
         const diffOnlyLabel = diffOptionsRow.createEl("label", {});
@@ -647,7 +658,7 @@ export class DocumentHistoryModal extends Modal {
                 void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
             });
         });
-        diffOnlyLabel.appendText("Diff only");
+        diffOnlyLabel.appendText($msg("JapaneseUI.DocumentHistory.DiffOnly"));
         diffOnlyLabel.addClass("diff-only-label");
         diffOnlyLabel.setCssStyles({ display: this.showDiff ? "inline-block" : "none" });
         this.diffOnlyLabel = diffOnlyLabel;
@@ -657,13 +668,13 @@ export class DocumentHistoryModal extends Modal {
         this.diffNavContainer.addClass("diff-nav");
         this.diffNavContainer.setCssStyles({ display: this.showDiff ? "flex" : "none" });
 
-        this.diffNavContainer.createEl("button", { text: "\u25B2 Prev" }, (e) => {
+        this.diffNavContainer.createEl("button", { text: `\u25B2 ${$msg("Prev")}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => {
                 this.navigateDiff("prev");
             });
         });
-        this.diffNavContainer.createEl("button", { text: "\u25BC Next" }, (e) => {
+        this.diffNavContainer.createEl("button", { text: `\u25BC ${$msg("Next")}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => {
                 this.navigateDiff("next");
@@ -675,17 +686,17 @@ export class DocumentHistoryModal extends Modal {
         this.info = contentEl.createDiv("");
         this.info.addClass("op-info");
         fireAndForget(async () => await this.loadFile(this.initialRev));
-        const div = contentEl.createDiv({ text: "Loading old revisions..." });
+        const div = contentEl.createDiv({ text: $msg("JapaneseUI.DocumentHistory.LoadingOldRevisions") });
         this.contentView = div;
         div.addClass("op-scrollable");
         div.addClass("op-pre");
         const buttons = contentEl.createDiv("");
-        buttons.createEl("button", { text: "Copy to clipboard" }, (e) => {
+        buttons.createEl("button", { text: $msg("JapaneseUI.DocumentHistory.CopyToClipboard") }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
                     await compatGlobal.navigator.clipboard.writeText(this.currentText);
-                    Logger(`Old content copied to clipboard`, LOG_LEVEL_NOTICE);
+                    Logger($msg("JapaneseUI.DocumentHistory.OldContentCopied"), LOG_LEVEL_NOTICE);
                 });
             });
         });
@@ -695,21 +706,21 @@ export class DocumentHistoryModal extends Modal {
                 const leaf = this.plugin.app.workspace.getLeaf(false);
                 await leaf.openFile(targetFile);
             } else {
-                Logger("Unable to display the file in the editor", LOG_LEVEL_NOTICE);
+                Logger($msg("JapaneseUI.DocumentHistory.EditorDisplayFailed"), LOG_LEVEL_NOTICE);
             }
         };
-        buttons.createEl("button", { text: "Back to this revision" }, (e) => {
+        buttons.createEl("button", { text: $msg("JapaneseUI.DocumentHistory.BackToRevision") }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
                     // const pathToWrite = this.plugin.id2path(this.id, true);
                     const pathToWrite = stripPrefix(this.file);
                     if (!isValidPath(pathToWrite)) {
-                        Logger("Path is not valid to write content.", LOG_LEVEL_INFO);
+                        Logger($msg("JapaneseUI.DocumentHistory.InvalidPath"), LOG_LEVEL_INFO);
                         return;
                     }
                     if (!this.currentDoc) {
-                        Logger("No active file loaded.", LOG_LEVEL_INFO);
+                        Logger($msg("JapaneseUI.DocumentHistory.NoActiveFile"), LOG_LEVEL_INFO);
                         return;
                     }
                     const d = readContent(this.currentDoc);

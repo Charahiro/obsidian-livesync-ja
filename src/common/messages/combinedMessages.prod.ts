@@ -3612,6 +3612,370 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "続行する前にバックアップを作成することを強くお勧めします。バックアップせずに続行すると、データが失われる可能性があります。",
         ko: "진행하기 전에 백업을 만드시기를 강력히 권장합니다. 백업 없이 진행하면 데이터가 손실될 수 있습니다.",
     },
+    "JapaneseUI.Conflict.SelectFile": {
+        def: "File to resolve conflict",
+        ja: "競合を解決するファイル",
+    },
+    "JapaneseUI.Conflict.UnresolvedLog": {
+        def: "Some files have been left conflicted! Resolve them with 'Pick a file to resolve conflict'. The list is written in the log.",
+        ja: "競合が残っているファイルがあります。「競合を解決するファイル」から解決してください。一覧はログに記録されています。",
+    },
+    "JapaneseUI.Conflict.UnresolvedWithAction": {
+        def: "Some files have been left conflicted! Press {HERE} to resolve them, or you can do it later with 'Pick a file to resolve conflict'.",
+        ja: "競合が残っているファイルがあります。{HERE}を押して解決するか、後で「競合を解決するファイル」から解決してください。",
+    },
+    "JapaneseUI.Dialogue.ChoicePrefix": {
+        def: "Select) ",
+        ja: "選択）",
+    },
+    "JapaneseUI.Dialogue.OK": {
+        def: "OK",
+        ja: "OK",
+    },
+    "JapaneseUI.DocumentHistory.BackToRevision": {
+        def: "Back to this revision",
+        ja: "このリビジョンへ戻す",
+    },
+    "JapaneseUI.DocumentHistory.BinaryFile": {
+        def: "Binary file",
+        ja: "バイナリファイル",
+    },
+    "JapaneseUI.DocumentHistory.CannotReadRevision": {
+        def: "Could not read this revision.",
+        ja: "このリビジョンを読み取れません。",
+    },
+    "JapaneseUI.DocumentHistory.CopyToClipboard": {
+        def: "Copy to clipboard",
+        ja: "クリップボードにコピー",
+    },
+    "JapaneseUI.DocumentHistory.DeletedAtRevision": {
+        def: "(The file was deleted at this revision)",
+        ja: "（このリビジョンではファイルが削除されています）",
+    },
+    "JapaneseUI.DocumentHistory.DiffOnly": {
+        def: "Diff only",
+        ja: "差分のみ",
+    },
+    "JapaneseUI.DocumentHistory.Done": {
+        def: "Done",
+        ja: "完了",
+    },
+    "JapaneseUI.DocumentHistory.EditorDisplayFailed": {
+        def: "Failed to display the file in the editor",
+        ja: "エディターにファイルを表示できません",
+    },
+    "JapaneseUI.DocumentHistory.FileInfo": {
+        def: "${file} / ${count} revisions",
+        ja: "${file} / ${count} リビジョン",
+    },
+    "JapaneseUI.DocumentHistory.HighlightDiff": {
+        def: "Highlight diff",
+        ja: "差分を強調表示",
+    },
+    "JapaneseUI.DocumentHistory.InvalidPath": {
+        def: "The path for writing content is invalid.",
+        ja: "内容を書き込むパスが無効です。",
+    },
+    "JapaneseUI.DocumentHistory.LoadError": {
+        def: "An error occurred while loading the file.",
+        ja: "ファイルの読み込み中にエラーが発生しました。",
+    },
+    "JapaneseUI.DocumentHistory.LoadingOldRevisions": {
+        def: "Loading older revisions...",
+        ja: "過去のリビジョンを読み込み中…",
+    },
+    "JapaneseUI.DocumentHistory.Matches": {
+        def: "${current}/${total} matches",
+        ja: "${current}/${total} 件一致",
+    },
+    "JapaneseUI.DocumentHistory.Modified": {
+        def: "Modified: ${time}",
+        ja: "更新日時：${time}",
+    },
+    "JapaneseUI.DocumentHistory.NewerRevision": {
+        def: "Newer revision",
+        ja: "新しいリビジョン",
+    },
+    "JapaneseUI.DocumentHistory.NextMatch": {
+        def: "Next match",
+        ja: "次の一致",
+    },
+    "JapaneseUI.DocumentHistory.NoActiveFile": {
+        def: "There is no active file.",
+        ja: "開いているファイルがありません。",
+    },
+    "JapaneseUI.DocumentHistory.NoHistory": {
+        def: "There is no history for this note.",
+        ja: "このノートには履歴がありません。",
+    },
+    "JapaneseUI.DocumentHistory.NoMatches": {
+        def: "No matches found",
+        ja: "一致する項目はありません",
+    },
+    "JapaneseUI.DocumentHistory.OldContentCopied": {
+        def: "Old content copied to clipboard",
+        ja: "過去の内容をクリップボードにコピーしました",
+    },
+    "JapaneseUI.DocumentHistory.OlderRevision": {
+        def: "Older revision",
+        ja: "古いリビジョン",
+    },
+    "JapaneseUI.DocumentHistory.PreviousMatch": {
+        def: "Previous match",
+        ja: "前の一致",
+    },
+    "JapaneseUI.DocumentHistory.Revision": {
+        def: "Revision ${current}/${total}",
+        ja: "リビジョン ${current}/${total}",
+    },
+    "JapaneseUI.DocumentHistory.Searching": {
+        def: "Searching...",
+        ja: "検索中…",
+    },
+    "JapaneseUI.DocumentHistory.SearchingProgress": {
+        def: "Searching ${current}/${total}...",
+        ja: "${current}/${total} を検索中…",
+    },
+    "JapaneseUI.DocumentHistory.SearchPlaceholder": {
+        def: "Search history (latest 100)...",
+        ja: "履歴を検索（最新100件）…",
+    },
+    "JapaneseUI.DocumentHistory.Title": {
+        def: "File history",
+        ja: "ファイル履歴",
+    },
+    "JapaneseUI.GlobalHistory.From": {
+        def: "From:",
+        ja: "開始：",
+    },
+    "JapaneseUI.GlobalHistory.Info": {
+        def: "Info:",
+        ja: "情報：",
+    },
+    "JapaneseUI.GlobalHistory.Title": {
+        def: "Vault history",
+        ja: "Vaultの履歴",
+    },
+    "JapaneseUI.GlobalHistory.To": {
+        def: "To:",
+        ja: "終了：",
+    },
+    "JapaneseUI.JsonResolve.Apply": {
+        def: "Apply",
+        ja: "適用",
+    },
+    "JapaneseUI.JsonResolve.Cancel": {
+        def: "Cancel",
+        ja: "キャンセル",
+    },
+    "JapaneseUI.JsonResolve.Characters": {
+        def: "letters",
+        ja: "文字",
+    },
+    "JapaneseUI.JsonResolve.Revision": {
+        def: "Rev:",
+        ja: "リビジョン：",
+    },
+    "JapaneseUI.Maintenance.DeletedChunks": {
+        def: "Deleted chunks: ${done} / ${total}",
+        ja: "削除したチャンク：${done} / ${total}",
+    },
+    "JapaneseUI.Maintenance.DeletionCancelled": {
+        def: "The deletion operation was cancelled.",
+        ja: "削除操作をキャンセルしました。",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionCancelled": {
+        def: "Garbage collection was cancelled by the user.",
+        ja: "ユーザーによりガベージコレクションをキャンセルしました。",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionComplete": {
+        def: "Garbage collection completed. Deleted chunks: ${done} / ${total}. Time taken: ${seconds} seconds.",
+        ja: "ガベージコレクションが完了しました。削除したチャンク：${done} / ${total}。所要時間：${seconds} 秒。",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionIgnoringMissingNodes": {
+        def: "Proceeding with garbage collection while ignoring missing nodes.",
+        ja: "不足しているノードを無視してガベージコレクションを続行します。",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionProceeding": {
+        def: "Proceeding with garbage collection.",
+        ja: "ガベージコレクションを続行します。",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionReplicationAfterFailed": {
+        def: "Failed to start replication after garbage collection.",
+        ja: "ガベージコレクション後の同期を開始できませんでした。",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionReplicationFailed": {
+        def: "Failed to start one-shot replication before garbage collection. Garbage collection was cancelled.",
+        ja: "ガベージコレクション前の一回限りの同期を開始できなかったため、ガベージコレクションを中止しました。",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionScanComplete": {
+        def: "Garbage collection scan completed. Total chunks: ${total}, used chunks: ${used}",
+        ja: "ガベージコレクションのスキャンが完了しました。総チャンク数：${total}、使用中のチャンク数：${used}",
+    },
+    "JapaneseUI.Maintenance.GarbageCollectionUnusedChunks": {
+        def: "Garbage collection found ${count} unused chunks to delete.",
+        ja: "削除する未使用チャンクを ${count} 件検出しました。",
+    },
+    "JapaneseUI.Maintenance.MarkedChunks": {
+        def: "Marked chunks: ${done} / ${total}",
+        ja: "削除対象としてマークしたチャンク：${done} / ${total}",
+    },
+    "JapaneseUI.Maintenance.NoChunksToResurrect": {
+        def: "No chunks were found to resurrect.",
+        ja: "復元できるチャンクはありません。",
+    },
+    "JapaneseUI.Maintenance.NoConnectedDeviceInfo": {
+        def: "No connected device information found. Cancelling Garbage Collection.",
+        ja: "接続中の端末情報が見つからなかったため、ガベージコレクションを中止しました。",
+    },
+    "JapaneseUI.Maintenance.NoDeletedChunks": {
+        def: "No deleted chunks were found.",
+        ja: "削除済みのチャンクはありません。",
+    },
+    "JapaneseUI.Maintenance.NoUnusedChunks": {
+        def: "No unused chunks were found.",
+        ja: "未使用のチャンクはありません。",
+    },
+    "JapaneseUI.Maintenance.RemoteCompactionConnectFailed": {
+        def: "Failed to connect to the remote for compaction.",
+        ja: "コンパクションのためにリモートへ接続できませんでした。",
+    },
+    "JapaneseUI.Maintenance.RemoteCompactionConnectFailedWithDetail": {
+        def: "Failed to connect to the remote for compaction. ${detail}",
+        ja: "コンパクションのためにリモートへ接続できませんでした。${detail}",
+    },
+    "JapaneseUI.Maintenance.RemoteCompactionFailed": {
+        def: "Compaction on the remote database failed.",
+        ja: "リモートデータベースのコンパクションに失敗しました。",
+    },
+    "JapaneseUI.Maintenance.RemoteCompactionInProgress": {
+        def: "Compaction is in progress on the remote database...",
+        ja: "リモートデータベースでコンパクションを実行中です…",
+    },
+    "JapaneseUI.Maintenance.RemoteCompactionSucceeded": {
+        def: "Compaction on the remote database completed successfully.",
+        ja: "リモートデータベースのコンパクションが完了しました。",
+    },
+    "JapaneseUI.Maintenance.RemoteCompactionTimedOut": {
+        def: "Compaction on remote database timed out.",
+        ja: "リモートデータベースのコンパクションがタイムアウトしました。",
+    },
+    "JapaneseUI.Maintenance.ResurrectCancelled": {
+        def: "The resurrect operation was cancelled.",
+        ja: "復元操作をキャンセルしました。",
+    },
+    "JapaneseUI.Maintenance.ResurrectedChunks": {
+        def: "Resurrected chunks: ${done} / ${total}",
+        ja: "復元したチャンク：${done} / ${total}",
+    },
+    "JapaneseUI.P2P.AutoAccepting": {
+        def: "Auto Accepting",
+        ja: "自動承諾",
+    },
+    "JapaneseUI.RegExp.Add": {
+        def: "Add",
+        ja: "追加",
+    },
+    "JapaneseUI.RegExp.Apply": {
+        def: "Apply",
+        ja: "適用",
+    },
+    "JapaneseUI.RegExp.Revert": {
+        def: "Revert",
+        ja: "元に戻す",
+    },
+    "JapaneseUI.RemoteConfiguration.Activate": {
+        def: "Activate",
+        ja: "有効化",
+    },
+    "JapaneseUI.RemoteConfiguration.ActiveSuffix": {
+        def: " (Active)",
+        ja: "（使用中）",
+    },
+    "JapaneseUI.RemoteConfiguration.AddConnection": {
+        def: "Add connection",
+        ja: "接続を追加",
+    },
+    "JapaneseUI.RemoteConfiguration.Configure": {
+        def: "Configure",
+        ja: "設定",
+    },
+    "JapaneseUI.RemoteConfiguration.ConfigureAndChangeRemote": {
+        def: "Configure And Change Remote",
+        ja: "設定してリモートを変更",
+    },
+    "JapaneseUI.RemoteConfiguration.ConfigureE2EE": {
+        def: "Configure E2EE",
+        ja: "E2EEを設定",
+    },
+    "JapaneseUI.RemoteConfiguration.CopyName": {
+        def: "${name} (Copy)",
+        ja: "${name}（コピー）",
+    },
+    "JapaneseUI.RemoteConfiguration.DisplayName": {
+        def: "Display name",
+        ja: "表示名",
+    },
+    "JapaneseUI.RemoteConfiguration.Duplicate": {
+        def: "Duplicate",
+        ja: "複製",
+    },
+    "JapaneseUI.RemoteConfiguration.DuplicateRemote": {
+        def: "Duplicate remote",
+        ja: "リモートを複製",
+    },
+    "JapaneseUI.RemoteConfiguration.E2EEConfiguration": {
+        def: "E2EE Configuration",
+        ja: "E2EE設定",
+    },
+    "JapaneseUI.RemoteConfiguration.Export": {
+        def: "Export",
+        ja: "エクスポート",
+    },
+    "JapaneseUI.RemoteConfiguration.ExportTitle": {
+        def: "Remote configuration: ${name}",
+        ja: "リモート設定：${name}",
+    },
+    "JapaneseUI.RemoteConfiguration.FetchRemoteSettings": {
+        def: "Fetch remote settings",
+        ja: "リモート設定を取得",
+    },
+    "JapaneseUI.RemoteConfiguration.ImportConnection": {
+        def: "Import connection",
+        ja: "接続設定をインポート",
+    },
+    "JapaneseUI.RemoteConfiguration.ImportFailed": {
+        def: "Could not import the connection string.",
+        ja: "接続文字列をインポートできませんでした。",
+    },
+    "JapaneseUI.RemoteConfiguration.MoreActions": {
+        def: "More actions",
+        ja: "その他の操作",
+    },
+    "JapaneseUI.RemoteConfiguration.NewRemote": {
+        def: "New Remote",
+        ja: "新しいリモート",
+    },
+    "JapaneseUI.RemoteConfiguration.ParseForEditingFailed": {
+        def: "Failed to parse remote configuration '${id}' for editing.",
+        ja: "編集のためにリモート設定 '${id}' を解析できませんでした。",
+    },
+    "JapaneseUI.RemoteConfiguration.ParseForFetchingFailed": {
+        def: "Failed to parse remote configuration '${id}' for fetching settings.",
+        ja: "設定取得のためにリモート設定 '${id}' を解析できませんでした。",
+    },
+    "JapaneseUI.RemoteConfiguration.PasteConnectionString": {
+        def: "Paste connection string",
+        ja: "接続文字列を貼り付け",
+    },
+    "JapaneseUI.RemoteConfiguration.RemoteName": {
+        def: "Remote name",
+        ja: "リモート名",
+    },
+    "JapaneseUI.RemoteConfiguration.Rename": {
+        def: "🪪 Rename",
+        ja: "🪪 名前を変更",
+    },
     "Just for a minute, please!": {
         def: "Just for a minute, please!",
         es: "¡Solo un momento, por favor!",

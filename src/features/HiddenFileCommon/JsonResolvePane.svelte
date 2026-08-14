@@ -163,24 +163,24 @@
                     <th>{nameA}</th>
                     <td
                         >{#if docA._id == docB._id}
-                            Rev:{revStringToRevNumber(docA._rev)}
+                            {translateMessage("JapaneseUI.JsonResolve.Revision")}{revStringToRevNumber(docA._rev)}
                         {/if}
                         {new Date(docA.mtime).toLocaleString()}</td
                     >
                     <td>
-                        {docAContent && docAContent.length} letters
+                        {docAContent && docAContent.length} {translateMessage("JapaneseUI.JsonResolve.Characters")}
                     </td>
                 </tr>
                 <tr>
                     <th>{nameB}</th>
                     <td
                         >{#if docA._id == docB._id}
-                            Rev:{revStringToRevNumber(docB._rev)}
+                            {translateMessage("JapaneseUI.JsonResolve.Revision")}{revStringToRevNumber(docB._rev)}
                         {/if}
                         {new Date(docB.mtime).toLocaleString()}</td
                     >
                     <td>
-                        {docBContent && docBContent.length} letters
+                        {docBContent && docBContent.length} {translateMessage("JapaneseUI.JsonResolve.Characters")}
                     </td>
                 </tr>
             </tbody>
@@ -189,9 +189,9 @@
 
     <div class="buttons">
         {#if hideLocal}
-            <button onclick={cancel}>Cancel</button>
+            <button onclick={cancel}>{translateMessage("JapaneseUI.JsonResolve.Cancel")}</button>
         {/if}
-        <button onclick={apply}>Apply</button>
+        <button onclick={apply}>{translateMessage("JapaneseUI.JsonResolve.Apply")}</button>
     </div>
 {/if}
 

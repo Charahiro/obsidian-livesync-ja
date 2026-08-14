@@ -224,7 +224,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
             }
             return false;
         }
-        const target = await this.core.confirm.askSelectString("File to resolve conflict", notesList);
+        const target = await this.core.confirm.askSelectString($msg("JapaneseUI.Conflict.SelectFile"), notesList);
         if (target) {
             const targetItem = notes.find((e) => e.dispPath == target)!;
             await this.requestConflictResolution(targetItem.path);
@@ -244,7 +244,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
             if (notes.length > 0) {
                 this.core.confirm.askInPopup(
                     `conflicting-detected-on-safety`,
-                    `Some files have been left conflicted! Press {HERE} to resolve them, or you can do it later by "Pick a file to resolve conflict`,
+                    $msg("JapaneseUI.Conflict.UnresolvedWithAction"),
                     (anchor) => {
                         anchor.text = "HERE";
                         anchor.addEventListener("click", () => {
@@ -253,7 +253,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
                     }
                 );
                 this._log(
-                    `Some files have been left conflicted! Please resolve them by "Pick a file to resolve conflict". The list is written in the log.`,
+                    $msg("JapaneseUI.Conflict.UnresolvedLog"),
                     LOG_LEVEL_VERBOSE
                 );
                 for (const note of notes) {

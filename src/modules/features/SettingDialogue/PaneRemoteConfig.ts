@@ -102,9 +102,9 @@ export function paneRemoteConfig(
                 info: getE2EEConfigSummary(this.editingSettings),
             });
         };
-        void addPanel(paneEl, "E2EE Configuration", () => {}).then((paneEl) => {
+        void addPanel(paneEl, $msg("JapaneseUI.RemoteConfiguration.E2EEConfiguration"), () => {}).then((paneEl) => {
             new SveltePanel(InfoPanel, paneEl, E2EESummaryWritable);
-            const setupButton = new Setting(paneEl).setName("Configure E2EE");
+            const setupButton = new Setting(paneEl).setName($msg("JapaneseUI.RemoteConfiguration.ConfigureE2EE"));
             setupButton
                 .addButton((button) =>
                     button
@@ -114,7 +114,7 @@ export function paneRemoteConfig(
                             await setupManager.onlyE2EEConfiguration(UserMode.Update, originalSettings);
                             updateE2EESummary();
                         })
-                        .setButtonText("Configure")
+                        .setButtonText($msg("JapaneseUI.RemoteConfiguration.Configure"))
                         .setWarning()
                 )
                 .addButton((button) =>
@@ -125,7 +125,7 @@ export function paneRemoteConfig(
                             await setupManager.onConfigureManually(originalSettings, UserMode.Update);
                             updateE2EESummary();
                         })
-                        .setButtonText("Configure And Change Remote")
+                        .setButtonText($msg("JapaneseUI.RemoteConfiguration.ConfigureAndChangeRemote"))
                         .setWarning()
                 );
             updateE2EESummary();
@@ -244,7 +244,11 @@ export function paneRemoteConfig(
                 configPassphraseStore: this.editingSettings.configPassphraseStore,
             });
             const addRemoteConfiguration = async () => {
-                const name = await this.services.UI.confirm.askString("Remote name", "Display name", "New Remote");
+                const name = await this.services.UI.confirm.askString(
+                    $msg("JapaneseUI.RemoteConfiguration.RemoteName"),
+                    $msg("JapaneseUI.RemoteConfiguration.DisplayName"),
+                    $msg("JapaneseUI.RemoteConfiguration.NewRemote")
+                );
                 if (name === false) {
                     return;
                 }
@@ -256,7 +260,7 @@ export function paneRemoteConfig(
                 const configs = cloneRemoteConfigurations(this.editingSettings.remoteConfigurations);
                 configs[id] = {
                     id,
-                    name: name.trim() || "New Remote",
+                    name: name.trim() || $msg("JapaneseUI.RemoteConfiguration.NewRemote"),
                     uri: serializeRemoteConfiguration(nextSettings),
                     isEncrypted: false,
                 };
@@ -269,8 +273,8 @@ export function paneRemoteConfig(
             };
             const importRemoteConfiguration = async () => {
                 const importedURI = await this.services.UI.confirm.askString(
-                    "Import connection",
-                    "Paste a connection string",
+                    $msg("JapaneseUI.RemoteConfiguration.ImportConnection"),
+                    $msg("JapaneseUI.RemoteConfiguration.PasteConnectionString"),
                     ""
                 );
                 if (importedURI === false) {
@@ -286,13 +290,17 @@ export function paneRemoteConfig(
                 try {
                     parsed = ConnectionStringParser.parse(trimmedURI);
                 } catch (ex) {
-                    this.services.API.addLog(`Failed to import remote configuration!`, LOG_LEVEL_NOTICE);
+                    this.services.API.addLog($msg("JapaneseUI.RemoteConfiguration.ImportFailed"), LOG_LEVEL_NOTICE);
                     this.services.API.addLog(ex, LOG_LEVEL_VERBOSE);
                     return;
                 }
 
                 const defaultName = suggestRemoteConfigurationName(parsed);
-                const name = await this.services.UI.confirm.askString("Remote name", "Display name", defaultName);
+                const name = await this.services.UI.confirm.askString(
+                    $msg("JapaneseUI.RemoteConfiguration.RemoteName"),
+                    $msg("JapaneseUI.RemoteConfiguration.DisplayName"),
+                    defaultName
+                );
                 if (name === false) {
                     return;
                 }
@@ -313,12 +321,12 @@ export function paneRemoteConfig(
                 refreshList();
             };
             actions.addButton((button) =>
-                setEmojiButton(button, "➕", "Add new connection").onClick(async () => {
+                setEmojiButton(button, "➕", $msg("JapaneseUI.RemoteConfiguration.AddConnection")).onClick(async () => {
                     await addRemoteConfiguration();
                 })
             );
             actions.addButton((button) =>
-                setEmojiButton(button, "📥", "Import connection").onClick(async () => {
+                setEmojiButton(button, "📥", $msg("JapaneseUI.RemoteConfiguration.ImportConnection")).onClick(async () => {
                     await importRemoteConfiguration();
                 })
             );
@@ -332,17 +340,17 @@ export function paneRemoteConfig(
 
                     if (config.id === this.editingSettings.activeConfigurationId) {
                         row.nameEl.addClass("sls-active-remote-name");
-                        row.nameEl.appendText(" (Active)");
+                        row.nameEl.appendText($msg("JapaneseUI.RemoteConfiguration.ActiveSuffix"));
                     }
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "🔧", "Configure").onClick(async () => {
+                        setEmojiButton(btn, "🔧", $msg("JapaneseUI.RemoteConfiguration.Configure")).onClick(async () => {
                             let parsed: RemoteConfigurationResult;
                             try {
                                 parsed = ConnectionStringParser.parse(config.uri);
                             } catch (ex) {
                                 this.services.API.addLog(
-                                    `Failed to parse remote configuration '${config.id}' for editing!`,
+                                    $msg("JapaneseUI.RemoteConfiguration.ParseForEditingFailed", { id: config.id }),
                                     LOG_LEVEL_NOTICE
                                 );
                                 this.services.API.addLog(ex, LOG_LEVEL_VERBOSE);
@@ -377,7 +385,7 @@ export function paneRemoteConfig(
                     row.addButton((btn) =>
                         btn
                             .setButtonText("✅")
-                            .setTooltip("Activate", { delay: 10, placement: "top" })
+                            .setTooltip($msg("JapaneseUI.RemoteConfiguration.Activate"), { delay: 10, placement: "top" })
                             .setDisabled(config.id === this.editingSettings.activeConfigurationId)
                             .onClick(async () => {
                                 this.editingSettings.activeConfigurationId = config.id;
@@ -387,13 +395,13 @@ export function paneRemoteConfig(
                     );
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "…", "More actions").onClick(() => {
+                        setEmojiButton(btn, "…", $msg("JapaneseUI.RemoteConfiguration.MoreActions")).onClick(() => {
                             const menu = new Menu()
                                 .addItem((item) => {
-                                    item.setTitle("🪪 Rename").onClick(async () => {
+                                    item.setTitle($msg("JapaneseUI.RemoteConfiguration.Rename")).onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            "Remote name",
-                                            "Display name",
+                                            $msg("JapaneseUI.RemoteConfiguration.RemoteName"),
+                                            $msg("JapaneseUI.RemoteConfiguration.DisplayName"),
                                             config.name
                                         );
                                         if (nextName === false) {
@@ -412,19 +420,19 @@ export function paneRemoteConfig(
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle("📤 Export").onClick(async () => {
+                                    item.setTitle($msg("JapaneseUI.RemoteConfiguration.Export")).onClick(async () => {
                                         await this.services.UI.promptCopyToClipboard(
-                                            `Remote configuration: ${config.name}`,
+                                            $msg("JapaneseUI.RemoteConfiguration.ExportTitle", { name: config.name }),
                                             config.uri
                                         );
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle("🧬 Duplicate").onClick(async () => {
+                                    item.setTitle($msg("JapaneseUI.RemoteConfiguration.Duplicate")).onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            "Duplicate remote",
-                                            "Display name",
-                                            `${config.name} (Copy)`
+                                            $msg("JapaneseUI.RemoteConfiguration.DuplicateRemote"),
+                                            $msg("JapaneseUI.RemoteConfiguration.DisplayName"),
+                                            $msg("JapaneseUI.RemoteConfiguration.CopyName", { name: config.name })
                                         );
                                         if (nextName === false) {
                                             return;
@@ -437,7 +445,7 @@ export function paneRemoteConfig(
                                         nextConfigs[nextId] = {
                                             ...config,
                                             id: nextId,
-                                            name: nextName.trim() || `${config.name} (Copy)`,
+                                            name: nextName.trim() || $msg("JapaneseUI.RemoteConfiguration.CopyName", { name: config.name }),
                                         };
                                         this.editingSettings.remoteConfigurations = nextConfigs;
                                         await persistRemoteConfigurations();
@@ -446,13 +454,13 @@ export function paneRemoteConfig(
                                 })
                                 .addSeparator()
                                 .addItem((item) => {
-                                    item.setTitle("📡 Fetch remote settings").onClick(async () => {
+                                    item.setTitle($msg("JapaneseUI.RemoteConfiguration.FetchRemoteSettings")).onClick(async () => {
                                         let parsed: RemoteConfigurationResult;
                                         try {
                                             parsed = ConnectionStringParser.parse(config.uri);
                                         } catch (ex) {
                                             this.services.API.addLog(
-                                                `Failed to parse remote configuration '${config.id}' for fetching settings!`,
+                                                $msg("JapaneseUI.RemoteConfiguration.ParseForFetchingFailed", { id: config.id }),
                                                 LOG_LEVEL_NOTICE
                                             );
                                             this.services.API.addLog(ex, LOG_LEVEL_VERBOSE);

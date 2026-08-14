@@ -1,6 +1,7 @@
 import { ButtonComponent } from "@/deps.ts";
 import { App, FuzzySuggestModal, MarkdownRenderer, Modal, Plugin, Setting, Component } from "@/deps.ts";
 import { EVENT_PLUGIN_UNLOADED, eventHub } from "@/common/events.ts";
+import { $msg } from "@/common/translation.ts";
 import { compatGlobal, type CompatIntervalHandle } from "@vrtmrz/livesync-commonlib/compat/common/coreEnvFunctions";
 
 class AutoClosableModal extends Modal {
@@ -58,7 +59,7 @@ export class InputStringDialog extends AutoClosableModal {
         new Setting(formEl)
             .addButton((btn) =>
                 btn
-                    .setButtonText("OK")
+                    .setButtonText($msg("JapaneseUI.Dialogue.OK"))
                     .setCta()
                     .onClick(() => {
                         this.isManuallyClosed = true;
@@ -102,7 +103,7 @@ export class PopoverSelectString extends FuzzySuggestModal<string> {
     ) {
         super(app);
         this._app = app;
-        this.setPlaceholder((placeholder ?? "y/n) ") + note);
+        this.setPlaceholder((placeholder ?? $msg("JapaneseUI.Dialogue.ChoicePrefix")) + note);
         if (getItemsFun) this.getItemsFun = getItemsFun;
         this.callback = callback;
     }

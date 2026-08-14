@@ -147,7 +147,7 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
         const resurrectChunks = excessiveDeletions.filter((e) => e.data !== "").map((e) => ({ ...e, _deleted: false }));
 
         if (resurrectChunks.length == 0) {
-            this._notice("No chunks are found to be resurrected.");
+            this._notice($msg("JapaneseUI.Maintenance.NoChunksToResurrect"));
             return;
         }
         const message = `We have following chunks that are deleted but still used in the database.
@@ -160,9 +160,14 @@ Do you want to resurrect these chunks?`;
             const result = await this.database.bulkDocs(resurrectChunks);
             this.clearHash();
             const resurrectedChunks = result.filter((e) => "ok" in e).map((e) => e.id);
-            this._notice(`Resurrected chunks: ${resurrectedChunks.length} / ${resurrectChunks.length}`);
+            this._notice(
+                $msg("JapaneseUI.Maintenance.ResurrectedChunks", {
+                    done: `${resurrectedChunks.length}`,
+                    total: `${resurrectChunks.length}`,
+                })
+            );
         } else {
-            this._notice("Resurrect operation is cancelled.");
+            this._notice($msg("JapaneseUI.Maintenance.ResurrectCancelled"));
         }
     }
     /**
@@ -231,17 +236,20 @@ Note: **Make sure to synchronise all devices before deletion.**
 > This operation finally reduces the capacity of the remote.`;
 
         if (deletedNotVacantChunks.length == 0) {
-            this._notice("No deleted chunks found.");
+            this._notice($msg("JapaneseUI.Maintenance.NoDeletedChunks"));
             return;
         }
         if (await this.confirm("Delete Chunks", message, "Delete", "Cancel")) {
             const result = await this.database.bulkDocs(deletedNotVacantChunks);
             this.clearHash();
             this._notice(
-                `Deleted chunks: ${result.filter((e) => "ok" in e).length} / ${deletedNotVacantChunks.length}`
+                $msg("JapaneseUI.Maintenance.DeletedChunks", {
+                    done: `${result.filter((e) => "ok" in e).length}`,
+                    total: `${deletedNotVacantChunks.length}`,
+                })
             );
         } else {
-            this._notice("Deletion operation is cancelled.");
+            this._notice($msg("JapaneseUI.Maintenance.DeletionCancelled"));
         }
     }
     /**
@@ -261,7 +269,7 @@ Note: **Make sure to synchronise all devices before deletion.**
         const size = deleteChunks.reduce((acc, e) => acc + e.data.length, 0);
         const humanSize = sizeToHumanReadable(size);
         if (deleteChunks.length == 0) {
-            this._notice("No unused chunks found.");
+            this._notice($msg("JapaneseUI.Maintenance.NoUnusedChunks"));
             return;
         }
         const message = `We have following chunks that are not used from any files.
@@ -278,7 +286,12 @@ Note: **Make sure to synchronise all devices before deletion.**
         if (await this.confirm("Mark unused chunks", message, "Mark", "Cancel")) {
             const result = await this.database.bulkDocs(deleteChunks);
             this.clearHash();
-            this._notice(`Marked chunks: ${result.filter((e) => "ok" in e).length} / ${deleteChunks.length}`);
+            this._notice(
+                $msg("JapaneseUI.Maintenance.MarkedChunks", {
+                    done: `${result.filter((e) => "ok" in e).length}`,
+                    total: `${deleteChunks.length}`,
+                })
+            );
         }
     }
 
@@ -295,7 +308,7 @@ Note: **Make sure to synchronise all devices before deletion.**
         const size = unusedChunks.reduce((acc, e) => acc + e.data.length, 0);
         const humanSize = sizeToHumanReadable(size);
         if (deleteChunks.length == 0) {
-            this._notice("No unused chunks found.");
+            this._notice($msg("JapaneseUI.Maintenance.NoUnusedChunks"));
             return;
         }
         const message = `We have following chunks that are not used from any files.
@@ -311,7 +324,12 @@ Note: **Make sure to synchronise all devices before deletion.**
 
         if (await this.confirm("Mark unused chunks", message, "Mark", "Cancel")) {
             const result = await this.database.bulkDocs(deleteChunks);
-            this._notice(`Deleted chunks: ${result.filter((e) => "ok" in e).length} / ${deleteChunks.length}`);
+            this._notice(
+                $msg("JapaneseUI.Maintenance.DeletedChunks", {
+                    done: `${result.filter((e) => "ok" in e).length}`,
+                    total: `${deleteChunks.length}`,
+                })
+            );
             this.clearHash();
         }
     }
@@ -741,11 +759,14 @@ Success: ${successCount}, Errored: ${errored}`;
         const replicator = this.core.replicator as LiveSyncCouchDBReplicator;
         const remote = await replicator.connectRemoteCouchDBWithSetting(this.settings, false, false, true);
         if (!remote) {
-            this._notice("Failed to connect to remote for compaction.", "gc-compact");
+            this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionConnectFailed"), "gc-compact");
             return;
         }
         if (typeof remote == "string") {
-            this._notice(`Failed to connect to remote for compaction. ${remote}`, "gc-compact");
+            this._notice(
+                $msg("JapaneseUI.Maintenance.RemoteCompactionConnectFailedWithDetail", { detail: remote }),
+                "gc-compact"
+            );
             return;
         }
         const compactResult = await remote.db.compact({
@@ -756,11 +777,11 @@ Success: ${successCount}, Errored: ${errored}`;
         for (;;) {
             const status = await remote.db.info();
             if ("compact_running" in status && status?.compact_running) {
-                this._notice("Compaction in progress on remote database...", "gc-compact");
+                this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionInProgress"), "gc-compact");
                 await delay(2000);
                 timeout -= 2000;
                 if (timeout <= 0) {
-                    this._notice("Compaction on remote database timed out.", "gc-compact");
+                    this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionTimedOut"), "gc-compact");
                     return;
                 }
             } else {
@@ -768,9 +789,9 @@ Success: ${successCount}, Errored: ${errored}`;
             }
         }
         if (compactResult && "ok" in compactResult) {
-            this._notice("Compaction on remote database completed successfully.", "gc-compact");
+            this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionSucceeded"), "gc-compact");
         } else {
-            this._notice("Compaction on remote database failed.", "gc-compact");
+            this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionFailed"), "gc-compact");
         }
     }
 
@@ -842,9 +863,7 @@ Success: ${successCount}, Errored: ${errored}`;
         // Start one-shot replication to ensure all changes are synced before GC.
         const r0 = await replicator.openOneShotReplication(this.settings, false, false, "sync");
         if (!r0) {
-            this._notice(
-                "Failed to start one-shot replication before Garbage Collection. Garbage Collection Cancelled."
-            );
+            this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionReplicationFailed"));
             return;
         }
 
@@ -853,7 +872,7 @@ Success: ${successCount}, Errored: ${errored}`;
         const OPTION_CANCEL = "Cancel Garbage Collection";
         const info = await this.core.replicator.getConnectedDeviceList();
         if (!info) {
-            this._notice("No connected device information found. Cancelling Garbage Collection.");
+            this._notice($msg("JapaneseUI.Maintenance.NoConnectedDeviceInfo"));
             return;
         }
         const { accepted_nodes, node_info } = info;
@@ -876,10 +895,10 @@ It is preferable to update all devices if possible. If you have any devices that
                 defaultAction: OPTION_CANCEL,
             });
             if (result === OPTION_CANCEL) {
-                this._notice("Garbage Collection cancelled by user.");
+                this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionCancelled"));
                 return;
             } else if (result === OPTION_IGNORE) {
-                this._notice("Proceeding with Garbage Collection, ignoring missing nodes.");
+                this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionIgnoringMissingNodes"));
             }
         }
 
@@ -889,7 +908,7 @@ It is preferable to update all devices if possible. If you have any devices that
             return /^\d+$/u.test(progress) ? Number(progress) : Number.NaN;
         });
         if (progressValues.length === 0 || progressValues.some((progress) => !Number.isSafeInteger(progress))) {
-            this._notice("No connected device information found. Cancelling Garbage Collection.");
+            this._notice($msg("JapaneseUI.Maintenance.NoConnectedDeviceInfo"));
             return;
         }
         const maxProgress = Math.max(...progressValues);
@@ -922,10 +941,10 @@ This may indicate that some devices have not completed synchronisation, which co
             defaultAction,
         });
         if (result !== OPTION_PROCEED) {
-            this._notice("Garbage Collection cancelled by user.");
+            this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionCancelled"));
             return;
         }
-        this._notice("Proceeding with Garbage Collection.");
+        this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionProceeding"));
         //-  3. Once OK is confirmed in the dialogue, execute the chunk deletion. This is performed on the local database and immediately reflected on the remote. After reflecting on the remote, perform compaction.
         const gcStartTime = Date.now();
         // Perform Garbage Collection (new implementation).
@@ -934,12 +953,18 @@ This may indicate that some devices have not completed synchronisation, which co
         // would make chunks used exclusively by live conflict branches look unused.
         const { used: usedChunks, existing: allChunks } = await this.localDatabase.allChunks();
         this._notice(
-            `Garbage Collection: Scanning completed. Total chunks: ${allChunks.size}, Used chunks: ${usedChunks.size}`,
+            $msg("JapaneseUI.Maintenance.GarbageCollectionScanComplete", {
+                total: `${allChunks.size}`,
+                used: `${usedChunks.size}`,
+            }),
             "gc-scanning"
         );
 
         const unusedChunks = [...allChunks.entries()].filter(([chunkId]) => !usedChunks.has(chunkId));
-        this._notice(`Garbage Collection: Found ${unusedChunks.length} unused chunks to delete.`, "gc-scanning");
+        this._notice(
+            $msg("JapaneseUI.Maintenance.GarbageCollectionUnusedChunks", { count: `${unusedChunks.length}` }),
+            "gc-scanning"
+        );
         const deleteChunkDocs = unusedChunks.map(
             ([chunkId, chunk]) =>
                 ({
@@ -952,13 +977,17 @@ This may indicate that some devices have not completed synchronisation, which co
         const deletedCount = response.filter((e) => "ok" in e).length;
         const gcEndTime = Date.now();
         this._notice(
-            `Garbage Collection completed. Deleted chunks: ${deletedCount} / ${unusedChunks.length}. Time taken: ${(gcEndTime - gcStartTime) / 1000} seconds.`
+            $msg("JapaneseUI.Maintenance.GarbageCollectionComplete", {
+                done: `${deletedCount}`,
+                total: `${unusedChunks.length}`,
+                seconds: `${(gcEndTime - gcStartTime) / 1000}`,
+            })
         );
         // Send changes to remote
         const r = await replicator.openOneShotReplication(this.settings, false, false, "pushOnly");
         // Wait for replication to complete
         if (!r) {
-            this._notice("Failed to start replication after Garbage Collection.");
+            this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionReplicationAfterFailed"));
             return;
         }
         // Perform compaction

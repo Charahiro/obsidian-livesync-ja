@@ -200,14 +200,14 @@
 </script>
 
 <div class="globalhistory">
-    <h1>Vault history</h1>
+    <h1>{translateMessage("JapaneseUI.GlobalHistory.Title")}</h1>
     <div class="control">
         <div class="row">
-            <label for="">From:</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
+            <label for="">{translateMessage("JapaneseUI.GlobalHistory.From")}</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
         </div>
-        <div class="row"><label for="">To:</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
+        <div class="row"><label for="">{translateMessage("JapaneseUI.GlobalHistory.To")}</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
         <div class="row">
-            <label for="">Info:</label>
+            <label for="">{translateMessage("JapaneseUI.GlobalHistory.Info")}</label>
             <label
                 ><input type="checkbox" bind:checked={showDiffInfo} disabled={loading} /><span
                     >{translateMessage("Diff")}</span
