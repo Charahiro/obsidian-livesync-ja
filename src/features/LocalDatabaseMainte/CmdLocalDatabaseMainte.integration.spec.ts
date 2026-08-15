@@ -26,6 +26,7 @@ import {
     type DocumentID,
     type EntryDoc,
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
+import { $msg } from "@/common/translation";
 import { LiveSyncLocalDB } from "@vrtmrz/livesync-commonlib/compat/pouchdb/LiveSyncLocalDB";
 import { LocalDatabaseMaintenance } from "./CmdLocalDatabaseMainte";
 
@@ -205,9 +206,9 @@ describe("LocalDatabaseMaintenance Garbage Collection V3 with CouchDB", () => {
             expect(closeMaintenanceRemote).toHaveBeenCalledOnce();
             expect(replicationModes).toEqual(["sync", "pushOnly"]);
             expect(clearHash).toHaveBeenCalledOnce();
-            expect(notice).toHaveBeenCalledWith("Compaction on remote database completed successfully.", "gc-compact");
-            expect(notice).not.toHaveBeenCalledWith("Compaction on remote database timed out.", "gc-compact");
-            expect(notice).not.toHaveBeenCalledWith("Compaction on remote database failed.", "gc-compact");
+            expect(notice).toHaveBeenCalledWith($msg("JapaneseUI.Maintenance.RemoteCompactionSucceeded"), "gc-compact");
+            expect(notice).not.toHaveBeenCalledWith($msg("JapaneseUI.Maintenance.RemoteCompactionTimedOut"), "gc-compact");
+            expect(notice).not.toHaveBeenCalledWith($msg("JapaneseUI.Maintenance.RemoteCompactionFailed"), "gc-compact");
 
             const obsoleteRow = (await remote.allDocs({ keys: ["h:obsolete"] })).rows[0];
             expect(obsoleteRow).toMatchObject({
