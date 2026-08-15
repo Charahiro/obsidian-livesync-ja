@@ -769,29 +769,33 @@ Success: ${successCount}, Errored: ${errored}`;
             );
             return;
         }
-        const compactResult = await remote.db.compact({
-            interval: 1000,
-        });
-        // Probably no need to wait, but just in case.
-        let timeout = 2 * 60 * 1000; // 2 minutes
-        for (;;) {
-            const status = await remote.db.info();
-            if ("compact_running" in status && status?.compact_running) {
-                this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionInProgress"), "gc-compact");
-                await delay(2000);
-                timeout -= 2000;
-                if (timeout <= 0) {
-                    this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionTimedOut"), "gc-compact");
-                    return;
+        try {
+            const compactResult = await remote.db.compact({
+                interval: 1000,
+            });
+            // Probably no need to wait, but just in case.
+            let timeout = 2 * 60 * 1000; // 2 minutes
+            for (;;) {
+                const status = await remote.db.info();
+                if ("compact_running" in status && status?.compact_running) {
+                    this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionInProgress"), "gc-compact");
+                    await delay(2000);
+                    timeout -= 2000;
+                    if (timeout <= 0) {
+                        this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionTimedOut"), "gc-compact");
+                        return;
+                    }
+                } else {
+                    break;
                 }
-            } else {
-                break;
             }
-        }
-        if (compactResult && "ok" in compactResult) {
-            this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionSucceeded"), "gc-compact");
-        } else {
-            this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionFailed"), "gc-compact");
+            if (compactResult && "ok" in compactResult) {
+                this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionSucceeded"), "gc-compact");
+            } else {
+                this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionFailed"), "gc-compact");
+            }
+        } finally {
+            await remote.db.close();
         }
     }
 

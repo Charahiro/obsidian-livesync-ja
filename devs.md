@@ -27,6 +27,21 @@ npm ci
 npm run build
 ```
 
+#### Community Review dependency installation
+
+Community Review installs dependencies independently before applying type-aware source rules. A successful installation with the npm version bundled with the repository's current Node.js CI does not prove that the lockfile is accepted by the scanner's npm version.
+
+After changing `package.json`, a workspace manifest, or `package-lock.json`, verify both installation paths:
+
+```bash
+npm ci --ignore-scripts
+npx --yes npm@10.9.2 ci --ignore-scripts
+```
+
+The npm 10.9.2 command is the current project-side compatibility check for the Community Review installation path. Update this check when the scanner runtime changes.
+
+If Community Review reports widespread TypeScript `error` types across unrelated external packages, confirm that dependency installation completed successfully before changing source imports, declarations, or lint rules. An installation failure can make every unresolved external type appear as downstream unsafe-type findings.
+
 ### Commands
 
 ```bash
@@ -261,6 +276,7 @@ export class ModuleExample extends AbstractObsidianModule {
 - Avoid listing purely internal refactors, maintenance chores, generated-file changes, and dependency updates unless they affect users; group and label them when they are included.
 - When preparing a release, replace `## Unreleased` with the target version heading (for example, `## 0.25.81`) and add a fresh empty `## Unreleased` section above it for the next cycle.
 - Review and polish the released section in the release PR before tagging, because the content is embedded into the plug-in and may be reused as the GitHub Release notes.
+- Keep approximately the five most recent published plug-in versions in the embedded `updates.md`. Move older published sections unchanged into the appropriate release-line archive under `docs/releases/`, and update the history references when rotating them.
 
 ## Release Workflow
 

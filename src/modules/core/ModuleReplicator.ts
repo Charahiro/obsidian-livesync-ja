@@ -183,27 +183,31 @@ export class ModuleReplicator extends AbstractModule {
                             return false;
                         }
 
-                        await purgeUnreferencedChunks(this.localDatabase.localDatabase, false);
-                        this.localDatabase.clearCaches();
-                        // Perform the synchronisation once.
-                        const replicated = await this.services.replicator.runFiniteReplicationActivity(
-                            () => this.core.replicator.openReplication(this.settings, false, showMessage, true),
-                            { label: "replication" }
-                        );
-                        if (replicated) {
-                            await balanceChunkPurgedDBs(this.localDatabase.localDatabase, remoteDB.db);
+                        try {
                             await purgeUnreferencedChunks(this.localDatabase.localDatabase, false);
                             this.localDatabase.clearCaches();
-                            await this.services.replicator.getActiveReplicator()?.markRemoteResolved(this.settings);
-                            Logger(
-                                $msg("JapaneseUI.Runtime.LocalDatabaseCleaned"),
-                                showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
+                            // Perform the synchronisation once.
+                            const replicated = await this.services.replicator.runFiniteReplicationActivity(
+                                () => this.core.replicator.openReplication(this.settings, false, showMessage, true),
+                                { label: "replication" }
                             );
-                        } else {
-                            Logger(
-                                $msg("JapaneseUI.Runtime.ReplicationCancelled"),
-                                showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
-                            );
+                            if (replicated) {
+                                await balanceChunkPurgedDBs(this.localDatabase.localDatabase, remoteDB.db);
+                                await purgeUnreferencedChunks(this.localDatabase.localDatabase, false);
+                                this.localDatabase.clearCaches();
+                                await this.services.replicator.getActiveReplicator()?.markRemoteResolved(this.settings);
+                                Logger(
+                                    $msg("JapaneseUI.Runtime.LocalDatabaseCleaned"),
+                                    showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
+                                );
+                            } else {
+                                Logger(
+                                    $msg("JapaneseUI.Runtime.ReplicationCancelled"),
+                                    showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
+                                );
+                            }
+                        } finally {
+                            await remoteDB.db.close();
                         }
                     },
                     { label: "database-cleanup" }
