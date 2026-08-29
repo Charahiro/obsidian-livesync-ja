@@ -106,7 +106,7 @@ export class HiddenFileSync extends LiveSyncCommands {
     onload() {
         this.services.API.addCommand({
             id: "livesync-sync-internal",
-            name: "(re)initialise hidden files between storage and database",
+            name: "ストレージとデータベース間の隠しファイルを（再）初期化",
             checkCallback: (checking) => {
                 if (!this.isManualCommandAvailable()) return false;
                 if (!checking) {
