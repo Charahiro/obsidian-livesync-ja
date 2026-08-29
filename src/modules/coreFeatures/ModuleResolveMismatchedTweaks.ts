@@ -4,6 +4,7 @@ import {
     TweakValuesShouldMatchedTemplate,
     TweakValuesTemplate,
     IncompatibleChanges,
+    configurationNames,
     statusDisplay,
     type TweakValues,
     type ObsidianLiveSyncSettings,
@@ -13,13 +14,22 @@ import {
     type RemotePreferredTweakResult,
     RemotePreferredTweakStatuses,
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
-import { getConfig } from "@vrtmrz/livesync-commonlib/compat/common/settingConstants";
 import { escapeMarkdownValue } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import { AbstractModule } from "@/modules/AbstractModule.ts";
-import { $msg, $t } from "@/common/translation";
+import { $msg, translateIfAvailable } from "@/common/translation";
 import type { InjectableServiceHub } from "@vrtmrz/livesync-commonlib/compat/services/implements/injectable/InjectableServiceHub";
 import type { LiveSyncCore } from "@/main.ts";
 import { REMOTE_P2P } from "@vrtmrz/livesync-commonlib/compat/common/models/setting.const";
+
+/**
+ * Localised counterpart of Commonlib's `confName()`, which takes no translator.
+ * Same shape: label plus status suffix, and an empty string for an unknown key.
+ */
+function localisedConfName(key: keyof ObsidianLiveSyncSettings): string {
+    const info = configurationNames[key];
+    if (!info) return "";
+    return `${translateIfAvailable(info.name)}${statusDisplay(info.status)}`;
+}
 
 function valueToString(value: string | number | boolean | object | undefined): string {
     if (typeof value === "boolean") {
@@ -29,12 +39,6 @@ function valueToString(value: string | number | boolean | object | undefined): s
         return JSON.stringify(value);
     }
     return `${value}`;
-}
-
-function translatedConfigName(key: keyof TweakValues): string {
-    const config = getConfig(key as Parameters<typeof getConfig>[0]);
-    if (!config) return `${key}`;
-    return `${$t(config.name)}${$t(statusDisplay(config.status))}`;
 }
 
 export class ModuleResolvingMismatchedTweaks extends AbstractModule {
@@ -165,7 +169,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
             // table += `| ${confName(key)} | ${valueMine} | ${valuePreferred} | \n`;
             tableRows.push(
                 $msg("TweakMismatchResolve.Table.Row", {
-                    name: translatedConfigName(key),
+                    name: localisedConfName(key),
                     self: valueToString(valueMine),
                     remote: valueToString(valuePreferred),
                 })
@@ -349,7 +353,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
             }
             tableRows.push(
                 $msg("TweakMismatchResolve.Table.Row", {
-                    name: translatedConfigName(key),
+                    name: localisedConfName(key),
                     self: currentValueForDisplay,
                     remote: remoteValueForDisplay,
                 })
