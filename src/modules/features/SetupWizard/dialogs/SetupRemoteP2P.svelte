@@ -284,48 +284,42 @@
         "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection."
     )}
 </InfoNote>
-<ExtraItems title={translateMessage("Connection compatibility")}>
-    <InputRow label={translateMessage("P2P message size")}>
+<ExtraItems title="接続の互換性">
+    <InputRow label="P2Pメッセージサイズ">
         <select
             name="p2p-message-size"
-            aria-label={translateMessage("P2P message size")}
+            aria-label="P2Pメッセージサイズ"
             bind:value={syncSetting.P2P_maxWirePayloadBytes}
         >
-            <option value={P2PMessageSizePresets.Standard}>{translateMessage("Standard")}</option>
-            <option value={P2PMessageSizePresets.Reduced}>{translateMessage("Reduced")}</option>
-            <option value={P2PMessageSizePresets.Conservative}>{translateMessage("Conservative")}</option>
+            <option value={P2PMessageSizePresets.Standard}>標準</option>
+            <option value={P2PMessageSizePresets.Reduced}>縮小</option>
+            <option value={P2PMessageSizePresets.Conservative}>保守的</option>
             <option value={P2PMessageSizePresets.MaximumCompatibility}
-                >{translateMessage("Maximum compatibility")}</option
+                >最大の互換性</option
             >
         </select>
     </InputRow>
     <InfoNote>
-        {translateMessage(
-            "Smaller messages can improve compatibility on paths which fragment or drop larger WebRTC messages. This setting limits outgoing P2P messages, so use a compatible profile on each sending device when required."
-        )}
+        より小さなメッセージは、大きなWebRTCメッセージが分割または破棄される経路での互換性を改善できます。この設定は送信するP2Pメッセージを制限するため、必要に応じて各送信デバイスで互換性のあるプロファイルを使用してください。
     </InfoNote>
-    <InputRow label={translateMessage("Connection path")}>
+    <InputRow label="接続経路">
         <select
             name="p2p-connection-path"
-            aria-label={translateMessage("Connection path")}
+            aria-label="接続経路"
             bind:value={syncSetting.P2P_connectionPath}
             onchange={() => (connectionPathResetNotice = false)}
         >
             <option value={P2PConnectionPaths.Automatic}>{translateMessage("Automatic")}</option>
             <option value={P2PConnectionPaths.Relay} disabled={!hasValidTurnServer}
-                >{translateMessage("TURN relay only")}</option
+                >TURNリレーのみ</option
             >
         </select>
     </InputRow>
     <InfoNote>
-        {translateMessage(
-            "TURN relay only is available when at least one valid TURN server URL is configured under Advanced Settings."
-        )}
+        TURNリレーのみは、詳細設定で有効なTURNサーバーURLを少なくとも1つ設定している場合に利用できます。
     </InfoNote>
     <InfoNote notice visible={connectionPathResetNotice}>
-        {translateMessage(
-            "TURN relay only requires at least one valid TURN server URL. Connection path has been restored to Automatic."
-        )}
+        TURNリレーのみには、有効なTURNサーバーURLが少なくとも1つ必要です。接続経路を自動に戻しました。
     </InfoNote>
 </ExtraItems>
 <ExtraItems title={translateMessage("Advanced Settings")}>

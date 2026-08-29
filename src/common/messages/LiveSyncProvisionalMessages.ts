@@ -32,20 +32,20 @@ export const liveSyncProvisionalEnglishMessages = {
     "Learn more about signalling and TURN": "Learn more about signalling and TURN",
     "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust.":
         "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust.",
-    "Connection compatibility": "Connection compatibility",
-    "P2P message size": "P2P message size",
-    Standard: "Standard",
-    Reduced: "Reduced",
-    Conservative: "Conservative",
-    "Maximum compatibility": "Maximum compatibility",
+    "Connection compatibility": "接続の互換性",
+    "P2P message size": "P2Pメッセージサイズ",
+    Standard: "標準",
+    Reduced: "縮小",
+    Conservative: "保守的",
+    "Maximum compatibility": "最大の互換性",
     "Smaller messages can improve compatibility on paths which fragment or drop larger WebRTC messages. This setting limits outgoing P2P messages, so use a compatible profile on each sending device when required.":
-        "Smaller messages can improve compatibility on paths which fragment or drop larger WebRTC messages. This setting limits outgoing P2P messages, so use a compatible profile on each sending device when required.",
-    "Connection path": "Connection path",
-    "TURN relay only": "TURN relay only",
+        "より小さなメッセージは、大きなWebRTCメッセージが分割または破棄される経路での互換性を改善できます。この設定は送信するP2Pメッセージを制限するため、必要に応じて各送信デバイスで互換性のあるプロファイルを使用してください。",
+    "Connection path": "接続経路",
+    "TURN relay only": "TURNリレーのみ",
     "TURN relay only is available when at least one valid TURN server URL is configured under Advanced Settings.":
-        "TURN relay only is available when at least one valid TURN server URL is configured under Advanced Settings.",
+        "TURNリレーのみは、詳細設定で有効なTURNサーバーURLを少なくとも1つ設定している場合に利用できます。",
     "TURN relay only requires at least one valid TURN server URL. Connection path has been restored to Automatic.":
-        "TURN relay only requires at least one valid TURN server URL. Connection path has been restored to Automatic.",
+        "TURNリレーのみには、有効なTURNサーバーURLが少なくとも1つ必要です。接続経路を自動に戻しました。",
     "Announce changes": "Announce changes",
     "Announce changes automatically after connecting": "Announce changes automatically after connecting",
     "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection.":
