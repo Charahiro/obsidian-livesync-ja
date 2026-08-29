@@ -12,6 +12,24 @@ Earlier releases remain available in the 1.0 release history, the 1.0 preview hi
 
 ## Unreleased
 
+## 1.0.16
+
+19th August, 2026
+
+### Conflict handling and recovery
+
+#### Fixed
+
+- **Back to this revision** in Document History now restores the selected content as a new non-deleted successor revision before reflecting it to the Vault. A readable revision restored after a logical deletion therefore remains restored through later synchronisation instead of being overwritten by the deletion.
+    - If the file changes while restoration is in progress, the operation stops instead of extending a stale revision. Existing conflicts remain available through **Inspect conflicts and file/database differences**.
+
+### Synchronisation and storage
+
+#### Improved
+
+- One-shot CouchDB synchronisation now releases stalled web-compatible connection checks before replication starts, so a later synchronisation can make a fresh attempt (Commonlib 0.1.16).
+    - The 60-second safeguard applies only to pre-replication checks. It does not limit ordinary synchronisation, and the **Use Internal API** path is unchanged.
+
 ## 1.0.15
 
 15th August, 2026
@@ -51,9 +69,10 @@ Thank you for your patience. At last, it looks as though we can clear some of th
 #### Improved
 
 - **Inspect conflicts and file/database differences** now reports local Metadata whose stored document ID does not match the ID derived from its recorded path. Ordinary scans leave unresolved entries and their corresponding Vault paths unchanged, while allowing consistently addressed Metadata for the same logical path to proceed normally.
-    - When one live, unconflicted entry has an unambiguous target, its wrench menu can repair that one local Metadata document after separate confirmation. The target is written and verified before the mismatched source ID is removed; ambiguous or otherwise unsafe entries remain read-only.
+    - When the current winner has no conflict leaves and has an unambiguous target, its wrench menu can repair that one local Metadata document after separate confirmation. The target is written and verified before the mismatched source ID is removed; ambiguous or otherwise unsafe entries remain read-only.
 
 #### Fixed
+
 - Fast Fetch now writes deletion tombstones to the local database without attempting to decrypt them. A tombstone has no encrypted payload, and decryption previously aborted the whole fetch at the first deleted document. New devices could not complete their initial sync on vaults that contain old deletions (Commonlib PR #108).
     - Thank you to @KennethLloyd for the contribution!
 
@@ -68,31 +87,3 @@ Thank you for your patience. At last, it looks as though we can clear some of th
 - One-shot CouchDB replication now closes its temporary remote database after each run and before retrying, preventing inactive PouchDB instances from accumulating during long-running periodic synchronisation (Commonlib PR #75). Thank you to @apple-ouyang for the contribution!
 - Start-up and recovery scans now keep failed database-to-Vault writes retryable instead of recording them as successful and later mistaking the still-missing file for a local deletion (Commonlib PR #106).
     - Files over the size limit or in conflict remain deliberately skipped, while actual write failures are reported to Fast Setup, CLI mirror, and daemon callers.
-
-## 1.0.11
-
-9th August, 2026
-
-### Setup and compatibility
-
-#### Fixed
-
-- Fast Setup now uses Standard Fetch when CouchDB's 'Use Internal API' setting is enabled, avoiding a streaming request path which Obsidian's buffered API cannot support (#1020).
-    - Custom headers alone continue to use Fast Fetch when browser CORS permits them; Standard Fetch clears any obsolete Fast Fetch checkpoint after resetting the local database.
-
-### Synchronisation and storage
-
-#### Fixed
-
-- Fractional file timestamps no longer cause affected mobile clients to crash after synchronisation (#1087, PR #1039). Thank you to @andrewleech for the contribution!
-    - Timestamps are now normalised in the command-line tool and before Obsidian's native file-system writes.
-
-## 1.0.10
-
-9th August, 2026
-
-### Setup and compatibility
-
-#### Fixed
-
-- Fast Setup now sends configured CouchDB custom headers with every changes-feed request, allowing reverse proxies such as Cloudflare Access to authenticate initial setup in the same way as ordinary synchronisation ([Commonlib PR #82](https://github.com/vrtmrz/livesync-commonlib/pull/82)). Thank you to @nimula for the contribution!

@@ -12,7 +12,7 @@ import {
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import { Logger } from "@vrtmrz/livesync-commonlib/compat/common/logger";
 import { isErrorOfMissingDoc } from "@vrtmrz/livesync-commonlib/compat/pouchdb/utils_couchdb";
-import { fireAndForget, getDocData, readContent } from "@vrtmrz/livesync-commonlib/compat/common/utils";
+import { fireAndForget, getDocData } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import { isPlainText, stripPrefix } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/path";
 import { scheduleOnceIfDuplicated } from "octagonal-wheels/concurrency/lock";
 import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore.ts";
@@ -24,6 +24,10 @@ import {
     saveDocumentHistoryPreference,
 } from "./documentHistoryPreferences.ts";
 import type PouchDB from "pouchdb-core";
+import {
+    restoreDocumentHistoryRevision,
+    type DocumentHistoryRestorationResult,
+} from "@/serviceFeatures/documentHistoryRestoration";
 
 function isImage(path: string) {
     const ext = path.split(".").splice(-1)[0].toLowerCase();
@@ -284,6 +288,7 @@ export class DocumentHistoryModal extends Modal {
 
     async showExactRev(rev: string) {
         const db = this.core.localDatabase;
+        this.currentDoc = undefined;
         const w = await db.getDBEntry(this.file, { rev: rev }, false, false, true);
         this.currentText = "";
         this.currentDeleted = false;
@@ -713,7 +718,6 @@ export class DocumentHistoryModal extends Modal {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
-                    // const pathToWrite = this.plugin.id2path(this.id, true);
                     const pathToWrite = stripPrefix(this.file);
                     if (!isValidPath(pathToWrite)) {
                         Logger($msg("JapaneseUI.DocumentHistory.InvalidPath"), LOG_LEVEL_INFO);
@@ -723,9 +727,94 @@ export class DocumentHistoryModal extends Modal {
                         Logger($msg("JapaneseUI.DocumentHistory.NoActiveFile"), LOG_LEVEL_INFO);
                         return;
                     }
-                    const d = readContent(this.currentDoc);
-                    await this.core.storageAccess.writeHiddenFileAuto(pathToWrite, d);
-                    await focusFile(pathToWrite);
+                    const sourceRevision = this.currentDoc._rev;
+                    if (!sourceRevision) {
+                        Logger($msg("JapaneseUI.DocumentHistory.MissingRevisionIdentifier"), LOG_LEVEL_NOTICE);
+                        return;
+                    }
+
+                    e.disabled = true;
+                    let result: DocumentHistoryRestorationResult;
+                    try {
+                        result = await restoreDocumentHistoryRevision(this.core, this.file, sourceRevision, {
+                            isPathValid: isValidPath,
+                        });
+                    } catch (ex) {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.RestorationFailed"),
+                            LOG_LEVEL_NOTICE
+                        );
+                        Logger(ex, LOG_LEVEL_VERBOSE);
+                        e.disabled = false;
+                        return;
+                    }
+
+                    if (result.status === "source-unavailable") {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.SourceUnavailable"),
+                            LOG_LEVEL_NOTICE
+                        );
+                        e.disabled = false;
+                        return;
+                    }
+                    if (result.status === "current-unavailable") {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.CurrentUnavailable"),
+                            LOG_LEVEL_NOTICE
+                        );
+                        e.disabled = false;
+                        return;
+                    }
+                    if (result.status === "unsupported-path") {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.UnsupportedPath"),
+                            LOG_LEVEL_NOTICE
+                        );
+                        e.disabled = false;
+                        return;
+                    }
+                    if (result.status === "database-write-refused") {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.DatabaseWriteRefused"),
+                            LOG_LEVEL_NOTICE
+                        );
+                        e.disabled = false;
+                        return;
+                    }
+                    if (result.status === "stored-not-reflected") {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.StoredNotReflected"),
+                            LOG_LEVEL_NOTICE
+                        );
+                        if (result.cause) {
+                            Logger(result.cause, LOG_LEVEL_VERBOSE);
+                        }
+                        this.close();
+                        return;
+                    }
+
+                    if (result.conflictCheckError) {
+                        Logger(result.conflictCheckError, LOG_LEVEL_VERBOSE);
+                    }
+                    if (result.conflictsRemain === true) {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.RestoredWithConflicts"),
+                            LOG_LEVEL_NOTICE
+                        );
+                    } else if (result.conflictsRemain === false) {
+                        Logger($msg("JapaneseUI.DocumentHistory.Restored"), LOG_LEVEL_NOTICE);
+                    } else {
+                        Logger(
+                            $msg("JapaneseUI.DocumentHistory.RestoredWithUnknownConflicts"),
+                            LOG_LEVEL_NOTICE
+                        );
+                    }
+                    try {
+                        await focusFile(result.path);
+                    } catch (ex) {
+                        Logger($msg("JapaneseUI.DocumentHistory.EditorOpenFailed"), LOG_LEVEL_NOTICE);
+                        Logger(ex, LOG_LEVEL_VERBOSE);
+                    }
                     this.close();
                 });
             });

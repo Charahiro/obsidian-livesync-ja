@@ -43,7 +43,7 @@ All guidelines and conventions listed below are disclosed and maintained solely 
 - Database Suffix (additionalSuffixOfDatabaseName)
     - A unique suffix appended to the database name to allow synchronising multiple vaults with the same name on the same remote server.
 - E2EE Algorithm
-    - The cryptographic algorithm version used for end-to-end encryption. All devices in the synchronisation group must be configured with a compatible version (such as `V2` or `V1`).
+    - The cryptographic algorithm version used for end-to-end encryption. All synchronising devices must be configured with a compatible version (such as `V2` or `V1`).
 - Eden (Eden Chunks)
     - A performance optimisation where newly created chunks are held within the document until they stabilise, before graduating to independent chunks.
 - Fast Setup (Simple Fetch)
@@ -80,6 +80,22 @@ All guidelines and conventions listed below are disclosed and maintained solely 
     - A recovery setting that restricts the propagation of changes from the database to local storage, ignoring any file events (such as accidental mass deletions) that occurred after a specified date and time.
 - Reset Synchronisation on This Device
     - A maintenance operation (formerly known as `Fetch everything`) that discards the local database and reconstructs it by downloading all data from the remote server.
+
+#### Revision
+
+A revision is a version of one PouchDB/CouchDB document. Concurrent changes can form a revision tree with more than one current branch.
+
+Revision modifiers describe independent properties. More than one may apply to the same revision:
+
+- **leaf**: Has no known child revision.
+- **winner**: Is the leaf selected by PouchDB/CouchDB as the current document.
+- **conflict**: Is another current leaf which was not selected as the winner.
+- **Vault-matching**: Represents the same file contents, or the same absent-file state, as the current Vault. More than one revision may match.
+- **displayed**: Is recorded by valid device-local file provenance as the branch represented in the Vault. A pending local edit may no longer match its bytes, but still extends this recorded branch.
+- **logically deleted**: Represents the absence of the file through a deletion marker. A logically deleted revision may also be a leaf, winner, conflict, or Vault-matching revision. An absent file retains no displayed provenance.
+
+Avoid **live revision** in prose because it can ambiguously mean either a current leaf or a non-deleted revision. See [Independent revision properties](specs_conflict_resolution.md#independent-revision-properties) for the relationship between revision-tree roles, Vault state, and device-local provenance.
+
 - Scram (Scram Switches)
     - Emergency controls in the settings that allow users to suspend file watching or database writes to prevent corruption.
 - Segmenter (Segmented-splitter)
@@ -94,6 +110,8 @@ All guidelines and conventions listed below are disclosed and maintained solely 
     - A data transfer method that downloads database documents as a continuous stream of events. It is significantly faster than traditional chunk-by-chunk HTTP requests and is used during Fast Setup to retrieve remote metadata quickly.
 - Sync Mode
     - The replication trigger mechanism. Users can select from `On Events` (synchronising on local file changes), `Periodic and Events` (synchronising at fixed intervals as well as on events), or `LiveSync` (continuous, real-time synchronisation).
+- Synchronising devices
+    - Devices which participate in the same synchronisation for a Vault. The term describes membership rather than current activity, so it includes offline and idle devices.
 - TURN Server (WebRTC P2P)
     - A Traversal Using Relays around NAT server used as an optional fallback to relay encrypted WebRTC traffic when strict NAT or firewall rules block a direct peer connection. It is distinct from the signalling relay.
 - Update Thinning (Batch database update)

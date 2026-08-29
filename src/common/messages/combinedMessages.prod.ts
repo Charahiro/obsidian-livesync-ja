@@ -3861,6 +3861,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Copy to clipboard",
         ja: "クリップボードにコピー",
     },
+    "JapaneseUI.DocumentHistory.CurrentUnavailable": {
+        def: "The current database revision could not be read. The Vault was not changed.",
+        ja: "現在のデータベースリビジョンを読み取れませんでした。Vaultは変更されていません。",
+    },
+    "JapaneseUI.DocumentHistory.DatabaseWriteRefused": {
+        def: "The restored revision could not be created. The file may have changed during the operation, and the Vault was not changed.",
+        ja: "復元したリビジョンを作成できませんでした。処理中にファイルが変更された可能性があります。Vaultは変更されていません。",
+    },
     "JapaneseUI.DocumentHistory.DeletedAtRevision": {
         def: "(The file was deleted at this revision)",
         ja: "（このリビジョンではファイルが削除されています）",
@@ -3876,6 +3884,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "JapaneseUI.DocumentHistory.EditorDisplayFailed": {
         def: "Failed to display the file in the editor",
         ja: "エディターにファイルを表示できません",
+    },
+    "JapaneseUI.DocumentHistory.EditorOpenFailed": {
+        def: "The restored file could not be opened in the editor.",
+        ja: "復元したファイルをエディターで開けませんでした。",
     },
     "JapaneseUI.DocumentHistory.FileInfo": {
         def: "${file} / ${count} revisions",
@@ -3900,6 +3912,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     "JapaneseUI.DocumentHistory.Matches": {
         def: "${current}/${total} matches",
         ja: "${current}/${total} 件一致",
+    },
+    "JapaneseUI.DocumentHistory.MissingRevisionIdentifier": {
+        def: "The selected revision does not have a revision identifier.",
+        ja: "選択したリビジョンにリビジョン識別子がありません。",
     },
     "JapaneseUI.DocumentHistory.Modified": {
         def: "Modified: ${time}",
@@ -3937,6 +3953,22 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Previous match",
         ja: "前の一致",
     },
+    "JapaneseUI.DocumentHistory.RestorationFailed": {
+        def: "Restoring the selected revision failed before Vault reflection completed. Review the file with 'Inspect conflicts and file/database differences' before retrying.",
+        ja: "Vaultへの反映が完了する前に、選択したリビジョンの復元に失敗しました。再試行する前に「競合およびファイル／データベースの差異を点検」でファイルを確認してください。",
+    },
+    "JapaneseUI.DocumentHistory.Restored": {
+        def: "The selected content was restored as a new revision.",
+        ja: "選択した内容を新しいリビジョンとして復元しました。",
+    },
+    "JapaneseUI.DocumentHistory.RestoredWithConflicts": {
+        def: "The selected content was restored as a new revision. Other versions remain unresolved; use 'Inspect conflicts and file/database differences' to review them.",
+        ja: "選択した内容を新しいリビジョンとして復元しました。他のバージョンは未解決のままです。「競合およびファイル／データベースの差異を点検」で確認してください。",
+    },
+    "JapaneseUI.DocumentHistory.RestoredWithUnknownConflicts": {
+        def: "The selected content was restored as a new revision. LiveSync could not confirm whether other versions remain; use 'Inspect conflicts and file/database differences' to review the file.",
+        ja: "選択した内容を新しいリビジョンとして復元しました。ほかのバージョンが残っているかLiveSyncで確認できませんでした。「競合およびファイル／データベースの差異を点検」でファイルを確認してください。",
+    },
     "JapaneseUI.DocumentHistory.Revision": {
         def: "Revision ${current}/${total}",
         ja: "リビジョン ${current}/${total}",
@@ -3953,9 +3985,21 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Search history (latest 100)...",
         ja: "履歴を検索（最新100件）…",
     },
+    "JapaneseUI.DocumentHistory.SourceUnavailable": {
+        def: "The selected revision could not be restored because its content is no longer available.",
+        ja: "内容を取得できなくなったため、選択したリビジョンを復元できませんでした。",
+    },
+    "JapaneseUI.DocumentHistory.StoredNotReflected": {
+        def: "The restored revision was saved in the local database, but it could not be reflected to the Vault. Use 'Inspect conflicts and file/database differences' to review and apply it.",
+        ja: "復元したリビジョンはローカルデータベースに保存されましたが、Vaultへ反映できませんでした。「競合およびファイル／データベースの差異を点検」で確認して適用してください。",
+    },
     "JapaneseUI.DocumentHistory.Title": {
         def: "File history",
         ja: "ファイル履歴",
+    },
+    "JapaneseUI.DocumentHistory.UnsupportedPath": {
+        def: "Only an ordinary valid Vault path can be restored from Document History.",
+        ja: "Document Historyから復元できるのは、通常の有効なVaultパスのみです。",
     },
     "JapaneseUI.GlobalHistory.From": {
         def: "From:",
