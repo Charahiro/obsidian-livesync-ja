@@ -1457,6 +1457,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "连接方式",
         "zh-tw": "連線方式",
     },
+    "Connection Path": {
+        def: "Connection Path",
+        ja: "接続経路",
+    },
     "Connection settings": {
         def: "Connection settings",
         ja: "接続設定",
@@ -8617,6 +8621,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "P2P 구성",
         "zh-tw": "P2P 設定",
     },
+    "P2P Message Size": {
+        def: "P2P Message Size",
+        ja: "P2Pメッセージサイズ",
+    },
     "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.": {
         def: "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.",
         ja: "P2Pでは中央のデータ保存サーバーは不要ですが、ピアを検出するためにシグナリングリレーを使用します。",
@@ -10962,6 +10970,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         def: "Select the database adapter to use. ",
         ja: "使用するデータベースアダプターを選択します。",
     },
+    "Select the WebRTC route automatically or require a configured TURN relay.": {
+        def: "Select the WebRTC route automatically or require a configured TURN relay.",
+        ja: "WebRTCの経路を自動的に選択するか、設定済みのTURNリレーを必須にします。",
+    },
     "Selecting this option will result in the current data on this device being used to initialise the server. Any existing data on the server will be completely overwritten.":
         {
             def: "Selecting this option will result in the current data on this device being used to initialise the server. Any existing data on the server will be completely overwritten.",
@@ -12444,6 +12456,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "文档中可以孵化的数据块的最大数量。超过此数量的数据块将立即成为独立数据块 ",
             "zh-tw": "文件中可暫存的 chunks 最大數量。超過此數量的 chunks 會立即成為獨立 chunks。",
         },
+    "The maximum outgoing RPC wire payload before Commonlib splits it for the P2P transport.": {
+        def: "The maximum outgoing RPC wire payload before Commonlib splits it for the P2P transport.",
+        ja: "CommonlibがP2P転送用に分割する前の、送信RPCワイヤーペイロードの最大サイズ。",
+    },
     "The maximum total size of chunks that can be incubated within the document. Chunks exceeding this size will immediately graduate to independent chunks.":
         {
             def: "The maximum total size of chunks that can be incubated within the document. Chunks exceeding this size will immediately graduate to independent chunks.",
