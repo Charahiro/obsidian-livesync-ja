@@ -11,7 +11,6 @@ import {
     type ReviewHarnessScenarioId,
     type ReviewHarnessScenarioResult,
 } from "./reviewHarnessContract";
-import { $msg } from "@/common/translation";
 
 export interface ReviewHarnessRuntime {
     now(): Date;

@@ -11,7 +11,7 @@ import { LOG_LEVEL_NOTICE, Logger } from "octagonal-wheels/common/logger";
 import { isNotFoundError } from "@vrtmrz/livesync-commonlib/compat/common/utils.doc";
 import type PouchDB from "pouchdb-core";
 import type {} from "pouchdb-replication";
-import { $msg, $t } from "@/common/translation.ts";
+import { $t } from "@/common/translation.ts";
 
 /**
  * Generates a summary of P2P configuration settings

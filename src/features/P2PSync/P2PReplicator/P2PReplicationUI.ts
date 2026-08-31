@@ -3,7 +3,6 @@ import { Logger } from "@vrtmrz/livesync-commonlib/compat/common/logger";
 import { LOG_LEVEL_NOTICE, LOG_LEVEL_INFO } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import type { LiveSyncTrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/LiveSyncTrysteroReplicator";
 import { P2POpenReplicationModal } from "./P2POpenReplicationModal";
-import { $msg } from "@/common/translation";
 
 /**
  * Creates an openReplicationUI factory for Obsidian environments.

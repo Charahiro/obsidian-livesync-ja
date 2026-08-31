@@ -1,7 +1,6 @@
 import { fireAndForget } from "octagonal-wheels/promises";
 import { VER } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import type { LiveSyncCore } from "@/main.ts";
-import { $msg } from "@/common/translation";
 import {
     COMPATIBILITY_PAUSE_SETTING_MESSAGE,
     DATABASE_COMPATIBILITY_VERSION_KEY,

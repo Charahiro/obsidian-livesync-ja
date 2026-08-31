@@ -1,5 +1,4 @@
 import type { CompatibilityPause, CompatibilityPauseReason } from "@/common/databaseCompatibility.ts";
-import { $msg } from "@/common/translation.ts";
 
 export function compatibilityReviewSummaryMarkdown(pause: CompatibilityPause): string {
     const action = !pause.resumable

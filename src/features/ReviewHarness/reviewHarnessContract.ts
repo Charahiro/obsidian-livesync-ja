@@ -4,7 +4,6 @@ import type {
     ReviewHarnessScenarioResult,
     ReviewHarnessScenarioStatus,
 } from "./reviewHarnessTypes";
-import { $msg } from "@/common/translation";
 
 export type { ReviewHarnessScenarioResult, ReviewHarnessScenarioStatus } from "./reviewHarnessTypes";
 

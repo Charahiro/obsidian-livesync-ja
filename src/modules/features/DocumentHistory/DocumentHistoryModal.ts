@@ -17,7 +17,6 @@ import { isPlainText, stripPrefix } from "@vrtmrz/livesync-commonlib/compat/stri
 import { scheduleOnceIfDuplicated } from "octagonal-wheels/concurrency/lock";
 import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore.ts";
 import { compatGlobal } from "@vrtmrz/livesync-commonlib/compat/common/coreEnvFunctions";
-import { $msg } from "@/common/translation.ts";
 import {
     DOCUMENT_HISTORY_PREFERENCE_KEYS,
     loadDocumentHistoryPreference,

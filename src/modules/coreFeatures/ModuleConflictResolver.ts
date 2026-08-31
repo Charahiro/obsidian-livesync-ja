@@ -19,7 +19,6 @@ import { stripAllPrefixes, isPlainText } from "@vrtmrz/livesync-commonlib/compat
 import { EVENT_CONFLICT_CANCELLED, eventHub } from "@/common/events.ts";
 import type { InjectableServiceHub } from "@vrtmrz/livesync-commonlib/compat/services/implements/injectable/InjectableServiceHub";
 import type { LiveSyncCore } from "@/main.ts";
-import { $msg } from "@/common/translation";
 
 export class ModuleConflictResolver extends AbstractModule {
     private async _resolveConflictByDeletingRev(

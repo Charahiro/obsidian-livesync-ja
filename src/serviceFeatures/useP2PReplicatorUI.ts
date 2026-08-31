@@ -1,5 +1,4 @@
 import { eventHub, EVENT_REQUEST_OPEN_P2P } from "@/common/events";
-import { $msg } from "@/common/translation";
 import { reactiveSource } from "octagonal-wheels/dataobject/reactive_v2";
 import type { NecessaryServices } from "@vrtmrz/livesync-commonlib/compat/interfaces/ServiceModule";
 import { type UseP2PReplicatorResult } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/UseP2PReplicatorResult";

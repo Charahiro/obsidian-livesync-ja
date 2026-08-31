@@ -16,7 +16,6 @@ import {
     runReviewHarnessVaultRoundTrip,
 } from "@/features/ReviewHarness/reviewHarnessVaultFixture";
 import type { CompatibilityReviewController } from "./compatibilityReview";
-import { $msg } from "@/common/translation";
 
 async function runVaultRoundTrip(plugin: ObsidianLiveSyncPlugin): Promise<ReviewHarnessScenarioResult> {
     const vault = plugin.app.vault;

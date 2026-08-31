@@ -26,7 +26,6 @@ import {
     type DocumentID,
     type EntryDoc,
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
-import { $msg } from "@/common/translation";
 import { LiveSyncLocalDB } from "@vrtmrz/livesync-commonlib/compat/pouchdb/LiveSyncLocalDB";
 import { LocalDatabaseMaintenance } from "./CmdLocalDatabaseMainte";
 
