@@ -18,6 +18,7 @@ import { type ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts
 import {
     type AllSettingItemKey,
     getConfig,
+    localiseUnkeyedSettingsText,
     type AllSettings,
     type AllStringItemKey,
     type AllNumericItemKey,
@@ -48,12 +49,20 @@ export class LiveSyncSetting extends Setting {
 
     override setDesc(desc: string | DocumentFragment): this {
         this.descBuf = desc;
-        super.setDesc(desc);
+        super.setDesc(typeof desc === "string" ? localiseUnkeyedSettingsText(desc) : desc);
         return this;
     }
     override setName(name: string | DocumentFragment): this {
         this.nameBuf = name;
-        super.setName(name);
+        super.setName(typeof name === "string" ? localiseUnkeyedSettingsText(name) : name);
+        return this;
+    }
+    override addButton(callback: (button: ButtonComponent) => unknown): this {
+        super.addButton((button) => {
+            const setButtonText = button.setButtonText.bind(button);
+            button.setButtonText = ((text: string) => setButtonText(localiseUnkeyedSettingsText(text))) as ButtonComponent["setButtonText"];
+            callback(button);
+        });
         return this;
     }
     setAuto(key: AllSettingItemKey, opt?: AutoWireOption) {
@@ -231,7 +240,14 @@ export class LiveSyncSetting extends Setting {
                 dropdown.setValue(value);
             });
 
-            dropdown.addOptions(opt.options);
+            dropdown.addOptions(
+                Object.fromEntries(
+                    Object.entries(opt.options).map(([key, label]) => [
+                        key,
+                        localiseUnkeyedSettingsText(label as string),
+                    ])
+                ) as Record<T, string>
+            );
 
             this.invalidateValue = () => setValue(LiveSyncSetting.env.editingSettings[key] || "");
             this.invalidateValue();

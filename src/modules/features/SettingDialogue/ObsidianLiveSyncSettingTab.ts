@@ -27,6 +27,7 @@ import {
     OnDialogSettingsDefault,
     type OnDialogSettings,
     getConfName,
+    localiseUnkeyedSettingsText,
 } from "./settingConstants.ts";
 import { $msg } from "@/common/translation";
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
@@ -414,7 +415,11 @@ export class ObsidianLiveSyncSettingTab extends PluginSettingTab {
         callback?: (el: HTMLElementTagNameMap[T]) => void,
         func?: OnUpdateFunc
     ) {
-        const element = el.createEl(tag, o, callback);
+        const options =
+            typeof o === "object" && o !== null && "text" in o && typeof o.text === "string"
+                ? { ...o, text: localiseUnkeyedSettingsText(o.text) }
+                : o;
+        const element = el.createEl(tag, options, callback);
         if (func) this.handleElement(element, func);
         return element;
     }

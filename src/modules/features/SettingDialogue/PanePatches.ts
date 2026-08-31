@@ -14,6 +14,7 @@ import { PouchDB } from "@vrtmrz/livesync-commonlib/compat/pouchdb/pouchdb-brows
 import { ExtraSuffixIndexedDB } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import { migrateDatabases } from "./settingUtils.ts";
 import { usesLegacyIndexedDBAdapter } from "@/common/compatibilitySettings.ts";
+import { localiseUnkeyedSettingsText } from "./settingConstants.ts";
 
 export function panePatches(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, { addPanel }: PageFunctions): void {
     void addPanel(paneEl, "Compatibility (Metadata)").then((paneEl) => {
@@ -89,7 +90,7 @@ export function panePatches(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElemen
                 .setName("Database Adapter")
                 .setDesc("Select the database adapter to use. ");
             const el = setting.controlEl.createDiv({});
-            el.setText(`Current adapter: ${useIndexedDBAdapter ? "IndexedDB" : "IDB"}`);
+            el.setText(localiseUnkeyedSettingsText(`Current adapter: ${useIndexedDBAdapter ? "IndexedDB" : "IDB"}`));
             if (!useIndexedDBAdapter) {
                 setting.addButton((button) => {
                     button.setButtonText("Switch to IndexedDB").onClick(async () => {
@@ -183,10 +184,12 @@ export function panePatches(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElemen
             .addText((text) => {
                 const updateDateText = () => {
                     if (this.editingSettings.maxMTimeForReflectEvents == 0) {
-                        dateEl.textContent = `No limit configured`;
+                        dateEl.textContent = localiseUnkeyedSettingsText("No limit configured");
                     } else {
                         const date = new Date(this.editingSettings.maxMTimeForReflectEvents);
-                        dateEl.textContent = `Limit: ${date.toLocaleString()} (${this.editingSettings.maxMTimeForReflectEvents})`;
+                        dateEl.textContent = localiseUnkeyedSettingsText(
+                            `Limit: ${date.toLocaleString()} (${this.editingSettings.maxMTimeForReflectEvents})`
+                        );
                     }
                     this.requestUpdate();
                 };

@@ -1,5 +1,6 @@
 import { ChunkAlgorithmNames } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import type { SettingSpecGroup } from "./SettingSpec.ts";
+import { localiseUnkeyedSettingsText } from "./settingConstants.ts";
 
 export type AdvancedSettingSpecContext = {
     isCouchDB: () => boolean;
@@ -11,11 +12,11 @@ export function createAdvancedSettingSpecGroups({
 }: AdvancedSettingSpecContext): readonly SettingSpecGroup[] {
     return [
         {
-            heading: "Memory cache",
+            heading: localiseUnkeyedSettingsText("Memory cache"),
             items: [{ key: "hashCacheMaxCount", control: { type: "number", min: 10 } }],
         },
         {
-            heading: "Local Database Tweak",
+            heading: localiseUnkeyedSettingsText("Local Database Tweak"),
             items: [
                 {
                     key: "chunkSplitterVersion",
@@ -25,7 +26,7 @@ export function createAdvancedSettingSpecGroups({
             ],
         },
         {
-            heading: "Transfer Tweak",
+            heading: localiseUnkeyedSettingsText("Transfer Tweak"),
             items: [
                 { key: "readChunksOnline", control: { type: "toggle" }, visible: isCouchDB },
                 { key: "useOnlyLocalChunk", control: { type: "toggle" }, visible: isCouchDB },
@@ -43,7 +44,7 @@ export function createAdvancedSettingSpecGroups({
             ],
         },
         {
-            heading: "Remote Database Tweak",
+            heading: localiseUnkeyedSettingsText("Remote Database Tweak"),
             items: [{ key: "enableCompression", control: { type: "toggle" } }],
         },
     ];

@@ -1,7 +1,13 @@
 import { statusDisplay, type ConfigurationItem } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import type { SettingControl, SettingDefinitionControl } from "obsidian";
 import type { AutoWireOption, OnUpdateResult } from "./SettingPane.ts";
-import type { AllBooleanItemKey, AllNumericItemKey, AllStringItemKey, OnDialogSettings } from "./settingConstants.ts";
+import {
+    localiseUnkeyedSettingsText,
+    type AllBooleanItemKey,
+    type AllNumericItemKey,
+    type AllStringItemKey,
+    type OnDialogSettings,
+} from "./settingConstants.ts";
 
 export type PersistedBooleanSettingKey = Exclude<AllBooleanItemKey, keyof OnDialogSettings>;
 export type PersistedStringSettingKey = Exclude<AllStringItemKey, keyof OnDialogSettings>;
@@ -233,7 +239,9 @@ export function toObsidianSettingDefinition(
             control = {
                 type: "dropdown",
                 key: spec.key,
-                options: spec.control.options(),
+                options: Object.fromEntries(
+                    Object.entries(spec.control.options()).map(([key, label]) => [key, localiseUnkeyedSettingsText(label)])
+                ),
                 ...(spec.disabled ? { disabled: spec.disabled } : {}),
             };
             break;

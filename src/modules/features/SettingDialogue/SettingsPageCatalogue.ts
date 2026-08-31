@@ -8,7 +8,7 @@ import {
 import type { SettingDefinitionGroup } from "obsidian";
 import { createAdvancedSettingSpecGroups, type AdvancedSettingSpecContext } from "./AdvancedSettingSpecs.ts";
 import { toObsidianSettingDefinition, type PersistedSettingKey, type SettingSpec } from "./SettingSpec.ts";
-import { getConfig } from "./settingConstants.ts";
+import { getConfig, localiseUnkeyedSettingsText } from "./settingConstants.ts";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts";
 import type { PageFunctions } from "./SettingPane.ts";
 import {
@@ -153,7 +153,7 @@ export function createSettingsPageCatalogue(): SettingsPageEntry[] {
         },
         {
             id: "selector",
-            name: () => "Selector",
+            name: () => localiseUnkeyedSettingsText("Selector"),
             icon: "🚦",
             order: 33,
             level: LEVEL_ADVANCED,
@@ -162,7 +162,7 @@ export function createSettingsPageCatalogue(): SettingsPageEntry[] {
         },
         {
             id: "customisation-sync",
-            name: () => "Customisation sync",
+            name: () => localiseUnkeyedSettingsText("Customisation sync"),
             icon: "🔌",
             order: 60,
             level: LEVEL_ADVANCED,
@@ -171,7 +171,7 @@ export function createSettingsPageCatalogue(): SettingsPageEntry[] {
         },
         {
             id: "hatch",
-            name: () => "Hatch",
+            name: () => localiseUnkeyedSettingsText("Hatch"),
             icon: "🧰",
             order: 50,
             level: undefined,
@@ -180,7 +180,7 @@ export function createSettingsPageCatalogue(): SettingsPageEntry[] {
         },
         {
             id: "advanced",
-            name: () => "Advanced",
+            name: () => localiseUnkeyedSettingsText("Advanced"),
             icon: "🔧",
             order: 46,
             level: LEVEL_ADVANCED,
@@ -189,7 +189,7 @@ export function createSettingsPageCatalogue(): SettingsPageEntry[] {
         },
         {
             id: "power-users",
-            name: () => "Power users",
+            name: () => localiseUnkeyedSettingsText("Power users"),
             icon: "💪",
             order: 47,
             level: LEVEL_POWER_USER,
@@ -198,7 +198,7 @@ export function createSettingsPageCatalogue(): SettingsPageEntry[] {
         },
         {
             id: "patches",
-            name: () => "Patches",
+            name: () => localiseUnkeyedSettingsText("Patches"),
             icon: "🩹",
             order: 51,
             level: LEVEL_EDGE_CASE,
@@ -207,7 +207,7 @@ export function createSettingsPageCatalogue(): SettingsPageEntry[] {
         },
         {
             id: "maintenance",
-            name: () => "Maintenance",
+            name: () => localiseUnkeyedSettingsText("Maintenance"),
             icon: "🎛️",
             order: 70,
             level: undefined,

@@ -2,6 +2,7 @@ import { $msg, $t } from "@/common/translation";
 import { SUPPORTED_I18N_LANGS } from "@/common/rosetta";
 import { NetworkWarningStyles } from "@vrtmrz/livesync-commonlib/compat/common/models/setting.const";
 import type { SettingSpecGroup } from "./SettingSpec.ts";
+import { localiseUnkeyedSettingsText } from "./settingConstants.ts";
 
 export type GeneralSettingSpecContext = {
     showEditorStatusDetails: () => boolean;
@@ -40,9 +41,9 @@ export function createGeneralSettingSpecGroups({
                     control: {
                         type: "dropdown",
                         options: () => ({
-                            [NetworkWarningStyles.BANNER]: "Show full banner",
-                            [NetworkWarningStyles.ICON]: "Show icon only",
-                            [NetworkWarningStyles.HIDDEN]: "Hide completely",
+                            [NetworkWarningStyles.BANNER]: localiseUnkeyedSettingsText("Show full banner"),
+                            [NetworkWarningStyles.ICON]: localiseUnkeyedSettingsText("Show icon only"),
+                            [NetworkWarningStyles.HIDDEN]: localiseUnkeyedSettingsText("Hide completely"),
                         }),
                     },
                 },

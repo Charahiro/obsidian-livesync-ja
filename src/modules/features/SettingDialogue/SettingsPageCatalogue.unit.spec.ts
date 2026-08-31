@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 vi.mock("@/common/translation", () => ({
     $msg: (key: string) => key,
+    currentLang: "def",
     translateLiveSyncMessage: (key: string) => key,
 }));
 vi.mock("./PaneChangeLog.ts", () => ({ paneChangeLog: vi.fn() }));

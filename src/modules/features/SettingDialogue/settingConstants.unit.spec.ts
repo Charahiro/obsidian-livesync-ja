@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 
 import { setLang } from "@/common/translation";
-import { getConfig, getConfName } from "./settingConstants";
+import { getConfig, getConfName, localiseUnkeyedSettingsText } from "./settingConstants";
 
 describe("setting manifest labels", () => {
     afterEach(() => setLang("def"));
@@ -29,5 +29,20 @@ describe("setting manifest labels", () => {
         setLang("zh-tw");
 
         expect(getConfName("chunkSplitterVersion")).toBe("Chunk Splitter");
+    });
+
+    it("uses source-owned Japanese wording only for upstream labels without catalogue keys", () => {
+        setLang("def");
+        expect(localiseUnkeyedSettingsText("Selector")).toBe("Selector");
+
+        setLang("ja");
+
+        expect(getConfName("chunkSplitterVersion")).toBe("チャンク分割方式");
+        expect(getConfig("showStatusOnEditor")).toMatchObject({
+            name: "ステータスをエディタ内に表示",
+            desc: "Obsidianの再起動が必要です。",
+        });
+        expect(localiseUnkeyedSettingsText("Selector")).toBe("選択ルール");
+        expect(localiseUnkeyedSettingsText("Scan for Broken files")).toBe("破損ファイルをスキャン");
     });
 });
