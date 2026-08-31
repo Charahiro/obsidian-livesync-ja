@@ -49,11 +49,11 @@
     async function handleSync(peerId: string) {
         try {
             syncingPeerId = peerId;
-            Logger(translateMessage("JapaneseUI.P2P.SyncStarting", { peerId }), logLevel);
+            Logger(`Starting synchronisation with ${peerId}.`, logLevel);
             await onSync(peerId);
-            Logger(translateMessage("JapaneseUI.P2P.SyncCompleted", { peerId }), logLevel);
+            Logger(`Synchronisation with ${peerId} completed.`, logLevel);
         } catch (e) {
-            Logger(translateMessage("JapaneseUI.P2P.SyncError", { error: e instanceof Error ? e.message : String(e) }), logLevel);
+            Logger(`An error occurred during synchronisation: ${e instanceof Error ? e.message : String(e)}`, logLevel);
         } finally {
             syncingPeerId = null;
         }
@@ -61,11 +61,11 @@
     async function handleSyncThenClose(peerId: string) {
         try {
             syncingPeerId = peerId;
-            Logger(translateMessage("JapaneseUI.P2P.SyncStarting", { peerId }), logLevel);
+            Logger(`Starting synchronisation with ${peerId}.`, logLevel);
             await onSyncAndClose(peerId);
-            Logger(translateMessage("JapaneseUI.P2P.SyncCompleted", { peerId }), logLevel);
+            Logger(`Synchronisation with ${peerId} completed.`, logLevel);
         } catch (e) {
-            Logger(translateMessage("JapaneseUI.P2P.SyncError", { error: e instanceof Error ? e.message : String(e) }), logLevel);
+            Logger(`An error occurred during synchronisation: ${e instanceof Error ? e.message : String(e)}`, logLevel);
         } finally {
             syncingPeerId = null;
         }
@@ -74,9 +74,9 @@
     async function disconnect() {
         try {
             await liveSyncReplicator.close();
-            Logger(translateMessage("JapaneseUI.P2P.SignallingClosed"), logLevel);
+            Logger("Signalling connection closed.", logLevel);
         } catch (e) {
-            Logger(translateMessage("JapaneseUI.P2P.SignallingCloseFailed", { error: e instanceof Error ? e.message : String(e) }), logLevel);
+            Logger(`Could not close the signalling connection: ${e instanceof Error ? e.message : String(e)}`, logLevel);
         }
     }
     async function onCloseAndDisconnect() {

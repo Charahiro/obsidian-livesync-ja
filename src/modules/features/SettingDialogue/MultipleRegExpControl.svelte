@@ -39,19 +39,19 @@
     {/each}
     <li>
         <label>
-            <button on:click={() => add()}>{translateMessage("JapaneseUI.RegExp.Add")}</button>
+            <button on:click={() => add()}>追加</button>
         </label>
     </li>
     <li class="buttons">
         <button
             on:click={() => apply(patterns)}
             disabled={statusName.some((e) => e === CHECK_NG) || modified.every((e) => e === "")}
-            >{translateMessage("JapaneseUI.RegExp.Apply")}
+            >適用
         </button>
         <button
             on:click={() => revert()}
             disabled={statusName.some((e) => e === CHECK_NG) || modified.every((e) => e === "")}
-            >{translateMessage("JapaneseUI.RegExp.Revert")}
+            >元に戻す
         </button>
     </li>
 </ul>

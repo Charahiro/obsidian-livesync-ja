@@ -200,14 +200,14 @@
 </script>
 
 <div class="globalhistory">
-    <h1>{translateMessage("JapaneseUI.GlobalHistory.Title")}</h1>
+    <h1>Vaultの履歴</h1>
     <div class="control">
         <div class="row">
-            <label for="">{translateMessage("JapaneseUI.GlobalHistory.From")}</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
+            <label for="">開始：</label><input type="date" bind:value={dispDateFrom} disabled={loading} />
         </div>
-        <div class="row"><label for="">{translateMessage("JapaneseUI.GlobalHistory.To")}</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
+        <div class="row"><label for="">終了：</label><input type="date" bind:value={dispDateTo} disabled={loading} /></div>
         <div class="row">
-            <label for="">{translateMessage("JapaneseUI.GlobalHistory.Info")}</label>
+            <label for="">情報：</label>
             <label
                 ><input type="checkbox" bind:checked={showDiffInfo} disabled={loading} /><span
                     >{translateMessage("Diff")}</span

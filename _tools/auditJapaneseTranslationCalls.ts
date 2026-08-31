@@ -147,7 +147,7 @@ const knownKeys = new Set([...english.keys(), ...provisionalKeys(), ...Object.ke
 const forkOnlyCalls: string[] = [];
 for (const filename of collectSourceFiles(path.join(root, "src"))) {
     const source = fs.readFileSync(filename, "utf8");
-    const translationCall = /\$msg\(\s*(["'])(.*?)\1/g;
+    const translationCall = /(?:\$msg|translateMessage)\(\s*(["'])(.*?)\1/g;
     for (const match of source.matchAll(translationCall)) {
         const key = match[2];
         if (key === undefined || key === "anyKey" || knownKeys.has(key)) continue;

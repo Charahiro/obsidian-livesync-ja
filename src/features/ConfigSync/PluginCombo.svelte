@@ -34,7 +34,7 @@
     $: core = plugin.core;
     const addOn = plugin.core.getAddOn<ConfigSync>(ConfigSync.name)!;
     if (!addOn) {
-        Logger(translateMessage("JapaneseUI.Runtime.ConfigAddOnLoadFailed", { name: ConfigSync.name }), LOG_LEVEL_INFO);
+        Logger(`Could not load the ${ConfigSync.name} add-on.`, LOG_LEVEL_INFO);
         throw new Error(`Could not load the add-on ${ConfigSync.name}`);
     }
 
@@ -296,11 +296,11 @@
             return;
         } else {
             if (!remote && !local) {
-                Logger(translateMessage("JapaneseUI.Runtime.ConfigBothItemsMissing"), LOG_LEVEL_INFO);
+                Logger("Both remote and local items are missing.", LOG_LEVEL_INFO);
             } else if (!remote) {
-                Logger(translateMessage("JapaneseUI.Runtime.ConfigRemoteItemMissing"), LOG_LEVEL_INFO);
+                Logger("The remote item is missing.", LOG_LEVEL_INFO);
             } else if (!local) {
-                Logger(translateMessage("JapaneseUI.Runtime.ConfigLocalItemMissing"), LOG_LEVEL_INFO);
+                Logger("The local item is missing.", LOG_LEVEL_INFO);
             }
         }
     }
@@ -339,7 +339,7 @@
     async function duplicateItem() {
         const local = list.find((e) => e.term == thisTerm);
         if (!local) {
-            Logger(translateMessage("JapaneseUI.Runtime.ConfigLocalItemMissing"), LOG_LEVEL_VERBOSE);
+            Logger("The local item is missing.", LOG_LEVEL_VERBOSE);
             return;
         }
         const duplicateTermName = await core.confirm.askString(
