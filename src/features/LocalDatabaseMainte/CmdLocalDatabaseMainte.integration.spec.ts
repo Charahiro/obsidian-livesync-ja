@@ -206,9 +206,9 @@ describe("LocalDatabaseMaintenance Garbage Collection V3 with CouchDB", () => {
             expect(closeMaintenanceRemote).toHaveBeenCalledOnce();
             expect(replicationModes).toEqual(["sync", "pushOnly"]);
             expect(clearHash).toHaveBeenCalledOnce();
-            expect(notice).toHaveBeenCalledWith($msg("JapaneseUI.Maintenance.RemoteCompactionSucceeded"), "gc-compact");
-            expect(notice).not.toHaveBeenCalledWith($msg("JapaneseUI.Maintenance.RemoteCompactionTimedOut"), "gc-compact");
-            expect(notice).not.toHaveBeenCalledWith($msg("JapaneseUI.Maintenance.RemoteCompactionFailed"), "gc-compact");
+            expect(notice).toHaveBeenCalledWith("リモートデータベースのコンパクションが完了しました。", "gc-compact");
+            expect(notice).not.toHaveBeenCalledWith("リモートデータベースのコンパクションがタイムアウトしました。", "gc-compact");
+            expect(notice).not.toHaveBeenCalledWith("リモートデータベースのコンパクションに失敗しました。", "gc-compact");
 
             const obsoleteRow = (await remote.allDocs({ keys: ["h:obsolete"] })).rows[0];
             expect(obsoleteRow).toMatchObject({

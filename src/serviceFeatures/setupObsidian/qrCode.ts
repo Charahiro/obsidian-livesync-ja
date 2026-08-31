@@ -18,25 +18,19 @@ export async function encodeSetupSettingsAsQR(host: SetupFeatureHost) {
 
     if (typeof result === "string") {
         const msg = host.services.context.translate("Setup.QRCode", { qr_image: result });
-        await host.services.UI.confirm.confirmWithMessage($msg("Settings QR Code"), msg, ["OK"], "OK");
+        await host.services.UI.confirm.confirmWithMessage(`設定QRコード`, msg, ["OK"], "OK");
         return result;
     } else {
         // Multi-page QR code
         let currentIndex = 0;
         while (currentIndex < result.total) {
             const msg =
-                $msg(
-                    "The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}",
-                {
-                    CURRENT: `${currentIndex + 1}`,
-                    TOTAL: `${result.total}`,
-                }
-                ) + `\n\n${result.parts[currentIndex]}`;
+                `設定が1つのQRコードに収まらないため、複数のQRコードを結合します。設定はこのデバイス内だけで処理され、サーバーへ送信されません。モバイルのカメラでQRコードを読み取り、ブラウザーでページを開いてください。すべての部分を収集すると、結合した設定を使ってObsidianへ戻ります。進捗：${`${currentIndex + 1}`} / ${`${result.total}`}` + `\n\n${result.parts[currentIndex]}`;
 
             const back = $msg("Back");
-            const next = $msg("Next");
+            const next = `次へ`;
             const cancel = $msg("Cancel");
-            const done = $msg("Done");
+            const done = `完了`;
             const buttons = [];
             if (currentIndex > 0) buttons.push(back);
             if (currentIndex < result.total - 1) {
@@ -47,7 +41,7 @@ export async function encodeSetupSettingsAsQR(host: SetupFeatureHost) {
             }
 
             const choice = await host.services.UI.confirm.confirmWithMessage(
-                $msg("Settings QR Code (Aggregated)"),
+                `設定QRコード（分割）`,
                 msg,
                 buttons,
                 buttons[buttons.indexOf(next) !== -1 ? buttons.indexOf(next) : buttons.indexOf(done)]
@@ -69,7 +63,7 @@ export function useSetupQRCodeFeature(host: NecessaryServices<"API" | "UI" | "se
     host.services.appLifecycle.onLoaded.addHandler(() => {
         host.services.API.addCommand({
             id: "livesync-setting-qr",
-            name: $msg("Show settings as a QR code"),
+            name: `設定をQRコードで表示`,
             checkCallback: (checking) => {
                 if (!host.services.setting.currentSettings().isConfigured) return false;
                 if (!checking) fireAndForget(encodeSetupSettingsAsQR(host));

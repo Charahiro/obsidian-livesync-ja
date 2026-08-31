@@ -71,7 +71,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
     _everyOnloadStart(): Promise<boolean> {
         this.addCommand({
             id: "livesync-checkdoc-conflicted",
-            name: $msg("Resolve if conflicted."),
+            name: `競合している場合に解決`,
             editorCallback: (editor: Editor, view: MarkdownView | MarkdownFileInfo) => {
                 const file = view.file;
                 if (!file) return;
@@ -148,7 +148,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
                 const p = conflictCheckResult.diff.map((e) => e[1]).join("");
                 const delRev = conflictCheckResult.right.rev;
                 if (!(await this.core.databaseFileAccess.storeContent(filename, p))) {
-                    this._log($msg("ConflictResolver.CouldNotStoreConcatenatedContent", { path: filename }), LOG_LEVEL_NOTICE);
+                    this._log(`${filename} の連結した内容を保存できませんでした`, LOG_LEVEL_NOTICE);
                     return false;
                 }
                 // 2. As usual, delete the conflicted revision and if there are no conflicts, write the resolved content to the storage.
@@ -157,10 +157,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
                     MISSING_OR_ERROR
                 ) {
                     this._log(
-                        $msg("ConflictResolver.CouldNotDeleteConflictedRevisionAfterConcatenation", {
-                            path: filename,
-                            revision: displayRev(delRev),
-                        }),
+                        `連結した内容は保存しましたが、${filename} の競合リビジョン ${displayRev(delRev)} を削除できませんでした`,
                         LOG_LEVEL_NOTICE
                     );
                     return false;
@@ -175,14 +172,14 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
                     MISSING_OR_ERROR
                 ) {
                     this._log(
-                        $msg("ConflictResolver.MergeFailed", { path: filename, revision: toDelete }),
+                        `マージ中に問題が発生しました: ${filename}（${toDelete}）`,
                         LOG_LEVEL_NOTICE
                     );
                     return false;
                 }
             } else {
                 this._log(
-                    $msg("ConflictResolver.MergeFailed", { path: filename, revision: String(toDelete) }),
+                    `マージ中に問題が発生しました: ${filename}（${String(toDelete)}）`,
                     LOG_LEVEL_NOTICE
                 );
                 return false;
@@ -220,11 +217,11 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
         const notesList = notes.map((e) => e.dispPath);
         if (notesList.length == 0) {
             if (notifyIfEmpty) {
-                this._log($msg("ConflictResolver.NoConflictedDocuments"), LOG_LEVEL_NOTICE);
+                this._log(`競合しているドキュメントはありません`, LOG_LEVEL_NOTICE);
             }
             return false;
         }
-        const target = await this.core.confirm.askSelectString($msg("JapaneseUI.Conflict.SelectFile"), notesList);
+        const target = await this.core.confirm.askSelectString(`競合を解決するファイル`, notesList);
         if (target) {
             const targetItem = notes.find((e) => e.dispPath == target)!;
             await this.requestConflictResolution(targetItem.path);
@@ -244,7 +241,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
             if (notes.length > 0) {
                 this.core.confirm.askInPopup(
                     `conflicting-detected-on-safety`,
-                    $msg("JapaneseUI.Conflict.UnresolvedWithAction"),
+                    `競合が残っているファイルがあります。{HERE}を押して解決するか、後で「競合を解決するファイル」から解決してください。`,
                     (anchor) => {
                         anchor.text = "HERE";
                         anchor.addEventListener("click", () => {
@@ -253,7 +250,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
                     }
                 );
                 this._log(
-                    $msg("JapaneseUI.Conflict.UnresolvedLog"),
+                    `競合が残っているファイルがあります。「競合を解決するファイル」から解決してください。一覧はログに記録されています。`,
                     LOG_LEVEL_VERBOSE
                 );
                 for (const note of notes) {
@@ -263,7 +260,7 @@ export class ModuleInteractiveConflictResolver extends AbstractObsidianModule {
                 this._log(`There are no conflicting files`, LOG_LEVEL_VERBOSE);
             }
         } catch (e) {
-            this._log($msg("ConflictResolver.ScanFailed"), LOG_LEVEL_NOTICE);
+            this._log(`競合ファイルのスキャン中にエラーが発生しました`, LOG_LEVEL_NOTICE);
             this._log(e, LOG_LEVEL_VERBOSE);
             return false;
         }

@@ -59,7 +59,7 @@ export class InputStringDialog extends AutoClosableModal {
         new Setting(formEl)
             .addButton((btn) =>
                 btn
-                    .setButtonText($msg("JapaneseUI.Dialogue.OK"))
+                    .setButtonText(`OK`)
                     .setCta()
                     .onClick(() => {
                         this.isManuallyClosed = true;
@@ -103,7 +103,7 @@ export class PopoverSelectString extends FuzzySuggestModal<string> {
     ) {
         super(app);
         this._app = app;
-        this.setPlaceholder((placeholder ?? $msg("JapaneseUI.Dialogue.ChoicePrefix")) + note);
+        this.setPlaceholder((placeholder ?? `選択）`) + note);
         if (getItemsFun) this.getItemsFun = getItemsFun;
         this.callback = callback;
     }

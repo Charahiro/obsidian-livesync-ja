@@ -53,7 +53,7 @@ export interface ReviewHarnessSnapshot {
 
 const idleResult = (): ReviewHarnessScenarioResult => ({
     status: "idle",
-    detail: $msg("ReviewHarness.Status.NotRun"),
+    detail: `未実行`,
     observations: [],
 });
 
@@ -68,14 +68,14 @@ function inspectP2PComposition(input: ReturnType<ReviewHarnessRuntime["getP2PCom
     if (input.first !== input.second) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.DifferentP2PReplicators"),
+            detail: `ライフサイクルの移行がないにもかかわらず、連続した2回の読み取りで異なるP2Pレプリケーターが返されました。`,
             observations: [],
         };
     }
     if (typeof input.first !== "object" || input.first === null) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.NoCurrentP2PReplicator"),
+            detail: `P2P構成から現在のレプリケーターを取得できませんでした。`,
             observations: [],
         };
     }
@@ -84,13 +84,13 @@ function inspectP2PComposition(input: ReturnType<ReviewHarnessRuntime["getP2PCom
     if (services !== input.expectedServices) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.P2PServicesMismatch"),
+            detail: `現在のP2Pレプリケーターが有効なObsidianサービスに接続されていません。`,
             observations: [],
         };
     }
     return {
         status: "passed",
-        detail: $msg("ReviewHarness.Result.P2PCompositionValid"),
+        detail: `現在のレプリケーターと有効なObsidianサービスをP2P構成から取得できました。`,
         observations: [],
     };
 }
@@ -143,10 +143,10 @@ export class ReviewHarnessController {
         this.runtime.deleteContinuation();
         const parsed = parsePendingReviewRun(serialised);
         if (!parsed.pendingRun) {
-            this.continuationError = parsed.error ?? $msg("ReviewHarness.Error.InvalidContinuation");
+            this.continuationError = parsed.error ?? `レビューハーネスの継続情報が無効です。`;
             this.results["compatibility-review"] = {
                 status: "failed",
-                detail: $msg("ReviewHarness.Result.InvalidContinuationRemoved"),
+                detail: `保存されていた継続情報が無効だったため削除しました。`,
                 observations: [],
             };
             this.record("continuation-rejected");
@@ -156,7 +156,7 @@ export class ReviewHarnessController {
         this.resumedRequestId = parsed.pendingRun.requestId;
         this.results["compatibility-review"] = {
             status: "waiting-for-user",
-            detail: $msg("ReviewHarness.Result.RestartReturned"),
+            detail: `要求した再起動後にObsidianへ戻りました。続行するには互換性レビューを開いてください。`,
             observations: [`requestedAt=${parsed.pendingRun.requestedAt}`],
         };
         this.record("continuation-consumed", parsed.pendingRun.requestId);
@@ -185,7 +185,7 @@ export class ReviewHarnessController {
         if (this.running) return;
         this.running = true;
         this.current = id;
-        this.results[id] = { status: "running", detail: $msg("ReviewHarness.Status.Running"), observations: [] };
+        this.results[id] = { status: "running", detail: `実行中`, observations: [] };
         this.record("scenario-started", id);
         this.notify();
         try {
@@ -207,7 +207,7 @@ export class ReviewHarnessController {
                         ? inspection
                         : {
                               status: "waiting-for-user",
-                              detail: $msg("ReviewHarness.Result.OpenCompatibilityReview"),
+                              detail: `このデバイスの互換性レビューを開き、明示された操作を完了してください。`,
                               observations: inspection.observations,
                           };
             }
@@ -236,7 +236,7 @@ export class ReviewHarnessController {
                     ? {
                           status: "passed",
                           detail: pauseWasPending
-                              ? $msg("ReviewHarness.Result.CompatibilityPauseCleared")
+                              ? `このデバイスの互換性確認を実施し、一時停止を解除しました。`
                               : inspection.detail,
                           observations: inspection.observations,
                       }
@@ -244,7 +244,7 @@ export class ReviewHarnessController {
                       ? inspection
                       : {
                             status: "waiting-for-user",
-                            detail: $msg("ReviewHarness.Result.CompatibilityReviewRemainsPending"),
+                            detail: `このデバイスの互換性レビューは引き続き保留中です。`,
                             observations: inspection.observations,
                         };
             this.record(
@@ -264,7 +264,7 @@ export class ReviewHarnessController {
         this.runtime.reportError(error);
         this.results[id] = {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.UnexpectedFailure"),
+            detail: `シナリオが予期せず失敗しました。診断情報はアプリ内ログで確認してください。`,
             observations: [],
         };
         this.record("scenario-failed", id);
@@ -282,7 +282,7 @@ export class ReviewHarnessController {
         this.runtime.writeContinuation(JSON.stringify(pending));
         this.results["compatibility-review"] = {
             status: "waiting-for-user",
-            detail: $msg("ReviewHarness.Result.RestartRequested"),
+            detail: `再起動を要求しました。レビュー再開前に一度限りの継続情報を削除します。`,
             observations: [],
         };
         this.record("restart-requested", pending.requestId);

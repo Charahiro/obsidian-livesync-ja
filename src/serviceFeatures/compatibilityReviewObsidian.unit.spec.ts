@@ -43,21 +43,21 @@ describe("Obsidian compatibility review", () => {
         };
 
         const details = compatibilityReviewDetailsMarkdown(pause);
-        expect(details).toContain("copied or restored");
-        expect(details).toContain("new Obsidian profile");
-        expect(details).toContain("does not mean that it is safe to resume automatically");
+        expect(details).toContain("コピーまたは復元");
+        expect(details).toContain("新しいObsidianプロファイル");
+        expect(details).toContain("自動的に同期を再開して安全であるとは限りません");
     });
 
     it("offers the generic resume action in a vertical action dialogue", async () => {
-        const confirmWithMessage = vi.fn().mockResolvedValue("Resume synchronisation");
+        const confirmWithMessage = vi.fn().mockResolvedValue("同期を再開");
         const ui = new ObsidianCompatibilityReviewUi({ confirmWithMessage } as never);
 
         await expect(ui.showSummary(resumablePause)).resolves.toBe("resume");
         expect(confirmWithMessage).toHaveBeenCalledWith(
-            "Synchronisation paused for compatibility review",
+            "互換性レビューのため同期を一時停止",
             expect.any(String),
-            ["Review compatibility details", "Resume synchronisation", "Keep synchronisation paused"],
-            "Keep synchronisation paused",
+            ["互換性の詳細を確認", "同期を再開", "同期を一時停止したままにする"],
+            "同期を一時停止したままにする",
             undefined,
             "vertical"
         );

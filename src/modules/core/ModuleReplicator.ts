@@ -22,6 +22,7 @@ import { UnresolvedErrorManager } from "@vrtmrz/livesync-commonlib/compat/servic
 import { clearHandlers } from "@vrtmrz/livesync-commonlib/compat/replication/SyncParamsHandler";
 import type { NecessaryServices } from "@vrtmrz/livesync-commonlib/compat/interfaces/ServiceModule";
 import { MARK_LOG_NETWORK_ERROR } from "@vrtmrz/livesync-commonlib/compat/services/lib/logUtils";
+import { usesLegacyIndexedDBAdapter } from "@/common/compatibilitySettings.ts";
 
 function isOnlineAndCanReplicate(
     errorManager: UnresolvedErrorManager,
@@ -145,21 +146,27 @@ export class ModuleReplicator extends AbstractModule {
     }
 
     /**
-     * Reconciles local chunks when an older IndexedDB client reports that the remote database was cleaned.
-     * This compatibility path remains reachable while those clients can still set `remoteCleaned`.
-     * @deprecated v0.24.17
-     * @param showMessage If true, show message to the user.
+     * Reconciles an IndexedDB-backed local database after replication reports that the remote was cleaned.
+     *
+     * The remote milestone remains a supported compatibility signal. The user can either fetch the remote
+     * database again, or purge unreferenced local chunks before accepting this device again.
+     *
+     * @param showMessage Whether to show the recovery choices as user-facing notices.
      */
     async cleaned(showMessage: boolean) {
-        Logger($msg("JapaneseUI.Runtime.RemoteDatabaseCleaned"), showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
+        Logger(`リモートデータベースはクリーンアップ済みです。`, showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
         await skipIfDuplicated("cleanup", async () => {
             const count = await purgeUnreferencedChunks(this.localDatabase.localDatabase, true);
-            const message = $msg("Replicator.Dialogue.Cleaned.Message", { count: `${count}` });
-            const CHOICE_FETCH = $msg("Replicator.Dialogue.Cleaned.Action.Fetch");
-            const CHOICE_CLEAN = $msg("Replicator.Dialogue.Cleaned.Action.Cleanup");
-            const CHOICE_DISMISS = $msg("Replicator.Dialogue.Cleaned.Action.Dismiss");
+            const message = `リモートデータベースはクリーンアップされています。
+同期するには、このデバイス側もクリーンアップする必要があります。このデバイスから ${`${count}`} 個のチャンクが削除されます。
+ただし、削除対象のチャンクが多い場合は、リモートデータベースを再取得する方が速い場合があります。
+リモートデータベースを再取得すると、このデバイスの履歴は失われます。
+クリーンアップを選択しても、Obsidian を終了してから再度同期すると、この選択肢は再び表示されます。`;
+            const CHOICE_FETCH = `再取得`;
+            const CHOICE_CLEAN = `クリーンアップ`;
+            const CHOICE_DISMISS = `閉じる`;
             const ret = await this.core.confirm.confirmWithMessage(
-                $msg("Replicator.Dialogue.Cleaned.Title"),
+                `クリーンアップ済み`,
                 message,
                 [CHOICE_FETCH, CHOICE_CLEAN, CHOICE_DISMISS],
                 CHOICE_DISMISS,
@@ -197,12 +204,12 @@ export class ModuleReplicator extends AbstractModule {
                                 this.localDatabase.clearCaches();
                                 await this.services.replicator.getActiveReplicator()?.markRemoteResolved(this.settings);
                                 Logger(
-                                    $msg("JapaneseUI.Runtime.LocalDatabaseCleaned"),
+                                    `ローカルデータベースをクリーンアップしました。`,
                                     showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
                                 );
                             } else {
                                 Logger(
-                                    $msg("JapaneseUI.Runtime.ReplicationCancelled"),
+                                    `同期をキャンセルしました。もう一度実行してください。`,
                                     showMessage ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO
                                 );
                             }
@@ -219,14 +226,14 @@ export class ModuleReplicator extends AbstractModule {
     private async onReplicationFailed(showMessage: boolean = false): Promise<boolean> {
         const activeReplicator = this.services.replicator.getActiveReplicator();
         if (!activeReplicator) {
-            Logger($msg("JapaneseUI.Runtime.NoActiveReplicator"), LOG_LEVEL_INFO);
+            Logger(`有効なレプリケーターがありません`, LOG_LEVEL_INFO);
             return false;
         }
         if (activeReplicator.tweakSettingsMismatched && activeReplicator.preferredTweakValue) {
             await this.services.tweakValue.askResolvingMismatched(activeReplicator.preferredTweakValue);
         } else {
             if (activeReplicator.remoteLockedAndDeviceNotAccepted) {
-                if (activeReplicator.remoteCleaned && this.settings.useIndexedDBAdapter) {
+                if (activeReplicator.remoteCleaned && usesLegacyIndexedDBAdapter(this.settings)) {
                     await this.cleaned(showMessage);
                 } else {
                     const message = $msg("Replicator.Dialogue.Locked.Message");

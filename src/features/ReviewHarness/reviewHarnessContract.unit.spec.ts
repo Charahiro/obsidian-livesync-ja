@@ -69,8 +69,10 @@ describe("Review Harness contract", () => {
             parsePendingReviewRun(
                 JSON.stringify({ ...pendingRun, scenarioId: "arbitrary-command", command: "delete-vault" })
             )
-        ).toEqual({ error: "Unknown Review Harness scenario: arbitrary-command" });
-        expect(parsePendingReviewRun("not-json")).toEqual({ error: "Review Harness continuation is not valid JSON" });
+        ).toEqual({ error: "不明なレビューハーネスのシナリオ：arbitrary-command" });
+        expect(parsePendingReviewRun("not-json")).toEqual({
+            error: "レビューハーネスの継続情報が有効なJSONではありません",
+        });
         expect(REVIEW_HARNESS_SCENARIO_IDS).toEqual([
             "settings-lifecycle",
             "compatibility-review",
@@ -87,7 +89,7 @@ describe("Review Harness contract", () => {
         });
 
         expect(result.status).toBe("passed");
-        expect(result.detail).toContain("existing Vault");
+        expect(result.detail).toContain("既存のVault");
         expect(result.observations).toContain("liveSync=true");
         expect(result.observations).toContain("periodicReplication=true");
     });
@@ -114,7 +116,7 @@ describe("Review Harness contract", () => {
         });
 
         expect(result.status).toBe("passed");
-        expect(result.detail).toContain("new Vault recommendations");
+        expect(result.detail).toContain("新規Vault向け推奨設定");
     });
 
     it("requires the compatibility review controller to initialise when settings migration requires review", () => {
@@ -134,7 +136,7 @@ describe("Review Harness contract", () => {
             })
         ).toEqual({
             status: "failed",
-            detail: "The settings migration requires review, but the compatibility review was not initialised.",
+            detail: "設定の移行には確認が必要ですが、互換性レビューが初期化されていません。",
             observations: [],
         });
     });
@@ -148,7 +150,7 @@ describe("Review Harness contract", () => {
 
         expect(result).toMatchObject({
             status: "passed",
-            detail: "No compatibility review is pending on this device.",
+            detail: "このデバイスで保留中の互換性レビューはありません。",
         });
         expect(result.observations).toContain("compatibilityReviewInitialised=true");
     });

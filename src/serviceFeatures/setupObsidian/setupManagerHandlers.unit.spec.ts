@@ -155,7 +155,7 @@ describe("setupObsidian/setupManagerHandlers", () => {
         expect(addCommand).toHaveBeenCalledWith(
             expect.objectContaining({
                 id: "livesync-opensetupuri",
-                name: "Use the copied setup URI (Formerly Open setup URI)",
+                name: "コピーしたSetup URIを使用（旧「Setup URIを開く」）",
             })
         );
         expect(events.onEvent).toHaveBeenCalledWith(EVENT_REQUEST_OPEN_SETUP_URI, expect.any(Function));

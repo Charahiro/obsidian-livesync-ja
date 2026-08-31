@@ -176,7 +176,7 @@ export function useCompatibilityReview(core: LiveSyncCore, ui: CompatibilityRevi
     });
     core.services.API.addCommand({
         id: "livesync-review-compatibility-pause",
-        name: $msg("Review why synchronisation is paused"),
+        name: `同期が一時停止している理由を確認`,
         checkCallback: (checking) => {
             if (!controller.pendingPause) return false;
             if (!checking) fireAndForget(() => controller.openReview());

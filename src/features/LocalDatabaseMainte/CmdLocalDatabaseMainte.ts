@@ -36,9 +36,9 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
     }
     onload(): void | Promise<void> {
         // NO OP.
-        this.plugin.addCommand({
+        this.services.API.addCommand({
             id: "analyse-database",
-            name: $msg("Analyse Database Usage (advanced)"),
+            name: `データベース使用量を分析（上級者向け）`,
             icon: "database-search",
             checkCallback: (checking) => {
                 if (!this.settings.useAdvancedMode || !this._isDatabaseReady()) return false;
@@ -48,9 +48,9 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
                 return true;
             },
         });
-        this.plugin.addCommand({
+        this.services.API.addCommand({
             id: "gc-v3",
-            name: $msg("Garbage Collection V3 (advanced, beta)"),
+            name: `ガベージコレクションV3（上級者向け、ベータ）`,
             icon: "trash-2",
             checkCallback: (checking) => {
                 const isApplicableRemote = this.settings.remoteType === REMOTE_COUCHDB;
@@ -147,7 +147,7 @@ export class LocalDatabaseMaintenance extends LiveSyncCommands {
         const resurrectChunks = excessiveDeletions.filter((e) => e.data !== "").map((e) => ({ ...e, _deleted: false }));
 
         if (resurrectChunks.length == 0) {
-            this._notice($msg("JapaneseUI.Maintenance.NoChunksToResurrect"));
+            this._notice(`復元できるチャンクはありません。`);
             return;
         }
         const message = `We have following chunks that are deleted but still used in the database.
@@ -161,13 +161,10 @@ Do you want to resurrect these chunks?`;
             this.clearHash();
             const resurrectedChunks = result.filter((e) => "ok" in e).map((e) => e.id);
             this._notice(
-                $msg("JapaneseUI.Maintenance.ResurrectedChunks", {
-                    done: `${resurrectedChunks.length}`,
-                    total: `${resurrectChunks.length}`,
-                })
+                `復元したチャンク：${`${resurrectedChunks.length}`} / ${`${resurrectChunks.length}`}`
             );
         } else {
-            this._notice($msg("JapaneseUI.Maintenance.ResurrectCancelled"));
+            this._notice(`復元操作をキャンセルしました。`);
         }
     }
     /**
@@ -236,20 +233,17 @@ Note: **Make sure to synchronise all devices before deletion.**
 > This operation finally reduces the capacity of the remote.`;
 
         if (deletedNotVacantChunks.length == 0) {
-            this._notice($msg("JapaneseUI.Maintenance.NoDeletedChunks"));
+            this._notice(`削除済みのチャンクはありません。`);
             return;
         }
         if (await this.confirm("Delete Chunks", message, "Delete", "Cancel")) {
             const result = await this.database.bulkDocs(deletedNotVacantChunks);
             this.clearHash();
             this._notice(
-                $msg("JapaneseUI.Maintenance.DeletedChunks", {
-                    done: `${result.filter((e) => "ok" in e).length}`,
-                    total: `${deletedNotVacantChunks.length}`,
-                })
+                `削除したチャンク：${`${result.filter((e) => "ok" in e).length}`} / ${`${deletedNotVacantChunks.length}`}`
             );
         } else {
-            this._notice($msg("JapaneseUI.Maintenance.DeletionCancelled"));
+            this._notice(`削除操作をキャンセルしました。`);
         }
     }
     /**
@@ -269,7 +263,7 @@ Note: **Make sure to synchronise all devices before deletion.**
         const size = deleteChunks.reduce((acc, e) => acc + e.data.length, 0);
         const humanSize = sizeToHumanReadable(size);
         if (deleteChunks.length == 0) {
-            this._notice($msg("JapaneseUI.Maintenance.NoUnusedChunks"));
+            this._notice(`未使用のチャンクはありません。`);
             return;
         }
         const message = `We have following chunks that are not used from any files.
@@ -287,10 +281,7 @@ Note: **Make sure to synchronise all devices before deletion.**
             const result = await this.database.bulkDocs(deleteChunks);
             this.clearHash();
             this._notice(
-                $msg("JapaneseUI.Maintenance.MarkedChunks", {
-                    done: `${result.filter((e) => "ok" in e).length}`,
-                    total: `${deleteChunks.length}`,
-                })
+                `削除対象としてマークしたチャンク：${`${result.filter((e) => "ok" in e).length}`} / ${`${deleteChunks.length}`}`
             );
         }
     }
@@ -308,7 +299,7 @@ Note: **Make sure to synchronise all devices before deletion.**
         const size = unusedChunks.reduce((acc, e) => acc + e.data.length, 0);
         const humanSize = sizeToHumanReadable(size);
         if (deleteChunks.length == 0) {
-            this._notice($msg("JapaneseUI.Maintenance.NoUnusedChunks"));
+            this._notice(`未使用のチャンクはありません。`);
             return;
         }
         const message = `We have following chunks that are not used from any files.
@@ -325,10 +316,7 @@ Note: **Make sure to synchronise all devices before deletion.**
         if (await this.confirm("Mark unused chunks", message, "Mark", "Cancel")) {
             const result = await this.database.bulkDocs(deleteChunks);
             this._notice(
-                $msg("JapaneseUI.Maintenance.DeletedChunks", {
-                    done: `${result.filter((e) => "ok" in e).length}`,
-                    total: `${deleteChunks.length}`,
-                })
+                `削除したチャンク：${`${result.filter((e) => "ok" in e).length}`} / ${`${deleteChunks.length}`}`
             );
             this.clearHash();
         }
@@ -701,7 +689,7 @@ Success: ${successCount}, Errored: ${errored}`;
         }
 
         const titleMap = {
-            title: $msg("Title"),
+            title: `タイトル`,
             id: "Document ID",
             path: "Path",
             rev: "Revision No",
@@ -752,19 +740,19 @@ Success: ${successCount}, Errored: ${errored}`;
         const csv = csvSrc.join("\n");
 
         // Prompt to copy to clipboard
-        await this.services.UI.promptCopyToClipboard($msg("Database Analysis data (TSV):"), csv);
+        await this.services.UI.promptCopyToClipboard(`データベース分析データ（TSV）：`, csv);
     }
 
     async compactDatabase() {
         const replicator = this.core.replicator as LiveSyncCouchDBReplicator;
         const remote = await replicator.connectRemoteCouchDBWithSetting(this.settings, false, false, true);
         if (!remote) {
-            this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionConnectFailed"), "gc-compact");
+            this._notice(`コンパクションのためにリモートへ接続できませんでした。`, "gc-compact");
             return;
         }
         if (typeof remote == "string") {
             this._notice(
-                $msg("JapaneseUI.Maintenance.RemoteCompactionConnectFailedWithDetail", { detail: remote }),
+                `コンパクションのためにリモートへ接続できませんでした。${remote}`,
                 "gc-compact"
             );
             return;
@@ -778,11 +766,11 @@ Success: ${successCount}, Errored: ${errored}`;
             for (;;) {
                 const status = await remote.db.info();
                 if ("compact_running" in status && status?.compact_running) {
-                    this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionInProgress"), "gc-compact");
+                    this._notice(`リモートデータベースでコンパクションを実行中です…`, "gc-compact");
                     await delay(2000);
                     timeout -= 2000;
                     if (timeout <= 0) {
-                        this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionTimedOut"), "gc-compact");
+                        this._notice(`リモートデータベースのコンパクションがタイムアウトしました。`, "gc-compact");
                         return;
                     }
                 } else {
@@ -790,9 +778,9 @@ Success: ${successCount}, Errored: ${errored}`;
                 }
             }
             if (compactResult && "ok" in compactResult) {
-                this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionSucceeded"), "gc-compact");
+                this._notice(`リモートデータベースのコンパクションが完了しました。`, "gc-compact");
             } else {
-                this._notice($msg("JapaneseUI.Maintenance.RemoteCompactionFailed"), "gc-compact");
+                this._notice(`リモートデータベースのコンパクションに失敗しました。`, "gc-compact");
             }
         } finally {
             await remote.db.close();
@@ -867,7 +855,7 @@ Success: ${successCount}, Errored: ${errored}`;
         // Start one-shot replication to ensure all changes are synced before GC.
         const r0 = await replicator.openOneShotReplication(this.settings, false, false, "sync");
         if (!r0) {
-            this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionReplicationFailed"));
+            this._notice(`ガベージコレクション前の一回限りの同期を開始できなかったため、ガベージコレクションを中止しました。`);
             return;
         }
 
@@ -876,7 +864,7 @@ Success: ${successCount}, Errored: ${errored}`;
         const OPTION_CANCEL = "Cancel Garbage Collection";
         const info = await this.core.replicator.getConnectedDeviceList();
         if (!info) {
-            this._notice($msg("JapaneseUI.Maintenance.NoConnectedDeviceInfo"));
+            this._notice(`接続中の端末情報が見つからなかったため、ガベージコレクションを中止しました。`);
             return;
         }
         const { accepted_nodes, node_info } = info;
@@ -899,10 +887,10 @@ It is preferable to update all devices if possible. If you have any devices that
                 defaultAction: OPTION_CANCEL,
             });
             if (result === OPTION_CANCEL) {
-                this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionCancelled"));
+                this._notice(`ユーザーによりガベージコレクションをキャンセルしました。`);
                 return;
             } else if (result === OPTION_IGNORE) {
-                this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionIgnoringMissingNodes"));
+                this._notice(`不足しているノードを無視してガベージコレクションを続行します。`);
             }
         }
 
@@ -912,7 +900,7 @@ It is preferable to update all devices if possible. If you have any devices that
             return /^\d+$/u.test(progress) ? Number(progress) : Number.NaN;
         });
         if (progressValues.length === 0 || progressValues.some((progress) => !Number.isSafeInteger(progress))) {
-            this._notice($msg("JapaneseUI.Maintenance.NoConnectedDeviceInfo"));
+            this._notice(`接続中の端末情報が見つからなかったため、ガベージコレクションを中止しました。`);
             return;
         }
         const maxProgress = Math.max(...progressValues);
@@ -945,10 +933,10 @@ This may indicate that some devices have not completed synchronisation, which co
             defaultAction,
         });
         if (result !== OPTION_PROCEED) {
-            this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionCancelled"));
+            this._notice(`ユーザーによりガベージコレクションをキャンセルしました。`);
             return;
         }
-        this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionProceeding"));
+        this._notice(`ガベージコレクションを続行します。`);
         //-  3. Once OK is confirmed in the dialogue, execute the chunk deletion. This is performed on the local database and immediately reflected on the remote. After reflecting on the remote, perform compaction.
         const gcStartTime = Date.now();
         // Perform Garbage Collection (new implementation).
@@ -957,16 +945,13 @@ This may indicate that some devices have not completed synchronisation, which co
         // would make chunks used exclusively by live conflict branches look unused.
         const { used: usedChunks, existing: allChunks } = await this.localDatabase.allChunks();
         this._notice(
-            $msg("JapaneseUI.Maintenance.GarbageCollectionScanComplete", {
-                total: `${allChunks.size}`,
-                used: `${usedChunks.size}`,
-            }),
+            `ガベージコレクションのスキャンが完了しました。総チャンク数：${`${allChunks.size}`}、使用中のチャンク数：${`${usedChunks.size}`}`,
             "gc-scanning"
         );
 
         const unusedChunks = [...allChunks.entries()].filter(([chunkId]) => !usedChunks.has(chunkId));
         this._notice(
-            $msg("JapaneseUI.Maintenance.GarbageCollectionUnusedChunks", { count: `${unusedChunks.length}` }),
+            `削除する未使用チャンクを ${`${unusedChunks.length}`} 件検出しました。`,
             "gc-scanning"
         );
         const deleteChunkDocs = unusedChunks.map(
@@ -981,17 +966,13 @@ This may indicate that some devices have not completed synchronisation, which co
         const deletedCount = response.filter((e) => "ok" in e).length;
         const gcEndTime = Date.now();
         this._notice(
-            $msg("JapaneseUI.Maintenance.GarbageCollectionComplete", {
-                done: `${deletedCount}`,
-                total: `${unusedChunks.length}`,
-                seconds: `${(gcEndTime - gcStartTime) / 1000}`,
-            })
+            `ガベージコレクションが完了しました。削除したチャンク：${`${deletedCount}`} / ${`${unusedChunks.length}`}。所要時間：${`${(gcEndTime - gcStartTime) / 1000}`} 秒。`
         );
         // Send changes to remote
         const r = await replicator.openOneShotReplication(this.settings, false, false, "pushOnly");
         // Wait for replication to complete
         if (!r) {
-            this._notice($msg("JapaneseUI.Maintenance.GarbageCollectionReplicationAfterFailed"));
+            this._notice(`ガベージコレクション後の同期を開始できませんでした。`);
             return;
         }
         // Perform compaction

@@ -136,11 +136,11 @@ export class ConflictResolveModal extends Modal {
 
         const diffNavContainer = diffOptionsRow.createDiv("");
         diffNavContainer.addClass("diff-nav");
-        diffNavContainer.createEl("button", { text: `\u25B2 ${$msg("Prev")}` }, (e) => {
+        diffNavContainer.createEl("button", { text: `\u25B2 ${`前へ`}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => this.navigateDiff("prev"));
         });
-        diffNavContainer.createEl("button", { text: `\u25BC ${$msg("Next")}` }, (e) => {
+        diffNavContainer.createEl("button", { text: `\u25BC ${`次へ`}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => this.navigateDiff("next"));
         });
@@ -170,9 +170,9 @@ export class ConflictResolveModal extends Modal {
         const div2 = contentEl.createDiv("");
         div2.addClass("ls-dialog");
         const date1 =
-            new Date(this.result.left.mtime).toLocaleString() + (this.result.left.deleted ? $msg(" (Deleted)") : "");
+            new Date(this.result.left.mtime).toLocaleString() + (this.result.left.deleted ? `（削除済み）` : "");
         const date2 =
-            new Date(this.result.right.mtime).toLocaleString() + (this.result.right.deleted ? $msg(" (Deleted)") : "");
+            new Date(this.result.right.mtime).toLocaleString() + (this.result.right.deleted ? `（削除済み）` : "");
         this.appendVersionInfo(div2, "deleted", this.localName, date1);
         this.appendVersionInfo(div2, "added", this.remoteName, date2);
         const actionContainer = contentEl.createDiv("conflict-action-container");
@@ -182,16 +182,16 @@ export class ConflictResolveModal extends Modal {
                 e.addEventListener("click", () => this.sendResponse(CANCELLED));
             });
         } else {
-            actionContainer.createEl("button", { text: $msg("Use ${NAME}", { NAME: this.localName }) }, (e) => {
+            actionContainer.createEl("button", { text: `${this.localName}を使用` }, (e) => {
                 e.addClass("conflict-action-button");
                 e.addEventListener("click", () => this.sendResponse(this.result.right.rev));
             });
-            actionContainer.createEl("button", { text: $msg("Use ${NAME}", { NAME: this.remoteName }) }, (e) => {
+            actionContainer.createEl("button", { text: `${this.remoteName}を使用` }, (e) => {
                 e.addClass("conflict-action-button");
                 e.addEventListener("click", () => this.sendResponse(this.result.left.rev));
             });
             if (!this.pluginPickMode) {
-                actionContainer.createEl("button", { text: $msg("Concat both") }, (e) => {
+                actionContainer.createEl("button", { text: `両方を連結` }, (e) => {
                     e.addClass("conflict-action-button");
                     e.addEventListener("click", () => this.sendResponse(LEAVE_TO_SUBSEQUENT));
                 });
@@ -207,7 +207,7 @@ export class ConflictResolveModal extends Modal {
         }
         if (diffLength > 100 * 1024) {
             this.diffView.empty();
-            this.diffView.setText($msg("(Too large diff to display)"));
+            this.diffView.setText(`（差分が大きすぎるため表示できません）`);
         }
         this.resetDiffNavigation();
         this.navigateDiff("next");

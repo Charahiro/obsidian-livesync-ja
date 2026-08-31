@@ -474,7 +474,7 @@ describe("Red Flag Feature", () => {
             expect(host.mocks.rebuilder.$fetchLocalDBFast).toHaveBeenCalled();
             expect(synchroniseAllFilesBetweenDBandStorage).toHaveBeenCalled();
             const firstPrompt = host.mocks.ui.confirm.confirmWithMessage.mock.calls[0]?.[1];
-            expect(firstPrompt).toContain("data retrieved from this remote source");
+            expect(firstPrompt).toContain("リモートから取得するデータ");
             expect(firstPrompt).not.toContain("remote server");
             // We can't easily check performFullScan call here because it's imported,
             // but we can verify rebuilder was called.
@@ -989,7 +989,7 @@ describe("Red Flag Feature", () => {
                 availableRemoteTweaks({ batchSave: false })
             );
             (synchroniseAllFilesBetweenDBandStorage as any).mockResolvedValueOnce(false);
-            host.mocks.ui.confirm.askSelectStringDialogue.mockResolvedValueOnce("Reboot to re-run the process");
+            host.mocks.ui.confirm.askSelectStringDialogue.mockResolvedValueOnce("再起動して処理をやり直す");
 
             const result = await askAndPerformFastSetupOnScheduledFetchAll(host as any, log, cleanupFlag);
 

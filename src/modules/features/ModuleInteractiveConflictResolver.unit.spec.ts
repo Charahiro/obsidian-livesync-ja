@@ -276,6 +276,6 @@ describe("ModuleInteractiveConflictResolver file selection", () => {
         await module.pickFileForResolve();
 
         expect(module._log).toHaveBeenCalledTimes(1);
-        expect(module._log).toHaveBeenCalledWith("There are no conflicted documents", LOG_LEVEL_NOTICE);
+        expect(module._log).toHaveBeenCalledWith("競合しているドキュメントはありません", LOG_LEVEL_NOTICE);
     });
 });

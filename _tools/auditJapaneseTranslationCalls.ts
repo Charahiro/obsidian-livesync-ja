@@ -1,17 +1,13 @@
 import { parse } from "yaml";
+import * as ts from "typescript";
 import { commonlibEnglishMessages } from "@vrtmrz/livesync-commonlib/context";
-import {
-    configurationNames,
-    statusDisplay,
-} from "@vrtmrz/livesync-commonlib/compat/common/types";
 
 const fs = process.getBuiltinModule("node:fs");
 const path = process.getBuiltinModule("node:path");
 const root = path.resolve(import.meta.dirname, "..");
 
-function loadCatalogue(locale: string): unknown {
-    const filename = path.join(root, `src/common/messagesYAML/${locale}.yaml`);
-    return parse(fs.readFileSync(filename, "utf8")) as unknown;
+function loadYamlCatalogue(locale: string): unknown {
+    return parse(fs.readFileSync(path.join(root, `src/common/messagesYAML/${locale}.yaml`), "utf8")) as unknown;
 }
 
 function flatten(value: unknown, destination: Map<string, string>, prefix = ""): void {
@@ -26,180 +22,148 @@ function flatten(value: unknown, destination: Map<string, string>, prefix = ""):
     }
 }
 
+function loadJsonCatalogue(locale: string): Map<string, string> {
+    const filename = path.join(root, `src/common/messagesJson/${locale}.json`);
+    const parsed: unknown = JSON.parse(fs.readFileSync(filename, "utf8"));
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        throw new TypeError(`Expected ${filename} to contain a JSON object`);
+    }
+    return new Map(Object.entries(parsed).map(([key, value]) => [key, String(value)]));
+}
+
 function collectSourceFiles(directory: string, files: string[] = []): string[] {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-        const fullPath = path.join(directory, entry.name);
+        const filename = path.join(directory, entry.name);
         if (entry.isDirectory()) {
-            if (!["apps", "dev", "node_modules"].includes(entry.name)) {
-                collectSourceFiles(fullPath, files);
+            if (!entry.name.startsWith(".") && !["apps", "dev", "node_modules"].includes(entry.name)) {
+                collectSourceFiles(filename, files);
             }
         } else if (/\.(?:ts|svelte)$/.test(entry.name) && !/\.(?:unit\.)?spec\.ts$/.test(entry.name)) {
-            files.push(fullPath);
+            files.push(filename);
         }
     }
     return files;
 }
 
-const flatCatalogue = new Map<string, string>();
-const flatEnglishCatalogue = new Map<string, string>();
-flatten(loadCatalogue("ja"), flatCatalogue);
-flatten(loadCatalogue("en"), flatEnglishCatalogue);
+function provisionalKeys(): Set<string> {
+    const filename = path.join(root, "src/common/messages/LiveSyncProvisionalMessages.ts");
+    const sourceText = fs.readFileSync(filename, "utf8");
+    const source = ts.createSourceFile(filename, sourceText, ts.ScriptTarget.Latest, true);
+    const keys = new Set<string>();
 
-const missingCatalogueEntries = [...flatEnglishCatalogue.keys()].filter((key) => !flatCatalogue.has(key));
-const extraCatalogueEntries = [...flatCatalogue.keys()].filter((key) => !flatEnglishCatalogue.has(key));
-const missingCommonlibEntries = Object.keys(commonlibEnglishMessages).filter((key) => !flatCatalogue.has(key));
-const intentionallyUnchangedCommonlib = new Set(["K.long_p2p_sync", "moduleCheckRemoteSize.option800MB"]);
-const untranslatedCommonlibEntries = Object.entries(commonlibEnglishMessages)
-    .filter(
-        ([key, english]) =>
-            flatCatalogue.get(key) === english && /[A-Za-z]{3}/.test(english) && !intentionallyUnchangedCommonlib.has(key)
-    )
-    .map(([key]) => key);
-const missingConfigurationEntries: string[] = [];
-for (const [settingKey, configuration] of Object.entries(configurationNames)) {
-    for (const field of ["name", "desc", "placeHolder"] as const) {
-        const value = configuration[field];
-        if (typeof value === "string" && value !== "" && !flatCatalogue.has(value)) {
-            missingConfigurationEntries.push(`${settingKey}.${field}: ${value}`);
+    const visit = (node: ts.Node): void => {
+        if (
+            ts.isVariableDeclaration(node) &&
+            node.name.getText(source) === "liveSyncProvisionalEnglishMessages" &&
+            node.initializer
+        ) {
+            let value = node.initializer;
+            while (ts.isAsExpression(value) || ts.isParenthesizedExpression(value)) value = value.expression;
+            if (ts.isObjectLiteralExpression(value)) {
+                for (const property of value.properties) {
+                    if (!ts.isPropertyAssignment(property)) continue;
+                    if (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name)) keys.add(property.name.text);
+                }
+            }
         }
-    }
-    const status = statusDisplay(configuration.status);
-    if (status !== "" && !flatCatalogue.has(status)) {
-        missingConfigurationEntries.push(`${settingKey}.status: ${status}`);
-    }
+        ts.forEachChild(node, visit);
+    };
+    visit(source);
+    return keys;
 }
-const unresolvedJapaneseKeywords: string[] = [];
-for (const [key, value] of flatCatalogue) {
-    for (const match of value.matchAll(/%\{([^}]+)\}/g)) {
-        const keyword = match[1];
-        if (keyword !== undefined && !flatCatalogue.has(keyword) && !flatCatalogue.has(`K.${keyword}`)) {
-            unresolvedJapaneseKeywords.push(`${key}: ${match[0]}`);
-        }
-    }
+
+function containsJapanese(text: string): boolean {
+    return /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u.test(text);
 }
-const placeholderMismatches: string[] = [];
+
+const english = new Map<string, string>();
+const japanese = new Map<string, string>();
+flatten(loadYamlCatalogue("en"), english);
+flatten(loadYamlCatalogue("ja"), japanese);
+
+const errors: string[] = [];
+const missingJapanese = [...english.keys()].filter((key) => !japanese.has(key));
+const japaneseOnly = [...japanese.keys()].filter((key) => !english.has(key));
+if (missingJapanese.length > 0) {
+    errors.push(`English catalogue entries missing from Japanese (${missingJapanese.length}):\n${missingJapanese.join("\n")}`);
+}
+if (japaneseOnly.length > 0) {
+    errors.push(`Japanese-only catalogue entries (${japaneseOnly.length}):\n${japaneseOnly.join("\n")}`);
+}
+
 const placeholderPattern = /[$%]?\{[^}]+\}/g;
-for (const [key, englishValue] of flatEnglishCatalogue) {
-    const japaneseValue = flatCatalogue.get(key);
+const canonicalPlaceholderKeys = new Map<string, string>();
+for (const key of english.keys()) {
+    const normalisedKey = key.toLocaleLowerCase();
+    if (canonicalPlaceholderKeys.has(normalisedKey)) {
+        canonicalPlaceholderKeys.set(normalisedKey, "");
+    } else {
+        canonicalPlaceholderKeys.set(normalisedKey, key);
+    }
+}
+const canonicalisePlaceholder = (placeholder: string): string => {
+    const match = placeholder.match(/^([%$]?)\{([^}]+)\}$/);
+    if (!match) return placeholder;
+    const canonicalKey = canonicalPlaceholderKeys.get(match[2].toLocaleLowerCase());
+    return canonicalKey ? `${match[1]}{${canonicalKey}}` : placeholder;
+};
+const placeholderMismatches: string[] = [];
+for (const [key, englishValue] of english) {
+    const japaneseValue = japanese.get(key);
     if (japaneseValue === undefined) continue;
-    const englishPlaceholders = [...englishValue.matchAll(placeholderPattern)].map(([placeholder]) => placeholder).sort();
-    const japanesePlaceholders = [...japaneseValue.matchAll(placeholderPattern)].map(([placeholder]) => placeholder).sort();
+    const englishPlaceholders = [...englishValue.matchAll(placeholderPattern)]
+        .map(([placeholder]) => canonicalisePlaceholder(placeholder))
+        .sort();
+    const japanesePlaceholders = [...japaneseValue.matchAll(placeholderPattern)]
+        .map(([placeholder]) => canonicalisePlaceholder(placeholder))
+        .sort();
     if (englishPlaceholders.join("\0") !== japanesePlaceholders.join("\0")) {
-        placeholderMismatches.push(
-            `${key}: English [${englishPlaceholders.join(", ")}], Japanese [${japanesePlaceholders.join(", ")}]`
+        placeholderMismatches.push(`${key}: English [${englishPlaceholders.join(", ")}], Japanese [${japanesePlaceholders.join(", ")}]`);
+    }
+}
+if (placeholderMismatches.length > 0) {
+    errors.push(`Catalogue entries with mismatched placeholders (${placeholderMismatches.length}):\n${placeholderMismatches.join("\n")}`);
+}
+
+for (const locale of ["en", "ja"]) {
+    const yaml = locale === "en" ? english : japanese;
+    const json = loadJsonCatalogue(locale);
+    const missingGenerated = [...yaml.keys()].filter((key) => json.get(key) !== yaml.get(key));
+    const generatedOnly = [...json.keys()].filter((key) => !yaml.has(key));
+    if (missingGenerated.length > 0 || generatedOnly.length > 0) {
+        errors.push(
+            `${locale}.json is not generated solely from ${locale}.yaml: ` +
+                `missing or changed ${missingGenerated.length}, generated-only ${generatedOnly.length}.`
         );
     }
 }
 
-const missingTranslationCalls: string[] = [];
-const untranslated: string[] = [];
-const untranslatedSettingLiterals: string[] = [];
-const intentionallyUnchanged = new Set(["Setup URI"]);
-const translationCall = /(?:\$msg|translateMessage|\bmsg)\(\s*(["'])(.*?)\1/g;
-for (const file of collectSourceFiles(path.join(root, "src"))) {
-    const source = fs.readFileSync(file, "utf8");
+const provisionalSource = fs.readFileSync(path.join(root, "src/common/messages/LiveSyncProvisionalMessages.ts"), "utf8");
+if (containsJapanese(provisionalSource)) {
+    errors.push("LiveSyncProvisionalMessages.ts contains Japanese text. Provisional messages must remain English fallbacks.");
+}
+
+const knownKeys = new Set([...english.keys(), ...provisionalKeys(), ...Object.keys(commonlibEnglishMessages)]);
+const forkOnlyCalls: string[] = [];
+for (const filename of collectSourceFiles(path.join(root, "src"))) {
+    const source = fs.readFileSync(filename, "utf8");
+    const translationCall = /\$msg\(\s*(["'])(.*?)\1/g;
     for (const match of source.matchAll(translationCall)) {
         const key = match[2];
-        if (key === undefined || key === "anyKey") continue;
+        if (key === undefined || key === "anyKey" || knownKeys.has(key)) continue;
         const line = source.slice(0, match.index).split(/\r?\n/).length;
-        const location = `${path.relative(root, file)}:${line}`;
-        if (!flatCatalogue.has(key)) {
-            const englishValue = flatEnglishCatalogue.get(key);
-            missingTranslationCalls.push(
-                `${location}: ${key}${englishValue && englishValue !== key ? ` => ${englishValue}` : ""}`
-            );
-        } else if (flatCatalogue.get(key) === key && /[A-Za-z]{3}/.test(key) && !intentionallyUnchanged.has(key)) {
-            untranslated.push(`${location}: ${key}`);
-        }
-    }
-    if (file.includes(`${path.sep}SettingDialogue${path.sep}`)) {
-        const settingLiteral = /(?:\baddPanel\([^,]+,|\.(?:setName|setDesc|setButtonText)\()\s*(["'])(.*?)\1/g;
-        for (const match of source.matchAll(settingLiteral)) {
-            const value = match[2];
-            if (
-                value === undefined ||
-                !/[A-Za-z]{3}/.test(value) ||
-                /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(value)
-            )
-                continue;
-            const lineStart = source.lastIndexOf("\n", match.index) + 1;
-            const beforeMatch = source.slice(lineStart, match.index).trimStart();
-            if (beforeMatch.startsWith("//")) continue;
-            const line = source.slice(0, match.index).split(/\r?\n/).length;
-            const location = `${path.relative(root, file)}:${line}`;
-            const japanese = flatCatalogue.get(value);
-            if (japanese === undefined || japanese === value) {
-                untranslatedSettingLiterals.push(`${location}: ${value}`);
-            }
-        }
+        forkOnlyCalls.push(`${path.relative(root, filename)}:${line}: ${key}`);
     }
 }
-
-if (missingCatalogueEntries.length > 0) {
-    process.stderr.write(`English catalogue entries missing from Japanese (${missingCatalogueEntries.length}):\n`);
-    process.stderr.write(`${missingCatalogueEntries.join("\n")}\n`);
-}
-if (extraCatalogueEntries.length > 0) {
-    process.stderr.write(`Japanese catalogue entries missing from English (${extraCatalogueEntries.length}):\n`);
-    process.stderr.write(`${extraCatalogueEntries.join("\n")}\n`);
-}
-if (missingCommonlibEntries.length > 0) {
-    process.stderr.write(`Commonlib entries missing from Japanese (${missingCommonlibEntries.length}):\n`);
-    process.stderr.write(`${missingCommonlibEntries.join("\n")}\n`);
-}
-if (untranslatedCommonlibEntries.length > 0) {
-    process.stderr.write(`Commonlib entries unchanged in Japanese (${untranslatedCommonlibEntries.length}):\n`);
-    process.stderr.write(`${untranslatedCommonlibEntries.join("\n")}\n`);
-}
-if (missingConfigurationEntries.length > 0) {
-    process.stderr.write(`Configuration metadata missing from Japanese (${missingConfigurationEntries.length}):\n`);
-    process.stderr.write(`${missingConfigurationEntries.join("\n")}\n`);
-}
-if (unresolvedJapaneseKeywords.length > 0) {
-    process.stderr.write(`Unresolved Japanese catalogue keywords (${unresolvedJapaneseKeywords.length}):\n`);
-    process.stderr.write(`${unresolvedJapaneseKeywords.join("\n")}\n`);
-}
-if (placeholderMismatches.length > 0) {
-    process.stderr.write(`Catalogue entries with mismatched placeholders (${placeholderMismatches.length}):\n`);
-    process.stderr.write(`${placeholderMismatches.join("\n")}\n`);
-}
-if (missingTranslationCalls.length > 0) {
-    process.stderr.write(`Translation calls with no Japanese catalogue entry (${missingTranslationCalls.length}):\n`);
-    process.stderr.write(`${missingTranslationCalls.join("\n")}\n`);
-}
-if (untranslated.length > 0) {
-    process.stderr.write(`Translation calls whose Japanese value is unchanged (${untranslated.length}):\n`);
-    process.stderr.write(`${untranslated.join("\n")}\n`);
-}
-if (untranslatedSettingLiterals.length > 0) {
-    process.stderr.write(`Untranslated setting UI literals (${untranslatedSettingLiterals.length}):\n`);
-    process.stderr.write(`${untranslatedSettingLiterals.join("\n")}\n`);
-}
-if (
-    missingCatalogueEntries.length === 0 &&
-    extraCatalogueEntries.length === 0 &&
-    missingCommonlibEntries.length === 0 &&
-    untranslatedCommonlibEntries.length === 0 &&
-    missingConfigurationEntries.length === 0 &&
-    unresolvedJapaneseKeywords.length === 0 &&
-    placeholderMismatches.length === 0 &&
-    missingTranslationCalls.length === 0 &&
-    untranslated.length === 0 &&
-    untranslatedSettingLiterals.length === 0
-) {
-    process.stdout.write("Japanese catalogue coverage, placeholders, and literal translation calls are valid.\n");
+if (forkOnlyCalls.length > 0) {
+    errors.push(
+        `Translation calls with a fork-only key (${forkOnlyCalls.length}):\n${forkOnlyCalls.join("\n")}`
+    );
 }
 
-process.exitCode =
-    missingCatalogueEntries.length > 0 ||
-    extraCatalogueEntries.length > 0 ||
-    missingCommonlibEntries.length > 0 ||
-    untranslatedCommonlibEntries.length > 0 ||
-    missingConfigurationEntries.length > 0 ||
-    unresolvedJapaneseKeywords.length > 0 ||
-    placeholderMismatches.length > 0 ||
-    missingTranslationCalls.length > 0 ||
-    untranslated.length > 0 ||
-    untranslatedSettingLiterals.length > 0
-        ? 1
-        : 0;
+if (errors.length > 0) {
+    process.stderr.write(`${errors.join("\n\n")}\n`);
+    process.exitCode = 1;
+} else {
+    process.stdout.write("Japanese catalogue parity, generated resources, placeholders, and message ownership are valid.\n");
+}

@@ -59,6 +59,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Regenerate translation resources
+        run: npm run i18n:bake
+
+      - name: Verify generated translation resources
+        run: git diff --exit-code -- src/common/messagesJson src/common/messages/combinedMessages.prod.ts
+
       - name: Audit Japanese translations
         run: npm run i18n:audit-ja
 

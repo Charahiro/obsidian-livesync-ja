@@ -4,14 +4,7 @@ import {
     LOG_LEVEL_VERBOSE,
     Logger,
 } from "@vrtmrz/livesync-commonlib/compat/common/logger";
-import {
-    EVENT_REQUEST_OPEN_P2P,
-    EVENT_REQUEST_OPEN_SETTING_WIZARD,
-    EVENT_REQUEST_OPEN_SETTINGS,
-    EVENT_REQUEST_RUN_DOCTOR,
-    EVENT_REQUEST_RUN_FIX_INCOMPLETE,
-    eventHub,
-} from "@/common/events.ts";
+import { EVENT_REQUEST_RUN_DOCTOR, EVENT_REQUEST_RUN_FIX_INCOMPLETE, eventHub } from "@/common/events.ts";
 import { AbstractModule } from "@/modules/AbstractModule.ts";
 import { $msg } from "@/common/translation";
 import { performDoctorConsultation, RebuildOptions } from "@vrtmrz/livesync-commonlib/compat/common/configForDoc";
@@ -31,6 +24,7 @@ import {
     runConfiguredStartupLifecycle,
     runStartupEntryLifecycle,
 } from "@/serviceFeatures/configuredStartupLifecycle.ts";
+import { disableLegacyBulkChunkPreSend } from "@/common/compatibilitySettings.ts";
 
 type ErrorInfo = {
     path: string;
@@ -84,10 +78,8 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
     }
 
     async migrateDisableBulkSend() {
-        if (this.settings.sendChunksBulk) {
+        if (disableLegacyBulkChunkPreSend(this.settings)) {
             this._log($msg("moduleMigration.logBulkSendCorrupted"), LOG_LEVEL_NOTICE);
-            this.settings.sendChunksBulk = false;
-            this.settings.sendChunksBulkMaxSize = 1;
             await this.saveSettings();
         }
     }
@@ -95,53 +87,6 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
     initialMessage() {
         const manager = this.core.getModule(SetupManager);
         showOnboardingInvitation(this.core, manager);
-        /*
-        const message = $msg("moduleMigration.msgInitialSetup", {
-            URI_DOC: $msg("moduleMigration.docUri"),
-        });
-        const USE_SETUP = $msg("moduleMigration.optionHaveSetupUri");
-        const NEXT = $msg("moduleMigration.optionNoSetupUri");
-
-        const ret = await this.core.confirm.askSelectStringDialogue(message, [USE_SETUP, NEXT], {
-            title: $msg("moduleMigration.titleWelcome"),
-            defaultAction: USE_SETUP,
-        });
-        if (ret === USE_SETUP) {
-            eventHub.emitEvent(EVENT_REQUEST_OPEN_SETUP_URI);
-            return false;
-        } else if (ret == NEXT) {
-            return true;
-        }
-        return false;
-        */
-    }
-
-    async askAgainForSetupURI() {
-        const message = $msg("moduleMigration.msgRecommendSetupUri", { URI_DOC: $msg("moduleMigration.docUri") });
-        const USE_MINIMAL = $msg("moduleMigration.optionSetupWizard");
-        const USE_P2P = $msg("moduleMigration.optionSetupViaP2P");
-        const USE_SETUP = $msg("moduleMigration.optionManualSetup");
-        const NEXT = $msg("moduleMigration.optionRemindNextLaunch");
-
-        const ret = await this.core.confirm.askSelectStringDialogue(message, [USE_MINIMAL, USE_SETUP, USE_P2P, NEXT], {
-            title: $msg("moduleMigration.titleRecommendSetupUri"),
-            defaultAction: USE_MINIMAL,
-        });
-        if (ret === USE_MINIMAL) {
-            eventHub.emitEvent(EVENT_REQUEST_OPEN_SETTING_WIZARD);
-            return false;
-        }
-        if (ret === USE_P2P) {
-            eventHub.emitEvent(EVENT_REQUEST_OPEN_P2P);
-            return false;
-        }
-        if (ret === USE_SETUP) {
-            eventHub.emitEvent(EVENT_REQUEST_OPEN_SETTINGS);
-            return false;
-        } else if (ret == NEXT) {
-            return false;
-        }
-        return false;
     }
 
     async hasIncompleteDocs(force: boolean = false): Promise<boolean> {
@@ -153,7 +98,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
 
         const noticeGroups = this.core.services.context.noticeGroups;
         noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "checking", {
-            message: $msg("JapaneseUI.Runtime.IncompleteChecking"),
+            message: `不完全なドキュメントを確認中…`,
         });
         this._log("Checking for incomplete documents...", LOG_LEVEL_VERBOSE);
 
@@ -185,7 +130,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
                 try {
                     storageFileContent = await this.core.storageAccess.readHiddenFileBinary(path);
                 } catch (e) {
-                    Logger($msg("JapaneseUI.Runtime.IncompleteFileReadFailed", { path }));
+                    Logger(`${path} を読み取れませんでした。未処理または見つからない可能性があります`);
                     Logger(e, LOG_LEVEL_VERBOSE);
                     continue;
                 }
@@ -215,16 +160,16 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
                 }
             }
             if (errorFiles.length == 0) {
-                Logger($msg("JapaneseUI.Runtime.NoSizeMismatches"), LOG_LEVEL_INFO);
+                Logger(`サイズの不一致はありません`, LOG_LEVEL_INFO);
                 noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "result", {
-                    message: $msg("JapaneseUI.Runtime.NoSizeMismatches"),
+                    message: `サイズの不一致はありません`,
                 });
                 await this.core.kvDB.set("checkIncompleteDocs", true);
                 return Promise.resolve(true);
             }
-            Logger($msg("JapaneseUI.Runtime.FoundSizeMismatches", { count: `${errorFiles.length}` }), LOG_LEVEL_INFO);
+            Logger(`${`${errorFiles.length}`} 件のサイズ不一致を検出しました`, LOG_LEVEL_INFO);
             noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "result", {
-                    message: $msg("JapaneseUI.Runtime.FoundSizeMismatches", { count: `${errorFiles.length}` }),
+                    message: `${`${errorFiles.length}`} 件のサイズ不一致を検出しました`,
             });
             // We have to repair them following rules and situations:
             // A. DB Recorded != DB Stored
@@ -271,16 +216,16 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
                     // Overwrite the database with the files on the storage
                     const stubFile = await this.core.storageAccess.getFileStub(file.path);
                     if (stubFile == null) {
-                        Logger($msg("JapaneseUI.Runtime.StubNotFound", { path: file.path }), LOG_LEVEL_NOTICE);
+                        Logger(`${file.path} のスタブファイルが見つかりませんでした`, LOG_LEVEL_NOTICE);
                         continue;
                     }
 
                     stubFile.stat.mtime = Date.now();
                     const result = await this.core.fileHandler.storeFileToDB(stubFile, true, false);
                     if (result) {
-                        Logger($msg("JapaneseUI.Runtime.RestoredFromStorage", { path: file.path }));
+                        Logger(`${file.path} をストレージから復元しました`);
                     } else {
-                        Logger($msg("JapaneseUI.Runtime.RestoreFromStorageFailed", { path: file.path }), LOG_LEVEL_NOTICE);
+                        Logger(`${file.path} をストレージから復元できませんでした`, LOG_LEVEL_NOTICE);
                     }
                 }
             } else if (ret === DISMISS) {
@@ -291,7 +236,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
             return Promise.resolve(true);
         } catch (error) {
             noticeGroups.setItem(INCOMPLETE_DOCUMENT_NOTICE_GROUP, "result", {
-                message: $msg("JapaneseUI.Runtime.IncompleteCheckFailed"),
+                message: `不完全なドキュメントの確認を完了できませんでした。`,
             });
             throw error;
         } finally {
@@ -300,7 +245,7 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
     }
 
     async hasCompromisedChunks(): Promise<boolean> {
-        Logger($msg("JapaneseUI.Runtime.CheckingCompromisedChunks"), LOG_LEVEL_VERBOSE);
+        Logger(`破損チャンクを確認中…`, LOG_LEVEL_VERBOSE);
         if (!this.settings.encrypt) {
             // If not encrypted, we do not need to check for compromised chunks.
             return true;
@@ -310,21 +255,18 @@ export class ModuleMigration extends AbstractModule<LiveSyncCore> {
         const remote = this.services.replicator.getActiveReplicator();
         const remoteCompromised = this.services.API.isOnline ? await remote?.countCompromisedChunks() : 0;
         if (localCompromised === false) {
-            Logger($msg("JapaneseUI.Runtime.CompromisedLocalCountFailed"), LOG_LEVEL_NOTICE);
+            Logger(`ローカルデータベース内の破損チャンクを数えられませんでした`, LOG_LEVEL_NOTICE);
             return false;
         }
         if (remoteCompromised === false) {
-            Logger($msg("JapaneseUI.Runtime.CompromisedRemoteCountFailed"), LOG_LEVEL_NOTICE);
+            Logger(`リモートデータベース内の破損チャンクを数えられませんでした`, LOG_LEVEL_NOTICE);
             return false;
         }
         if (remoteCompromised === 0 && localCompromised === 0) {
             return true;
         }
         Logger(
-            $msg("JapaneseUI.Runtime.CompromisedChunksFound", {
-                local: `${localCompromised}`,
-                remote: `${remoteCompromised}`,
-            }),
+            `破損チャンクを検出しました: ローカル ${`${localCompromised}`} 件、リモート ${`${remoteCompromised}`} 件`,
             LOG_LEVEL_NOTICE
         );
         const title = $msg("moduleMigration.insecureChunkExist.title");

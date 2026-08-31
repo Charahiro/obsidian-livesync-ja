@@ -147,7 +147,7 @@ describe("ReviewHarnessController", () => {
         const report = controller.createReport();
         expect(result).toMatchObject({
             status: "failed",
-            detail: "The scenario failed unexpectedly. Review the in-app logs for diagnostic details.",
+            detail: "シナリオが予期せず失敗しました。診断情報はアプリ内ログで確認してください。",
         });
         expect(report).not.toContain("private-vault");
         expect(report).not.toContain("secret-note.md");
@@ -171,9 +171,7 @@ describe("ReviewHarnessController", () => {
         expect(controller.snapshot().results["compatibility-review"]).toMatchObject({
             status: "waiting-for-user",
         });
-        expect(controller.snapshot().resumedRequestId).toBe(
-            "compatibility-review-2026-07-18T11:59:00.000Z"
-        );
+        expect(controller.snapshot().resumedRequestId).toBe("compatibility-review-2026-07-18T11:59:00.000Z");
     });
 
     it("does not copy rejected continuation values into the report", () => {
@@ -191,7 +189,7 @@ describe("ReviewHarnessController", () => {
 
         expect(controller.snapshot().continuationError).toContain("private-vault");
         expect(controller.snapshot().results["compatibility-review"].detail).toBe(
-            "The stored continuation was invalid and was removed."
+            "保存されていた継続情報が無効だったため削除しました。"
         );
         expect(controller.createReport()).not.toContain("private-vault");
         expect(controller.createReport()).not.toContain("secret-note.md");
@@ -239,7 +237,7 @@ describe("ReviewHarnessController", () => {
         expect(runtime.openCompatibilityReview).toHaveBeenCalledOnce();
         expect(controller.snapshot().results["compatibility-review"]).toMatchObject({
             status: "passed",
-            detail: "The device-local compatibility pause was reviewed and cleared.",
+            detail: "このデバイスの互換性確認を実施し、一時停止を解除しました。",
         });
     });
 
@@ -263,7 +261,7 @@ describe("ReviewHarnessController", () => {
 
         expect(controller.snapshot().results["compatibility-review"]).toMatchObject({
             status: "passed",
-            detail: "No compatibility review is pending on this device.",
+            detail: "このデバイスで保留中の互換性レビューはありません。",
         });
     });
 
@@ -276,7 +274,7 @@ describe("ReviewHarnessController", () => {
         await controller.copyReport();
 
         expect(runtime.copyText).toHaveBeenCalledOnce();
-        expect(vi.mocked(runtime.copyText).mock.calls[0][0]).toContain("Compatibility review boundary");
+        expect(vi.mocked(runtime.copyText).mock.calls[0][0]).toContain("互換性レビューの境界");
         expect(controller.snapshot().results["compatibility-review"].status).toBe("passed");
     });
 });

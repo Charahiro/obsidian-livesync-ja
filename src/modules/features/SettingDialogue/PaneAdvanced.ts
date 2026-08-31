@@ -1,54 +1,18 @@
-import { ChunkAlgorithmNames } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts";
 import type { PageFunctions } from "./SettingPane.ts";
-import { $msg } from "@/common/translation";
+import { createAdvancedSettingSpecGroups } from "./AdvancedSettingSpecs.ts";
+import { renderLegacySettingSpec } from "./SettingSpec.ts";
 
 export function paneAdvanced(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, { addPanel }: PageFunctions): void {
-    void addPanel(paneEl, "メモリキャッシュ").then((paneEl) => {
-        new Setting(paneEl).autoWireNumeric("hashCacheMaxCount", { clampMin: 10 });
-        // new Setting(paneEl).autoWireNumeric("hashCacheMaxAmount", { clampMin: 1 });
+    const groups = createAdvancedSettingSpecGroups({
+        isCouchDB: () => this.onlyOnCouchDB().visibility !== false,
     });
-    void addPanel(paneEl, "ローカルデータベース調整").then((paneEl) => {
-        paneEl.addClass("wizardHidden");
-
-        const items = ChunkAlgorithmNames;
-        new Setting(paneEl).autoWireDropDown("chunkSplitterVersion", {
-            options: items,
+    for (const group of groups) {
+        void addPanel(paneEl, group.heading).then((panelEl) => {
+            for (const spec of group.items) {
+                renderLegacySettingSpec(new Setting(panelEl), spec);
+            }
         });
-        new Setting(paneEl).autoWireNumeric("customChunkSize", { clampMin: 0, acceptZero: true });
-    });
-
-    void addPanel(paneEl, "転送調整").then((paneEl) => {
-        new Setting(paneEl)
-            .setClass("wizardHidden")
-            .autoWireToggle("readChunksOnline", { onUpdate: this.onlyOnCouchDB });
-        new Setting(paneEl)
-            .setClass("wizardHidden")
-            .autoWireToggle("useOnlyLocalChunk", { onUpdate: this.onlyOnCouchDB });
-
-        new Setting(paneEl).setClass("wizardHidden").autoWireNumeric("concurrencyOfReadChunksOnline", {
-            clampMin: 10,
-            onUpdate: this.onlyOnCouchDB,
-        });
-
-        new Setting(paneEl).setClass("wizardHidden").autoWireNumeric("minimumIntervalOfReadChunksOnline", {
-            clampMin: 10,
-            onUpdate: this.onlyOnCouchDB,
-        });
-        new Setting(paneEl)
-            .setClass("wizardHidden")
-            .autoWireToggle("autoAcceptCompatibleTweak", { defaultToggleValue: true });
-        // new Setting(paneEl)
-        //     .setClass("wizardHidden")
-        //     .autoWireToggle("sendChunksBulk", { onUpdate: onlyOnCouchDB })
-        // new Setting(paneEl)
-        //     .setClass("wizardHidden")
-        //     .autoWireNumeric("sendChunksBulkMaxSize", {
-        //         clampMax: 100, clampMin: 1, onUpdate: onlyOnCouchDB
-        //     })
-    });
-    void addPanel(paneEl, $msg("Remote Database Tweak (In sunset)")).then((paneEl) => {
-        new Setting(paneEl).setClass("wizardHidden").autoWireToggle("enableCompression");
-    });
+    }
 }

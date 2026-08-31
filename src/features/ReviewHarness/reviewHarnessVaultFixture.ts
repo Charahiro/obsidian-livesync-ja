@@ -33,7 +33,7 @@ export async function runReviewHarnessVaultRoundTrip<TFile>(
     if (!(await runtime.confirmFixtureAccess())) {
         return {
             status: "cancelled",
-            detail: $msg("ReviewHarness.VaultFixture.NotApproved"),
+            detail: `Vault内のテスト用ファイルへのアクセスが承認されませんでした。`,
             observations: [],
         };
     }
@@ -41,7 +41,7 @@ export async function runReviewHarnessVaultRoundTrip<TFile>(
     if (runtime.fixtureRootExists()) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.VaultFixture.AlreadyExists"),
+            detail: `管理対象のテスト用ルートがすでに存在するため、変更せずに残しました。`,
             observations: [],
         };
     }
@@ -52,22 +52,22 @@ export async function runReviewHarnessVaultRoundTrip<TFile>(
         fixtureOwned = true;
         const file = await runtime.createFile(REVIEW_HARNESS_SOURCE_FILE, CREATED_CONTENT);
         const created = await runtime.readFile(file);
-        if (created !== CREATED_CONTENT) throw new Error($msg("ReviewHarness.VaultFixture.Error.CreatedContent"));
+        if (created !== CREATED_CONTENT) throw new Error(`作成したテスト内容を正しく読み戻せませんでした。`);
 
         await runtime.modifyFile(file, MODIFIED_CONTENT);
         const modified = await runtime.readFile(file);
-        if (modified !== MODIFIED_CONTENT) throw new Error($msg("ReviewHarness.VaultFixture.Error.ModifiedContent"));
+        if (modified !== MODIFIED_CONTENT) throw new Error(`変更したテスト内容を正しく読み戻せませんでした。`);
 
         await runtime.renameFile(file, REVIEW_HARNESS_RENAMED_FILE);
         if (runtime.filePath(file) !== REVIEW_HARNESS_RENAMED_FILE) {
-            throw new Error($msg("ReviewHarness.VaultFixture.Error.RenamePath"));
+            throw new Error(`テスト用ファイルの名前変更がパスに反映されませんでした。`);
         }
         const renamed = await runtime.readFile(file);
-        if (renamed !== MODIFIED_CONTENT) throw new Error($msg("ReviewHarness.VaultFixture.Error.RenamedContent"));
+        if (renamed !== MODIFIED_CONTENT) throw new Error(`名前変更後のテスト内容が保持されていませんでした。`);
 
         return {
             status: "passed",
-            detail: $msg("ReviewHarness.VaultFixture.Completed"),
+            detail: `管理対象のテスト用ツリーの往復確認が完了し、削除しました。`,
             observations: ["create", "read", "modify", "rename", "read-after-rename", "cleanup"],
         };
     } finally {

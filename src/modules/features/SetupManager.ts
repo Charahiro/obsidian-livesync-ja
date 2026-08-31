@@ -19,6 +19,7 @@ import UseSetupURI from "./SetupWizard/dialogs/UseSetupURI.svelte";
 import OutroNewUser from "./SetupWizard/dialogs/OutroNewUser.svelte";
 import OutroExistingUser from "./SetupWizard/dialogs/OutroExistingUser.svelte";
 import OutroAskUserMode from "./SetupWizard/dialogs/OutroAskUserMode.svelte";
+import ApplySettingsInitialisation from "./SetupWizard/dialogs/ApplySettingsInitialisation.svelte";
 import SetupRemote from "./SetupWizard/dialogs/SetupRemote.svelte";
 import SetupRemoteCouchDB from "./SetupWizard/dialogs/SetupRemoteCouchDB.svelte";
 import SetupRemoteBucket from "./SetupWizard/dialogs/SetupRemoteBucket.svelte";
@@ -39,10 +40,13 @@ import type {
     SetupRemoteP2PResultType,
     SetupRemoteResultType,
     UseSetupURIResultType,
+    ApplySettingsInitialisationResultType,
+    ApplySettingsInitialisationInitialData,
 } from "./SetupWizard/dialogs/setupDialogTypes.ts";
 import {
     applySettingsAndFetchOnActivation,
     applySettingsWithScheduledInitialisation,
+    type SetupInitialisationMode,
 } from "@/serviceFeatures/setupObsidian/setupActivationLifecycle.ts";
 import { isP2PMainRemote } from "@/common/remoteConfiguration.ts";
 
@@ -76,6 +80,17 @@ export const enum UserMode {
     Update = "unknown", // Alias for Unknown for better readability
 }
 
+export type SettingsInitialisationApplicationResult =
+    | { result: "scheduled"; mode: SetupInitialisationMode }
+    | { result: "cancelled" }
+    | { result: "failed"; mode: SetupInitialisationMode };
+
+export type ApplySettingsWithInitialisationChoiceOptions = {
+    applySettings: () => Promise<void>;
+    isP2P: boolean;
+    validateChoice?: (mode: SetupInitialisationMode) => Promise<boolean>;
+};
+
 /**
  * Setup Manager to handle onboarding and configuration setup
  */
@@ -89,6 +104,32 @@ export class SetupManager extends AbstractModule {
     }
 
     /**
+     * Ask which existing data should be authoritative for pending setting changes,
+     * then reserve the matching next-start operation before applying them.
+     *
+     * Cancellation and reservation failure remain distinct so the caller may
+     * offer an explicit settings-only fallback only after a user cancellation.
+     */
+    async applySettingsWithInitialisationChoice({
+        applySettings,
+        isP2P,
+        validateChoice = () => Promise.resolve(true),
+    }: ApplySettingsWithInitialisationChoiceOptions): Promise<SettingsInitialisationApplicationResult> {
+        const mode = await this.dialogManager.openWithExplicitCancel<
+            ApplySettingsInitialisationResultType,
+            ApplySettingsInitialisationInitialData
+        >(ApplySettingsInitialisation, { isP2P });
+        if (mode === "cancelled") {
+            return { result: "cancelled" };
+        }
+        if (!(await validateChoice(mode))) {
+            return { result: "failed", mode };
+        }
+        const scheduled = await applySettingsWithScheduledInitialisation(this.core.rebuilder, mode, applySettings);
+        return scheduled ? { result: "scheduled", mode } : { result: "failed", mode };
+    }
+
+    /**
      * Starts the onboarding process
      * @returns Promise that resolves to true if onboarding completed successfully, false otherwise
      */
@@ -99,7 +140,7 @@ export class SetupManager extends AbstractModule {
         } else if (isUserNewOrExisting === "existing-user") {
             await this.onOnboard(UserMode.ExistingUser);
         } else if (isUserNewOrExisting === "cancelled") {
-            this._log($msg("Setup.Notice.OnboardingCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`オンボーディングをキャンセルしました。`, LOG_LEVEL_NOTICE);
             return false;
         }
         return false;
@@ -120,7 +161,7 @@ export class SetupManager extends AbstractModule {
             } else if (method === "configure-manually") {
                 await this.onConfigureManually(originalSetting, userMode);
             } else if (method === "cancelled") {
-                this._log($msg("Setup.Notice.OnboardingCancelled"), LOG_LEVEL_NOTICE);
+                this._log(`オンボーディングをキャンセルしました。`, LOG_LEVEL_NOTICE);
                 return false;
             }
         } else if (userMode === UserMode.ExistingUser) {
@@ -132,7 +173,7 @@ export class SetupManager extends AbstractModule {
             } else if (method === "scan-qr-code") {
                 await this.onPromptQRCodeInstruction();
             } else if (method === "cancelled") {
-                this._log($msg("Setup.Notice.OnboardingCancelled"), LOG_LEVEL_NOTICE);
+                this._log(`オンボーディングをキャンセルしました。`, LOG_LEVEL_NOTICE);
                 return false;
             }
         }
@@ -151,7 +192,7 @@ export class SetupManager extends AbstractModule {
             setupURI
         );
         if (newSetting === "cancelled") {
-            this._log($msg("Setup.Notice.SetupUriCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`Setup URIダイアログをキャンセルしました。`, LOG_LEVEL_NOTICE);
             return false;
         }
         this._log("Setup URI dialog closed.", LOG_LEVEL_VERBOSE);
@@ -183,7 +224,7 @@ export class SetupManager extends AbstractModule {
                       : "settings",
         });
         if (couchConf === "cancelled") {
-            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`手動設定をキャンセルしました。`, LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const newSetting = {
@@ -214,7 +255,7 @@ export class SetupManager extends AbstractModule {
             BucketSyncSetting
         >(SetupRemoteBucket, currentSetting);
         if (bucketConf === "cancelled") {
-            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`手動設定をキャンセルしました。`, LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const newSetting = {
@@ -245,7 +286,7 @@ export class SetupManager extends AbstractModule {
             currentSetting
         );
         if (p2pConf === "cancelled") {
-            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`手動設定をキャンセルしました。`, LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const newSetting = {
@@ -272,7 +313,7 @@ export class SetupManager extends AbstractModule {
             currentSetting
         );
         if (e2eeConf === "cancelled") {
-            this._log($msg("Setup.Notice.E2eeConfigurationCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`E2EE設定をキャンセルしました。`, LOG_LEVEL_NOTICE);
             return false;
         }
         const newSetting = {
@@ -294,7 +335,7 @@ export class SetupManager extends AbstractModule {
             originalSetting
         );
         if (e2eeConf === "cancelled") {
-            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`手動設定をキャンセルしました。`, LOG_LEVEL_NOTICE);
             return await this.onOnboard(userMode);
         }
         const currentSetting = {
@@ -319,7 +360,7 @@ export class SetupManager extends AbstractModule {
         } else if (method === "p2p") {
             return await this.onP2PManualSetup(userMode, currentSetting, true);
         } else if (method === "cancelled") {
-            this._log($msg("Setup.Notice.ManualConfigurationCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`手動設定をキャンセルしました。`, LOG_LEVEL_NOTICE);
             if (userMode !== UserMode.Unknown) {
                 return await this.onOnboard(userMode);
             }
@@ -348,7 +389,7 @@ export class SetupManager extends AbstractModule {
         let userMode = _userMode;
         if (userMode === UserMode.Unknown) {
             if (isObjectDifferent(this.settings, newConf, true) === false) {
-                this._log($msg("Setup.Notice.NoChanges"), LOG_LEVEL_NOTICE);
+                this._log(`設定の変更が検出されなかったため、ウィザードの設定を適用しませんでした。`, LOG_LEVEL_NOTICE);
                 return true;
             }
             // const patch = generatePatchObj(this.settings, newConf);
@@ -357,7 +398,7 @@ export class SetupManager extends AbstractModule {
             if (!activate) {
                 extra();
                 const applied = await this.applySettingAndScheduleFetchOnActivation(newConf, UserMode.ExistingUser);
-                if (applied) this._log($msg("Setup.Notice.SettingApplied"), LOG_LEVEL_NOTICE);
+                if (applied) this._log(`設定を適用しました。`, LOG_LEVEL_NOTICE);
                 return applied;
             }
             // Check virtual changes
@@ -367,7 +408,7 @@ export class SetupManager extends AbstractModule {
             if (isOnlyVirtualChange) {
                 extra();
                 const applied = await this.applySettingAndScheduleFetchOnActivation(newConf, UserMode.ExistingUser);
-                if (applied) this._log($msg("Setup.Notice.WizardSettingsApplied"), LOG_LEVEL_NOTICE);
+                if (applied) this._log(`ウィザードの設定を適用しました。`, LOG_LEVEL_NOTICE);
                 return applied;
             } else {
                 const userModeResult =
@@ -379,10 +420,10 @@ export class SetupManager extends AbstractModule {
                 } else if (userModeResult === "compatible-existing-user") {
                     extra();
                     const applied = await this.applySettingAndScheduleFetchOnActivation(newConf, UserMode.ExistingUser);
-                    if (applied) this._log($msg("Setup.Notice.WizardSettingsApplied"), LOG_LEVEL_NOTICE);
+                    if (applied) this._log(`ウィザードの設定を適用しました。`, LOG_LEVEL_NOTICE);
                     return applied;
                 } else if (userModeResult === "cancelled") {
-                    this._log($msg("Setup.Notice.WizardApplyCancelled"), LOG_LEVEL_NOTICE);
+                    this._log(`ウィザードの設定適用をキャンセルしました。`, LOG_LEVEL_NOTICE);
                     return false;
                 }
             }
@@ -393,7 +434,7 @@ export class SetupManager extends AbstractModule {
             { isP2P: boolean }
         >(component, { isP2P: isP2PMainRemote(newConf) });
         if (confirm === "cancelled") {
-            this._log($msg("Setup.Notice.WizardApplyCancelled"), LOG_LEVEL_NOTICE);
+            this._log(`ウィザードの設定適用をキャンセルしました。`, LOG_LEVEL_NOTICE);
             return false;
         }
         if (confirm) {

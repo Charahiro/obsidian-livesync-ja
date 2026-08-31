@@ -164,7 +164,7 @@ describe("compatibility: cleaned-remote reconciliation for IndexedDB clients", (
             services,
             settings: {},
             localDatabase,
-            confirm: { confirmWithMessage: vi.fn(async () => "Cleanup") },
+            confirm: { confirmWithMessage: vi.fn(async () => "クリーンアップ") },
             replicator: { openReplication },
         } as any;
         const module = new ModuleReplicator(core);

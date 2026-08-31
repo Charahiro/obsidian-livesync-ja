@@ -20,7 +20,7 @@ export class ModuleObsidianSettingsAsMarkdown extends AbstractModule {
     _everyOnloadStart(): Promise<boolean> {
         this.addCommand({
             id: "livesync-export-config",
-            name: $msg("Write setting markdown manually"),
+            name: `設定Markdownを手動で書き出す`,
             checkCallback: (checking) => {
                 if (checking) {
                     return this.settings.settingSyncFile != "";
@@ -32,7 +32,7 @@ export class ModuleObsidianSettingsAsMarkdown extends AbstractModule {
         });
         this.addCommand({
             id: "livesync-import-config",
-            name: $msg("Parse setting file"),
+            name: `設定ファイルを読み込む`,
             editorCheckCallback: (checking: boolean, editor: Editor, ctx: MarkdownView) => {
                 if (checking) {
                     const doc = editor.getValue();
@@ -115,7 +115,7 @@ export class ModuleObsidianSettingsAsMarkdown extends AbstractModule {
             }
             newSetting = parsed;
         } catch (ex) {
-            this._log($msg("moduleObsidianSettingAsMarkdown.parseFailed"), LOG_LEVEL_NOTICE);
+            this._log(`YAMLを解析できませんでした。`, LOG_LEVEL_NOTICE);
             this._log(ex, LOG_LEVEL_VERBOSE);
             return;
         }
@@ -174,7 +174,7 @@ export class ModuleObsidianSettingsAsMarkdown extends AbstractModule {
                             await this.services.setting.applyExternalSettings(settingToApply, true);
                             this.services.setting.clearUsedPassphrase();
                             if (result == APPLY_ONLY) {
-                                this._log($msg("moduleObsidianSettingAsMarkdown.settingsApplied"), LOG_LEVEL_NOTICE);
+                                this._log(`読み込んだ設定を適用しました。`, LOG_LEVEL_NOTICE);
                                 return;
                             }
                             if (result == APPLY_AND_REBUILD) {

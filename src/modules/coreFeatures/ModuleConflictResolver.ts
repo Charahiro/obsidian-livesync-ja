@@ -29,15 +29,11 @@ export class ModuleConflictResolver extends AbstractModule {
         showNotice = true
     ): Promise<typeof MISSING_OR_ERROR | typeof AUTO_MERGED> {
         const title = subTitle
-            ? $msg("ConflictResolver.ResolvingWithSubtitle", { subtitle: subTitle })
-            : $msg("ConflictResolver.Resolving");
+            ? `競合を解決中 [${subTitle}]:`
+            : `競合を解決中:`;
         if (!(await this.core.fileHandler.deleteRevisionFromDB(path, deleteRevision))) {
             this._log(
-                $msg("ConflictResolver.CouldNotDeleteRevision", {
-                    title,
-                    revision: displayRev(deleteRevision),
-                    path,
-                }),
+                `${title} ${path} の競合リビジョン ${displayRev(deleteRevision)} を削除できませんでした`,
                 LOG_LEVEL_NOTICE
             );
             return MISSING_OR_ERROR;
@@ -57,11 +53,11 @@ export class ModuleConflictResolver extends AbstractModule {
         }
         // If no conflicts were found, write the resolved content to the storage.
         if (!(await this.core.fileHandler.dbToStorage(path, stripAllPrefixes(path), true))) {
-            this._log($msg("ConflictResolver.CouldNotWriteResolvedContent", { path }), LOG_LEVEL_NOTICE);
+            this._log(`解決済みの内容をストレージへ書き込めませんでした: ${path}`, LOG_LEVEL_NOTICE);
             return MISSING_OR_ERROR;
         }
         const level = subTitle.indexOf("same") !== -1 || !showNotice ? LOG_LEVEL_INFO : LOG_LEVEL_NOTICE;
-        this._log($msg("ConflictResolver.FileMergedAutomatically", { path }), level);
+        this._log(`${path} を自動的にマージしました`, level);
         return AUTO_MERGED;
     }
 
@@ -77,7 +73,7 @@ export class ModuleConflictResolver extends AbstractModule {
             // Merged content is coming.
             // 1. Store the merged content to the storage
             if (!(await this.core.databaseFileAccess.storeContent(path, p))) {
-                this._log($msg("ConflictResolver.CouldNotStoreMergedContent", { path }), LOG_LEVEL_NOTICE);
+                this._log(`${path} のマージ済み内容を保存できませんでした`, LOG_LEVEL_NOTICE);
                 return MISSING_OR_ERROR;
             }
             // 2. As usual, delete the conflicted revision and if there are no conflicts, write the resolved content to the storage.
@@ -89,7 +85,7 @@ export class ModuleConflictResolver extends AbstractModule {
         // should be one or more conflicts;
         if (leftLeaf == false) {
             // what's going on..
-            this._log($msg("ConflictResolver.CouldNotGetCurrentRevisions", { path }), LOG_LEVEL_NOTICE);
+            this._log(`${path} の現在のリビジョンを取得できませんでした`, LOG_LEVEL_NOTICE);
             return MISSING_OR_ERROR;
         }
         if (rightLeaf == false) {
@@ -97,7 +93,7 @@ export class ModuleConflictResolver extends AbstractModule {
             // replica or backup. Keep it visible for explicit repair instead of treating
             // missing chunks as evidence that the branch is obsolete.
             this._log(
-                $msg("ConflictResolver.CouldNotReadConflictedRevision", { revision: rightRev, path }),
+                `${path} の競合リビジョン ${rightRev} を読み取れませんでした`,
                 LOG_LEVEL_NOTICE
             );
             return MISSING_OR_ERROR;
@@ -161,7 +157,7 @@ export class ModuleConflictResolver extends AbstractModule {
             if (this.settings.showMergeDialogOnlyOnActive) {
                 const af = this.services.vault.getActiveFilePath();
                 if (af && af != filename) {
-                    this._log($msg("ConflictResolver.MergePostponed", { path: filename }), LOG_LEVEL_NOTICE);
+                    this._log(`[競合] ${filename} は競合しています。ファイルが開かれるまでマージ処理を延期しました。`, LOG_LEVEL_NOTICE);
                     return;
                 }
             }
@@ -214,7 +210,7 @@ export class ModuleConflictResolver extends AbstractModule {
         return true;
     }
     private async _resolveAllConflictedFilesByNewerOnes() {
-        this._log($msg("ConflictResolver.ResolvingAllByNewer"), LOG_LEVEL_NOTICE);
+        this._log(`競合を新しい方の内容で解決しています`, LOG_LEVEL_NOTICE);
 
         const files = await this.core.storageAccess.getFileNames();
 
@@ -223,13 +219,13 @@ export class ModuleConflictResolver extends AbstractModule {
             i++;
             if (i % 10 === 0)
                 this._log(
-                    $msg("ConflictResolver.Progress", { current: `${i}`, total: `${files.length}` }),
+                    `確認・処理中: ${`${i}`} / ${`${files.length}`}`,
                     LOG_LEVEL_NOTICE,
                     "resolveAllConflictedFilesByNewerOnes"
                 );
             await this._anyResolveConflictByNewest(file, false);
         }
-        this._log($msg("ConflictResolver.Done"), LOG_LEVEL_NOTICE, "resolveAllConflictedFilesByNewerOnes");
+        this._log(`完了しました`, LOG_LEVEL_NOTICE, "resolveAllConflictedFilesByNewerOnes");
     }
 
     override onBindFunction(core: LiveSyncCore, services: InjectableServiceHub): void {

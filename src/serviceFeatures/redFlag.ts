@@ -58,14 +58,12 @@ export async function deleteFlagFile(host: NecessaryServices<never, "storageAcce
         log(ex, LOG_LEVEL_VERBOSE);
     }
 }
-const REMOTE_KEEP_CURRENT = $msg("Use active remote");
+const REMOTE_KEEP_CURRENT = `使用中のリモートを使う`;
 const REMOTE_CANCEL = $msg("Cancel");
 async function askAndActivateRemoteDatabase(host: NecessaryServices<"UI" | "setting", never>, log: LogFunction) {
     const settings = host.services.setting.currentSettings();
     if (settings.remoteConfigurations && Object.keys(settings.remoteConfigurations).length > 1) {
-        const message = $msg(
-            "Multiple remote configurations detected. Please select the remote configuration you want to fetch from."
-        );
+        const message = `複数のリモート設定を検出しました。取得元として使用するリモート設定を選択してください。`;
         const options = Object.entries(settings.remoteConfigurations).map(([id, config]) => {
             const parsed = ConnectionStringParser.parse(config.uri);
             const displayURI = (config.uri.split("@").pop() || "").substring(0, 20) + "..."; // Show only the last part of URI for better readability and privacy.
@@ -87,7 +85,7 @@ async function askAndActivateRemoteDatabase(host: NecessaryServices<"UI" | "sett
         // const defaultAction =
         //     options.find((option) => option.id === settings.activeConfigurationId)?.name || selections[0];
         const selectedId = await host.services.UI.confirm.askSelectStringDialogue(message, selections, {
-            title: $msg("Select Remote Configuration"),
+            title: `リモート設定を選択`,
             defaultAction: REMOTE_KEEP_CURRENT,
         });
         const selectedConfig = options.find((option) => option.name === selectedId);
@@ -302,9 +300,7 @@ export async function adjustSettingToRemote(
             log("Remote configuration matches local configuration. No changes applied.", LOG_LEVEL_NOTICE);
         } else {
             await host.services.UI.confirm.askSelectStringDialogue(
-                $msg(
-                    "Your settings differed slightly from the server's. The plug-in has supplemented the incompatible parts with the server settings!"
-                ),
+                `このデバイスの設定がサーバー設定と一部異なっていたため、互換性のない部分をサーバー設定で補完しました。`,
                 ["OK"] as const,
                 {
                     defaultAction: "OK",
@@ -443,7 +439,7 @@ export async function verifyAndUnlockSuspension(
     }
     if (
         (await host.services.UI.confirm.askYesNoDialog(
-            $msg("Resume file and database processing, and restart Obsidian now?"),
+            `ファイルとデータベースの処理を再開し、Obsidianを今すぐ再起動しますか？`,
             { defaultOption: "Yes", timeout: 15 }
         )) != "yes"
     ) {

@@ -17,17 +17,17 @@ import {
 } from "./redFlag";
 import { $msg } from "@/common/translation";
 
-export const SIMPLE_FETCH_STAGE1_REMOTE_WINS = $msg("Overwrite all with remote files");
-export const SIMPLE_FETCH_STAGE1_NEWER_WINS = $msg("Compare time and take newer");
-export const SIMPLE_FETCH_STAGE1_DETAILED = $msg("Use the detailed flow");
+export const SIMPLE_FETCH_STAGE1_REMOTE_WINS = `すべてをリモートファイルで上書き`;
+export const SIMPLE_FETCH_STAGE1_NEWER_WINS = `更新日時を比較して新しい方を採用`;
+export const SIMPLE_FETCH_STAGE1_DETAILED = `詳細な手順を使用`;
 export const SIMPLE_FETCH_STAGE1_CANCEL = $msg("Cancel");
 
-export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE = $msg("Keep local files even if not on remote");
-export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL = $msg("Delete local files if not on remote");
+export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE = `リモートにないローカルファイルも保持`;
+export const SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL = `リモートにないローカルファイルを削除`;
 
-export const SIMPLE_FETCH_STAGE2_NEWER_CLEANUP = $msg("Delete local files if deleted on remote");
-export const SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL = $msg("Keep local files even if deleted on remote");
-export const STAGE2_ABORT = $msg("Cancel all and reboot");
+export const SIMPLE_FETCH_STAGE2_NEWER_CLEANUP = `リモートで削除されたローカルファイルを削除`;
+export const SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL = `リモートで削除されていてもローカルファイルを保持`;
+export const STAGE2_ABORT = `すべて中止して再起動`;
 
 const SIMPLE_FETCH_MODE_KEY = "simple-fetch-mode";
 
@@ -96,13 +96,18 @@ export async function askSimpleFetchMode(
     const remembered = getRememberedSimpleFetchMode(host);
     if (remembered) return remembered;
 
-    const msg = $msg("RedFlag.SimpleFetch.Stage1", {
-        newerWins: SIMPLE_FETCH_STAGE1_NEWER_WINS,
-        remoteWins: SIMPLE_FETCH_STAGE1_REMOTE_WINS,
-        detailed: SIMPLE_FETCH_STAGE1_DETAILED,
-    });
+    const msg = `リモートデータを取得します。
+
+最初に、リモートから取得するデータの扱い方を選択してください。
+
+- **${SIMPLE_FETCH_STAGE1_NEWER_WINS}**：ファイルの更新日時を比較し、新しい方を採用します。
+  複数のデバイスで変更していた場合に、更新日時に基づいて変更を統合できます。
+- **${SIMPLE_FETCH_STAGE1_REMOTE_WINS}**：リモートデータを正として扱います。
+  ローカルファイルはリモートデータで上書きされるため、重要なデータがある場合は必ずバックアップしてください。
+- **${SIMPLE_FETCH_STAGE1_DETAILED}**：詳細なセットアップウィザードを開きます。
+  同期処理を細かく制御したい場合や、適用前に変更を確認したい場合に選択してください。`;
     const stage1 = await host.services.UI.confirm.confirmWithMessage(
-        $msg("Data retrieval scheduled"),
+        `データ取得を開始`,
         msg,
         [
             SIMPLE_FETCH_STAGE1_NEWER_WINS,
@@ -121,13 +126,15 @@ export async function askSimpleFetchMode(
     }
 
     if (stage1 === SIMPLE_FETCH_STAGE1_REMOTE_WINS) {
-        const msg = $msg("RedFlag.SimpleFetch.RemoteWins", {
-            deleteAll: SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL,
-            keepAll: SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE,
-        });
+        const msg = `ローカルファイルをリモートデータで上書きする場合、**リモートデータベースに存在しないローカルファイルをどのように扱いますか？**
+
+- **${SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL}**：ローカルにのみ存在するファイルと、リモートで削除されたファイルを削除します。
+  ローカルVaultはリモートデータベースと同じ状態になります。重要なデータがある場合は必ずバックアップしてください。
+- **${SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE}**：既存のローカルファイルをすべて保持します。
+  ローカルファイルは保持されますが、リモートに存在しないファイルがあると重複が発生する可能性があります。同期後に手動で整理できます。`;
 
         const stage2 = await host.services.UI.confirm.confirmWithMessage(
-            $msg("How to handle extra existing local files?"),
+            `リモートにない既存のローカルファイルをどう扱いますか？`,
             msg,
             [SIMPLE_FETCH_STAGE2_REMOTE_DELETE_ALL, SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE, STAGE2_ABORT],
             SIMPLE_FETCH_STAGE2_REMOTE_DELETE_NONE,
@@ -142,13 +149,15 @@ export async function askSimpleFetchMode(
     }
 
     if (stage1 === SIMPLE_FETCH_STAGE1_NEWER_WINS) {
-        const msg = $msg("RedFlag.SimpleFetch.NewerWins", {
-            deleteRemote: SIMPLE_FETCH_STAGE2_NEWER_CLEANUP,
-            keepLocal: SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL,
-        });
+        const msg = `ほかのデバイスで削除されたファイルをどのように扱いますか？
+
+- **${SIMPLE_FETCH_STAGE2_NEWER_CLEANUP}**：リモートで削除されたローカルファイルも削除します。
+  デバイス間でVaultを整理された一貫した状態に保てます。重要なデータがある場合は必ずバックアップしてください。
+- **${SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL}**：リモートで削除されていても、ローカルファイルから再作成します。
+  ローカルファイルは保持されますが、重複が発生する可能性があります。同期後に手動で整理できます。`;
 
         const stage2 = await host.services.UI.confirm.confirmWithMessage(
-            $msg("Conflict & Deletion Options"),
+            `競合と削除の設定`,
             msg,
             [SIMPLE_FETCH_STAGE2_NEWER_CLEANUP, SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL, STAGE2_ABORT],
             SIMPLE_FETCH_STAGE2_NEWER_SYNC_ALL,
@@ -165,8 +174,8 @@ export async function askSimpleFetchMode(
     return "cancelled";
 }
 
-const RERUN_PROCESS = $msg("Reboot to re-run the process");
-const RELEASE_FLAG_PROCESS = $msg("Finalise the process and resume normal operation");
+const RERUN_PROCESS = `再起動して処理をやり直す`;
+const RELEASE_FLAG_PROCESS = `処理を完了して通常動作を再開`;
 export async function askAndPerformFastSetupOnScheduledFetchAll(
     host: NecessaryServices<
         | "vault"
@@ -225,9 +234,9 @@ export async function askAndPerformFastSetupOnScheduledFetchAll(
         );
         if (!syncResult) {
             const canRelease = await host.services.UI.confirm.askSelectStringDialogue(
-                $msg("Some files failed to synchronise. What would you like to do?"),
+                `一部のファイルを同期できませんでした。どうしますか？`,
                 [RERUN_PROCESS, RELEASE_FLAG_PROCESS],
-                { defaultAction: RELEASE_FLAG_PROCESS, title: $msg("Synchronisation Issues Detected") }
+                { defaultAction: RELEASE_FLAG_PROCESS, title: `同期の問題を検出` }
             );
             if (canRelease === RERUN_PROCESS) {
                 log("User chose to reboot and re-run the process.", LOG_LEVEL_NOTICE);

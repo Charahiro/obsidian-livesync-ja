@@ -18,14 +18,14 @@ export class ObsidianCompatibilityReviewUi implements CompatibilityReviewUi {
     constructor(private readonly confirm: Confirm) {}
 
     async showSummary(pause: CompatibilityPause): Promise<CompatibilityReviewSummaryAction> {
-        const reviewDetails = $msg("CompatibilityReview.Action.ReviewDetails");
-        const keepPaused = $msg("CompatibilityReview.Action.KeepPaused");
-        const resume = $msg("CompatibilityReview.Action.Resume");
+        const reviewDetails = `互換性の詳細を確認`;
+        const keepPaused = `同期を一時停止したままにする`;
+        const resume = `同期を再開`;
         const buttons = !pause.resumable
             ? ([reviewDetails, keepPaused] as const)
             : ([reviewDetails, resume, keepPaused] as const);
         const result = await this.confirm.confirmWithMessage(
-            $msg("CompatibilityReview.Title.Summary"),
+            `互換性レビューのため同期を一時停止`,
             compatibilityReviewSummaryMarkdown(pause),
             [...buttons],
             keepPaused,
@@ -39,9 +39,9 @@ export class ObsidianCompatibilityReviewUi implements CompatibilityReviewUi {
     }
 
     async showDetails(pause: CompatibilityPause): Promise<CompatibilityReviewDetailsAction> {
-        const back = $msg("CompatibilityReview.Action.Back");
+        const back = `互換性レビューへ戻る`;
         const result = await this.confirm.confirmWithMessage(
-            $msg("CompatibilityReview.Title.Details"),
+            `互換性レビューの詳細`,
             compatibilityReviewDetailsMarkdown(pause),
             [back],
             back,
@@ -57,9 +57,9 @@ export class ObsidianCompatibilityReviewUi implements CompatibilityReviewUi {
         let reminderAnchor: HTMLAnchorElement | undefined;
         const fragment = createFragment((documentFragment) => {
             documentFragment.createSpan({
-                text: $msg("Self-hosted LiveSync has paused remote synchronisation for compatibility review. "),
+                text: `互換性を確認するため、Self-hosted LiveSyncはリモート同期を一時停止しました。`,
             });
-            documentFragment.createEl("a", { text: $msg("Review why") }, (anchor) => {
+            documentFragment.createEl("a", { text: `理由を確認` }, (anchor) => {
                 reminderAnchor = anchor;
                 anchor.addEventListener("click", (event) => {
                     event.preventDefault();

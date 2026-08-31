@@ -136,7 +136,7 @@ export class DocumentHistoryModal extends Modal {
             this.range.max = `${Math.max(this.revs_info.length - 1, 0)}`;
             this.range.value = this.range.max;
             this.fileInfo.setText(
-                $msg("JapaneseUI.DocumentHistory.FileInfo", { file: this.file, count: `${this.revs_info.length}` })
+                `${this.file} / ${`${this.revs_info.length}`} リビジョン`
             );
             await this.loadRevs(initialRev);
             this.updateRevisionNavUI();
@@ -145,10 +145,10 @@ export class DocumentHistoryModal extends Modal {
                 this.range.max = "0";
                 this.range.value = "";
                 this.range.disabled = true;
-                this.contentView.setText($msg("JapaneseUI.DocumentHistory.NoHistory"));
+                this.contentView.setText(`このノートには履歴がありません。`);
                 this.updateRevisionNavUI();
             } else {
-                this.contentView.setText($msg("JapaneseUI.DocumentHistory.LoadError"));
+                this.contentView.setText(`ファイルの読み込み中にエラーが発生しました。`);
                 Logger(ex, LOG_LEVEL_VERBOSE);
             }
         }
@@ -192,7 +192,7 @@ export class DocumentHistoryModal extends Modal {
 
         this.revNavIndicator.setText(
             total > 0
-                ? $msg("JapaneseUI.DocumentHistory.Revision", { current: `${current + 1}`, total: `${total}` })
+                ? `リビジョン ${`${current + 1}`}/${`${total}`}`
                 : "\u2014"
         );
 
@@ -278,7 +278,7 @@ export class DocumentHistoryModal extends Modal {
     }
 
     appendDeletedNotice(usePreformatted = true) {
-        const notice = $msg("JapaneseUI.DocumentHistory.DeletedAtRevision");
+        const notice = `（このリビジョンではファイルが削除されています）`;
         if (usePreformatted) {
             this.contentView.appendText(`${notice}\n`);
         } else {
@@ -296,12 +296,12 @@ export class DocumentHistoryModal extends Modal {
         if (w === false) {
             this.currentDeleted = true;
             this.info.empty();
-            this.contentView.appendText($msg("JapaneseUI.DocumentHistory.CannotReadRevision"));
+            this.contentView.appendText(`このリビジョンを読み取れません。`);
             this.contentView.createEl("br");
             this.contentView.appendText(`(${rev})`);
         } else {
             this.currentDoc = w;
-            this.info.setText($msg("JapaneseUI.DocumentHistory.Modified", { time: new Date(w.mtime).toLocaleString() }));
+            this.info.setText(`更新日時：${new Date(w.mtime).toLocaleString()}`);
             const w1data = readDocument(w);
             this.currentDeleted = !!w.deleted;
             if (typeof w1data == "string") {
@@ -355,7 +355,7 @@ export class DocumentHistoryModal extends Modal {
                         if (this.currentDeleted) {
                             this.appendDeletedNotice();
                         }
-                        this.contentView.appendText($msg("JapaneseUI.DocumentHistory.BinaryFile"));
+                        this.contentView.appendText(`バイナリファイル`);
                     }
                 } else {
                     if (this.currentDeleted) {
@@ -452,7 +452,7 @@ export class DocumentHistoryModal extends Modal {
         const totalRevs = this.revs_info.length;
         const end = Math.min(totalRevs, limit);
 
-        this.searchProgressIndicator.setText($msg("JapaneseUI.DocumentHistory.Searching"));
+        this.searchProgressIndicator.setText(`検索中…`);
 
         const dmp = new diff_match_patch();
 
@@ -462,7 +462,7 @@ export class DocumentHistoryModal extends Modal {
             const rev = revInfo.rev;
 
             this.searchProgressIndicator.setText(
-                $msg("JapaneseUI.DocumentHistory.SearchingProgress", { current: `${i + 1}`, total: `${end}` })
+                `${`${i + 1}`}/${`${end}`} を検索中…`
             );
 
             const doc = await db.getDBEntry(this.file, { rev: rev }, false, false, true);
@@ -508,17 +508,17 @@ export class DocumentHistoryModal extends Modal {
             }
         }
 
-        this.searchProgressIndicator.setText($msg("JapaneseUI.DocumentHistory.Done"));
+        this.searchProgressIndicator.setText(`完了`);
         this.updateSearchUI();
     }
 
     updateSearchUI() {
         if (this.searchResults.length === 0) {
-            this.searchResultIndicator.setText(this.searchKeyword ? $msg("JapaneseUI.DocumentHistory.NoMatches") : "");
+            this.searchResultIndicator.setText(this.searchKeyword ? `一致する項目はありません` : "");
         } else {
             const current = this.currentSearchIndex >= 0 ? this.currentSearchIndex + 1 : 0;
             this.searchResultIndicator.setText(
-                $msg("JapaneseUI.DocumentHistory.Matches", { current: `${current}`, total: `${this.searchResults.length}` })
+                `${`${current}`}/${`${this.searchResults.length}`} 件一致`
             );
         }
 
@@ -551,7 +551,7 @@ export class DocumentHistoryModal extends Modal {
 
     override onOpen() {
         const { contentEl } = this;
-        this.titleEl.setText($msg("JapaneseUI.DocumentHistory.Title"));
+        this.titleEl.setText(`ファイル履歴`);
         contentEl.empty();
         this.fileInfo = contentEl.createDiv("");
         this.fileInfo.addClass("op-info");
@@ -564,7 +564,7 @@ export class DocumentHistoryModal extends Modal {
 
         const searchInput = searchRow.createEl("input", {
             type: "text",
-            placeholder: $msg("JapaneseUI.DocumentHistory.SearchPlaceholder"),
+            placeholder: `履歴を検索（最新100件）…`,
         });
         searchInput.addClass("history-search-input");
         searchInput.addEventListener("input", () => {
@@ -577,12 +577,12 @@ export class DocumentHistoryModal extends Modal {
         });
 
         this.searchPrevBtn = searchRow.createEl("button", { text: "\u25B2" }, (e) => {
-            e.title = $msg("JapaneseUI.DocumentHistory.PreviousMatch");
+            e.title = `前の一致`;
             e.disabled = true;
             e.addEventListener("click", () => this.navigateSearch("prev"));
         });
         this.searchNextBtn = searchRow.createEl("button", { text: "\u25BC" }, (e) => {
-            e.title = $msg("JapaneseUI.DocumentHistory.NextMatch");
+            e.title = `次の一致`;
             e.disabled = true;
             e.addEventListener("click", () => this.navigateSearch("next"));
         });
@@ -597,7 +597,7 @@ export class DocumentHistoryModal extends Modal {
 
         this.revPrevBtn = revNavRow.createEl("button", { text: "\u25C0" }, (e) => {
             e.addClass("history-rev-nav-btn");
-            e.title = $msg("JapaneseUI.DocumentHistory.OlderRevision");
+            e.title = `古いリビジョン`;
             e.disabled = true;
             e.addEventListener("click", () => this.navigateVersion("older"));
         });
@@ -616,7 +616,7 @@ export class DocumentHistoryModal extends Modal {
 
         this.revNextBtn = revNavRow.createEl("button", { text: "\u25B6" }, (e) => {
             e.addClass("history-rev-nav-btn");
-            e.title = $msg("JapaneseUI.DocumentHistory.NewerRevision");
+            e.title = `新しいリビジョン`;
             e.disabled = true;
             e.addEventListener("click", () => this.navigateVersion("newer"));
         });
@@ -649,7 +649,7 @@ export class DocumentHistoryModal extends Modal {
                     void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
                 });
             });
-            label.appendText($msg("JapaneseUI.DocumentHistory.HighlightDiff"));
+            label.appendText(`差分を強調表示`);
         });
 
         const diffOnlyLabel = diffOptionsRow.createEl("label", {});
@@ -663,7 +663,7 @@ export class DocumentHistoryModal extends Modal {
                 void scheduleOnceIfDuplicated("loadRevs", () => this.loadRevs());
             });
         });
-        diffOnlyLabel.appendText($msg("JapaneseUI.DocumentHistory.DiffOnly"));
+        diffOnlyLabel.appendText(`差分のみ`);
         diffOnlyLabel.addClass("diff-only-label");
         diffOnlyLabel.setCssStyles({ display: this.showDiff ? "inline-block" : "none" });
         this.diffOnlyLabel = diffOnlyLabel;
@@ -673,13 +673,13 @@ export class DocumentHistoryModal extends Modal {
         this.diffNavContainer.addClass("diff-nav");
         this.diffNavContainer.setCssStyles({ display: this.showDiff ? "flex" : "none" });
 
-        this.diffNavContainer.createEl("button", { text: `\u25B2 ${$msg("Prev")}` }, (e) => {
+        this.diffNavContainer.createEl("button", { text: `\u25B2 ${`前へ`}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => {
                 this.navigateDiff("prev");
             });
         });
-        this.diffNavContainer.createEl("button", { text: `\u25BC ${$msg("Next")}` }, (e) => {
+        this.diffNavContainer.createEl("button", { text: `\u25BC ${`次へ`}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => {
                 this.navigateDiff("next");
@@ -691,17 +691,17 @@ export class DocumentHistoryModal extends Modal {
         this.info = contentEl.createDiv("");
         this.info.addClass("op-info");
         fireAndForget(async () => await this.loadFile(this.initialRev));
-        const div = contentEl.createDiv({ text: $msg("JapaneseUI.DocumentHistory.LoadingOldRevisions") });
+        const div = contentEl.createDiv({ text: `過去のリビジョンを読み込み中…` });
         this.contentView = div;
         div.addClass("op-scrollable");
         div.addClass("op-pre");
         const buttons = contentEl.createDiv("");
-        buttons.createEl("button", { text: $msg("JapaneseUI.DocumentHistory.CopyToClipboard") }, (e) => {
+        buttons.createEl("button", { text: `クリップボードにコピー` }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
                     await compatGlobal.navigator.clipboard.writeText(this.currentText);
-                    Logger($msg("JapaneseUI.DocumentHistory.OldContentCopied"), LOG_LEVEL_NOTICE);
+                    Logger(`過去の内容をクリップボードにコピーしました`, LOG_LEVEL_NOTICE);
                 });
             });
         });
@@ -711,25 +711,25 @@ export class DocumentHistoryModal extends Modal {
                 const leaf = this.plugin.app.workspace.getLeaf(false);
                 await leaf.openFile(targetFile);
             } else {
-                Logger($msg("JapaneseUI.DocumentHistory.EditorDisplayFailed"), LOG_LEVEL_NOTICE);
+                Logger(`エディターにファイルを表示できません`, LOG_LEVEL_NOTICE);
             }
         };
-        buttons.createEl("button", { text: $msg("JapaneseUI.DocumentHistory.BackToRevision") }, (e) => {
+        buttons.createEl("button", { text: `このリビジョンへ戻す` }, (e) => {
             e.addClass("mod-cta");
             e.addEventListener("click", () => {
                 fireAndForget(async () => {
                     const pathToWrite = stripPrefix(this.file);
                     if (!isValidPath(pathToWrite)) {
-                        Logger($msg("JapaneseUI.DocumentHistory.InvalidPath"), LOG_LEVEL_INFO);
+                        Logger(`内容を書き込むパスが無効です。`, LOG_LEVEL_INFO);
                         return;
                     }
                     if (!this.currentDoc) {
-                        Logger($msg("JapaneseUI.DocumentHistory.NoActiveFile"), LOG_LEVEL_INFO);
+                        Logger(`開いているファイルがありません。`, LOG_LEVEL_INFO);
                         return;
                     }
                     const sourceRevision = this.currentDoc._rev;
                     if (!sourceRevision) {
-                        Logger($msg("JapaneseUI.DocumentHistory.MissingRevisionIdentifier"), LOG_LEVEL_NOTICE);
+                        Logger(`選択したリビジョンにリビジョン識別子がありません。`, LOG_LEVEL_NOTICE);
                         return;
                     }
 
@@ -741,7 +741,7 @@ export class DocumentHistoryModal extends Modal {
                         });
                     } catch (ex) {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.RestorationFailed"),
+                            `Vaultへの反映が完了する前に、選択したリビジョンの復元に失敗しました。再試行する前に「競合およびファイル／データベースの差異を点検」でファイルを確認してください。`,
                             LOG_LEVEL_NOTICE
                         );
                         Logger(ex, LOG_LEVEL_VERBOSE);
@@ -751,7 +751,7 @@ export class DocumentHistoryModal extends Modal {
 
                     if (result.status === "source-unavailable") {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.SourceUnavailable"),
+                            `内容を取得できなくなったため、選択したリビジョンを復元できませんでした。`,
                             LOG_LEVEL_NOTICE
                         );
                         e.disabled = false;
@@ -759,7 +759,7 @@ export class DocumentHistoryModal extends Modal {
                     }
                     if (result.status === "current-unavailable") {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.CurrentUnavailable"),
+                            `現在のデータベースリビジョンを読み取れませんでした。Vaultは変更されていません。`,
                             LOG_LEVEL_NOTICE
                         );
                         e.disabled = false;
@@ -767,7 +767,7 @@ export class DocumentHistoryModal extends Modal {
                     }
                     if (result.status === "unsupported-path") {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.UnsupportedPath"),
+                            `Document Historyから復元できるのは、通常の有効なVaultパスのみです。`,
                             LOG_LEVEL_NOTICE
                         );
                         e.disabled = false;
@@ -775,7 +775,7 @@ export class DocumentHistoryModal extends Modal {
                     }
                     if (result.status === "database-write-refused") {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.DatabaseWriteRefused"),
+                            `復元したリビジョンを作成できませんでした。処理中にファイルが変更された可能性があります。Vaultは変更されていません。`,
                             LOG_LEVEL_NOTICE
                         );
                         e.disabled = false;
@@ -783,7 +783,7 @@ export class DocumentHistoryModal extends Modal {
                     }
                     if (result.status === "stored-not-reflected") {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.StoredNotReflected"),
+                            `復元したリビジョンはローカルデータベースに保存されましたが、Vaultへ反映できませんでした。「競合およびファイル／データベースの差異を点検」で確認して適用してください。`,
                             LOG_LEVEL_NOTICE
                         );
                         if (result.cause) {
@@ -798,21 +798,21 @@ export class DocumentHistoryModal extends Modal {
                     }
                     if (result.conflictsRemain === true) {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.RestoredWithConflicts"),
+                            `選択した内容を新しいリビジョンとして復元しました。他のバージョンは未解決のままです。「競合およびファイル／データベースの差異を点検」で確認してください。`,
                             LOG_LEVEL_NOTICE
                         );
                     } else if (result.conflictsRemain === false) {
-                        Logger($msg("JapaneseUI.DocumentHistory.Restored"), LOG_LEVEL_NOTICE);
+                        Logger(`選択した内容を新しいリビジョンとして復元しました。`, LOG_LEVEL_NOTICE);
                     } else {
                         Logger(
-                            $msg("JapaneseUI.DocumentHistory.RestoredWithUnknownConflicts"),
+                            `選択した内容を新しいリビジョンとして復元しました。ほかのバージョンが残っているかLiveSyncで確認できませんでした。「競合およびファイル／データベースの差異を点検」でファイルを確認してください。`,
                             LOG_LEVEL_NOTICE
                         );
                     }
                     try {
                         await focusFile(result.path);
                     } catch (ex) {
-                        Logger($msg("JapaneseUI.DocumentHistory.EditorOpenFailed"), LOG_LEVEL_NOTICE);
+                        Logger(`復元したファイルをエディターで開けませんでした。`, LOG_LEVEL_NOTICE);
                         Logger(ex, LOG_LEVEL_VERBOSE);
                     }
                     this.close();

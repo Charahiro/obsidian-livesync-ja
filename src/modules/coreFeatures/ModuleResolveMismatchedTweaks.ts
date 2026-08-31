@@ -82,7 +82,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
             this.settings.autoAcceptCompatibleTweak = true;
             await this.services.setting.saveSettingData();
             autoAcceptCompatibleTweak = true;
-            Logger($msg("JapaneseUI.Runtime.CompatibleChunkSettingsAligned"));
+            Logger(`互換性のあるチャンク設定の自動調整を有効にしました。`);
         }
 
         if (autoAcceptCompatibleTweak !== true) return undefined;
@@ -273,12 +273,12 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
         try {
             const replicator = await this.services.replicator.getNewReplicator(trialSetting);
             if (!replicator) {
-                this._log($msg("TweakMismatchResolve.Message.UnsupportedRemoteType"), LOG_LEVEL_NOTICE);
+                this._log(`このリモート種別では優先する調整値を取得できません。`, LOG_LEVEL_NOTICE);
                 return { status: RemotePreferredTweakStatuses.UNSUPPORTED };
             }
             return await replicator.getRemotePreferredTweakValues(trialSetting);
         } catch (ex) {
-            this._log($msg("TweakMismatchResolve.Message.FetchPreferredValuesFailed"), LOG_LEVEL_NOTICE);
+            this._log(`リモートサーバーから優先する調整値を取得できませんでした。`, LOG_LEVEL_NOTICE);
             return {
                 status: RemotePreferredTweakStatuses.UNAVAILABLE,
                 error: ex,
@@ -362,7 +362,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
         }
 
         if (differenceCount === 0) {
-            this._log($msg("TweakMismatchResolve.Message.SettingsAlreadyMatch"), LOG_LEVEL_NOTICE);
+            this._log(`リモートデータベースとローカルデータベースの設定は同じです。`, LOG_LEVEL_NOTICE);
             return { result: false, requireFetch: false };
         }
         const additionalMessage =

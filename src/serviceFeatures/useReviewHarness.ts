@@ -23,9 +23,9 @@ async function runVaultRoundTrip(plugin: ObsidianLiveSyncPlugin): Promise<Review
     return runReviewHarnessVaultRoundTrip({
         confirmFixtureAccess: async () =>
             (await plugin.core.services.UI.confirm.askYesNoDialog(
-                $msg("ReviewHarness.VaultFixture.Prompt"),
+                `このシナリオでは、管理対象のテスト用ツリーを1つ作成、読み取り、変更、名前変更、削除します。専用のテストVaultを使用してください。続行しますか？`,
                 {
-                    title: $msg("ReviewHarness.VaultFixture.PromptTitle"),
+                    title: `レビューハーネス：Vaultテスト用ファイルへのアクセス`,
                     defaultOption: "No",
                 }
             )) === "yes",
@@ -72,7 +72,7 @@ export function useReviewHarness(
         restart: () => services.appLifecycle.performRestart(),
         reportError: (error) => services.API.addLog(error, LOG_LEVEL_NOTICE),
         copyText: async (value) => {
-            if (!activeWindow.navigator.clipboard) throw new Error($msg("ReviewHarness.Error.ClipboardUnavailable"));
+            if (!activeWindow.navigator.clipboard) throw new Error(`このデバイスではクリップボードを利用できません。`);
             await activeWindow.navigator.clipboard.writeText(value);
         },
         getEnvironment: () => ({
@@ -107,7 +107,7 @@ export function useReviewHarness(
         );
         services.API.addCommand({
             id: "open-review-harness",
-            name: $msg("ReviewHarness.Command.Open"),
+            name: `レビューハーネスを開く`,
             callback: () => {
                 void services.API.showWindow(VIEW_TYPE_REVIEW_HARNESS);
             },

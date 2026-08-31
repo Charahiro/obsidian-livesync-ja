@@ -18,9 +18,12 @@ vi.mock("@vrtmrz/livesync-commonlib/compat/common/utils", async (importOriginal)
 });
 vi.mock("@/features/LiveSyncCommands", () => ({
     LiveSyncCommands: class LiveSyncCommands {
-        core!: { settings: unknown };
+        core!: { settings: unknown; services: unknown };
         get settings() {
             return this.core.settings;
+        }
+        get services() {
+            return this.core.services;
         }
     },
 }));
@@ -76,11 +79,13 @@ describe("LocalDatabaseMaintenance prerequisites", () => {
         };
         const maintenance = Object.create(LocalDatabaseMaintenance.prototype) as LocalDatabaseMaintenance;
         Object.assign(maintenance, {
-            plugin: {
-                addCommand: vi.fn((command) => commands.push(command)),
-            },
             core: {
                 settings,
+                services: {
+                    API: {
+                        addCommand: vi.fn((command) => commands.push(command)),
+                    },
+                },
             },
             _isDatabaseReady: vi.fn(() => true),
         });
@@ -239,11 +244,11 @@ describe("LocalDatabaseMaintenance Garbage Collection V3", () => {
 
         await maintenance.compactDatabase();
 
-        expect(notice).toHaveBeenCalledWith("Compaction on remote database timed out.", "gc-compact");
-        expect(notice).not.toHaveBeenCalledWith(
-            "Compaction on remote database completed successfully.",
+        expect(notice).toHaveBeenCalledWith(
+            "リモートデータベースのコンパクションがタイムアウトしました。",
             "gc-compact"
         );
+        expect(notice).not.toHaveBeenCalledWith("リモートデータベースのコンパクションが完了しました。", "gc-compact");
         expect(remoteDatabase.close).toHaveBeenCalledOnce();
     });
 
@@ -316,7 +321,7 @@ describe("LocalDatabaseMaintenance Garbage Collection V3", () => {
         expect(allChunks).not.toHaveBeenCalled();
         expect(pushModes).toEqual(["sync"]);
         expect(notice).toHaveBeenCalledWith(
-            "No connected device information found. Cancelling Garbage Collection."
+            "接続中の端末情報が見つからなかったため、ガベージコレクションを中止しました。"
         );
     });
 

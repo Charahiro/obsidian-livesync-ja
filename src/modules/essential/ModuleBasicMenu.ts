@@ -29,14 +29,14 @@ export class ModuleBasicMenu extends AbstractModule {
         });
         this.addCommand({
             id: "livesync-toggle",
-            name: $msg("Toggle LiveSync"),
+            name: `LiveSyncを切り替え`,
             callback: async () => {
                 if (this.settings.liveSync) {
                     this.settings.liveSync = false;
-                    this._log($msg("moduleBasicMenu.liveSyncDisabled"), LOG_LEVEL_NOTICE);
+                    this._log(`LiveSyncを無効にしました。`, LOG_LEVEL_NOTICE);
                 } else {
                     this.settings.liveSync = true;
-                    this._log($msg("moduleBasicMenu.liveSyncEnabled"), LOG_LEVEL_NOTICE);
+                    this._log(`LiveSyncを有効にしました。`, LOG_LEVEL_NOTICE);
                 }
                 await this.services.control.applySettings();
                 await this.services.setting.saveSettingData();
@@ -44,14 +44,14 @@ export class ModuleBasicMenu extends AbstractModule {
         });
         this.addCommand({
             id: "livesync-suspendall",
-            name: $msg("Toggle All Sync."),
+            name: `すべての同期を切り替え`,
             callback: async () => {
                 if (this.services.appLifecycle.isSuspended()) {
                     this.services.appLifecycle.setSuspended(false);
-                    this._log($msg("moduleBasicMenu.liveSyncResumed"), LOG_LEVEL_NOTICE);
+                    this._log(`Self-hosted LiveSyncを再開しました。`, LOG_LEVEL_NOTICE);
                 } else {
                     this.services.appLifecycle.setSuspended(true);
-                    this._log($msg("moduleBasicMenu.liveSyncSuspended"), LOG_LEVEL_NOTICE);
+                    this._log(`Self-hosted LiveSyncを一時停止しました。`, LOG_LEVEL_NOTICE);
                 }
                 await this.services.control.applySettings();
                 await this.services.setting.saveSettingData();
@@ -60,7 +60,7 @@ export class ModuleBasicMenu extends AbstractModule {
 
         this.addCommand({
             id: "livesync-scan-files",
-            name: $msg("Scan storage and database again"),
+            name: `ストレージとデータベースを再スキャン`,
             checkCallback: (checking) => {
                 if (!this.settings.useAdvancedMode) return false;
                 if (!checking) {
@@ -81,7 +81,7 @@ export class ModuleBasicMenu extends AbstractModule {
         // TODO, Replicator is possibly one of features. It should be moved to features.
         this.addCommand({
             id: "livesync-abortsync",
-            name: $msg("Abort synchronization immediately"),
+            name: `同期を直ちに中止`,
             checkCallback: (checking) => {
                 if (!this.settings.useAdvancedMode) return false;
                 if (!checking) {

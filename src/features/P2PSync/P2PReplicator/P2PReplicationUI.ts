@@ -111,15 +111,12 @@ export function createOpenRebuildUI(
                     activeSynchronisations++;
                     try {
                         replicator.setOnSetup();
-                        Logger($msg("JapaneseUI.P2P.RebuildingFrom", { peerId }), logLevel);
+                        Logger(`ピア ${peerId} から再構築しています`, logLevel);
                         const result = await replicator.replicateFrom(peerId, showResult, true);
                         sessionResult = result?.ok ?? false;
                     } catch (e) {
                         Logger(
-                            $msg("JapaneseUI.P2P.RebuildError", {
-                                peerId,
-                                error: e instanceof Error ? e.message : String(e),
-                            }),
+                            `${peerId} からの再構築中にエラーが発生しました: ${e instanceof Error ? e.message : String(e)}`,
                             logLevel
                         );
                         sessionResult = false;

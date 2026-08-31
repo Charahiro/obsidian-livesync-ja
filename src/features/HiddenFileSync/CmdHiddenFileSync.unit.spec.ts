@@ -40,7 +40,7 @@ function createHiddenRevisionOperation() {
         path,
         name: "data.json",
         isInternal: true,
-        body: new Blob(["{\"value\":\"vault\"}"]),
+        body: new Blob(['{"value":"vault"}']),
         stat: {
             ctime: 1,
             mtime: 2,
@@ -66,12 +66,11 @@ function createHiddenRevisionOperation() {
         _rev: "3-winner",
     } as MetaEntry;
     const databaseFileAccess = {
-        fetchEntryMeta: vi.fn(
-            async (_path: unknown, revision?: string) =>
-                revision === selected._rev ? selected : winner
+        fetchEntryMeta: vi.fn(async (_path: unknown, revision?: string) =>
+            revision === selected._rev ? selected : winner
         ),
         getConflictedRevs: vi.fn(async () => [selected._rev]),
-        fetchEntryFromMeta: vi.fn(async () => ({ ...selected, data: "{\"value\":\"database\"}" })),
+        fetchEntryFromMeta: vi.fn(async () => ({ ...selected, data: '{"value":"database"}' })),
         storeWithBaseRevision: vi.fn(async () => "3-vault-child"),
     };
     const hiddenFileSync = Object.create(HiddenFileSync.prototype) as HiddenFileSync;
@@ -208,16 +207,16 @@ describe("HiddenFileSync configuration-change notices", () => {
         hiddenFileSync.notifyConfigChange();
 
         expect(noticeGroups.setItem).toHaveBeenNthCalledWith(1, "hidden-file-changes", "plugin:alpha", {
-            message: "Files in Alpha were updated.",
-            action: expect.objectContaining({ label: "Reload Alpha" }),
+            message: "Alpha のファイルが更新されました。",
+            action: expect.objectContaining({ label: "Alpha を再読み込み" }),
         });
         expect(noticeGroups.setItem).toHaveBeenNthCalledWith(2, "hidden-file-changes", "plugin:beta", {
-            message: "Files in Beta were updated.",
-            action: expect.objectContaining({ label: "Reload Beta" }),
+            message: "Beta のファイルが更新されました。",
+            action: expect.objectContaining({ label: "Beta を再読み込み" }),
         });
         expect(noticeGroups.setItem).toHaveBeenNthCalledWith(3, "hidden-file-changes", "restart", {
-            message: "Other Obsidian settings files were updated.",
-            action: expect.objectContaining({ label: "Schedule an Obsidian restart" }),
+            message: "ほかのObsidian設定ファイルが更新されました。",
+            action: expect.objectContaining({ label: "Obsidianの再起動を予約" }),
         });
         expect(noticeGroups.setItem.mock.calls.every(([groupKey]) => groupKey === "hidden-file-changes")).toBe(true);
         expect(noticeGroups.finish).toHaveBeenCalledWith("hidden-file-changes", { durationMs: 20_000 });
@@ -344,16 +343,11 @@ describe("HiddenFileSync configuration-change notices", () => {
 
 describe("HiddenFileSync exact revision repair operations", () => {
     it("stores the current hidden Vault file as a child of the selected live revision", async () => {
-        const {
-            hiddenFileSync,
-            file,
-            selected,
-            databaseFileAccess,
-        } = createHiddenRevisionOperation();
+        const { hiddenFileSync, file, selected, databaseFileAccess } = createHiddenRevisionOperation();
 
-        await expect(
-            hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(file, selected._rev!)
-        ).resolves.toBe(true);
+        await expect(hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(file, selected._rev!)).resolves.toBe(
+            true
+        );
 
         expect(databaseFileAccess.storeWithBaseRevision).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -372,36 +366,22 @@ describe("HiddenFileSync exact revision repair operations", () => {
     });
 
     it("refuses to extend a hidden-file revision which is no longer live", async () => {
-        const {
-            hiddenFileSync,
-            file,
-            selected,
-            databaseFileAccess,
-        } = createHiddenRevisionOperation();
+        const { hiddenFileSync, file, selected, databaseFileAccess } = createHiddenRevisionOperation();
         databaseFileAccess.getConflictedRevs.mockResolvedValue([]);
 
-        await expect(
-            hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(file, selected._rev!)
-        ).resolves.toBe(false);
+        await expect(hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(file, selected._rev!)).resolves.toBe(
+            false
+        );
 
         expect(databaseFileAccess.storeWithBaseRevision).not.toHaveBeenCalled();
         expect(hiddenFileSync.updateLastProcessed).not.toHaveBeenCalled();
     });
 
     it("does not create a hidden-file child when asked only to mark a revision which differs from the Vault", async () => {
-        const {
-            hiddenFileSync,
-            file,
-            selected,
-            databaseFileAccess,
-        } = createHiddenRevisionOperation();
+        const { hiddenFileSync, file, selected, databaseFileAccess } = createHiddenRevisionOperation();
 
         await expect(
-            hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(
-                file,
-                selected._rev!,
-                false
-            )
+            hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(file, selected._rev!, false)
         ).resolves.toBe(false);
 
         expect(databaseFileAccess.storeWithBaseRevision).not.toHaveBeenCalled();
@@ -409,61 +389,39 @@ describe("HiddenFileSync exact revision repair operations", () => {
     });
 
     it("marks a matching hidden-file revision without creating a child", async () => {
-        const {
-            hiddenFileSync,
-            file,
-            selected,
-            databaseFileAccess,
-        } = createHiddenRevisionOperation();
+        const { hiddenFileSync, file, selected, databaseFileAccess } = createHiddenRevisionOperation();
         databaseFileAccess.fetchEntryFromMeta.mockResolvedValue({
             ...selected,
-            data: "{\"value\":\"vault\"}",
+            data: '{"value":"vault"}',
         });
 
         await expect(
-            hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(
-                file,
-                selected._rev!,
-                false
-            )
+            hiddenFileSync.storeInternalFileToDatabaseWithBaseRevision(file, selected._rev!, false)
         ).resolves.toBe(true);
 
         expect(databaseFileAccess.storeWithBaseRevision).not.toHaveBeenCalled();
-        expect(hiddenFileSync.updateLastProcessed).toHaveBeenCalledWith(
-            file.path,
-            selected,
-            file.stat
-        );
+        expect(hiddenFileSync.updateLastProcessed).toHaveBeenCalledWith(file.path, selected, file.stat);
     });
 
     it("applies the selected live hidden-file revision through the existing extraction path", async () => {
-        const {
-            hiddenFileSync,
-            path,
-            selected,
-        } = createHiddenRevisionOperation();
+        const { hiddenFileSync, path, selected } = createHiddenRevisionOperation();
         const extract = vi.fn(async () => true);
         hiddenFileSync.extractInternalFileFromDatabase = extract;
 
-        await expect(
-            hiddenFileSync.extractInternalFileRevisionFromDatabase(path, selected._rev!, true)
-        ).resolves.toBe(true);
+        await expect(hiddenFileSync.extractInternalFileRevisionFromDatabase(path, selected._rev!, true)).resolves.toBe(
+            true
+        );
 
         expect(extract).toHaveBeenCalledWith(path, true, undefined, true, false, true, selected._rev);
     });
 
     it("does not apply a hidden-file revision which ceased to be live", async () => {
-        const {
-            hiddenFileSync,
-            path,
-            selected,
-            databaseFileAccess,
-        } = createHiddenRevisionOperation();
+        const { hiddenFileSync, path, selected, databaseFileAccess } = createHiddenRevisionOperation();
         databaseFileAccess.getConflictedRevs.mockResolvedValue([]);
 
-        await expect(
-            hiddenFileSync.extractInternalFileRevisionFromDatabase(path, selected._rev!, true)
-        ).resolves.toBe(false);
+        await expect(hiddenFileSync.extractInternalFileRevisionFromDatabase(path, selected._rev!, true)).resolves.toBe(
+            false
+        );
 
         expect(databaseFileAccess.fetchEntryFromMeta).not.toHaveBeenCalled();
     });

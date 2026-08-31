@@ -151,7 +151,7 @@ export function useP2PReplicatorUI(
 
         api.addCommand({
             id: "open-p2p-server-status",
-            name: $msg("P2P Sync : Open P2P Status"),
+            name: `P2P同期：P2P状態を開く`,
             checkCallback: (checking) => {
                 if (!hasP2PConfiguration(host.services.setting.currentSettings())) return false;
                 if (!checking) {
@@ -162,7 +162,7 @@ export function useP2PReplicatorUI(
         });
         host.services.API.addCommand({
             id: "replicate-now-by-p2p-default-peer",
-            name: $msg("Replicate P2P to default peer"),
+            name: `既定のピアへP2P同期`,
             checkCallback: (isChecking: boolean) => {
                 const settings = host.services.setting.currentSettings();
                 const isAvailable =
@@ -178,7 +178,7 @@ export function useP2PReplicatorUI(
         });
         host.services.API.addCommand({
             id: "replicate-now-by-p2p",
-            name: $msg("Replicate now by P2P"),
+            name: `P2Pで今すぐ同期`,
             checkCallback: (isChecking: boolean) => {
                 const settings = host.services.setting.currentSettings();
                 const isAvailable =
@@ -195,7 +195,7 @@ export function useP2PReplicatorUI(
 
         host.services.API.addCommand({
             id: "p2p-sync-targets",
-            name: $msg("P2P: Sync with targets"),
+            name: `P2P：対象と同期`,
             checkCallback: (isChecking: boolean) => {
                 const isAvailable =
                     hasP2PConfiguration(host.services.setting.currentSettings()) &&

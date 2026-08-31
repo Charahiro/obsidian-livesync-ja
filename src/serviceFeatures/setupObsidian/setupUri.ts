@@ -10,8 +10,8 @@ import { $msg } from "@/common/translation";
 
 export async function askEncryptingPassphrase(host: SetupFeatureHost): Promise<string | false> {
     return await host.services.UI.confirm.askString(
-        $msg("Encrypt your settings"),
-        $msg("The passphrase to encrypt the setup URI"),
+        `設定を暗号化`,
+        `Setup URIを暗号化するパスフレーズ`,
         "",
         true
     );
@@ -26,7 +26,7 @@ export async function copySetupURI(host: SetupFeatureHost, log: LogFunction, str
         [...((stripExtra ? ["pluginSyncExtendedSetting"] : []) as (keyof ObsidianLiveSyncSettings)[])],
         true
     );
-    if (await host.services.UI.promptCopyToClipboard($msg("Setup URI"), encryptedURI)) {
+    if (await host.services.UI.promptCopyToClipboard(`Setup URI`, encryptedURI)) {
         log("Setup URI copied to clipboard", LOG_LEVEL_NOTICE);
     }
 }
@@ -40,7 +40,7 @@ export async function copySetupURIFull(host: SetupFeatureHost, log: LogFunction)
         [],
         false
     );
-    if (await host.services.UI.promptCopyToClipboard($msg("Setup URI"), encryptedURI)) {
+    if (await host.services.UI.promptCopyToClipboard(`Setup URI`, encryptedURI)) {
         log("Setup URI copied to clipboard", LOG_LEVEL_NOTICE);
     }
 }
@@ -50,7 +50,7 @@ export function useSetupURIFeature(host: NecessaryServices<"API" | "UI" | "setti
     host.services.appLifecycle.onLoaded.addHandler(() => {
         host.services.API.addCommand({
             id: "livesync-copysetupuri",
-            name: $msg("Copy settings as a new setup URI"),
+            name: `設定を新しいSetup URIとしてコピー`,
             checkCallback: (checking) => {
                 if (!host.services.setting.currentSettings().isConfigured) return false;
                 if (!checking) fireAndForget(copySetupURI(host, log));
@@ -60,7 +60,7 @@ export function useSetupURIFeature(host: NecessaryServices<"API" | "UI" | "setti
 
         host.services.API.addCommand({
             id: "livesync-copysetupuri-short",
-            name: $msg("Copy settings as a new setup URI (With customization sync)"),
+            name: `設定を新しいSetup URIとしてコピー（カスタマイズ同期を含む）`,
             checkCallback: (checking) => {
                 const settings = host.services.setting.currentSettings();
                 if (!settings.isConfigured || !settings.usePluginSync) return false;
@@ -71,7 +71,7 @@ export function useSetupURIFeature(host: NecessaryServices<"API" | "UI" | "setti
 
         host.services.API.addCommand({
             id: "livesync-copysetupurifull",
-            name: $msg("Copy settings as a new setup URI (Full)"),
+            name: `設定を新しいSetup URIとしてコピー（すべて）`,
             checkCallback: (checking) => {
                 const settings = host.services.setting.currentSettings();
                 if (!settings.isConfigured || !settings.useAdvancedMode) return false;

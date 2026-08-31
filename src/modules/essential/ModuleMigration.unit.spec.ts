@@ -18,7 +18,10 @@ async function* failedDocumentScan() {
     throw new Error("scan failed");
 }
 
-function createMigration(findAllNormalDocs: typeof noDocuments | typeof failedDocumentScan = noDocuments) {
+function createMigration(
+    findAllNormalDocs: typeof noDocuments | typeof failedDocumentScan = noDocuments,
+    settings = { sendChunksBulk: false, sendChunksBulkMaxSize: 1 }
+) {
     const noticeGroups = {
         setItem: vi.fn(),
         finish: vi.fn(() => true),
@@ -32,6 +35,7 @@ function createMigration(findAllNormalDocs: typeof noDocuments | typeof failedDo
             registerProtocolHandler: vi.fn(),
         },
         context: { noticeGroups },
+        setting: { saveSettingData: vi.fn(async () => undefined) },
         vault: { isTargetFile: vi.fn(async () => true) },
         path: { getPath: vi.fn() },
     };
@@ -44,12 +48,36 @@ function createMigration(findAllNormalDocs: typeof noDocuments | typeof failedDo
         },
         localDatabase: { findAllNormalDocs },
         storageAccess: {},
+        settings,
     };
     return {
         migration: new ModuleMigration(core as never),
         noticeGroups,
+        saveSettingData: services.setting.saveSettingData,
     };
 }
+
+describe("ModuleMigration obsolete-setting migration", () => {
+    it("persists the removal of an enabled automatic bulk chunk pre-send setting", async () => {
+        const settings = { sendChunksBulk: true, sendChunksBulkMaxSize: 16 };
+        const { migration, saveSettingData } = createMigration(noDocuments, settings);
+
+        await migration.migrateDisableBulkSend();
+
+        expect(settings).toEqual({ sendChunksBulk: false, sendChunksBulkMaxSize: 1 });
+        expect(saveSettingData).toHaveBeenCalledOnce();
+    });
+
+    it("does not persist an already disabled automatic bulk chunk pre-send setting", async () => {
+        const settings = { sendChunksBulk: false, sendChunksBulkMaxSize: 16 };
+        const { migration, saveSettingData } = createMigration(noDocuments, settings);
+
+        await migration.migrateDisableBulkSend();
+
+        expect(settings).toEqual({ sendChunksBulk: false, sendChunksBulkMaxSize: 16 });
+        expect(saveSettingData).not.toHaveBeenCalled();
+    });
+});
 
 describe("ModuleMigration incomplete-document notice", () => {
     it("keeps the check and its result in one persistent named group", async () => {
@@ -58,10 +86,10 @@ describe("ModuleMigration incomplete-document notice", () => {
         await expect(migration.hasIncompleteDocs()).resolves.toBe(true);
 
         expect(noticeGroups.setItem).toHaveBeenNthCalledWith(1, "startup-integrity-check", "checking", {
-            message: "Checking for incomplete documents...",
+            message: "不完全なドキュメントを確認中…",
         });
         expect(noticeGroups.setItem).toHaveBeenNthCalledWith(2, "startup-integrity-check", "result", {
-            message: "No size mismatches found",
+            message: "サイズの不一致はありません",
         });
         expect(noticeGroups.finish).toHaveBeenCalledWith("startup-integrity-check");
     });
@@ -72,7 +100,7 @@ describe("ModuleMigration incomplete-document notice", () => {
         await expect(migration.hasIncompleteDocs()).rejects.toThrow("scan failed");
 
         expect(noticeGroups.setItem).toHaveBeenLastCalledWith("startup-integrity-check", "result", {
-            message: "The incomplete document check could not be completed.",
+            message: "不完全なドキュメントの確認を完了できませんでした。",
         });
         expect(noticeGroups.finish).toHaveBeenCalledWith("startup-integrity-check");
     });

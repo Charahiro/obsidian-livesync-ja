@@ -8,6 +8,7 @@ on:
       - ja-localization
     paths:
       - 'src/**'
+      - '_tools/auditJapaneseTranslationCalls.ts'
       - 'test/**'
       - 'package.json'
       - 'package-lock.json'
@@ -30,6 +31,7 @@ on:
   pull_request:
     paths:
       - 'src/**'
+      - '_tools/auditJapaneseTranslationCalls.ts'
       - 'test/**'
       - 'package.json'
       - 'package-lock.json'
@@ -121,6 +123,9 @@ jobs:
 
       - name: Run source checks
         run: npm run check
+
+      - name: Audit Japanese translations
+        run: npm run i18n:audit-ja
 
       - name: Run unit tests suite with coverage
         run: npm run test:unit:coverage

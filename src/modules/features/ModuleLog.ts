@@ -7,7 +7,7 @@ import {
     type DatabaseConnectingStatus,
     type LOG_LEVEL,
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
-import { cancelTask, scheduleTask } from "octagonal-wheels/concurrency/task";
+import { scheduleTask } from "octagonal-wheels/concurrency/task";
 import { fireAndForget, isDirty, throttle } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import {
     collectingChunks,
@@ -29,7 +29,7 @@ import { addIcon, debounce, normalizePath, Notice, stringifyYaml, type Workspace
 import { LOG_LEVEL_NOTICE, setGlobalLogFunction } from "octagonal-wheels/common/logger";
 import { LogPaneView, VIEW_TYPE_LOG } from "./Log/LogPaneView.ts";
 import { serialized } from "octagonal-wheels/concurrency/lock";
-import { $msg, translateIfAvailable } from "@/common/translation";
+import { $msg } from "@/common/translation";
 import { P2PLogCollector } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/P2PLogCollector";
 import {
     REMOTE_REQUEST_ACTIVITY_MINIMUM_VISIBLE_MS,
@@ -119,7 +119,7 @@ export class ModuleLog extends AbstractObsidianModule {
     statusBarLabels!: ReactiveValue<{ message: string; status: string }>;
     statusLog = reactiveSource("");
     activeFileStatus = reactiveSource("");
-    notifies: { [key: string]: { notice: Notice; count: number } } = {};
+    notifies: { [key: string]: { count: number } } = {};
     p2pLogCollector = new P2PLogCollector(this.services.context.events);
 
     observeForLogs() {
@@ -407,6 +407,10 @@ export class ModuleLog extends AbstractObsidianModule {
     }
 
     private _allStartOnUnload(): Promise<boolean> {
+        for (const key of Object.keys(this.notifies)) {
+            this.services.context.notices.hide(`log:${key}`);
+        }
+        this.notifies = {};
         if (this.statusDiv) {
             this.statusDiv.remove();
         }
@@ -427,14 +431,14 @@ export class ModuleLog extends AbstractObsidianModule {
 
         this.addCommand({
             id: "view-log",
-            name: $msg("Show log"),
+            name: "Show log",
             callback: () => {
                 void this.services.API.showWindow(VIEW_TYPE_LOG);
             },
         });
         this.addCommand({
             id: "dump-debug-info",
-            name: $msg("Generate full report for opening the issue with debug info"),
+            name: "Generate full report for opening the issue with debug info",
             callback: async () => {
                 const recentLog = [...logForDump];
                 const report = await generateReport(this.services.setting.currentSettings(), this.core);
@@ -447,7 +451,9 @@ export class ModuleLog extends AbstractObsidianModule {
 ${stringifyYaml(info)}
 \`\`\`\``;
                 if (await this.services.UI.promptCopyToClipboard("Debug info", yaml)) {
-                    new Notice($msg("moduleLog.debugInfoCopied"));
+                    new Notice(
+                        "Debug info copied to clipboard. You can paste it in the issue. Be careful as it may contain sensitive information, review it before sharing."
+                    );
                 }
             },
         });
@@ -555,38 +561,28 @@ ${stringifyYaml(info)}
         this.logLines.push({ ttl: now.getTime() + 3000, message: newMessage });
 
         if (level >= LOG_LEVEL_NOTICE) {
-            const noticeMessageContent = translateIfAvailable(messageContent);
             if (!key) key = messageContent;
             if (key in this.notifies) {
-                // @ts-ignore
-                const isShown = this.notifies[key].notice.noticeEl?.isShown();
-                if (!isShown) {
-                    this.notifies[key].notice = new Notice(noticeMessageContent, 0);
-                }
-                cancelTask(`notify-${key}`);
                 if (key == messageContent) {
                     this.notifies[key].count++;
-                    this.notifies[key].notice.setMessage(`(${this.notifies[key].count}):${noticeMessageContent}`);
-                } else {
-                    this.notifies[key].notice.setMessage(noticeMessageContent);
                 }
             } else {
-                const notify = new Notice(noticeMessageContent, 0);
                 this.notifies[key] = {
                     count: 0,
-                    notice: notify,
                 };
             }
             const timeout = 5000;
-            if (!key.startsWith("keepalive-") || messageContent.indexOf(MARK_DONE) !== -1) {
+            const shouldExpire = !key.startsWith("keepalive-") || messageContent.indexOf(MARK_DONE) !== -1;
+            const noticeMessage =
+                key == messageContent && this.notifies[key].count > 0
+                    ? `(${this.notifies[key].count}):${messageContent}`
+                    : messageContent;
+            this.services.context.notices.show(`log:${key}`, noticeMessage, {
+                durationMs: shouldExpire ? timeout : false,
+            });
+            if (shouldExpire) {
                 scheduleTask(`notify-${key}`, timeout, () => {
-                    const notify = this.notifies[key].notice;
                     delete this.notifies[key];
-                    try {
-                        notify.hide();
-                    } catch {
-                        // NO OP
-                    }
                 });
             }
         }

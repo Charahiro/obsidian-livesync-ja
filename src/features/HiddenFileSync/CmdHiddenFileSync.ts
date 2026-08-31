@@ -117,7 +117,7 @@ export class HiddenFileSync extends LiveSyncCommands {
         });
         this.services.API.addCommand({
             id: "livesync-scaninternal-storage",
-            name: $msg("Scan hidden file changes on the storage"),
+            name: `ストレージ上の隠しファイルの変更をスキャン`,
             checkCallback: (checking) => {
                 if (!this.isManualCommandAvailable()) return false;
                 if (!checking) {
@@ -128,7 +128,7 @@ export class HiddenFileSync extends LiveSyncCommands {
         });
         this.services.API.addCommand({
             id: "livesync-scaninternal-database",
-            name: $msg("Scan hidden file changes on the local database"),
+            name: `ローカルデータベース上の隠しファイルの変更をスキャン`,
             checkCallback: (checking) => {
                 if (!this.isManualCommandAvailable()) return false;
                 if (!checking) {
@@ -139,7 +139,7 @@ export class HiddenFileSync extends LiveSyncCommands {
         });
         this.services.API.addCommand({
             id: "livesync-internal-scan-offline-changes",
-            name: $msg("Scan and apply all offline hidden-file changes"),
+            name: `オフライン中の隠しファイル変更をすべてスキャンして適用`,
             checkCallback: (checking) => {
                 if (!this.isManualCommandAvailable()) return false;
                 if (!checking) {
@@ -1256,9 +1256,9 @@ Offline Changed files: ${files.length}`;
                 const updatePluginName = manifest.name;
                 const itemKey = `plugin:${updatePluginId}`;
                 noticeGroups.setItem(HIDDEN_FILE_NOTICE_GROUP, itemKey, {
-                    message: $msg("JapaneseUI.Runtime.HiddenFilesUpdated", { name: updatePluginName }),
+                    message: `${updatePluginName} のファイルが更新されました。`,
                     action: {
-                        label: $msg("JapaneseUI.Runtime.ReloadPlugin", { name: updatePluginName }),
+                        label: `${updatePluginName} を再読み込み`,
                         onSelect: () => {
                             fireAndForget(async () => {
                                 this._log(
@@ -1281,7 +1281,7 @@ Offline Changed files: ${files.length}`;
                 hasNoticeItems = true;
             }
         } catch (ex) {
-            this._log($msg("JapaneseUI.Runtime.PluginStatusCheckFailed"));
+            this._log(`プラグインの状態確認中にエラーが発生しました。`);
             this._log(ex, LOG_LEVEL_VERBOSE);
         }
 
@@ -1289,9 +1289,9 @@ Offline Changed files: ${files.length}`;
         if (updatedFolders.indexOf(this.services.API.getSystemConfigDir()) >= 0) {
             if (!this.services.appLifecycle.isReloadingScheduled()) {
                 noticeGroups.setItem(HIDDEN_FILE_NOTICE_GROUP, "restart", {
-                    message: $msg("JapaneseUI.Runtime.OtherSettingsUpdated"),
+                    message: `ほかのObsidian設定ファイルが更新されました。`,
                     action: {
-                        label: $msg("JapaneseUI.Runtime.ScheduleRestart"),
+                        label: `Obsidianの再起動を予約`,
                         onSelect: () => {
                             this.services.appLifecycle.scheduleRestart();
                             noticeGroups.removeItem(HIDDEN_FILE_NOTICE_GROUP, "restart");

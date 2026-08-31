@@ -11,29 +11,29 @@ export type { ReviewHarnessScenarioResult, ReviewHarnessScenarioStatus } from ".
 export const REVIEW_HARNESS_SCENARIOS = [
     {
         id: "settings-lifecycle",
-        title: $msg("ReviewHarness.Scenario.SettingsLifecycle.Title"),
-        description: $msg("ReviewHarness.Scenario.SettingsLifecycle.Description"),
+        title: `設定のライフサイクル`,
+        description: `読み込んだ設定に7つの同期項目があり、新規Vault向け推奨設定が実際の新規Vaultだけに適用されることを確認します。`,
         mode: "automatic",
         access: "read-only",
     },
     {
         id: "compatibility-review",
-        title: $msg("ReviewHarness.Scenario.CompatibilityReview.Title"),
-        description: $msg("ReviewHarness.Scenario.CompatibilityReview.Description"),
+        title: `互換性レビューの境界`,
+        description: `このデバイスの互換性確認による一時停止を検査し、明示的なレビューと再起動の境界を順に確認します。`,
         mode: "guided",
         access: "device-local-state",
     },
     {
         id: "p2p-composition",
-        title: $msg("ReviewHarness.Scenario.P2PComposition.Title"),
-        description: $msg("ReviewHarness.Scenario.P2PComposition.Description"),
+        title: `P2P構成`,
+        description: `ObsidianホストとP2Pインターフェースが現在のCommonlibレプリケーターを取得できることを確認します。`,
         mode: "automatic",
         access: "read-only",
     },
     {
         id: "vault-round-trip",
-        title: $msg("ReviewHarness.Scenario.VaultRoundTrip.Title"),
-        description: $msg("ReviewHarness.Scenario.VaultRoundTrip.Description"),
+        title: `Vaultテスト用ファイルの往復確認`,
+        description: `明示的な確認後、管理対象の固定テスト用ツリーを作成、読み取り、変更、名前変更、削除します。`,
         mode: "automatic",
         access: "dedicated-vault-fixtures",
     },
@@ -68,27 +68,27 @@ export function parsePendingReviewRun(serialised: string | null | undefined): Pa
     try {
         value = JSON.parse(serialised) as unknown;
     } catch {
-        return { error: $msg("ReviewHarness.Error.InvalidJson") };
+        return { error: `レビューハーネスの継続情報が有効なJSONではありません` };
     }
-    if (!isRecord(value)) return { error: $msg("ReviewHarness.Error.MustBeObject") };
+    if (!isRecord(value)) return { error: `レビューハーネスの継続情報はオブジェクトである必要があります` };
     if (value.formatVersion !== 1) {
-        return { error: $msg("ReviewHarness.Error.UnsupportedVersion", { version: String(value.formatVersion) }) };
+        return { error: `未対応のレビューハーネス継続情報バージョン：${String(value.formatVersion)}` };
     }
     if (value.scenarioId !== "compatibility-review") {
-        return { error: $msg("ReviewHarness.Error.UnknownScenario", { scenario: String(value.scenarioId) }) };
+        return { error: `不明なレビューハーネスのシナリオ：${String(value.scenarioId)}` };
     }
     if (value.stage !== "awaiting-restart") {
-        return { error: $msg("ReviewHarness.Error.UnknownStage", { stage: String(value.stage) }) };
+        return { error: `不明なレビューハーネスの継続段階：${String(value.stage)}` };
     }
     if (typeof value.requestedAt !== "string") {
-        return { error: $msg("ReviewHarness.Error.InvalidRequestTime") };
+        return { error: `レビューハーネスのリクエスト時刻はISO形式の日付である必要があります` };
     }
     const requestedAtMs = Date.parse(value.requestedAt);
     if (Number.isNaN(requestedAtMs) || new Date(requestedAtMs).toISOString() !== value.requestedAt) {
-        return { error: $msg("ReviewHarness.Error.InvalidRequestTime") };
+        return { error: `レビューハーネスのリクエスト時刻はISO形式の日付である必要があります` };
     }
     if (value.requestId !== `compatibility-review-${value.requestedAt}`) {
-        return { error: $msg("ReviewHarness.Error.InvalidRequestId") };
+        return { error: `レビューハーネスのリクエストIDが所定の継続形式と一致しません` };
     }
     return {
         pendingRun: {
@@ -130,7 +130,7 @@ export function inspectSettingsLifecycle(input: {
     if (!input.migration) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.NoMigrationEvidence"),
+            detail: `設定サービスから移行情報を取得できませんでした。`,
             observations: [],
         };
     }
@@ -141,7 +141,7 @@ export function inspectSettingsLifecycle(input: {
     if (invalidSyncSettings.length > 0) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.InvalidSyncChoices", { choices: invalidSyncSettings.join(", ") }),
+            detail: `同期項目がないか無効です：${invalidSyncSettings.join(", ")}`,
             observations: [],
         };
     }
@@ -150,10 +150,7 @@ export function inspectSettingsLifecycle(input: {
     if (!input.migration.isNewVault) {
         return {
             status: "passed",
-            detail: $msg("ReviewHarness.Result.ExistingVaultLoaded", {
-                source: `${input.migration.sourceVersion}`,
-                target: `${input.migration.targetVersion}`,
-            }),
+            detail: `既存のVaultを設定スキーマ${`${input.migration.sourceVersion}`}から${`${input.migration.targetVersion}`}へ読み込みました。`,
             observations,
         };
     }
@@ -164,15 +161,13 @@ export function inspectSettingsLifecycle(input: {
     if (mismatchedRecommendations.length > 0) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.RecommendationsDiffer", {
-                settings: mismatchedRecommendations.join(", "),
-            }),
+            detail: `新規Vault向け推奨設定と異なる項目：${mismatchedRecommendations.join(", ")}`,
             observations,
         };
     }
     return {
         status: "passed",
-        detail: $msg("ReviewHarness.Result.NewVaultRecommendationsLoaded"),
+        detail: `リモート接続を有効にせず、現在の新規Vault向け推奨設定を読み込みました。`,
         observations,
     };
 }
@@ -185,7 +180,7 @@ export function inspectCompatibilityReview(input: {
     if (input.migration?.requiresSyncReview && !input.reviewInitialised) {
         return {
             status: "failed",
-            detail: $msg("ReviewHarness.Result.CompatibilityReviewNotInitialised"),
+            detail: `設定の移行には確認が必要ですが、互換性レビューが初期化されていません。`,
             observations: [],
         };
     }
@@ -203,8 +198,8 @@ export function inspectCompatibilityReview(input: {
     return {
         status: "passed",
         detail: input.pendingPause
-            ? $msg("ReviewHarness.Result.CompatibilityReviewPending")
-            : $msg("ReviewHarness.Result.NoCompatibilityReviewPending"),
+            ? `このデバイスで互換性レビューが保留されています。`
+            : `このデバイスで保留中の互換性レビューはありません。`,
         observations,
     };
 }

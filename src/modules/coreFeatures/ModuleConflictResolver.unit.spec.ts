@@ -91,7 +91,7 @@ describe("ModuleConflictResolver bulk newest resolution", () => {
 
         await (module as any)._anyResolveConflictByNewest(path);
 
-        expect(module._log).toHaveBeenLastCalledWith(`${path} has been merged automatically`, LOG_LEVEL_NOTICE);
+        expect(module._log).toHaveBeenLastCalledWith(`${path} を自動的にマージしました`, LOG_LEVEL_NOTICE);
     });
 
     it("logs a successful bulk newest resolution without displaying a notice", async () => {
@@ -118,7 +118,7 @@ describe("ModuleConflictResolver bulk newest resolution", () => {
 
         await (module as any)._anyResolveConflictByNewest(path, false);
 
-        expect(module._log).toHaveBeenLastCalledWith(`${path} has been merged automatically`, LOG_LEVEL_INFO);
+        expect(module._log).toHaveBeenLastCalledWith(`${path} を自動的にマージしました`, LOG_LEVEL_INFO);
     });
 
     it("updates notice-level progress once every ten checked files", async () => {
@@ -131,7 +131,7 @@ describe("ModuleConflictResolver bulk newest resolution", () => {
         expect(resolveByNewest).toHaveBeenCalledTimes(11);
         expect(resolveByNewest).toHaveBeenCalledWith(files[0], false);
         expect(module._log).toHaveBeenCalledWith(
-            "Check and Processing 10 / 11",
+            "確認・処理中: 10 / 11",
             LOG_LEVEL_NOTICE,
             "resolveAllConflictedFilesByNewerOnes"
         );

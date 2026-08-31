@@ -49,7 +49,7 @@ export function useSetupManagerHandlersFeature(
     host.services.appLifecycle.onLoaded.addHandler(() => {
         host.services.API.addCommand({
             id: "livesync-opensetupuri",
-            name: $msg("Use the copied setup URI (Formerly Open setup URI)"),
+            name: `コピーしたSetup URIを使用（旧「Setup URIを開く」）`,
             callback: () => fireAndForget(openSetupURI(setupManager)),
         });
 

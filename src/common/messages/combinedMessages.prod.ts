@@ -1,28 +1,4 @@
 export const allMessages: Readonly<Record<string, Readonly<Record<string, string>>>> = {
-    " (Active)": {
-        def: " (Active)",
-        ja: "（使用中）",
-    },
-    " (Alpha)": {
-        def: " (Alpha)",
-        ja: "（アルファ）",
-    },
-    " (Beta)": {
-        def: " (Beta)",
-        ja: "（ベータ）",
-    },
-    " (Deleted)": {
-        def: " (Deleted)",
-        ja: "（削除済み）",
-    },
-    " (Experimental)": {
-        def: " (Experimental)",
-        ja: "（実験的）",
-    },
-    " to open the customization sync dialogue, or select elsewhere to dismiss this message.": {
-        def: " to open the customization sync dialogue, or select elsewhere to dismiss this message.",
-        ja: "を選択してカスタマイズ同期ダイアログを開くか、ほかの場所を選択してこの通知を閉じてください。",
-    },
     ", please select the option that best describes the current state of your Vault. The application will then check your files in the most appropriate way based on your selection.":
         {
             def: ", please select the option that best describes the current state of your Vault. The application will then check your files in the most appropriate way based on your selection.",
@@ -199,10 +175,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "（如果你正在將此裝置設定為第一台同步裝置，請選擇此項。）此選項適合初次使用 LiveSync，並希望從頭開始設定的使用者。",
         },
-    "(Too large diff to display)": {
-        def: "(Too large diff to display)",
-        ja: "（差分が大きすぎるため表示できません）",
-    },
     "↑: Overwrite Remote": {
         def: "↑: Overwrite Remote",
         es: "↑: Sobrescribir remoto",
@@ -240,14 +212,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "> [!INFO]- 已检测到以下已连接设备：\n${devices}",
         "zh-tw": "> [!INFO]- 已偵測到以下已連線裝置：\n${devices}",
     },
-    "⚠️ Conflicts: ${COUNT}": {
-        def: "⚠️ Conflicts: ${COUNT}",
-        ja: "⚠️ 競合：${COUNT}件",
-    },
-    "⚠️ Differs from Vault": {
-        def: "⚠️ Differs from Vault",
-        ja: "⚠️ Vaultと不一致",
-    },
     "⚠️ Important Notice": {
         def: "⚠️ Important Notice",
         es: "⚠️ Aviso importante",
@@ -261,14 +225,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "⚠️以下をご確認ください",
         ko: "⚠️ 다음 내용을 확인해 주세요",
         "zh-tw": "⚠️ 請確認以下事項",
-    },
-    "✅ Matches Vault": {
-        def: "✅ Matches Vault",
-        ja: "✅ Vaultと一致",
-    },
-    "✅ Vault matches winner": {
-        def: "✅ Vault matches winner",
-        ja: "✅ Vaultは採用リビジョンと一致",
     },
     "✔ SELECT": {
         def: "✔ SELECT",
@@ -291,18 +247,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "✔ 감시",
         "zh-tw": "✔ 監看中",
     },
-    "📁 Vault: ${SIZE} B · ${TIME}": {
-        def: "📁 Vault: ${SIZE} B · ${TIME}",
-        ja: "📁 Vault：${SIZE} B・${TIME}",
-    },
-    "📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B": {
-        def: "📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B",
-        ja: "📁 Vault：${VAULT} B・DBとの差 ${DIFFERENCE} B",
-    },
-    "📁 Vault: missing": {
-        def: "📁 Vault: missing",
-        ja: "📁 Vault：見つかりません",
-    },
     "📡 Off": {
         def: "📡 Off",
         es: "📡 Desactivado",
@@ -317,24 +261,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "📡 켜짐",
         "zh-tw": "📡 開啟",
     },
-    "📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B": {
-        def: "📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B",
-        ja: "📦 DB：記録値 ${RECORDED} B・復号後 ${DECODED} B・サイズ差 ${DIFFERENCE} B",
-    },
-    "📦 DB: recorded ${RECORDED} B · decoded unavailable": {
-        def: "📦 DB: recorded ${RECORDED} B · decoded unavailable",
-        ja: "📦 DB：記録値 ${RECORDED} B・復号できません",
-    },
     "🔴 Disconnected": {
         def: "🔴 Disconnected",
         es: "🔴 Desconectado",
         ja: "🔴 未接続",
         ko: "🔴 연결 끊김",
         "zh-tw": "🔴 已斷線",
-    },
-    "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})": {
-        def: "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})",
-        ja: "🕒 DB ${DATABASE_TIME}・Vault ${VAULT_TIME}・時間差 ${DIFFERENCE} ms（${RELATION}）",
     },
     "🕵️ Diag": {
         def: "🕵️ Diag",
@@ -343,24 +275,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "🕵️ 진단",
         "zh-tw": "🕵️ 診斷",
     },
-    "🗄️ Local DB: missing": {
-        def: "🗄️ Local DB: missing",
-        ja: "🗄️ ローカルDB：見つかりません",
-    },
     "🗑 Delete": {
         def: "🗑 Delete",
         es: "🗑 Eliminar",
         ja: "🗑 削除",
         ko: "🗑 삭제",
         "zh-tw": "🗑 刪除",
-    },
-    "🗑️ Logical deletion": {
-        def: "🗑️ Logical deletion",
-        ja: "🗑️ 論理削除",
-    },
-    "🧩 Missing chunks: ${COUNT}": {
-        def: "🧩 Missing chunks: ${COUNT}",
-        ja: "🧩 不足チャンク：${COUNT}件",
     },
     "🟢 Connected": {
         def: "🟢 Connected",
@@ -376,10 +296,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "${count}개의 문제가 감지되었습니다!",
         "zh-tw": "偵測到 ${count} 個問題！",
     },
-    "${ROLE}: ${REVISION}": {
-        def: "${ROLE}: ${REVISION}",
-        ja: "${ROLE}：${REVISION}",
-    },
     "A Setup URI is a single string of text containing your server address and authentication details. Using a URI, if one was generated by your server installation script, provides a simple and secure configuration.":
         {
             def: "A Setup URI is a single string of text containing your server address and authentication details. Using a URI, if one was generated by your server installation script, provides a simple and secure configuration.",
@@ -391,10 +307,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "Setup URI 是一段包含伺服器位址與驗證資訊的文字。如果伺服器安裝腳本已經產生 URI，使用它可以更簡單且更安全地完成設定。",
         },
-    "Abort synchronization immediately": {
-        def: "Abort synchronization immediately",
-        ja: "同期を直ちに中止",
-    },
     Accept: {
         def: "Accept",
         es: "Aceptar",
@@ -468,10 +380,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "生效中的远程配置",
         "zh-tw": "目前啟用的遠端設定",
     },
-    "Active Remote Type": {
-        def: "Active Remote Type",
-        ja: "現在のリモート種別",
-    },
     "Add default patterns": {
         def: "Add default patterns",
         es: "Añadir patrones predeterminados",
@@ -518,11 +426,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "고급 설정",
         "zh-tw": "進階設定",
     },
-    "After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data.":
-        {
-            def: "After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data.",
-            ja: "再起動後、初回取得のオンライン取得元デバイスを選択してください。このデバイスのローカルLiveSyncデータベースは取得元から再構築されます。このVaultに未同期のファイルがある場合、取得したデータと競合する可能性があります。",
-        },
     "After restarting, the data on this device will be uploaded to the server as the 'master copy'. Please be aware that any unintended data currently on the server will be completely overwritten.":
         {
             def: "After restarting, the data on this device will be uploaded to the server as the 'master copy'. Please be aware that any unintended data currently on the server will be completely overwritten.",
@@ -586,18 +489,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "항상 허용",
         "zh-tw": "永久允許",
     },
-    "Allow sleep during synchronisation": {
-        def: "Allow sleep during synchronisation",
-        ja: "同期中にスリープを許可",
-    },
-    "Allow sleep during synchronisation on the desktop": {
-        def: "Allow sleep during synchronisation on the desktop",
-        ja: "デスクトップで同期中にスリープを許可",
-    },
-    "Allow the operating system to sleep while finite synchronisation operations are in progress.": {
-        def: "Allow the operating system to sleep while finite synchronisation operations are in progress.",
-        ja: "有限の同期操作中に、オペレーティングシステムがスリープすることを許可します。",
-    },
     "Also, please note that if you are using Peer-to-Peer synchronization, this configuration will be used when you switch to other methods and connect to a remote server in the future.":
         {
             def: "Also, please note that if you are using Peer-to-Peer synchronization, this configuration will be used when you switch to other methods and connect to a remote server in the future.",
@@ -617,10 +508,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Всегда запрашивать разрешение конфликтов слияния",
         zh: "始终提示合并冲突",
         "zh-tw": "總是提示合併衝突",
-    },
-    "An exact target is already present; repair can remove the obsolete ID.": {
-        def: "An exact target is already present; repair can remove the obsolete ID.",
-        ja: "同一の対象がすでに存在するため、修復により古いIDを削除できます。",
     },
     Analyse: {
         def: "Analyse",
@@ -644,10 +531,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "分析数据库使用情况",
         "zh-tw": "分析資料庫使用情況",
     },
-    "Analyse Database Usage (advanced)": {
-        def: "Analyse Database Usage (advanced)",
-        ja: "データベース使用量を分析（上級者向け）",
-    },
     "Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like.":
         {
             def: "Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like.",
@@ -661,32 +544,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "分析資料庫使用情況並產生 TSV 報告，方便你自行診斷。你可以將產生的報告貼到任何慣用的試算表中查看。",
         },
-    "Announce changes": {
-        def: "Announce changes",
-        ja: "変更を通知",
-    },
-    "Announce changes automatically after connecting": {
-        def: "Announce changes automatically after connecting",
-        ja: "接続後に変更を自動通知",
-    },
-    "Application ID": {
-        def: "Application ID",
-        ja: "アプリケーションID",
-    },
     "Apply All Selected": {
         def: "Apply All Selected",
         es: "Aplicar todo lo seleccionado",
         ja: "選択したものをすべて適用",
         ko: "선택 항목 모두 적용",
         "zh-tw": "套用所有已選取項目",
-    },
-    "Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.": {
-        def: "Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.",
-        ja: "データベースのリビジョン${REVISION}を${FILE}へ適用しますか？現在のVaultファイルは上書きされます。",
-    },
-    "Apply database revision to Vault": {
-        def: "Apply database revision to Vault",
-        ja: "データベースのリビジョンをVaultへ適用",
     },
     "Apply Latest Change if Conflicting": {
         def: "Apply Latest Change if Conflicting",
@@ -698,18 +561,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Применить последнее изменение при конфликте",
         zh: "如果冲突则应用最新更改",
         "zh-tw": "發生衝突時套用最新變更",
-    },
-    "Apply logical deletion ${REVISION} to ${FILE}? The current Vault file will be removed.": {
-        def: "Apply logical deletion ${REVISION} to ${FILE}? The current Vault file will be removed.",
-        ja: "論理削除${REVISION}を${FILE}へ適用しますか？現在のVaultファイルは削除されます。",
-    },
-    "Apply logical deletion to Vault": {
-        def: "Apply logical deletion to Vault",
-        ja: "論理削除をVaultへ適用",
-    },
-    "Apply pending changes now": {
-        def: "Apply pending changes now",
-        ja: "保留中の変更を今すぐ適用",
     },
     "Apply preset configuration": {
         def: "Apply preset configuration",
@@ -728,10 +579,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "設定を適用",
         ko: "설정 적용",
         "zh-tw": "套用設定",
-    },
-    "Apply this revision to Vault": {
-        def: "Apply this revision to Vault",
-        ja: "このリビジョンをVaultへ適用",
     },
     "Ask a passphrase at every launch": {
         def: "Ask a passphrase at every launch",
@@ -756,29 +603,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "P2P 연결 자동 시작",
         "zh-tw": "自動啟動 P2P 連線",
     },
-    "Auto-accept compatible tweak mismatches": {
-        def: "Auto-accept compatible tweak mismatches",
-        ja: "互換性のある調整値の不一致を自動的に受け入れる",
-    },
     Automatic: {
         def: "Automatic",
         es: "Automático",
         ja: "自動",
         ko: "자동",
         "zh-tw": "自動",
-    },
-    "Automatically accepts mismatches that are compatible but potentially lossy by comparing tweak modification times.":
-        {
-            def: "Automatically accepts mismatches that are compatible but potentially lossy by comparing tweak modification times.",
-            ja: "調整値の更新日時を比較し、互換性はあるものの効率低下の可能性がある不一致を自動的に受け入れます。",
-        },
-    "Automatically broadcast changes to connected peers": {
-        def: "Automatically broadcast changes to connected peers",
-        ja: "接続済みのピアへ変更を自動通知",
-    },
-    "Automatically start P2P connection on launch": {
-        def: "Automatically start P2P connection on launch",
-        ja: "起動時にP2P接続を自動開始",
     },
     "Automatically Sync all files when opening Obsidian.": {
         def: "Automatically Sync all files when opening Obsidian.",
@@ -873,14 +703,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "在 v0.17.16 之前，本機資料庫使用的是舊版轉接器。現在建議使用新版轉接器，但需要重建本機資料庫。請在時間充裕時停用此開關。若保持啟用，從遠端資料庫抓取時也會要求你停用此選項。",
         },
-    "Begin inspection": {
-        def: "Begin inspection",
-        ja: "調査を開始",
-    },
-    "Binary file": {
-        def: "Binary file",
-        ja: "バイナリファイル",
-    },
     "Broadcasting?": {
         def: "Broadcasting?",
         es: "¿Difusión?",
@@ -915,10 +737,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "取消",
         "zh-tw": "取消",
     },
-    "Cancel all and reboot": {
-        def: "Cancel all and reboot",
-        ja: "すべて中止して再起動",
-    },
     "Cancel Garbage Collection": {
         def: "Cancel Garbage Collection",
         es: "Cancelar la recolección de basura",
@@ -927,14 +745,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Отменить Garbage Collection",
         zh: "取消垃圾回收",
         "zh-tw": "取消垃圾回收",
-    },
-    "Change CouchDB server setting": {
-        def: "Change CouchDB server setting",
-        ja: "CouchDBサーバー設定を変更",
-    },
-    "Change CouchDB server setting '${SETTING}' to '${VALUE}'?": {
-        def: "Change CouchDB server setting '${SETTING}' to '${VALUE}'?",
-        ja: "CouchDBサーバー設定「${SETTING}」を「${VALUE}」へ変更しますか？",
     },
     "Changing the encryption algorithm will prevent access to any data previously encrypted with a different algorithm. Ensure that all your devices are configured to use the same algorithm to maintain access to your data.":
         {
@@ -982,32 +792,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "检查尚未转换为路径混淆 ID 的文档，并在需要时将其转换。",
         "zh-tw": "檢查尚未轉換為路徑混淆 ID 的文件，並在需要時進行轉換。",
     },
-    "Check server requirements": {
-        def: "Check server requirements",
-        ja: "サーバー要件を確認",
-    },
     "Checking connection... Please wait.": {
         def: "Checking connection... Please wait.",
         es: "Comprobando la conexión... Espera un momento.",
         ja: "接続を確認しています...しばらくお待ちください。",
         ko: "연결을 확인하는 중입니다... 잠시만 기다려 주세요.",
         "zh-tw": "正在檢查連線⋯ 請稍候。",
-    },
-    "Choose a file to inspect": {
-        def: "Choose a file to inspect",
-        ja: "調査するファイルを選択",
-    },
-    "Choose file": {
-        def: "Choose file",
-        ja: "ファイルを選択",
-    },
-    "Chunk revisions are always derived from their content. This stored key is retained only for compatibility.": {
-        def: "Chunk revisions are always derived from their content. This stored key is retained only for compatibility.",
-        ja: "チャンクのリビジョンは常に内容から算出されます。保存済みのこの設定キーは互換性のためだけに維持されています。",
-    },
-    "Chunk Splitter": {
-        def: "Chunk Splitter",
-        ja: "チャンク分割方式",
     },
     Chunks: {
         def: "Chunks",
@@ -1133,14 +923,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "比较本地数据库与存储中的文件内容；如果不一致，你将被询问要保留哪一份。",
             "zh-tw": "比較本機資料庫與儲存空間中的檔案內容；若不一致，系統會詢問你要保留哪一份。",
         },
-    "Compare time and take newer": {
-        def: "Compare time and take newer",
-        ja: "更新日時を比較して新しい方を採用",
-    },
-    "Compare with Vault": {
-        def: "Compare with Vault",
-        ja: "Vaultと比較",
-    },
     "Compatibility (Conflict Behaviour)": {
         def: "Compatibility (Conflict Behaviour)",
         es: "Compatibilidad (comportamiento de conflictos)",
@@ -1195,82 +977,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "兼容性（问题修复）",
         "zh-tw": "相容性（問題修復）",
     },
-    "CompatibilityReview.Action.Back": {
-        def: "Back to compatibility review",
-        ja: "互換性レビューへ戻る",
-    },
-    "CompatibilityReview.Action.KeepPaused": {
-        def: "Keep synchronisation paused",
-        ja: "同期を一時停止したままにする",
-    },
-    "CompatibilityReview.Action.Resume": {
-        def: "Resume synchronisation",
-        ja: "同期を再開",
-    },
-    "CompatibilityReview.Action.ReviewDetails": {
-        def: "Review compatibility details",
-        ja: "互換性の詳細を確認",
-    },
-    "CompatibilityReview.Details.Message": {
-        def: "## Why synchronisation is paused\n\n${reasons}\n\n## What the pause changes\n\n- Remote replication is blocked before work begins.\n- Your saved automatic synchronisation preferences remain unchanged.\n- Closing either dialogue leaves the safety gate active.\n\n## What to do next\n\n${resolution}",
-        ja: "## 同期が一時停止している理由\n\n${reasons}\n\n## 一時停止による変更\n\n- リモートレプリケーションは処理開始前に遮断されます。\n- 保存済みの自動同期設定は変更されません。\n- どちらのダイアログを閉じても安全確認は有効なままです。\n\n## 次に行うこと\n\n${resolution}",
-    },
-    "CompatibilityReview.Details.ResolutionBlocked": {
-        def: "Install a compatible current version of Self-hosted LiveSync. This pause cannot be dismissed by the current installation.",
-        ja: "互換性のある最新バージョンのSelf-hosted LiveSyncをインストールしてください。現在のバージョンでは、この一時停止を解除できません。",
-    },
-    "CompatibilityReview.Details.ResolutionResumable": {
-        def: "After all devices have been updated, return to the compatibility review summary and explicitly resume synchronisation. The current internal version will only then be recorded as acknowledged.",
-        ja: "すべてのデバイスを更新した後、互換性レビューの概要へ戻り、同期を明示的に再開してください。その時点で現在の内部バージョンが確認済みとして記録されます。",
-    },
-    "CompatibilityReview.Reason.DatabaseDowngrade": {
-        def: "- This installation uses internal database version **${currentVersion}**, but this device previously acknowledged newer version **${acknowledgedVersion}**. An older installation must not resume synchronisation.",
-        ja: "- このバージョンが使用する内部データベースのバージョンは**${currentVersion}**ですが、このデバイスでは新しいバージョン**${acknowledgedVersion}**が以前に確認されています。古いバージョンから同期を再開することはできません。",
-    },
-    "CompatibilityReview.Reason.DatabaseInvalid": {
-        def: "- The saved internal database version marker is invalid. This installation uses version **${currentVersion}**.",
-        ja: "- 保存されている内部データベースのバージョン情報が不正です。このバージョンでは**${currentVersion}**を使用します。",
-    },
-    "CompatibilityReview.Reason.DatabaseMissing": {
-        def: "- No previously acknowledged internal database version was found for this existing Vault. This can happen when a Vault is copied or restored, or when it is opened with a new Obsidian profile. This installation uses version **${currentVersion}**. An empty local database does not mean that it is safe to resume automatically.",
-        ja: "- この既存Vaultで、以前に確認した内部データベースのバージョンが見つかりません。Vaultをコピーまたは復元した場合や、新しいObsidianプロファイルで開いた場合に発生します。このバージョンでは**${currentVersion}**を使用します。ローカルデータベースが空でも、自動的に同期を再開して安全であるとは限りません。",
-    },
-    "CompatibilityReview.Reason.DatabaseUpgrade": {
-        def: "- The last acknowledged internal database version was **${acknowledgedVersion}** and this installation uses **${currentVersion}**.",
-        ja: "- 最後に確認した内部データベースのバージョンは**${acknowledgedVersion}**で、このバージョンでは**${currentVersion}**を使用します。",
-    },
-    "CompatibilityReview.Reason.Legacy": {
-        def: "- An earlier compatibility review remains pending: ${message}",
-        ja: "- 以前の互換性レビューが保留中です：${message}",
-    },
-    "CompatibilityReview.Reason.SettingsFuture": {
-        def: "- The saved settings use schema **${sourceVersion}**, which is newer than schema **${currentVersion}** supported by this installation.",
-        ja: "- 保存済み設定のスキーマは**${sourceVersion}**で、このバージョンが対応するスキーマ**${currentVersion}**より新しくなっています。",
-    },
-    "CompatibilityReview.Reason.SettingsMigrated": {
-        def: "- The settings were migrated from schema **${sourceVersion}** to **${currentVersion}** and require review before synchronisation resumes.",
-        ja: "- 設定はスキーマ**${sourceVersion}**から**${currentVersion}**へ移行されており、同期を再開する前に確認が必要です。",
-    },
-    "CompatibilityReview.Summary.ActionBlocked": {
-        def: "This installation cannot safely acknowledge the detected state. Update Self-hosted LiveSync before attempting to synchronise again.",
-        ja: "検出された状態をこのバージョンで安全に確認済みにすることはできません。再び同期を試す前にSelf-hosted LiveSyncを更新してください。",
-    },
-    "CompatibilityReview.Summary.ActionResumable": {
-        def: "Before resuming, review the compatibility details and update Self-hosted LiveSync on every device which uses this remote database.",
-        ja: "再開する前に互換性の詳細を確認し、このリモートデータベースを使用するすべてのデバイスでSelf-hosted LiveSyncを更新してください。",
-    },
-    "CompatibilityReview.Summary.Message": {
-        def: "Remote synchronisation is paused on this device because its compatibility state requires attention.\n\n${action}\n\nYour automatic synchronisation preferences have not been changed. Closing this dialogue keeps synchronisation paused.",
-        ja: "互換性の状態を確認する必要があるため、このデバイスではリモート同期を一時停止しています。\n\n${action}\n\n自動同期の設定は変更されていません。このダイアログを閉じても同期は一時停止したままです。",
-    },
-    "CompatibilityReview.Title.Details": {
-        def: "Compatibility review details",
-        ja: "互換性レビューの詳細",
-    },
-    "CompatibilityReview.Title.Summary": {
-        def: "Synchronisation paused for compatibility review",
-        ja: "互換性レビューのため同期を一時停止",
-    },
     "Compute revisions for chunks": {
         def: "Compute revisions for chunks",
         es: "Calcular revisiones para los chunks",
@@ -1281,10 +987,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Вычислять ревизии для чанков",
         zh: "为 chunks 计算修订版本(以前的行为)",
         "zh-tw": "為 chunks 計算修訂版本（舊有行為）",
-    },
-    "Concat both": {
-        def: "Concat both",
-        ja: "両方を連結",
     },
     Configuration: {
         def: "Configuration",
@@ -1347,92 +1049,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "手动重新输入与你其他设备相同的服务器信息。仅适合高级用户。",
         "zh-tw": "手動重新輸入與其他裝置相同的伺服器資訊。僅適合進階使用者。",
     },
-    "Conflict & Deletion Options": {
-        def: "Conflict & Deletion Options",
-        ja: "競合と削除の設定",
-    },
-    "Conflict revision": {
-        def: "Conflict revision",
-        ja: "競合リビジョン",
-    },
-    "ConflictResolver.CouldNotDeleteConflictedRevisionAfterConcatenation": {
-        def: "Concatenated content was saved, but conflicted revision ${revision} of ${path} could not be deleted",
-        ja: "連結した内容は保存しましたが、${path} の競合リビジョン ${revision} を削除できませんでした",
-    },
-    "ConflictResolver.CouldNotDeleteRevision": {
-        def: "${title} Could not delete conflicted revision ${revision} of ${path}",
-        ja: "${title} ${path} の競合リビジョン ${revision} を削除できませんでした",
-    },
-    "ConflictResolver.CouldNotGetCurrentRevisions": {
-        def: "Could not get current revisions:${path}",
-        ja: "${path} の現在のリビジョンを取得できませんでした",
-    },
-    "ConflictResolver.CouldNotReadConflictedRevision": {
-        def: "Could not read conflicted revision ${revision}:${path}",
-        ja: "${path} の競合リビジョン ${revision} を読み取れませんでした",
-    },
-    "ConflictResolver.CouldNotStoreConcatenatedContent": {
-        def: "Concatenated content cannot be stored:${path}",
-        ja: "${path} の連結した内容を保存できませんでした",
-    },
-    "ConflictResolver.CouldNotStoreMergedContent": {
-        def: "Merged content cannot be stored:${path}",
-        ja: "${path} のマージ済み内容を保存できませんでした",
-    },
-    "ConflictResolver.CouldNotWriteResolvedContent": {
-        def: "Could not write the resolved content to the storage: ${path}",
-        ja: "解決済みの内容をストレージへ書き込めませんでした: ${path}",
-    },
-    "ConflictResolver.Done": {
-        def: "Done!",
-        ja: "完了しました",
-    },
-    "ConflictResolver.FileMergedAutomatically": {
-        def: "${path} has been merged automatically",
-        ja: "${path} を自動的にマージしました",
-    },
-    "ConflictResolver.MergeFailed": {
-        def: "Merge: Something went wrong: ${path}, (${revision})",
-        ja: "マージ中に問題が発生しました: ${path}（${revision}）",
-    },
-    "ConflictResolver.MergePostponed": {
-        def: "[conflict] ${path} is conflicted. The merging process has been postponed until the file is opened.",
-        ja: "[競合] ${path} は競合しています。ファイルが開かれるまでマージ処理を延期しました。",
-    },
-    "ConflictResolver.NoConflictedDocuments": {
-        def: "There are no conflicted documents",
-        ja: "競合しているドキュメントはありません",
-    },
-    "ConflictResolver.Progress": {
-        def: "Check and Processing ${current} / ${total}",
-        ja: "確認・処理中: ${current} / ${total}",
-    },
-    "ConflictResolver.Resolving": {
-        def: "Resolving :",
-        ja: "競合を解決中:",
-    },
-    "ConflictResolver.ResolvingAllByNewer": {
-        def: "Resolving conflicts by newer ones",
-        ja: "競合を新しい方の内容で解決しています",
-    },
-    "ConflictResolver.ResolvingWithSubtitle": {
-        def: "Resolving [${subtitle}]:",
-        ja: "競合を解決中 [${subtitle}]:",
-    },
-    "ConflictResolver.ScanFailed": {
-        def: "Error while scanning conflicted files...",
-        ja: "競合ファイルのスキャン中にエラーが発生しました",
-    },
     Connect: {
         def: "Connect",
         es: "Conectar",
         ja: "接続する",
         ko: "연결",
         "zh-tw": "連線",
-    },
-    "Connect to existing database and continue": {
-        def: "Connect to existing database and continue",
-        ja: "既存のデータベースへ接続して続行",
     },
     "Connected to Signaling Server (as Peer ID: ${peerId})": {
         def: "Connected to Signaling Server (as Peer ID: ${peerId})",
@@ -1457,14 +1079,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "连接方式",
         "zh-tw": "連線方式",
     },
-    "Connection Path": {
-        def: "Connection Path",
-        ja: "接続経路",
-    },
-    "Connection settings": {
-        def: "Connection settings",
-        ja: "接続設定",
-    },
     "Connection Settings": {
         def: "Connection Settings",
         es: "Ajustes de conexión",
@@ -1478,10 +1092,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "接続:",
         ko: "연결:",
         "zh-tw": "連線：",
-    },
-    "Content-derived chunk revisions (obsolete setting)": {
-        def: "Content-derived chunk revisions (obsolete setting)",
-        ja: "内容から算出するチャンクリビジョン（廃止された設定）",
     },
     "Continue anyway": {
         def: "Continue anyway",
@@ -1526,18 +1136,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "复制",
         "zh-tw": "複製",
     },
-    "Copy database information": {
-        def: "Copy database information",
-        ja: "データベース情報をコピー",
-    },
-    "Copy database information for a file": {
-        def: "Copy database information for a file",
-        ja: "ファイルのデータベース情報をコピー",
-    },
-    "Copy database information for the active file": {
-        def: "Copy database information for the active file",
-        ja: "現在のファイルのデータベース情報をコピー",
-    },
     "Copy Report to clipboard": {
         def: "Copy Report to clipboard",
         es: "Copiar el informe al portapapeles",
@@ -1548,23 +1146,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Копировать отчёт в буфер обмена",
         zh: "将报告复制到剪贴板",
         "zh-tw": "將報告複製到剪貼簿",
-    },
-    "Copy revision, conflict, and local chunk availability information, including document and chunk identifiers but not file contents.":
-        {
-            def: "Copy revision, conflict, and local chunk availability information, including document and chunk identifiers but not file contents.",
-            ja: "ファイル内容を含めず、文書IDとチャンクIDを含むリビジョン、競合、およびローカルチャンクの有無をコピーします。",
-        },
-    "Copy settings as a new setup URI": {
-        def: "Copy settings as a new setup URI",
-        ja: "設定を新しいSetup URIとしてコピー",
-    },
-    "Copy settings as a new setup URI (Full)": {
-        def: "Copy settings as a new setup URI (Full)",
-        ja: "設定を新しいSetup URIとしてコピー（すべて）",
-    },
-    "Copy settings as a new setup URI (With customization sync)": {
-        def: "Copy settings as a new setup URI (With customization sync)",
-        ja: "設定を新しいSetup URIとしてコピー（カスタマイズ同期を含む）",
     },
     "CouchDB Configuration": {
         def: "CouchDB Configuration",
@@ -1581,32 +1162,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Настройки подключения CouchDB",
         zh: "CouchDB 连接调优",
         "zh-tw": "CouchDB 連線調校",
-    },
-    "CouchDB validates the database name when you connect. The name must not be empty.": {
-        def: "CouchDB validates the database name when you connect. The name must not be empty.",
-        ja: "CouchDBは接続時にデータベース名を検証します。名前を空にすることはできません。",
-    },
-    "Could not fetch configuration from remote. If you are new to Self-hosted LiveSync, this might be expected. Otherwise, check your network or server settings.":
-        {
-            def: "Could not fetch configuration from remote. If you are new to Self-hosted LiveSync, this might be expected. Otherwise, check your network or server settings.",
-            ja: "リモートから設定を取得できませんでした。Self-hosted LiveSyncを新しく設定している場合は正常なことがあります。それ以外の場合は、ネットワークまたはサーバー設定を確認してください。",
-        },
-    "Could Not Read Synchronisation Settings": {
-        def: "Could Not Read Synchronisation Settings",
-        ja: "同期設定を読み取れません",
-    },
-    "Could not read the remote's synchronisation settings. Check the connection and credentials, then retry.": {
-        def: "Could not read the remote's synchronisation settings. Check the connection and credentials, then retry.",
-        ja: "リモートの同期設定を読み取れませんでした。接続と認証情報を確認してから再試行してください。",
-    },
-    "Could not read the remote's synchronisation settings. Retry, or continue the overwrite with this device's settings. A working connection is still required.":
-        {
-            def: "Could not read the remote's synchronisation settings. Retry, or continue the overwrite with this device's settings. A working connection is still required.",
-            ja: "リモートの同期設定を読み取れませんでした。再試行するか、このデバイスの設定で上書きを続行してください。続行には有効な接続が必要です。",
-        },
-    "Create or connect to database and continue": {
-        def: "Create or connect to database and continue",
-        ja: "データベースを作成または接続して続行",
     },
     "Create P2P remote": {
         def: "Create P2P remote",
@@ -1633,24 +1188,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "当前适配器：{adapter}",
         "zh-tw": "目前的轉接器：{adapter}",
     },
-    "Current adapter: ${ADAPTER}": {
-        def: "Current adapter: ${ADAPTER}",
-        ja: "現在のアダプター：${ADAPTER}",
-    },
     "Custom Headers": {
         def: "Custom Headers",
         es: "Encabezados personalizados",
         ja: "カスタムヘッダー",
         ko: "사용자 지정 헤더",
         "zh-tw": "自訂標頭",
-    },
-    "Custom headers for requesting the bucket. e.g. `x-custom-header1: value1\n x-custom-header2: value2`": {
-        def: "Custom headers for requesting the bucket. e.g. `x-custom-header1: value1\n x-custom-header2: value2`",
-        ja: "バケットへのリクエストに付加するカスタムヘッダーです。例：`x-custom-header1: value1\n x-custom-header2: value2`",
-    },
-    "Custom headers for requesting the CouchDB. e.g. `x-custom-header1: value1\n x-custom-header2: value2`": {
-        def: "Custom headers for requesting the CouchDB. e.g. `x-custom-header1: value1\n x-custom-header2: value2`",
-        ja: "CouchDBへのリクエストに付加するカスタムヘッダーです。例：`x-custom-header1: value1\n x-custom-header2: value2`",
     },
     "Customization Sync": {
         def: "Customization Sync",
@@ -1681,10 +1224,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "数据压缩",
         "zh-tw": "資料壓縮",
     },
-    "Data retrieval scheduled": {
-        def: "Data retrieval scheduled",
-        ja: "データ取得を開始",
-    },
     "Data to Copy": {
         def: "Data to Copy",
         es: "Datos a copiar",
@@ -1708,14 +1247,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "数据库适配器",
         "zh-tw": "資料庫轉接器",
     },
-    "Database Analysis data (TSV):": {
-        def: "Database Analysis data (TSV):",
-        ja: "データベース分析データ（TSV）：",
-    },
-    "Database information for ${FILE}": {
-        def: "Database information for ${FILE}",
-        ja: "${FILE}のデータベース情報",
-    },
     "Database Name": {
         def: "Database Name",
         es: "Nombre de la base de datos",
@@ -1726,14 +1257,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Имя базы данных",
         zh: "数据库名称",
         "zh-tw": "資料庫名稱",
-    },
-    "Database revision": {
-        def: "Database revision",
-        ja: "データベースのリビジョン",
-    },
-    "Database revision is newer": {
-        def: "Database revision is newer",
-        ja: "データベースのリビジョンの方が新しい",
     },
     "Database suffix": {
         def: "Database suffix",
@@ -1827,14 +1350,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "删除本地数据库以重置或卸载 Self-hosted LiveSync",
         "zh-tw": "刪除本機資料庫以重設或解除安裝 Self-hosted LiveSync",
     },
-    "Delete local files if deleted on remote": {
-        def: "Delete local files if deleted on remote",
-        ja: "リモートで削除されたローカルファイルを削除",
-    },
-    "Delete local files if not on remote": {
-        def: "Delete local files if not on remote",
-        ja: "リモートにないローカルファイルを削除",
-    },
     "Delete old metadata of deleted files on start-up": {
         def: "Delete old metadata of deleted files on start-up",
         es: "Borrar metadatos viejos al iniciar",
@@ -1870,10 +1385,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "リモート構成「${name}」を削除しますか?",
         ko: "'${name}' 원격 구성을 삭제할까요?",
         "zh-tw": "要刪除遠端設定「${name}」嗎？",
-    },
-    "Delete remote configuration '${NAME}'?": {
-        def: "Delete remote configuration '${NAME}'?",
-        ja: "リモート設定「${NAME}」を削除しますか？",
     },
     DENIED: {
         def: "DENIED",
@@ -1925,14 +1436,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "рабочий стол",
         zh: "桌面设备",
         "zh-tw": "桌面裝置",
-    },
-    "Desktop only; uses more battery and network.": {
-        def: "Desktop only; uses more battery and network.",
-        ja: "デスクトップのみ。バッテリーとネットワークの使用量が増えます。",
-    },
-    "Desktop only. Allow sleep on this device even when the general option is disabled.": {
-        def: "Desktop only. Allow sleep on this device even when the general option is disabled.",
-        ja: "デスクトップ専用です。一般設定が無効の場合でも、このデバイスでのスリープを許可します。",
     },
     "Detected Peers": {
         def: "Detected Peers",
@@ -2017,11 +1520,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         "zh-tw": "已啟用 RTCPeerConnection 診斷",
     },
     "dialog.yourLanguageAvailable": {
-        def: "Self-hosted LiveSync had translations for your language, so the Display language setting was enabled.\n\nNote: Not all messages are translated. We are waiting for your contributions!\nNote 2: If you create an Issue, **please revert to Default** and then take screenshots, messages and logs. This can be done in the setting dialogue.\nMay you find it easy to use!",
+        def: "Self-hosted LiveSync had translations for your language, so the %{Display language} setting was enabled.\n\nNote: Not all messages are translated. We are waiting for your contributions!\nNote 2: If you create an Issue, **please revert to Default** and then take screenshots, messages and logs. This can be done in the setting dialogue.\nMay you find it easy to use!",
         es: "Self-hosted LiveSync tenía traducciones para tu idioma, así que se ha activado el ajuste %{Display language}.\n\nNota: no todos los mensajes están traducidos. ¡Esperamos tus contribuciones!\nNota 2: si abres una incidencia, **vuelve antes a Predeterminado** y luego haz las capturas de pantalla y recoge los mensajes y registros. Puedes hacerlo desde el diálogo de ajustes.\n¡Que lo disfrutes!",
         fr: "Self-hosted LiveSync dispose d'une traduction pour votre langue, le paramètre %{Display language} a donc été activé.\n\nNote : Tous les messages ne sont pas traduits. Nous attendons vos contributions !\nNote 2 : Si vous créez un ticket, **veuillez revenir à Par défaut** puis prendre des captures d'écran, messages et journaux. Cela peut être fait dans la boîte de dialogue des paramètres.\nBonne utilisation !",
         he: "ל-Self-hosted LiveSync יש תרגום לשפתך, ולכן הגדרת %{Display language} הופעלה.\n\nהערה: לא כל ההודעות מתורגמות. אנחנו ממתינים לתרומותיך!\nהערה 2: אם אתה פותח Issue, **אנא חזור ל-%{lang-def}** ואז צלם צילומי מסך, הודעות ויומנים. ניתן לעשות זאת בדיאלוג ההגדרות.\nנקווה שתמצא/י את הפלאגין נוח לשימוש!",
-        ja: "Self-hosted LiveSync に設定されている言語の翻訳があったため、インターフェースの表示言語を有効にしました。\n\n注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！\nGitHubでIssueを作成する際には、一旦既定に戻してから、スクリーンショット、メッセージ、ログを収集してください。これは設定から変更できます。\n\n便利に使用できれば幸いです。",
+        ja: "Self-hosted LiveSync に設定されている言語の翻訳があったため、インターフェースの表示言語設定を有効にしました。\n\n注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！\nGithubにIssueを作成する際には、表示言語設定を一旦 Default に戻してから、スクショやメッセージ、ログを収集してください。これは設定から変更できます。\n\n便利に使用できれば幸いです。",
         ko: "Self-hosted LiveSync가 사용 중인 언어의 번역을 제공하므로 표시 언어 설정이 활성화되었습니다.\n\n참고: 모든 메시지가 번역되어 있지는 않습니다. 여러분의 기여를 기다리고 있습니다!\n참고 2: 이슈를 등록할 때는 **기본값 로 되돌린 뒤** 스크린샷과 메시지, 로그를 첨부해 주세요. 설정 대화 상자에서 되돌릴 수 있습니다.\n편하게 사용하실 수 있기를 바랍니다!",
         ru: "Self-hosted LiveSync имеет переводы для вашего языка, поэтому была включена настройка языка Display language.\n\nПримечание: Не все сообщения переведены. Мы ждём ваших предложений!\nПримечание 2: При создании Issue, пожалуйста, вернитесь к lang-def, затем сделайте скриншоты, сообщения и логи. Это можно сделать в настройках.\nНадеемся, вам будет удобно использовать!",
         zh: "Self-hosted LiveSync已提供您语言的翻译,因此启用了%{Display language}\n\n注意：并非所有消息都已翻译。我们期待您的贡献！\n注意 2：若您创建问题报告， **请切换回Default** ，然后截取屏幕截图、消息和日志，此操作可在设置对话框中完成\n愿您使用顺心！",
@@ -2033,7 +1536,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "Mantener Predeterminado",
         fr: "Conserver Par défaut",
         he: "השאר %{lang-def}",
-        ja: "表示言語を既定に戻す",
+        ja: "Keep Default",
         ko: "기본값 유지",
         ru: "Оставить lang-def",
         zh: "保持Default",
@@ -2084,28 +1587,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "禁用日志记录,仅显示通知。如果您报告问题,请禁用此选项",
         "zh-tw": "停用日誌記錄，只顯示通知。如果你要回報問題，請關閉此選項。",
     },
-    "Discard branch": {
-        def: "Discard branch",
-        ja: "ブランチを破棄",
-    },
-    "Discard database branch ${REVISION} of ${FILE}? This creates a logical deletion for that exact live branch. The current Vault file will not be changed.":
-        {
-            def: "Discard database branch ${REVISION} of ${FILE}? This creates a logical deletion for that exact live branch. The current Vault file will not be changed.",
-            ja: "${FILE}のデータベースブランチ${REVISION}を破棄しますか？対象の有効なブランチに論理削除を作成します。現在のVaultファイルは変更されません。",
-        },
-    "Discard database revision ${REVISION} of ${FILE}? This creates a logical deletion for that exact live revision. Missing content cannot be recovered by this action.":
-        {
-            def: "Discard database revision ${REVISION} of ${FILE}? This creates a logical deletion for that exact live revision. Missing content cannot be recovered by this action.",
-            ja: "${FILE}のデータベースリビジョン${REVISION}を破棄しますか？対象の有効なリビジョンに論理削除を作成します。この操作では不足している内容を復元できません。",
-        },
-    "Discard this branch": {
-        def: "Discard this branch",
-        ja: "このブランチを破棄",
-    },
-    "Discard unreadable revision": {
-        def: "Discard unreadable revision",
-        ja: "読み込めないリビジョンを破棄",
-    },
     Disconnect: {
         def: "Disconnect",
         es: "Desconectar",
@@ -2119,10 +1600,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "却下する",
         ko: "닫기",
         "zh-tw": "關閉",
-    },
-    "Display language": {
-        def: "Display language",
-        ja: "表示言語",
     },
     "Display Language": {
         def: "Display Language",
@@ -2418,18 +1895,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "문서 기록",
         "zh-tw": "文件歷程",
     },
-    "DocumentHistory.displayFileFailed": {
-        def: "Unable to display the file in the editor.",
-        ja: "エディターにファイルを表示できませんでした。",
-    },
-    "DocumentHistory.oldContentCopied": {
-        def: "Old content copied to the clipboard.",
-        ja: "古い内容をクリップボードにコピーしました。",
-    },
-    Done: {
-        def: "Done",
-        ja: "完了",
-    },
     Duplicate: {
         def: "Duplicate",
         es: "Duplicar",
@@ -2484,10 +1949,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "边缘情况处理（处理）",
         "zh-tw": "邊緣情況處理（處理）",
     },
-    "Effectively a directory. Should end with `/`. e.g., `vault-name/`.": {
-        def: "Effectively a directory. Should end with `/`. e.g., `vault-name/`.",
-        ja: "実質的なディレクトリです。末尾を「/」にしてください。例：`vault-name/`",
-    },
     "Emergency restart": {
         def: "Emergency restart",
         es: "Reinicio de emergencia",
@@ -2519,10 +1980,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "启用自定义同步",
         "zh-tw": "啟用自訂同步",
     },
-    "Enable Developers' Debug Tools (If available).": {
-        def: "Enable Developers' Debug Tools (If available).",
-        ja: "開発者向けデバッグツールを有効化（利用可能な場合）",
-    },
     "Enable Developers' Debug Tools.": {
         def: "Enable Developers' Debug Tools.",
         es: "Habilitar herramientas de depuración",
@@ -2545,24 +2002,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "启用边缘情况处理功能",
         "zh-tw": "啟用邊緣情況處理功能",
     },
-    "Enable forcePathStyle": {
-        def: "Enable forcePathStyle",
-        ja: "forcePathStyleを有効化",
-    },
     "Enable P2P Replicator": {
         def: "Enable P2P Replicator",
         es: "Habilitar el replicador P2P",
         ja: "P2P レプリケーターを有効にする",
         ko: "P2P 복제기 활성화",
         "zh-tw": "啟用 P2P 複寫器",
-    },
-    "Enable P2P Synchronization": {
-        def: "Enable P2P Synchronization",
-        ja: "P2P同期を有効化",
-    },
-    "Enable per-file customization sync": {
-        def: "Enable per-file customization sync",
-        ja: "ファイル単位のカスタマイズ同期を有効化",
     },
     "Enable poweruser features": {
         def: "Enable poweruser features",
@@ -2625,10 +2070,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "加密远程数据库中的内容。如果您使用插件的同步功能,则建议启用此功能 ",
             "zh-tw": "加密遠端資料庫中的內容。如果你使用外掛的同步功能，建議啟用此選項。",
         },
-    "Encrypt your settings": {
-        def: "Encrypt your settings",
-        ja: "設定を暗号化",
-    },
     "Encrypting sensitive configuration items": {
         def: "Encrypting sensitive configuration items",
         es: "Cifrando elementos sensibles",
@@ -2646,10 +2087,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "暗号化アルゴリズム",
         ko: "암호화 알고리즘",
         "zh-tw": "加密演算法",
-    },
-    "Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files.": {
-        def: "Encryption passphrase. If changed, you should overwrite the server's database with the new (encrypted) files.",
-        ja: "暗号化パスフレーズです。変更した場合は、新しく暗号化したファイルでサーバーのデータベースを上書きする必要があります。",
     },
     "Encryption phassphrase. If changed, you should overwrite the server's database with the new (encrypted) files.": {
         def: "Encryption phassphrase. If changed, you should overwrite the server's database with the new (encrypted) files.",
@@ -2673,10 +2110,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "端到端加密",
         "zh-tw": "端對端加密",
     },
-    "End-to-End Encryption Algorithm": {
-        def: "End-to-End Encryption Algorithm",
-        ja: "エンドツーエンド暗号化アルゴリズム",
-    },
     "Endpoint URL": {
         def: "Endpoint URL",
         es: "URL del endpoint",
@@ -2698,10 +2131,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Улучшить размер чанка",
         zh: "增大块大小",
         "zh-tw": "擴大 chunk 大小",
-    },
-    "Enter a complete HTTP or HTTPS URL.": {
-        def: "Enter a complete HTTP or HTTPS URL.",
-        ja: "完全なHTTPまたはHTTPS URLを入力してください。",
     },
     "Enter a folder prefix (optional)": {
         def: "Enter a folder prefix (optional)",
@@ -2840,10 +2269,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "testAndFixSettings 실행 중 오류가 발생했습니다: ${reason}",
         "zh-tw": "testAndFixSettings 時發生錯誤：${reason}",
     },
-    "Expected document ID: ${ID}": {
-        def: "Expected document ID: ${ID}",
-        ja: "想定されるドキュメントID：${ID}",
-    },
     "Experimental Settings": {
         def: "Experimental Settings",
         es: "Ajustes experimentales",
@@ -2969,10 +2394,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "使用以前的行为获取数据库",
         "zh-tw": "以先前的行為抓取資料庫",
     },
-    "Fetch Remote Configuration Failed": {
-        def: "Fetch Remote Configuration Failed",
-        ja: "リモート設定の取得に失敗",
-    },
     "Fetch remote settings": {
         def: "Fetch remote settings",
         es: "Obtener ajustes remotos",
@@ -3003,10 +2424,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "파일 무결성",
         "zh-tw": "檔案完整性",
     },
-    "File prefix on the bucket": {
-        def: "File prefix on the bucket",
-        ja: "バケット内のファイル接頭辞",
-    },
     "File to resolve conflict": {
         def: "File to resolve conflict",
         es: "Archivo para resolver el conflicto",
@@ -3034,21 +2451,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "文件名",
         "zh-tw": "檔名",
     },
-    "Files with modification times greater than this value (in seconds since the Unix epoch) will not have their events reflected. Set to 0 to disable this limit.":
-        {
-            def: "Files with modification times greater than this value (in seconds since the Unix epoch) will not have their events reflected. Set to 0 to disable this limit.",
-            ja: "この値（Unixエポックからの秒数）より新しい更新日時を持つファイルのイベントは反映されません。0にすると制限を無効化します。",
-        },
     "Final Confirmation: Overwrite Server Data with This Device's Files": {
         def: "Final Confirmation: Overwrite Server Data with This Device's Files",
         es: "Confirmación final: sobrescribir los datos del servidor con los archivos de este dispositivo",
         ja: "最終確認: サーバーのデータをこのデバイスのファイルで上書きします",
         ko: "최종 확인: 이 기기의 파일로 서버 데이터 덮어쓰기",
         "zh-tw": "最終確認：以此裝置的檔案覆寫伺服器資料",
-    },
-    "Finalise the process and resume normal operation": {
-        def: "Finalise the process and resume normal operation",
-        ja: "処理を完了して通常動作を再開",
     },
     "First, please select the option that best describes your current situation.": {
         def: "First, please select the option that best describes your current situation.",
@@ -3088,18 +2496,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "フォルダー接頭辞",
         ko: "폴더 접두사",
         "zh-tw": "資料夾前綴",
-    },
-    "Follow changes": {
-        def: "Follow changes",
-        ja: "変更を追跡",
-    },
-    "Follow changes from this device": {
-        def: "Follow changes from this device",
-        ja: "この端末からの変更を追跡",
-    },
-    "Follow whenever this device connects": {
-        def: "Follow whenever this device connects",
-        ja: "この端末の接続時に常に変更を追跡",
     },
     "For HS256/HS512 algorithms, provide the shared secret key. For ES256/ES512 algorithms, provide the pkcs8 PEM-formatted private key.":
         {
@@ -3165,10 +2561,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "垃圾回收确认",
         "zh-tw": "垃圾回收確認",
     },
-    "Garbage Collection V3 (advanced, beta)": {
-        def: "Garbage Collection V3 (advanced, beta)",
-        ja: "ガベージコレクションV3（上級者向け、ベータ）",
-    },
     "Garbage Collection V3 (Beta)": {
         def: "Garbage Collection V3 (Beta)",
         es: "Recolección de basura V3 (Beta)",
@@ -3212,10 +2604,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "정보를 수집하는 중입니다...",
         "zh-tw": "正在收集資訊⋯",
     },
-    "Generate full report for opening the issue with debug info": {
-        def: "Generate full report for opening the issue with debug info",
-        ja: "問題報告用のデバッグ情報を含む完全なレポートを生成",
-    },
     "Generate Random ID": {
         def: "Generate Random ID",
         es: "Generar un ID aleatorio",
@@ -3247,10 +2635,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "続行する前にバックアップを作成しましたか?",
         ko: "진행하기 전에 백업을 만드셨나요?",
         "zh-tw": "你在繼續之前是否已建立備份？",
-    },
-    HERE: {
-        def: "HERE",
-        ja: "ここ",
     },
     "Hidden file synchronization have been temporarily disabled. Please enable them after the fetching, if you need them.":
         {
@@ -3306,10 +2690,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Определяет, как отображать сетевые ошибки, если сервер синхронизации недоступен.",
         zh: "当同步服务器不可达时，如何显示网络错误。",
         "zh-tw": "當同步伺服器無法連線時，如何顯示網路錯誤。",
-    },
-    "How to handle extra existing local files?": {
-        def: "How to handle extra existing local files?",
-        ja: "リモートにない既存のローカルファイルをどう扱いますか？",
     },
     "How would you like to configure the connection to your server?": {
         def: "How would you like to configure the connection to your server?",
@@ -3450,11 +2830,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "啟用後會使用以每個檔案為單位的高效率自訂同步。啟用時需要進行一次小型遷移，且所有裝置都應升級到 v0.23.18。啟用後將不再相容舊版本。",
         },
-    "If enabled, changes will be automatically broadcasted to all connected peers. Notified peers will start fetching the changes.":
-        {
-            def: "If enabled, changes will be automatically broadcasted to all connected peers. Notified peers will start fetching the changes.",
-            ja: "有効にすると、接続済みのすべてのピアへ変更を自動通知します。通知を受けたピアは変更の取得を開始します。",
-        },
     "If enabled, chunks will be split into no more than 100 items. However, dedupe is slightly weaker.": {
         def: "If enabled, chunks will be split into no more than 100 items. However, dedupe is slightly weaker.",
         es: "Divide chunks en máximo 100 ítems. Menos eficiente en deduplicación",
@@ -3466,11 +2841,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "如果启用,数据块将被分割成不超过 100 项。但是,去重效果会稍弱",
         "zh-tw": "啟用後，chunks 最多會分成 100 個項目，但去重效果會稍微變弱。",
     },
-    "If enabled, efficient per-file customization sync will be used. A minor migration is required when enabling this feature, and all devices must be updated to v0.23.18. Enabling this feature will result in losing compatibility with older versions.":
-        {
-            def: "If enabled, efficient per-file customization sync will be used. A minor migration is required when enabling this feature, and all devices must be updated to v0.23.18. Enabling this feature will result in losing compatibility with older versions.",
-            ja: "有効にすると、効率的なファイル単位のカスタマイズ同期を使用します。有効化時に小規模な移行が必要で、すべてのデバイスをv0.23.18以降へ更新する必要があります。古いバージョンとの互換性は失われます。",
-        },
     "If enabled, newly created chunks are temporarily kept within the document, and graduated to become independent chunks once stabilised.":
         {
             def: "If enabled, newly created chunks are temporarily kept within the document, and graduated to become independent chunks once stabilised.",
@@ -3495,11 +2865,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "如果启用，状态栏内将显示 ⛔ 图标，而非文件警告横幅，不会显示任何详细信息。",
             "zh-tw": "啟用後，將在狀態列中顯示 ⛔ 圖示，而不是檔案警告橫幅，且不會顯示詳細資訊。",
         },
-    "If enabled, the file properties will be encrypted in the remote database. This is useful for protecting sensitive information in file paths, sizes, and IDs of its chunks. If you are using V1 E2EE, this only obfuscates the file path.":
-        {
-            def: "If enabled, the file properties will be encrypted in the remote database. This is useful for protecting sensitive information in file paths, sizes, and IDs of its chunks. If you are using V1 E2EE, this only obfuscates the file path.",
-            ja: "有効にすると、リモートデータベース内のファイル属性を暗号化します。ファイルパス、サイズ、およびチャンクIDの保護に役立ちます。V1 E2EEではファイルパスだけが難読化されます。",
-        },
     "If enabled, the file under 1kb will be processed in the UI thread.": {
         def: "If enabled, the file under 1kb will be processed in the UI thread.",
         es: "Archivos <1kb se procesan en hilo UI",
@@ -3510,10 +2875,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Если включено, файлы меньше 1КБ будут обрабатываться в основном потоке.",
         zh: "如果启用,小于 1kb 的文件将在 UI 线程中处理",
         "zh-tw": "啟用後，小於 1KB 的檔案會在 UI 執行緒中處理。",
-    },
-    "If enabled, the forcePathStyle option will be used for bucket operations.": {
-        def: "If enabled, the forcePathStyle option will be used for bucket operations.",
-        ja: "有効にすると、バケット操作にforcePathStyleオプションを使用します。",
     },
     "If enabled, the notification of hidden files change will be suppressed.": {
         def: "If enabled, the notification of hidden files change will be suppressed.",
@@ -3526,20 +2887,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "如果启用,将不再通知隐藏文件被更改",
         "zh-tw": "啟用後，將不再通知隱藏檔案變更。",
     },
-    "If enabled, the P2P connection will be automatically started when the application launches.": {
-        def: "If enabled, the P2P connection will be automatically started when the application launches.",
-        ja: "有効にすると、アプリケーションの起動時にP2P接続を自動的に開始します。",
-    },
-    "If enabled, the plugin will not attempt to connect to the remote database even if the chunk was not found locally.":
-        {
-            def: "If enabled, the plugin will not attempt to connect to the remote database even if the chunk was not found locally.",
-            ja: "有効にすると、ローカルでチャンクが見つからない場合でも、プラグインはリモートデータベースへ接続しません。",
-        },
-    "If enabled, the request API will be used to avoid `inevitable` CORS problems. This is a workaround and may not work in all cases. PLEASE READ THE DOCUMENTATION BEFORE USING THIS OPTION. This is a less-secure option.":
-        {
-            def: "If enabled, the request API will be used to avoid `inevitable` CORS problems. This is a workaround and may not work in all cases. PLEASE READ THE DOCUMENTATION BEFORE USING THIS OPTION. This is a less-secure option.",
-            ja: "有効にすると、避けられないCORS問題を回避するためにRequest APIを使用します。これは回避策であり、常に動作するとは限りません。使用前に必ずドキュメントを確認してください。安全性が低下する選択肢です。",
-        },
     "If this enabled, all chunks will be stored with the revision made from its content. (Previous behaviour)": {
         def: "If this enabled, all chunks will be stored with the revision made from its content. (Previous behaviour)",
         es: "Si se habilita, todos los chunks se almacenan con la revisión hecha desde su contenido. (comportamiento anterior)",
@@ -3574,10 +2921,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "如果启用此功能,数据块将被分割成具有语义意义的段落。并非所有平台都支持此功能",
             "zh-tw": "啟用後，chunks 會依語意切分成有意義的區段，並非所有平台都支援此功能。",
         },
-    "If this enabled, JWT will be used for authentication.": {
-        def: "If this enabled, JWT will be used for authentication.",
-        ja: "有効にすると、認証にJWTを使用します。",
-    },
     "If this is set, changes to local files which are matched by the ignore files will be skipped. Remote changes are determined using local ignore files.":
         {
             def: "If this is set, changes to local files which are matched by the ignore files will be skipped. Remote changes are determined using local ignore files.",
@@ -3714,10 +3057,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "중요",
         "zh-tw": "重要",
     },
-    "Imported CouchDB": {
-        def: "Imported CouchDB",
-        ja: "インポートしたCouchDB",
-    },
     "In most cases, you should stick with the default algorithm (${algorithm}), This setting is only required if you have an existing Vault encrypted in a different format.":
         {
             def: "In most cases, you should stick with the default algorithm (${algorithm}), This setting is only required if you have an existing Vault encrypted in a different format.",
@@ -3736,10 +3075,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "在這種情況下，Self-hosted LiveSync 會為每個檔案重新建立中繼資料，並刻意產生衝突。若檔案內容相同，這些衝突會自動解決。",
         },
-    "Include in the P2P synchronisation command": {
-        def: "Include in the P2P synchronisation command",
-        ja: "P2P同期コマンドの対象に含める",
-    },
     "Incoming:": {
         def: "Incoming:",
         es: "Entrantes:",
@@ -3789,14 +3124,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "저널 송신 기록을 초기화합니다. 다음 동기화 때 이 기기가 받은 항목을 제외한 모든 항목을 다시 보냅니다.",
         "zh-tw": "初始化傳送日誌歷程。下次同步時，除了此裝置已接收的項目外，其他項目都會再次傳送。",
     },
-    "Inspect conflicts and file/database differences": {
-        def: "Inspect conflicts and file/database differences",
-        ja: "競合とファイル／データベースの差異を調査",
-    },
-    "Internal timestamp for resolving compatible tweak mismatches.": {
-        def: "Internal timestamp for resolving compatible tweak mismatches.",
-        ja: "互換性のある調整値の不一致を解決するための内部タイムスタンプです。",
-    },
     "Interval (sec)": {
         def: "Interval (sec)",
         es: "Intervalo (segundos)",
@@ -3828,570 +3155,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "続行する前にバックアップを作成することを強くお勧めします。バックアップせずに続行すると、データが失われる可能性があります。",
         ko: "진행하기 전에 백업을 만드시기를 강력히 권장합니다. 백업 없이 진행하면 데이터가 손실될 수 있습니다.",
         "zh-tw": "強烈建議在繼續之前先建立備份。若不備份就繼續，可能導致資料遺失。",
-    },
-    "JapaneseUI.Conflict.SelectFile": {
-        def: "File to resolve conflict",
-        ja: "競合を解決するファイル",
-    },
-    "JapaneseUI.Conflict.UnresolvedLog": {
-        def: "Some files have been left conflicted! Resolve them with 'Pick a file to resolve conflict'. The list is written in the log.",
-        ja: "競合が残っているファイルがあります。「競合を解決するファイル」から解決してください。一覧はログに記録されています。",
-    },
-    "JapaneseUI.Conflict.UnresolvedWithAction": {
-        def: "Some files have been left conflicted! Press {HERE} to resolve them, or you can do it later with 'Pick a file to resolve conflict'.",
-        ja: "競合が残っているファイルがあります。{HERE}を押して解決するか、後で「競合を解決するファイル」から解決してください。",
-    },
-    "JapaneseUI.Dialogue.ChoicePrefix": {
-        def: "Select) ",
-        ja: "選択）",
-    },
-    "JapaneseUI.Dialogue.OK": {
-        def: "OK",
-        ja: "OK",
-    },
-    "JapaneseUI.DocumentHistory.BackToRevision": {
-        def: "Back to this revision",
-        ja: "このリビジョンへ戻す",
-    },
-    "JapaneseUI.DocumentHistory.BinaryFile": {
-        def: "Binary file",
-        ja: "バイナリファイル",
-    },
-    "JapaneseUI.DocumentHistory.CannotReadRevision": {
-        def: "Could not read this revision.",
-        ja: "このリビジョンを読み取れません。",
-    },
-    "JapaneseUI.DocumentHistory.CopyToClipboard": {
-        def: "Copy to clipboard",
-        ja: "クリップボードにコピー",
-    },
-    "JapaneseUI.DocumentHistory.CurrentUnavailable": {
-        def: "The current database revision could not be read. The Vault was not changed.",
-        ja: "現在のデータベースリビジョンを読み取れませんでした。Vaultは変更されていません。",
-    },
-    "JapaneseUI.DocumentHistory.DatabaseWriteRefused": {
-        def: "The restored revision could not be created. The file may have changed during the operation, and the Vault was not changed.",
-        ja: "復元したリビジョンを作成できませんでした。処理中にファイルが変更された可能性があります。Vaultは変更されていません。",
-    },
-    "JapaneseUI.DocumentHistory.DeletedAtRevision": {
-        def: "(The file was deleted at this revision)",
-        ja: "（このリビジョンではファイルが削除されています）",
-    },
-    "JapaneseUI.DocumentHistory.DiffOnly": {
-        def: "Diff only",
-        ja: "差分のみ",
-    },
-    "JapaneseUI.DocumentHistory.Done": {
-        def: "Done",
-        ja: "完了",
-    },
-    "JapaneseUI.DocumentHistory.EditorDisplayFailed": {
-        def: "Failed to display the file in the editor",
-        ja: "エディターにファイルを表示できません",
-    },
-    "JapaneseUI.DocumentHistory.EditorOpenFailed": {
-        def: "The restored file could not be opened in the editor.",
-        ja: "復元したファイルをエディターで開けませんでした。",
-    },
-    "JapaneseUI.DocumentHistory.FileInfo": {
-        def: "${file} / ${count} revisions",
-        ja: "${file} / ${count} リビジョン",
-    },
-    "JapaneseUI.DocumentHistory.HighlightDiff": {
-        def: "Highlight diff",
-        ja: "差分を強調表示",
-    },
-    "JapaneseUI.DocumentHistory.InvalidPath": {
-        def: "The path for writing content is invalid.",
-        ja: "内容を書き込むパスが無効です。",
-    },
-    "JapaneseUI.DocumentHistory.LoadError": {
-        def: "An error occurred while loading the file.",
-        ja: "ファイルの読み込み中にエラーが発生しました。",
-    },
-    "JapaneseUI.DocumentHistory.LoadingOldRevisions": {
-        def: "Loading older revisions...",
-        ja: "過去のリビジョンを読み込み中…",
-    },
-    "JapaneseUI.DocumentHistory.Matches": {
-        def: "${current}/${total} matches",
-        ja: "${current}/${total} 件一致",
-    },
-    "JapaneseUI.DocumentHistory.MissingRevisionIdentifier": {
-        def: "The selected revision does not have a revision identifier.",
-        ja: "選択したリビジョンにリビジョン識別子がありません。",
-    },
-    "JapaneseUI.DocumentHistory.Modified": {
-        def: "Modified: ${time}",
-        ja: "更新日時：${time}",
-    },
-    "JapaneseUI.DocumentHistory.NewerRevision": {
-        def: "Newer revision",
-        ja: "新しいリビジョン",
-    },
-    "JapaneseUI.DocumentHistory.NextMatch": {
-        def: "Next match",
-        ja: "次の一致",
-    },
-    "JapaneseUI.DocumentHistory.NoActiveFile": {
-        def: "There is no active file.",
-        ja: "開いているファイルがありません。",
-    },
-    "JapaneseUI.DocumentHistory.NoHistory": {
-        def: "There is no history for this note.",
-        ja: "このノートには履歴がありません。",
-    },
-    "JapaneseUI.DocumentHistory.NoMatches": {
-        def: "No matches found",
-        ja: "一致する項目はありません",
-    },
-    "JapaneseUI.DocumentHistory.OldContentCopied": {
-        def: "Old content copied to clipboard",
-        ja: "過去の内容をクリップボードにコピーしました",
-    },
-    "JapaneseUI.DocumentHistory.OlderRevision": {
-        def: "Older revision",
-        ja: "古いリビジョン",
-    },
-    "JapaneseUI.DocumentHistory.PreviousMatch": {
-        def: "Previous match",
-        ja: "前の一致",
-    },
-    "JapaneseUI.DocumentHistory.RestorationFailed": {
-        def: "Restoring the selected revision failed before Vault reflection completed. Review the file with 'Inspect conflicts and file/database differences' before retrying.",
-        ja: "Vaultへの反映が完了する前に、選択したリビジョンの復元に失敗しました。再試行する前に「競合およびファイル／データベースの差異を点検」でファイルを確認してください。",
-    },
-    "JapaneseUI.DocumentHistory.Restored": {
-        def: "The selected content was restored as a new revision.",
-        ja: "選択した内容を新しいリビジョンとして復元しました。",
-    },
-    "JapaneseUI.DocumentHistory.RestoredWithConflicts": {
-        def: "The selected content was restored as a new revision. Other versions remain unresolved; use 'Inspect conflicts and file/database differences' to review them.",
-        ja: "選択した内容を新しいリビジョンとして復元しました。他のバージョンは未解決のままです。「競合およびファイル／データベースの差異を点検」で確認してください。",
-    },
-    "JapaneseUI.DocumentHistory.RestoredWithUnknownConflicts": {
-        def: "The selected content was restored as a new revision. LiveSync could not confirm whether other versions remain; use 'Inspect conflicts and file/database differences' to review the file.",
-        ja: "選択した内容を新しいリビジョンとして復元しました。ほかのバージョンが残っているかLiveSyncで確認できませんでした。「競合およびファイル／データベースの差異を点検」でファイルを確認してください。",
-    },
-    "JapaneseUI.DocumentHistory.Revision": {
-        def: "Revision ${current}/${total}",
-        ja: "リビジョン ${current}/${total}",
-    },
-    "JapaneseUI.DocumentHistory.Searching": {
-        def: "Searching...",
-        ja: "検索中…",
-    },
-    "JapaneseUI.DocumentHistory.SearchingProgress": {
-        def: "Searching ${current}/${total}...",
-        ja: "${current}/${total} を検索中…",
-    },
-    "JapaneseUI.DocumentHistory.SearchPlaceholder": {
-        def: "Search history (latest 100)...",
-        ja: "履歴を検索（最新100件）…",
-    },
-    "JapaneseUI.DocumentHistory.SourceUnavailable": {
-        def: "The selected revision could not be restored because its content is no longer available.",
-        ja: "内容を取得できなくなったため、選択したリビジョンを復元できませんでした。",
-    },
-    "JapaneseUI.DocumentHistory.StoredNotReflected": {
-        def: "The restored revision was saved in the local database, but it could not be reflected to the Vault. Use 'Inspect conflicts and file/database differences' to review and apply it.",
-        ja: "復元したリビジョンはローカルデータベースに保存されましたが、Vaultへ反映できませんでした。「競合およびファイル／データベースの差異を点検」で確認して適用してください。",
-    },
-    "JapaneseUI.DocumentHistory.Title": {
-        def: "File history",
-        ja: "ファイル履歴",
-    },
-    "JapaneseUI.DocumentHistory.UnsupportedPath": {
-        def: "Only an ordinary valid Vault path can be restored from Document History.",
-        ja: "Document Historyから復元できるのは、通常の有効なVaultパスのみです。",
-    },
-    "JapaneseUI.GlobalHistory.From": {
-        def: "From:",
-        ja: "開始：",
-    },
-    "JapaneseUI.GlobalHistory.Info": {
-        def: "Info:",
-        ja: "情報：",
-    },
-    "JapaneseUI.GlobalHistory.Title": {
-        def: "Vault history",
-        ja: "Vaultの履歴",
-    },
-    "JapaneseUI.GlobalHistory.To": {
-        def: "To:",
-        ja: "終了：",
-    },
-    "JapaneseUI.JsonResolve.Apply": {
-        def: "Apply",
-        ja: "適用",
-    },
-    "JapaneseUI.JsonResolve.Cancel": {
-        def: "Cancel",
-        ja: "キャンセル",
-    },
-    "JapaneseUI.JsonResolve.Characters": {
-        def: "letters",
-        ja: "文字",
-    },
-    "JapaneseUI.JsonResolve.Revision": {
-        def: "Rev:",
-        ja: "リビジョン：",
-    },
-    "JapaneseUI.Maintenance.DeletedChunks": {
-        def: "Deleted chunks: ${done} / ${total}",
-        ja: "削除したチャンク：${done} / ${total}",
-    },
-    "JapaneseUI.Maintenance.DeletionCancelled": {
-        def: "The deletion operation was cancelled.",
-        ja: "削除操作をキャンセルしました。",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionCancelled": {
-        def: "Garbage collection was cancelled by the user.",
-        ja: "ユーザーによりガベージコレクションをキャンセルしました。",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionComplete": {
-        def: "Garbage collection completed. Deleted chunks: ${done} / ${total}. Time taken: ${seconds} seconds.",
-        ja: "ガベージコレクションが完了しました。削除したチャンク：${done} / ${total}。所要時間：${seconds} 秒。",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionIgnoringMissingNodes": {
-        def: "Proceeding with garbage collection while ignoring missing nodes.",
-        ja: "不足しているノードを無視してガベージコレクションを続行します。",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionProceeding": {
-        def: "Proceeding with garbage collection.",
-        ja: "ガベージコレクションを続行します。",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionReplicationAfterFailed": {
-        def: "Failed to start replication after garbage collection.",
-        ja: "ガベージコレクション後の同期を開始できませんでした。",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionReplicationFailed": {
-        def: "Failed to start one-shot replication before garbage collection. Garbage collection was cancelled.",
-        ja: "ガベージコレクション前の一回限りの同期を開始できなかったため、ガベージコレクションを中止しました。",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionScanComplete": {
-        def: "Garbage collection scan completed. Total chunks: ${total}, used chunks: ${used}",
-        ja: "ガベージコレクションのスキャンが完了しました。総チャンク数：${total}、使用中のチャンク数：${used}",
-    },
-    "JapaneseUI.Maintenance.GarbageCollectionUnusedChunks": {
-        def: "Garbage collection found ${count} unused chunks to delete.",
-        ja: "削除する未使用チャンクを ${count} 件検出しました。",
-    },
-    "JapaneseUI.Maintenance.MarkedChunks": {
-        def: "Marked chunks: ${done} / ${total}",
-        ja: "削除対象としてマークしたチャンク：${done} / ${total}",
-    },
-    "JapaneseUI.Maintenance.NoChunksToResurrect": {
-        def: "No chunks were found to resurrect.",
-        ja: "復元できるチャンクはありません。",
-    },
-    "JapaneseUI.Maintenance.NoConnectedDeviceInfo": {
-        def: "No connected device information found. Cancelling Garbage Collection.",
-        ja: "接続中の端末情報が見つからなかったため、ガベージコレクションを中止しました。",
-    },
-    "JapaneseUI.Maintenance.NoDeletedChunks": {
-        def: "No deleted chunks were found.",
-        ja: "削除済みのチャンクはありません。",
-    },
-    "JapaneseUI.Maintenance.NoUnusedChunks": {
-        def: "No unused chunks were found.",
-        ja: "未使用のチャンクはありません。",
-    },
-    "JapaneseUI.Maintenance.RemoteCompactionConnectFailed": {
-        def: "Failed to connect to the remote for compaction.",
-        ja: "コンパクションのためにリモートへ接続できませんでした。",
-    },
-    "JapaneseUI.Maintenance.RemoteCompactionConnectFailedWithDetail": {
-        def: "Failed to connect to the remote for compaction. ${detail}",
-        ja: "コンパクションのためにリモートへ接続できませんでした。${detail}",
-    },
-    "JapaneseUI.Maintenance.RemoteCompactionFailed": {
-        def: "Compaction on the remote database failed.",
-        ja: "リモートデータベースのコンパクションに失敗しました。",
-    },
-    "JapaneseUI.Maintenance.RemoteCompactionInProgress": {
-        def: "Compaction is in progress on the remote database...",
-        ja: "リモートデータベースでコンパクションを実行中です…",
-    },
-    "JapaneseUI.Maintenance.RemoteCompactionSucceeded": {
-        def: "Compaction on the remote database completed successfully.",
-        ja: "リモートデータベースのコンパクションが完了しました。",
-    },
-    "JapaneseUI.Maintenance.RemoteCompactionTimedOut": {
-        def: "Compaction on remote database timed out.",
-        ja: "リモートデータベースのコンパクションがタイムアウトしました。",
-    },
-    "JapaneseUI.Maintenance.ResurrectCancelled": {
-        def: "The resurrect operation was cancelled.",
-        ja: "復元操作をキャンセルしました。",
-    },
-    "JapaneseUI.Maintenance.ResurrectedChunks": {
-        def: "Resurrected chunks: ${done} / ${total}",
-        ja: "復元したチャンク：${done} / ${total}",
-    },
-    "JapaneseUI.P2P.AutoAccepting": {
-        def: "Auto Accepting",
-        ja: "自動承諾",
-    },
-    "JapaneseUI.P2P.RebuildError": {
-        def: "Error rebuilding from ${peerId}: ${error}",
-        ja: "${peerId} からの再構築中にエラーが発生しました: ${error}",
-    },
-    "JapaneseUI.P2P.RebuildingFrom": {
-        def: "Rebuilding from peer ${peerId}",
-        ja: "ピア ${peerId} から再構築しています",
-    },
-    "JapaneseUI.P2P.SignallingClosed": {
-        def: "Signalling connection closed.",
-        ja: "シグナリング接続を閉じました。",
-    },
-    "JapaneseUI.P2P.SignallingCloseFailed": {
-        def: "Failed to close the signalling connection: ${error}",
-        ja: "シグナリング接続を閉じられませんでした: ${error}",
-    },
-    "JapaneseUI.P2P.SyncCompleted": {
-        def: "Synchronisation with ${peerId} completed",
-        ja: "${peerId} との同期が完了しました",
-    },
-    "JapaneseUI.P2P.SyncError": {
-        def: "Error during synchronisation: ${error}",
-        ja: "同期中にエラーが発生しました: ${error}",
-    },
-    "JapaneseUI.P2P.SyncStarting": {
-        def: "Starting synchronisation with ${peerId}",
-        ja: "${peerId} との同期を開始しています",
-    },
-    "JapaneseUI.RegExp.Add": {
-        def: "Add",
-        ja: "追加",
-    },
-    "JapaneseUI.RegExp.Apply": {
-        def: "Apply",
-        ja: "適用",
-    },
-    "JapaneseUI.RegExp.Revert": {
-        def: "Revert",
-        ja: "元に戻す",
-    },
-    "JapaneseUI.RemoteConfiguration.Activate": {
-        def: "Activate",
-        ja: "有効化",
-    },
-    "JapaneseUI.RemoteConfiguration.ActiveSuffix": {
-        def: " (Active)",
-        ja: "（使用中）",
-    },
-    "JapaneseUI.RemoteConfiguration.AddConnection": {
-        def: "Add connection",
-        ja: "接続を追加",
-    },
-    "JapaneseUI.RemoteConfiguration.Configure": {
-        def: "Configure",
-        ja: "設定",
-    },
-    "JapaneseUI.RemoteConfiguration.ConfigureAndChangeRemote": {
-        def: "Configure And Change Remote",
-        ja: "設定してリモートを変更",
-    },
-    "JapaneseUI.RemoteConfiguration.ConfigureE2EE": {
-        def: "Configure E2EE",
-        ja: "E2EEを設定",
-    },
-    "JapaneseUI.RemoteConfiguration.CopyName": {
-        def: "${name} (Copy)",
-        ja: "${name}（コピー）",
-    },
-    "JapaneseUI.RemoteConfiguration.DisplayName": {
-        def: "Display name",
-        ja: "表示名",
-    },
-    "JapaneseUI.RemoteConfiguration.Duplicate": {
-        def: "Duplicate",
-        ja: "複製",
-    },
-    "JapaneseUI.RemoteConfiguration.DuplicateRemote": {
-        def: "Duplicate remote",
-        ja: "リモートを複製",
-    },
-    "JapaneseUI.RemoteConfiguration.E2EEConfiguration": {
-        def: "E2EE Configuration",
-        ja: "E2EE設定",
-    },
-    "JapaneseUI.RemoteConfiguration.Export": {
-        def: "Export",
-        ja: "エクスポート",
-    },
-    "JapaneseUI.RemoteConfiguration.ExportTitle": {
-        def: "Remote configuration: ${name}",
-        ja: "リモート設定：${name}",
-    },
-    "JapaneseUI.RemoteConfiguration.FetchRemoteSettings": {
-        def: "Fetch remote settings",
-        ja: "リモート設定を取得",
-    },
-    "JapaneseUI.RemoteConfiguration.ImportConnection": {
-        def: "Import connection",
-        ja: "接続設定をインポート",
-    },
-    "JapaneseUI.RemoteConfiguration.ImportFailed": {
-        def: "Could not import the connection string.",
-        ja: "接続文字列をインポートできませんでした。",
-    },
-    "JapaneseUI.RemoteConfiguration.MoreActions": {
-        def: "More actions",
-        ja: "その他の操作",
-    },
-    "JapaneseUI.RemoteConfiguration.NewRemote": {
-        def: "New Remote",
-        ja: "新しいリモート",
-    },
-    "JapaneseUI.RemoteConfiguration.ParseForEditingFailed": {
-        def: "Failed to parse remote configuration '${id}' for editing.",
-        ja: "編集のためにリモート設定 '${id}' を解析できませんでした。",
-    },
-    "JapaneseUI.RemoteConfiguration.ParseForFetchingFailed": {
-        def: "Failed to parse remote configuration '${id}' for fetching settings.",
-        ja: "設定取得のためにリモート設定 '${id}' を解析できませんでした。",
-    },
-    "JapaneseUI.RemoteConfiguration.PasteConnectionString": {
-        def: "Paste connection string",
-        ja: "接続文字列を貼り付け",
-    },
-    "JapaneseUI.RemoteConfiguration.RemoteName": {
-        def: "Remote name",
-        ja: "リモート名",
-    },
-    "JapaneseUI.RemoteConfiguration.Rename": {
-        def: "🪪 Rename",
-        ja: "🪪 名前を変更",
-    },
-    "JapaneseUI.Runtime.CheckingCompromisedChunks": {
-        def: "Checking for compromised chunks...",
-        ja: "破損チャンクを確認中…",
-    },
-    "JapaneseUI.Runtime.CompatibleChunkSettingsAligned": {
-        def: "Automatic alignment of compatible chunk settings has been enabled.",
-        ja: "互換性のあるチャンク設定の自動調整を有効にしました。",
-    },
-    "JapaneseUI.Runtime.CompromisedChunksFound": {
-        def: "Found compromised chunks: ${local} locally, ${remote} remotely",
-        ja: "破損チャンクを検出しました: ローカル ${local} 件、リモート ${remote} 件",
-    },
-    "JapaneseUI.Runtime.CompromisedLocalCountFailed": {
-        def: "Failed to count compromised chunks in the local database",
-        ja: "ローカルデータベース内の破損チャンクを数えられませんでした",
-    },
-    "JapaneseUI.Runtime.CompromisedRemoteCountFailed": {
-        def: "Failed to count compromised chunks in the remote database",
-        ja: "リモートデータベース内の破損チャンクを数えられませんでした",
-    },
-    "JapaneseUI.Runtime.ConfigAddOnLoadFailed": {
-        def: "Could not load the add-on ${name}",
-        ja: "アドオン ${name} を読み込めませんでした",
-    },
-    "JapaneseUI.Runtime.ConfigBothItemsMissing": {
-        def: "Could not find either the remote or local item",
-        ja: "リモート項目とローカル項目のどちらも見つかりませんでした",
-    },
-    "JapaneseUI.Runtime.ConfigLocalItemMissing": {
-        def: "Could not find the local item",
-        ja: "ローカル項目が見つかりませんでした",
-    },
-    "JapaneseUI.Runtime.ConfigRemoteItemMissing": {
-        def: "Could not find the remote item",
-        ja: "リモート項目が見つかりませんでした",
-    },
-    "JapaneseUI.Runtime.FoundSizeMismatches": {
-        def: "Found ${count} size mismatches",
-        ja: "${count} 件のサイズ不一致を検出しました",
-    },
-    "JapaneseUI.Runtime.HiddenFilesUpdated": {
-        def: "Files in ${name} were updated.",
-        ja: "${name} のファイルが更新されました。",
-    },
-    "JapaneseUI.Runtime.IncompleteCheckFailed": {
-        def: "The incomplete document check could not be completed.",
-        ja: "不完全なドキュメントの確認を完了できませんでした。",
-    },
-    "JapaneseUI.Runtime.IncompleteChecking": {
-        def: "Checking for incomplete documents...",
-        ja: "不完全なドキュメントを確認中…",
-    },
-    "JapaneseUI.Runtime.IncompleteFileReadFailed": {
-        def: "Failed to read ${path}: possibly unprocessed or missing",
-        ja: "${path} を読み取れませんでした。未処理または見つからない可能性があります",
-    },
-    "JapaneseUI.Runtime.LocalDatabaseCleaned": {
-        def: "The local database has been cleaned up.",
-        ja: "ローカルデータベースをクリーンアップしました。",
-    },
-    "JapaneseUI.Runtime.MigrationCompleted": {
-        def: "Replication completed for migration: ${operation}.",
-        ja: "データベース移行の同期が完了しました: ${operation}。",
-    },
-    "JapaneseUI.Runtime.MigrationDestroyed": {
-        def: "Destroyed existing destination database for migration: ${operation}.",
-        ja: "既存の移行先データベースを削除しました: ${operation}。",
-    },
-    "JapaneseUI.Runtime.MigrationDocumentsCopied": {
-        def: "Copied migration documents for migration: ${operation}.",
-        ja: "移行用ドキュメントをコピーしました: ${operation}。",
-    },
-    "JapaneseUI.Runtime.MigrationOpening": {
-        def: "Opening destination database for migration: ${operation}.",
-        ja: "移行先データベースを開いています: ${operation}。",
-    },
-    "JapaneseUI.Runtime.MigrationProgress": {
-        def: "Replicating... Documents replicated: ${done} / ${total}",
-        ja: "同期中… 処理済みドキュメント: ${done} / ${total}",
-    },
-    "JapaneseUI.Runtime.MigrationRecreated": {
-        def: "Re-created destination database for migration: ${operation}.",
-        ja: "移行先データベースを再作成しました: ${operation}。",
-    },
-    "JapaneseUI.Runtime.NoActiveReplicator": {
-        def: "No active replicator found",
-        ja: "有効なレプリケーターがありません",
-    },
-    "JapaneseUI.Runtime.NoSizeMismatches": {
-        def: "No size mismatches found",
-        ja: "サイズの不一致はありません",
-    },
-    "JapaneseUI.Runtime.OtherSettingsUpdated": {
-        def: "Other Obsidian settings files were updated.",
-        ja: "ほかのObsidian設定ファイルが更新されました。",
-    },
-    "JapaneseUI.Runtime.PluginStatusCheckFailed": {
-        def: "Error while checking plug-in status.",
-        ja: "プラグインの状態確認中にエラーが発生しました。",
-    },
-    "JapaneseUI.Runtime.ReloadPlugin": {
-        def: "Reload ${name}",
-        ja: "${name} を再読み込み",
-    },
-    "JapaneseUI.Runtime.RemoteDatabaseCleaned": {
-        def: "The remote database has been cleaned.",
-        ja: "リモートデータベースはクリーンアップ済みです。",
-    },
-    "JapaneseUI.Runtime.ReplicationCancelled": {
-        def: "Replication was cancelled. Please try again.",
-        ja: "同期をキャンセルしました。もう一度実行してください。",
-    },
-    "JapaneseUI.Runtime.RestoredFromStorage": {
-        def: "Restored ${path} from storage",
-        ja: "${path} をストレージから復元しました",
-    },
-    "JapaneseUI.Runtime.RestoreFromStorageFailed": {
-        def: "Failed to restore ${path} from storage",
-        ja: "${path} をストレージから復元できませんでした",
-    },
-    "JapaneseUI.Runtime.ScheduleRestart": {
-        def: "Schedule an Obsidian restart",
-        ja: "Obsidianの再起動を予約",
-    },
-    "JapaneseUI.Runtime.StubNotFound": {
-        def: "Could not find stub file for ${path}",
-        ja: "${path} のスタブファイルが見つかりませんでした",
     },
     "Just for a minute, please!": {
         def: "Just for a minute, please!",
@@ -4460,7 +3223,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "Sincronización punto a punto",
         fr: "Synchronisation pair-à-pair",
         he: "%{title_p2p_sync}",
-        ja: "ピアツーピア同期",
+        ja: "Peer-to-Peer Sync",
         ko: "피어 투 피어(P2P) 동기화 (실험 기능)",
         ru: "title_p2p_sync",
         zh: "Peer-to-Peer同步 (实验性)",
@@ -4515,7 +3278,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "Sincronización punto a punto",
         fr: "Synchronisation pair-à-pair",
         he: "סנכרון עמית-לעמית",
-        ja: "ピアツーピア同期",
+        ja: "Peer-to-Peer Sync",
         ko: "피어 투 피어(P2P) 동기화",
         ru: "Синхронизация между устройствами",
         zh: "Peer-to-Peer同步",
@@ -4532,36 +3295,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "保留空文件夹",
         "zh-tw": "保留空資料夾",
     },
-    "Keep local files even if deleted on remote": {
-        def: "Keep local files even if deleted on remote",
-        ja: "リモートで削除されていてもローカルファイルを保持",
-    },
-    "Keep local files even if not on remote": {
-        def: "Keep local files even if not on remote",
-        ja: "リモートにないローカルファイルも保持",
-    },
-    "Keep replication active in the background": {
-        def: "Keep replication active in the background",
-        ja: "バックグラウンドでレプリケーションを維持",
-    },
-    "Keep unchanged": {
-        def: "Keep unchanged",
-        ja: "変更せずに保持",
-    },
-    "Key ID": {
-        def: "Key ID",
-        ja: "キーID",
-    },
-    "Keypair or pre-shared key": {
-        def: "Keypair or pre-shared key",
-        ja: "鍵ペアまたは事前共有鍵",
-    },
     lang_def: {
         def: "Default",
         es: "Predeterminado",
         fr: "Par défaut",
         he: "ברירת מחדל",
-        ja: "既定",
+        ja: "Default",
         ko: "기본값",
         ru: "По умолчанию",
         zh: "Default",
@@ -4583,7 +3322,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "Predeterminado",
         fr: "Par défaut",
         he: "%{lang_def}",
-        ja: "既定",
+        ja: "Default",
         ko: "기본값",
         ru: "lang_def",
         zh: "Default",
@@ -4674,10 +3413,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "繁體中文",
         "zh-tw": "繁體中文",
     },
-    "Last tweak modified timestamp": {
-        def: "Last tweak modified timestamp",
-        ja: "調整値を最後に変更した時刻",
-    },
     Later: {
         def: "Later",
         es: "Más tarde",
@@ -4686,14 +3421,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Позже",
         zh: "稍后",
         "zh-tw": "稍後",
-    },
-    "Learn more about P2P connections": {
-        def: "Learn more about P2P connections",
-        ja: "P2P接続の詳細",
-    },
-    "Learn more about signalling and TURN": {
-        def: "Learn more about signalling and TURN",
-        ja: "シグナリングとTURNの詳細",
     },
     "Limit: {datetime} ({timestamp})": {
         def: "Limit: {datetime} ({timestamp})",
@@ -5102,10 +3829,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "自动换行",
         "zh-tw": "自動換行",
     },
-    "Longest chunk line threshold value (Not Configurable from the UI Now).": {
-        def: "Longest chunk line threshold value (Not Configurable from the UI Now).",
-        ja: "チャンクの最長行しきい値（現在UIから設定不可）",
-    },
     "Lower (${local} < ${remote})": {
         def: "Lower (${local} < ${remote})",
         es: "Inferior (${local} < ${remote})",
@@ -5127,10 +3850,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "유지보수 모드",
         "zh-tw": "維護模式",
     },
-    "Mark this revision as the Vault version": {
-        def: "Mark this revision as the Vault version",
-        ja: "このリビジョンをVaultのバージョンとして記録",
-    },
     "Maximum delay for batch database updating": {
         def: "Maximum delay for batch database updating",
         es: "Retraso máximo para actualización por lotes",
@@ -5141,10 +3860,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Максимальная задержка пакетного обновления базы данных",
         zh: "批量数据库更新的最大延迟",
         "zh-tw": "批次更新資料庫的最大延遲",
-    },
-    "Maximum file modification time for reflected file events": {
-        def: "Maximum file modification time for reflected file events",
-        ja: "イベント反映時の最大ファイル更新日時",
     },
     "Maximum file size": {
         def: "Maximum file size",
@@ -5190,10 +3905,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "最大孵化期",
         "zh-tw": "最大暫存期間",
     },
-    "Maximum request size for manually resending chunks": {
-        def: "Maximum request size for manually resending chunks",
-        ja: "チャンクを手動再送信する際の最大リクエストサイズ",
-    },
     "MB (0 to disable).": {
         def: "MB (0 to disable).",
         es: "MB (0 para desactivar)",
@@ -5204,10 +3915,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "МБ (0 для отключения).",
         zh: "MB(0为禁用)",
         "zh-tw": "MB（0 表示停用）。",
-    },
-    "MB per request": {
-        def: "MB per request",
-        ja: "1リクエストあたりのMB",
     },
     "Memory cache": {
         def: "Memory cache",
@@ -5248,24 +3955,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "合并",
         "zh-tw": "合併",
     },
-    "Metadata document ID repair and the ordinary Vault scan completed. Run this inspection again after synchronisation.":
-        {
-            def: "Metadata document ID repair and the ordinary Vault scan completed. Run this inspection again after synchronisation.",
-            ja: "メタデータドキュメントIDの修復と通常のVaultスキャンが完了しました。同期後にもう一度この点検を実行してください。",
-        },
-    "Metadata document ID repair completed, but the ordinary Vault scan did not run. Keep synchronisation paused, resolve the scan condition, then run 'Scan storage and database again'.":
-        {
-            def: "Metadata document ID repair completed, but the ordinary Vault scan did not run. Keep synchronisation paused, resolve the scan condition, then run 'Scan storage and database again'.",
-            ja: "メタデータドキュメントIDの修復は完了しましたが、通常のVaultスキャンは実行されませんでした。同期を停止したままスキャンの実行条件を解消してから、「ストレージとデータベースを再スキャン」を実行してください。",
-        },
-    "Metadata entry requires review and was left unchanged": {
-        def: "Metadata entry requires review and was left unchanged",
-        ja: "メタデータ項目は確認が必要なため、変更せずに残しました",
-    },
-    "Minimum Chunk Size (Not Configurable from the UI Now).": {
-        def: "Minimum Chunk Size (Not Configurable from the UI Now).",
-        ja: "最小チャンクサイズ（現在UIから設定不可）",
-    },
     "Minimum delay for batch database updating": {
         def: "Minimum delay for batch database updating",
         es: "Retraso mínimo para actualización por lotes",
@@ -5294,22 +3983,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "混在",
         ko: "혼합",
         "zh-tw": "混合",
-    },
-    "moduleBasicMenu.liveSyncDisabled": {
-        def: "LiveSync disabled.",
-        ja: "LiveSyncを無効にしました。",
-    },
-    "moduleBasicMenu.liveSyncEnabled": {
-        def: "LiveSync enabled.",
-        ja: "LiveSyncを有効にしました。",
-    },
-    "moduleBasicMenu.liveSyncResumed": {
-        def: "Self-hosted LiveSync resumed.",
-        ja: "Self-hosted LiveSyncを再開しました。",
-    },
-    "moduleBasicMenu.liveSyncSuspended": {
-        def: "Self-hosted LiveSync suspended.",
-        ja: "Self-hosted LiveSyncを一時停止しました。",
     },
     "moduleCheckRemoteSize.logCheckingStorageSizes": {
         def: "Checking storage sizes",
@@ -5709,10 +4382,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "等待就绪...",
         "zh-tw": "正在等待就緒⋯",
     },
-    "moduleLog.debugInfoCopied": {
-        def: "Debug information was copied to the clipboard. You can paste it into the issue. It may contain sensitive information, so review it before sharing.",
-        ja: "デバッグ情報をクリップボードにコピーしました。Issueへ貼り付けられます。機密情報が含まれる可能性があるため、共有前に内容を確認してください。",
-    },
     "moduleLog.showLog": {
         def: "Show Log",
         es: "Mostrar registro",
@@ -5723,16 +4392,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Показать лог",
         zh: "显示日志",
         "zh-tw": "顯示日誌",
-    },
-    "moduleMigration.docUri": {
-        def: "https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use",
-        es: "https://github.com/vrtmrz/obsidian-livesync/blob/main/README_ES.md#how-to-use",
-        fr: "https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use",
-        he: "https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use",
-        ja: "https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use",
-        ko: "https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use",
-        ru: "https://github.com/vrtmrz/obsidian-livesync/blob/main/README.md#how-to-use",
-        zh: "https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/zh/README_zh.md#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8",
     },
     "moduleMigration.fix0256.buttons.checkItLater": {
         def: "Check it later",
@@ -5969,30 +4628,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         "zh-tw":
             "你可能已經知道，Self-hosted LiveSync 變更了預設行為與資料庫結構。\n\n值得慶幸的是，在你的努力下，遠端資料庫似乎已經完成遷移。恭喜！\n\n不過，還需要再多做一點。此裝置的設定與遠端資料庫不相容，我們需要再次從遠端資料庫抓取。現在要再次從遠端抓取嗎？\n\n___注意：在變更設定並再次抓取資料庫之前，我們無法進行同步。___\n___注意 2：chunks 完全不可變，我們只需要抓取中繼資料與差異部分。___",
     },
-    "moduleMigration.msgInitialSetup": {
-        def: "Your device has **not been set up yet**. Let me guide you through the setup process.\n\nPlease keep in mind that every dialogue content can be copied to the clipboard. If you need to refer to it later, you can paste it into a note in Obsidian. You can also translate it into your language using a translation tool.\n\nFirst, do you have **Setup URI**?\n\nNote: If you do not know what it is, please refer to the [documentation](${URI_DOC}).",
-        es: "Tu dispositivo **aún no ha sido configurado**. Permíteme guiarte a través del proceso de configuración.\n\nTen en cuenta que todo el contenido del diálogo se puede copiar al portapapeles. Si necesitas consultarlo más tarde, puedes pegarlo en una nota en Obsidian. También puedes traducirlo a tu idioma utilizando una herramienta de traducción.\n\nPrimero, ¿tienes **URI de configuración**?\n\nNota: Si no sabes qué es, consulta la [documentación](${URI_DOC}).",
-        fr: "Votre appareil n'a **pas encore été configuré**. Laissez-moi vous guider dans le processus de configuration.\n\nVeuillez noter que chaque contenu de boîte de dialogue peut être copié dans le presse-papiers. Si vous souhaitez vous y référer plus tard, vous pouvez le coller dans une note d'Obsidian. Vous pouvez également le traduire dans votre langue via un outil de traduction.\n\nTout d'abord, disposez-vous d'une **URI de configuration** ?\n\nNote : Si vous ne savez pas ce que c'est, consultez la [documentation](${URI_DOC}).",
-        he: "המכשיר שלך **טרם הוגדר**. אנחנו כאן לעזור לך בתהליך ההגדרה.\n\nשים לב שניתן להעתיק את תוכן כל דיאלוג ללוח. אם צריך לחזור אליו מאוחר יותר, ניתן להדביק אותו כפתק ב-Obsidian. ניתן גם לתרגם לשפתך בעזרת כלי תרגום.\n\nראשית, האם יש לך **Setup URI**?\n\nהערה: אם אינך יודע מהו, אנא עיין ב[תיעוד](${URI_DOC}).",
-        ja: "このデバイスは**まだセットアップされていません**。セットアッププロセスをご案内します。\n\nすべてのダイアログの内容はクリップボードにコピーできます。後で参照する必要があれば、Obsidianのノートに貼り付けてください。翻訳ツールを使ってお使いの言語に翻訳することもできます。\n\nまず、**セットアップURI**をお持ちですか？\n\n注意: それが何か分からない場合は、[documentation](${URI_DOC})を参照してください。",
-        ko: "이 기기는 **아직 초기 설정이 완료되지 않았습니다**. 지금부터 설정 과정을 안내해 드리겠습니다.\n\n모든 대화 내용은 클립보드에 복사할 수 있습니다. 나중에 참고하려면 Obsidian 노트에 붙여넣거나 번역 도구를 활용해 번역하셔도 됩니다.\n\n먼저, **Setup URI**를 가지고 계신가요?\n\n참고: Setup URI가 무엇인지 잘 모르시겠다면 [문서](${URI_DOC})를 참고해 주세요.",
-        ru: "Ваше устройство ещё не настроено. У вас есть Setup URI?",
-        zh: "您的设备**尚未设置**。让我引导您完成设置过程。\n\n请记住,每个对话框内容都可以复制到剪贴板。如果以后需要参考,可以将其粘贴到 Obsidian 的笔记中。您也可以使用翻译工具将其翻译成您的语言。\n\n首先,您有**设置 URI** 吗？\n\n注意:如果您不知道这是什么,请参阅[文档](${URI_DOC})",
-        "zh-tw":
-            "你的裝置**尚未完成設定**。讓我引導你完成設定流程。\n\n請記得，每個對話框的內容都可以複製到剪貼簿。如果日後需要參考，可以貼到 Obsidian 的筆記中，也可以用翻譯工具翻成你的語言。\n\n首先，你有 **Setup URI** 嗎？\n\n注意：如果你不知道那是什麼，請參閱[說明文件](${URI_DOC})。",
-    },
-    "moduleMigration.msgRecommendSetupUri": {
-        def: "We strongly recommend that you generate a set-up URI and use it.\nIf you do not have knowledge about it, please refer to the [documentation](${URI_DOC}) (Sorry again, but it is important).\n\nHow do you want to set it up manually?",
-        es: "Te recomendamos encarecidamente que generes una URI de configuración y la utilices.\nSi no tienes conocimientos al respecto, consulta la [documentación](${URI_DOC}) (Lo siento de nuevo, pero es importante).\n\n¿Cómo quieres configurarlo manualmente?",
-        fr: "Nous recommandons vivement de générer une URI de configuration et de l'utiliser.\nSi vous ne connaissez pas, veuillez consulter la [documentation](${URI_DOC}) (Désolé encore, mais c'est important).\n\nComment souhaitez-vous effectuer la configuration manuellement ?",
-        he: "אנו ממליצים בחום לייצר Setup URI ולהשתמש בו.\nאם אין לך ידע בנושא, אנא עיין ב[תיעוד](${URI_DOC}) (מתנצלים שוב, אך זה חשוב).\n\nכיצד ברצונך להגדיר ידנית?",
-        ja: "セットアップURIを生成して使用することを強くお勧めします。\nこれについて知識がない場合は、[documentation](${URI_DOC})を参照してください（重要です）。\n\n手動でセットアップしますか？",
-        ko: "Setup URI를 생성해 사용하는 것을 강력히 권장합니다.\nSetup URI가 무엇인지 잘 모르시겠다면 [문서](${URI_DOC})를 참고해 주세요. 중요한 내용이니 꼭 확인하시기 바랍니다.\n\n직접 수동 설정을 진행하시겠습니까?",
-        ru: "Мы рекомендуем сгенерировать Setup URI.",
-        zh: "我们强烈建议您生成一个设置 URI 并使用它。\n如果您对此不了解,请参阅[文档](${URI_DOC})(再次抱歉,但这很重要)。\n\n您想如何手动设置?",
-        "zh-tw":
-            "我們強烈建議你產生 Setup URI 並使用它。\n如果你對此不熟悉，請參閱[說明文件](${URI_DOC})（再次抱歉，但這很重要）。\n\n你想要如何手動設定？",
-    },
     "moduleMigration.msgSinceV02321": {
         def: "Since v0.23.21, the self-hosted LiveSync has changed the default behaviour and database structure. The following changes have been made:\n\n1. **Case sensitivity of filenames**\n   The handling of filenames is now case-insensitive. This is a beneficial change for most platforms, other than Linux and iOS, which do not manage filename case sensitivity effectively.\n   (On These, a warning will be displayed for files with the same name but different cases).\n\n2. **Revision handling of the chunks**\n   Chunks are immutable, which allows their revisions to be fixed. This change will enhance the performance of file saving.\n\n___However, to enable either of these changes, both remote and local databases need to be rebuilt. This process takes a few minutes, and we recommend doing it when you have ample time.___\n\n- If you wish to maintain the previous behaviour, you can skip this process by using `${KEEP}`.\n- If you do not have enough time, please choose `${DISMISS}`. You will be prompted again later.\n- If you have rebuilt the database on another device, please select `${DISMISS}` and try synchronizing again. Since a difference has been detected, you will be prompted again.",
         es: "Desde la versión v0.23.21, Self-hosted LiveSync ha cambiado el comportamiento predeterminado y la estructura de la base de datos. Se han realizado los siguientes cambios:\n\n1. **Sensibilidad a mayúsculas de los nombres de archivo**\n    El manejo de los nombres de archivo ahora no distingue entre mayúsculas y minúsculas. Este cambio es beneficioso para la mayoría de las plataformas, excepto Linux y iOS, que no gestionan efectivamente la sensibilidad a mayúsculas de los nombres de archivo.\n    (En estos, se mostrará una advertencia para archivos con el mismo nombre pero diferentes mayúsculas).\n\n2. **Manejo de revisiones de los fragmentos**\n    Los fragmentos son inmutables, lo que permite que sus revisiones sean fijas. Este cambio mejorará el rendimiento al guardar archivos.\n\n___Sin embargo, para habilitar cualquiera de estos cambios, es necesario reconstruir tanto las bases de datos remota como la local. Este proceso toma unos minutos, y recomendamos hacerlo cuando tengas tiempo suficiente.___\n\n- Si deseas mantener el comportamiento anterior, puedes omitir este proceso usando `${KEEP}`.\n- Si no tienes suficiente tiempo, por favor elige `${DISMISS}`. Se te pedirá nuevamente más tarde.\n- Si has reconstruido la base de datos en otro dispositivo, selecciona `${DISMISS}` e intenta sincronizar nuevamente. Dado que se ha detectado una diferencia, se te solicitará nuevamente.",
@@ -6060,17 +4695,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "仅启用 #2",
         "zh-tw": "僅啟用",
     },
-    "moduleMigration.optionHaveSetupUri": {
-        def: "Yes, I have",
-        es: "Sí, tengo",
-        fr: "Oui, j'en ai une",
-        he: "כן, יש לי",
-        ja: "はい、持っています",
-        ko: "예, 있습니다",
-        ru: "Да, есть",
-        zh: "是的,我有",
-        "zh-tw": "有，我有",
-    },
     "moduleMigration.optionKeepPreviousBehaviour": {
         def: "Keep previous behaviour",
         es: "Mantener comportamiento anterior",
@@ -6082,17 +4706,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "保持以前的行为",
         "zh-tw": "保留先前的行為",
     },
-    "moduleMigration.optionManualSetup": {
-        def: "Set it up all manually",
-        es: "Configurarlo todo manualmente",
-        fr: "Tout configurer manuellement",
-        he: "הגדר הכל ידנית",
-        ja: "すべて手動でセットアップ",
-        ko: "모든 것을 수동으로 설정",
-        ru: "Настроить всё вручную",
-        zh: "全部手动设置",
-        "zh-tw": "全部手動設定",
-    },
     "moduleMigration.optionNoAskAgain": {
         def: "No, please ask again",
         es: "No, por favor pregúntame de nuevo",
@@ -6103,50 +4716,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Нет, спросить снова",
         zh: "不,请稍后再次询问",
         "zh-tw": "不，請稍後再問我",
-    },
-    "moduleMigration.optionNoSetupUri": {
-        def: "No, I do not have",
-        es: "No, no tengo",
-        fr: "Non, je n'en ai pas",
-        he: "לא, אין לי",
-        ja: "いいえ、持っていません",
-        ko: "아니요, 없습니다",
-        ru: "Нет, нет",
-        zh: "不,我没有",
-        "zh-tw": "沒有，我沒有",
-    },
-    "moduleMigration.optionRemindNextLaunch": {
-        def: "Remind me at the next launch",
-        es: "Recordármelo en el próximo inicio",
-        fr: "Me rappeler au prochain lancement",
-        he: "הזכר לי בהפעלה הבאה",
-        ja: "次回起動時にリマインド",
-        ko: "다음 시작 시 알림",
-        ru: "Напомнить при следующем запуске",
-        zh: "下次启动时提醒我",
-        "zh-tw": "下次啟動時提醒我",
-    },
-    "moduleMigration.optionSetupViaP2P": {
-        def: "Use P2P Sync to set up",
-        es: "Usar Sincronización P2P para configurarlo",
-        fr: "Utiliser Sync P2P pour configurer",
-        he: "השתמש ב-%{short_p2p_sync} להגדרה",
-        ja: "P2P同期を使ってセットアップ",
-        ko: "P2P 동기화를 사용하여 설정",
-        ru: "Использовать short_p2p_sync для настройки",
-        zh: "Use P2P同步(实验性) to set up",
-        "zh-tw": "使用「P2P 同步」進行設定",
-    },
-    "moduleMigration.optionSetupWizard": {
-        def: "Take me into the setup wizard",
-        es: "Llévame al asistente de configuración",
-        fr: "Ouvrir l'assistant de configuration",
-        he: "קח אותי לאשף ההגדרה",
-        ja: "セットアップウィザードへ",
-        ko: "설정 마법사로 안내",
-        ru: "Перейти в мастер настройки",
-        zh: "带我进入设置向导",
-        "zh-tw": "帶我進入設定精靈",
     },
     "moduleMigration.optionYesFetchAgain": {
         def: "Yes, fetch again",
@@ -6170,28 +4739,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "大小写敏感性",
         "zh-tw": "大小寫敏感性",
     },
-    "moduleMigration.titleRecommendSetupUri": {
-        def: "Recommendation to use Setup URI",
-        es: "Recomendación de usar un Setup URI",
-        fr: "Recommandation d'utilisation de l'URI de configuration",
-        he: "המלצה לשימוש ב-Setup URI",
-        ja: "セットアップURIの使用を推奨",
-        ko: "Setup URI 사용 권장",
-        ru: "Рекомендация использовать Setup URI",
-        zh: "推荐使用设置 URI",
-        "zh-tw": "建議使用 Setup URI",
-    },
-    "moduleMigration.titleWelcome": {
-        def: "Welcome to Self-hosted LiveSync",
-        es: "Bienvenido a Self-hosted LiveSync",
-        fr: "Bienvenue dans Self-hosted LiveSync",
-        he: "ברוך הבא ל-Self-hosted LiveSync",
-        ja: "Self-hosted LiveSyncへようこそ",
-        ko: "Self-hosted LiveSync에 오신 것을 환영합니다",
-        ru: "Добро пожаловать в Self-hosted LiveSync",
-        zh: "欢迎使用 Self-hosted LiveSync",
-        "zh-tw": "歡迎使用 Self-hosted LiveSync",
-    },
     "moduleObsidianMenu.replicate": {
         def: "Replicate",
         es: "Replicar",
@@ -6203,14 +4750,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "复制",
         "zh-tw": "複寫",
     },
-    "moduleObsidianSettingAsMarkdown.parseFailed": {
-        def: "Could not parse YAML.",
-        ja: "YAMLを解析できませんでした。",
-    },
-    "moduleObsidianSettingAsMarkdown.settingsApplied": {
-        def: "Loaded settings have been applied!",
-        ja: "読み込んだ設定を適用しました。",
-    },
     "More actions": {
         def: "More actions",
         es: "Más acciones",
@@ -6219,18 +4758,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Другие действия",
         zh: "更多操作",
         "zh-tw": "更多操作",
-    },
-    "More actions for ${DEVICE}": {
-        def: "More actions for ${DEVICE}",
-        ja: "${DEVICE}のその他の操作",
-    },
-    "More actions for ${FILE}": {
-        def: "More actions for ${FILE}",
-        ja: "${FILE}のその他の操作",
-    },
-    "More actions for revision ${REVISION}": {
-        def: "More actions for revision ${REVISION}",
-        ja: "リビジョン${REVISION}のその他の操作",
     },
     "Mostly Complete: Decision Required": {
         def: "Mostly Complete: Decision Required",
@@ -6249,15 +4776,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Перемещать удалённые на удалённом сервере файлы в корзину вместо удаления.",
         zh: "将远程删除的文件移至回收站,而不是直接删除",
         "zh-tw": "將遠端刪除的檔案移至垃圾桶，而非直接刪除。",
-    },
-    "Move remotely deleted files to the trash, instead of deleting. (This setting is ineffective from Obsidian v1.7.2 onwards, as deletion always respects your Obsidian preferences.)":
-        {
-            def: "Move remotely deleted files to the trash, instead of deleting. (This setting is ineffective from Obsidian v1.7.2 onwards, as deletion always respects your Obsidian preferences.)",
-            ja: "リモートで削除されたファイルを完全削除せずゴミ箱へ移動します。（Obsidian v1.7.2以降では常にObsidianの削除設定が使われるため、この設定は動作に影響しません。）",
-        },
-    "Multiple remote configurations detected. Please select the remote configuration you want to fetch from.": {
-        def: "Multiple remote configurations detected. Please select the remote configuration you want to fetch from.",
-        ja: "複数のリモート設定を検出しました。取得元として使用するリモート設定を選択してください。",
     },
     "My remote server is already set up. I want to join this device.": {
         def: "My remote server is already set up. I want to join this device.",
@@ -6305,15 +4823,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "더 새로움 (${diff})",
         "zh-tw": "較新（${diff}）",
     },
-    Next: {
-        def: "Next",
-        ja: "次へ",
-    },
-    "No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited.":
-        {
-            def: "No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited.",
-            ja: "中央のデータ保存サーバーは不要ですが、ピア検出にはシグナリングリレーが必要です。両方のデバイスが同時にオンラインである必要があります。Vaultのデータはシグナリングリレーではなく、暗号化されたP2P接続を通じて転送されます。一部の機能は制限される場合があります。",
-        },
     "No checks have been performed yet.": {
         def: "No checks have been performed yet.",
         es: "Todavía no se ha realizado ninguna comprobación.",
@@ -6366,14 +4875,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "プレビューなし",
         ko: "미리 보기 없음",
         "zh-tw": "無預覽",
-    },
-    "No shared ancestor is available for this conflict. The live revisions remain available for explicit review.": {
-        def: "No shared ancestor is available for this conflict. The live revisions remain available for explicit review.",
-        ja: "この競合には利用可能な共通の祖先がありません。有効なリビジョンは個別に確認できます。",
-    },
-    "No Synchronisation Settings Found": {
-        def: "No Synchronisation Settings Found",
-        ja: "同期設定が見つかりません",
     },
     "No, please take me back": {
         def: "No, please take me back",
@@ -6504,11 +5005,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "启动时当估计的远程存储大小超出时通知",
         "zh-tw": "啟動時，若預估的遠端儲存空間大小超出限制則通知",
     },
-    "Now we can choose how to split the chunks; V3 is the most efficient. If you have troubled, please make this Default or Legacy.":
-        {
-            def: "Now we can choose how to split the chunks; V3 is the most efficient. If you have troubled, please make this Default or Legacy.",
-            ja: "チャンクの分割方式を選択できます。V3が最も効率的です。問題がある場合は「既定」または「レガシー」を選択してください。",
-        },
     "Number of batches to process at a time. Defaults to 40. Minimum is 2. This along with batch size controls how many docs are kept in memory at a time.":
         {
             def: "Number of batches to process at a time. Defaults to 40. Minimum is 2. This along with batch size controls how many docs are kept in memory at a time.",
@@ -6646,17 +5142,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "我明白了并且已更新",
         "zh-tw": "我知道了，且已更新。",
     },
-    "obsidianLiveSyncSettingTab.btnNext": {
-        def: "Next",
-        es: "Siguiente",
-        fr: "Suivant",
-        he: "הבא",
-        ja: "次へ",
-        ko: "다음",
-        ru: "Далее",
-        zh: "下一步",
-        "zh-tw": "下一步",
-    },
     "obsidianLiveSyncSettingTab.btnStart": {
         def: "Start",
         es: "Iniciar",
@@ -6700,17 +5185,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Загрузить",
         zh: "获取",
         "zh-tw": "抓取",
-    },
-    "obsidianLiveSyncSettingTab.buttonNext": {
-        def: "Next",
-        es: "Siguiente",
-        fr: "Suivant",
-        he: "הבא",
-        ja: "次へ",
-        ko: "다음",
-        ru: "Далее",
-        zh: "下一步",
-        "zh-tw": "下一步",
     },
     "obsidianLiveSyncSettingTab.defaultLanguage": {
         def: "Default",
@@ -7025,7 +5499,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "/docs/es/troubleshooting.md",
         fr: "/docs/troubleshooting.md",
         he: "/docs/troubleshooting.md",
-        ja: "/docs/troubleshooting_ja.md",
+        ja: "/docs/troubleshooting.md",
         ko: "/docs/troubleshooting.md",
         ru: "/docs/troubleshooting.md",
         zh: "/docs/troubleshooting.md",
@@ -7205,10 +5679,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Примерный размер: size",
         zh: "估计大小：${size}",
         "zh-tw": "預估大小：${size}",
-    },
-    "obsidianLiveSyncSettingTab.logNoReplicatorAvailable": {
-        def: "No replicator is available for the current settings.",
-        ja: "現在の設定で利用できるレプリケーターがありません。",
     },
     "obsidianLiveSyncSettingTab.logPassphraseInvalid": {
         def: "Passphrase is not valid, please fix it.",
@@ -7402,17 +5872,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "要从远端服务器获取配置吗？",
         "zh-tw": "要從遠端伺服器抓取設定嗎？",
     },
-    "obsidianLiveSyncSettingTab.msgGenerateSetupURI": {
-        def: "All done! Do you want to generate a setup URI to set up other devices?",
-        es: "¡Todo listo! ¿Quieres generar un URI de configuración para configurar otros dispositivos?",
-        fr: "Tout est prêt ! Voulez-vous générer une URI de configuration pour configurer d'autres appareils ?",
-        he: "הכל מוכן! האם ברצונך לייצר Setup URI להגדרת מכשירים אחרים?",
-        ja: "完了！他のデバイスをセットアップするためのセットアップURIを生成しますか？",
-        ko: "모든 작업이 완료되었습니다! 다른 기기를 설정하기 위해 Setup URI를 생성하시겠습니까?",
-        ru: "Всё готово! Вы хотите сгенерировать Setup URI для настройки других устройств?",
-        zh: "全部完成！要生成设置 URI 以便配置其他设备吗？",
-        "zh-tw": "全部完成！要產生 Setup URI 以便設定其他裝置嗎？",
-    },
     "obsidianLiveSyncSettingTab.msgIfConfigNotPersistent": {
         def: "If the server configuration is not persistent (e.g., running on docker), the values here may change. Once you are able to connect, please update the settings in the server's local.ini.",
         es: "Si la configuración del servidor no es persistente (por ejemplo, ejecutándose en docker), los valores aquí pueden cambiar. Una vez que puedas conectarte, por favor actualiza las configuraciones en el local.ini del servidor.",
@@ -7514,17 +5973,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "需要重建数据库以应用更改。请选择应用更改的方法。\n\n<details>\n<summary>图例</summary>\n\n| 符号 | 含义 |\n|: ------ :| ------- |\n| ⇔ | 最新 |\n| ⇄ | 同步以平衡 |\n| ⇐,⇒ | 传输以覆盖 |\n| ⇠,⇢ | 从另一侧传输以覆盖 |\n\n</details>\n\n## ${OPTION_REBUILD_BOTH}\n概览:📄 ⇒¹ 💻 ⇒² 🛰️ ⇢ⁿ 💻 ⇄ⁿ⁺¹ 📄\n使用此设备的现有文件重建本地和远程数据库。\n这将导致其他设备被锁定,并且它们需要执行获取操作。\n## ${OPTION_FETCH}\n概览:📄 ⇄² 💻 ⇐¹ 🛰️ ⇔ 💻 ⇔ 📄\n初始化本地数据库并使用从远程数据库获取的数据重建它。\n这种情况包括您已经重建了远程数据库的情况。\n## ${OPTION_ONLY_SETTING}\n仅存储设置。**注意：这可能导致数据损坏**；通常需要重建数据库",
         "zh-tw":
             "需要重建資料庫才能套用變更。請選擇套用變更的方式。\n\n<details>\n<summary>圖例</summary>\n\n| 符號 | 含意 |\n|: ------ :| ------- |\n| ⇔ | 已是最新 |\n| ⇄ | 同步以取得一致 |\n| ⇐,⇒ | 傳輸並覆寫 |\n| ⇠,⇢ | 從另一端傳輸並覆寫 |\n\n</details>\n\n## ${OPTION_REBUILD_BOTH}\n概覽： 📄 ⇒¹ 💻 ⇒² 🛰️ ⇢ⁿ 💻 ⇄ⁿ⁺¹ 📄\n以此裝置上現有的檔案重建本機與遠端資料庫。\n這會鎖定其他裝置，它們必須執行抓取。\n## ${OPTION_FETCH}\n概覽： 📄 ⇄² 💻 ⇐¹ 🛰️ ⇔ 💻 ⇔ 📄\n初始化本機資料庫，並以從遠端資料庫抓取的資料重建。\n這也涵蓋你已重建遠端資料庫的情況。\n## ${OPTION_ONLY_SETTING}\n僅儲存設定。**注意：這可能導致資料損毀**；通常仍需要重建資料庫。",
-    },
-    "obsidianLiveSyncSettingTab.msgSelectAndApplyPreset": {
-        def: "Please select and apply any preset item to complete the wizard.",
-        es: "Por favor, selecciona y aplica cualquier elemento preestablecido para completar el asistente.",
-        fr: "Veuillez sélectionner et appliquer un préréglage pour terminer l'assistant.",
-        he: "אנא בחר והחל פריט קבוע מראש כלשהו להשלמת האשף.",
-        ja: "ウィザードを完了するには、プリセット項目を選択して適用してください。",
-        ko: "마법사를 완료하려면 프리셋 항목을 선택하고 적용해 주세요.",
-        ru: "Выберите и примените любой пресет для завершения мастера.",
-        zh: "请选择并应用任一预设项以完成向导。",
-        "zh-tw": "請選擇並套用任一預設項目以完成精靈。",
     },
     "obsidianLiveSyncSettingTab.msgSetCorsCredentials": {
         def: "Set cors.credentials",
@@ -8120,6 +6568,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "活动远程服务器",
         "zh-tw": "使用中的遠端伺服器",
     },
+    "obsidianLiveSyncSettingTab.titleAdvancedSettings": {
+        def: "Advanced settings",
+        ja: "詳細設定",
+    },
     "obsidianLiveSyncSettingTab.titleAppearance": {
         def: "Appearance",
         es: "Apariencia",
@@ -8141,17 +6593,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Разрешение конфликтов",
         zh: "冲突处理",
         "zh-tw": "衝突處理",
-    },
-    "obsidianLiveSyncSettingTab.titleCongratulations": {
-        def: "Congratulations!",
-        es: "¡Felicidades!",
-        fr: "Félicitations !",
-        he: "מזל טוב!",
-        ja: "おめでとうございます！",
-        ko: "축하합니다!",
-        ru: "Поздравляем!",
-        zh: "恭喜！",
-        "zh-tw": "恭喜！",
     },
     "obsidianLiveSyncSettingTab.titleCouchDB": {
         def: "CouchDB",
@@ -8208,6 +6649,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "启用额外和高级功能",
         "zh-tw": "啟用額外與進階功能",
     },
+    "obsidianLiveSyncSettingTab.titleExtraFeaturesGroup": {
+        def: "Extra features",
+        ja: "追加機能",
+    },
+    "obsidianLiveSyncSettingTab.titleExtraMenus": {
+        def: "Extra menus",
+        ja: "追加メニュー",
+    },
     "obsidianLiveSyncSettingTab.titleFetchConfig": {
         def: "Fetch Config",
         es: "Obtener configuración",
@@ -8241,6 +6690,14 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "获取设置",
         "zh-tw": "抓取設定",
     },
+    "obsidianLiveSyncSettingTab.titleHelpAndInformation": {
+        def: "Help and information",
+        ja: "ヘルプと情報",
+    },
+    "obsidianLiveSyncSettingTab.titleHelpAndTroubleshooting": {
+        def: "Help and troubleshooting",
+        ja: "ヘルプとトラブルシューティング",
+    },
     "obsidianLiveSyncSettingTab.titleHiddenFiles": {
         def: "Hidden Files",
         es: "Archivos ocultos",
@@ -8262,6 +6719,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Логирование",
         zh: "日志",
         "zh-tw": "記錄",
+    },
+    "obsidianLiveSyncSettingTab.titleMaintenanceAndRecovery": {
+        def: "Maintenance and recovery",
+        ja: "メンテナンスと復旧",
     },
     "obsidianLiveSyncSettingTab.titleMinioS3R2": {
         def: "Minio,S3,R2",
@@ -8352,7 +6813,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         "zh-tw": "重設",
     },
     "obsidianLiveSyncSettingTab.titleSetupOtherDevices": {
-        def: "To setup other devices",
+        def: "Set up other devices",
         es: "Para configurar otros dispositivos",
         fr: "Pour configurer d'autres appareils",
         he: "להגדרת מכשירים אחרים",
@@ -8361,6 +6822,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Для настройки других устройств",
         zh: "设置其他设备",
         "zh-tw": "設定其他裝置",
+    },
+    "obsidianLiveSyncSettingTab.titleSynchronisation": {
+        def: "Synchronisation",
+        ja: "同期",
     },
     "obsidianLiveSyncSettingTab.titleSynchronizationMethod": {
         def: "Synchronization Method",
@@ -8522,10 +6987,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "이 기기에서 카메라 앱으로 전환하거나 QR 코드 스캐너를 사용해 화면에 표시된 QR 코드를 스캔합니다.",
         "zh-tw": "在這台裝置上切換到相機 App，或使用 QR 碼掃描器掃描顯示出的 QR 碼。",
     },
-    "One-step repair is unavailable because this entry is ambiguous, no longer current, or unsafe to change.": {
-        def: "One-step repair is unavailable because this entry is ambiguous, no longer current, or unsafe to change.",
-        ja: "この項目は曖昧であるか、現在の状態ではないか、安全に変更できないため、一括修復を実行できません。",
-    },
     Open: {
         def: "Open",
         es: "Abrir",
@@ -8574,10 +7035,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "覆盖",
         "zh-tw": "覆寫",
     },
-    "Overwrite all with remote files": {
-        def: "Overwrite all with remote files",
-        ja: "すべてをリモートファイルで上書き",
-    },
     "Overwrite patterns": {
         def: "Overwrite patterns",
         es: "Patrones de sobrescritura",
@@ -8621,32 +7078,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "P2P 구성",
         "zh-tw": "P2P 設定",
     },
-    "P2P Message Size": {
-        def: "P2P Message Size",
-        ja: "P2Pメッセージサイズ",
-    },
-    "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.": {
-        def: "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.",
-        ja: "P2Pでは中央のデータ保存サーバーは不要ですが、ピアを検出するためにシグナリングリレーを使用します。",
-    },
     "P2P Status": {
         def: "P2P Status",
         es: "Estado P2P",
         ja: "P2Pステータス",
         ko: "P2P 상태",
         "zh-tw": "P2P 狀態",
-    },
-    "P2P Status pane": {
-        def: "P2P Status pane",
-        ja: "P2P状態ペイン",
-    },
-    "P2P Sync : Open P2P Status": {
-        def: "P2P Sync : Open P2P Status",
-        ja: "P2P同期：P2P状態を開く",
-    },
-    "P2P: Sync with targets": {
-        def: "P2P: Sync with targets",
-        ja: "P2P：対象と同期",
     },
     "P2P.AskPassphraseForDecrypt": {
         def: "The remote peer shared the configuration. Please input the passphrase to decrypt the configuration.",
@@ -8675,7 +7112,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "Sincronización punto a punto está desactivada. ¿Seguro que quieres activarla?",
         fr: "Synchronisation pair-à-pair est désactivé. Voulez-vous vraiment l'activer ?",
         he: "%{title_p2p_sync} מנוטרל. האם אתה בטוח שברצונך להפעיל?",
-        ja: "ピアツーピア同期は無効になっています。本当に有効にしますか？",
+        ja: "Peer-to-Peer Syncは無効になっています。本当に有効にしますか？",
         ko: "피어 투 피어(P2P) 동기화가 비활성화되어 있습니다. 정말로 활성화하시겠습니까?",
         ru: "title_p2p_sync отключён. Вы действительно хотите включить?",
         zh: "Peer-to-Peer同步 已禁用。你确定要启用它吗？",
@@ -8697,7 +7134,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "No se han encontrado pares de sincronización automática. Configúralos en el panel de Sincronización punto a punto.",
         fr: "Aucun pair de synchronisation automatique trouvé. Veuillez définir des pairs dans le panneau Synchronisation pair-à-pair.",
         he: "לא נמצאו עמיתים לסנכרון אוטומטי. אנא הגדר עמיתים בלוח %{long_p2p_sync}.",
-        ja: "自動同期ピアが見つかりません。ピアツーピア同期ペインでピアを設定してください。",
+        ja: "自動同期ピアが見つかりません。Peer-to-Peer Syncペインでピアを設定してください。",
         ko: "자동 동기화 피어를 찾을 수 없습니다. 피어 투 피어(P2P) 동기화 (실험 기능) 창에서 피어를 설정해 주세요.",
         ru: "Автосинхронизируемые устройства не найдены.",
         zh: "未找到自动同步的对等方，请在 Peer-to-Peer同步 (实验性) 面板中设置对等方",
@@ -8765,7 +7202,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "Sincronización punto a punto no está activada. No se puede abrir una conexión nueva.",
         fr: "Synchronisation pair-à-pair n'est pas activé. Nous ne pouvons pas ouvrir de nouvelle connexion.",
         he: "%{title_p2p_sync} אינו מופעל. לא ניתן לפתוח חיבור חדש.",
-        ja: "ピアツーピア同期が有効になっていません。新しい接続を開くことができません。",
+        ja: "Peer-to-Peer Syncが有効になっていません。新しい接続を開くことができません。",
         ko: "피어 투 피어(P2P) 동기화가 활성화되지 않았습니다. 새로운 연결을 열 수 없습니다.",
         ru: "title_p2p_sync не включён. Мы не можем открыть новое подключение.",
         zh: "Peer-to-Peer同步 is not enabled. We cannot open a new connection.",
@@ -8787,7 +7224,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "Sincronización punto a punto",
         fr: "Synchronisation pair-à-pair",
         he: "%{long_p2p_sync}",
-        ja: "ピアツーピア同期",
+        ja: "Peer-to-Peer Sync",
         ko: "피어 투 피어(P2P) 동기화 (실험 기능)",
         ru: "long_p2p_sync",
         zh: "Peer-to-Peer同步 (实验性)",
@@ -8883,10 +7320,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Разблокировать базу данных",
         zh: "现在可以解锁数据库。",
         "zh-tw": "現在可以解鎖資料庫。",
-    },
-    "Parse setting file": {
-        def: "Parse setting file",
-        ja: "設定ファイルを読み込む",
     },
     Passphrase: {
         def: "Passphrase",
@@ -8992,10 +7425,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Шаблоны для файлов, которые нужно синхронизировать",
         zh: "用于匹配同步文件的模式",
         "zh-tw": "用於匹配同步檔案的模式",
-    },
-    "Peer discovery uses Nostr-compatible signalling relays.": {
-        def: "Peer discovery uses Nostr-compatible signalling relays.",
-        ja: "ピアの検出にはNostr互換のシグナリングリレーを使用します。",
     },
     "Peer ID:": {
         def: "Peer ID:",
@@ -9283,11 +7712,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "이는 의도된 동작이라는 점을 이해해 주세요.",
         "zh-tw": "請理解這是預期中的行為。",
     },
-    "Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.":
-        {
-            def: "Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.",
-            ja: "V2を使用してください。V1は非推奨で、将来削除されます。互換性のためにのみ維持されています。",
-        },
     "Plug-in version": {
         def: "Plug-in version",
         es: "Versión del complemento",
@@ -9325,10 +7749,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Пресеты",
         zh: "预设",
         "zh-tw": "預設集",
-    },
-    Prev: {
-        def: "Prev",
-        ja: "前へ",
     },
     "Prevent fetching configuration from server": {
         def: "Prevent fetching configuration from server",
@@ -9386,10 +7806,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Запускаем Garbage Collection.",
         zh: "正在执行垃圾回收。",
         "zh-tw": "正在執行垃圾回收。",
-    },
-    "Process files even if seems to be corrupted": {
-        def: "Process files even if seems to be corrupted",
-        ja: "破損している可能性があるファイルも処理",
     },
     "Process small files in the foreground": {
         def: "Process small files in the foreground",
@@ -9449,10 +7865,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "清除所有日志计数器",
         "zh-tw": "清除所有日誌計數器",
     },
-    "Reboot to re-run the process": {
-        def: "Reboot to re-run the process",
-        ja: "再起動して処理をやり直す",
-    },
     "Rebuild local and remote database with local files.": {
         def: "Rebuild local and remote database with local files.",
         es: "Reconstruye la base de datos local y remota usando los archivos locales.",
@@ -9486,19 +7898,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Пересоздать всё",
         zh: "全部重建",
         "zh-tw": "全部重建",
-    },
-    "Recreate chunks for current Vault files": {
-        def: "Recreate chunks for current Vault files",
-        ja: "現在のVaultファイルのチャンクを再作成",
-    },
-    "Recreate chunks from the files currently present in this Vault. This cannot reconstruct unavailable historical or conflict content.":
-        {
-            def: "Recreate chunks from the files currently present in this Vault. This cannot reconstruct unavailable historical or conflict content.",
-            ja: "現在このVaultに存在するファイルからチャンクを再作成します。利用できない履歴や競合内容は復元できません。",
-        },
-    "Recreate current chunks": {
-        def: "Recreate current chunks",
-        ja: "現在のチャンクを再作成",
     },
     "Recreate missing chunks for all files": {
         def: "Recreate missing chunks for all files",
@@ -9609,18 +8008,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "Fetch Remote Configuration",
         "zh-tw": "抓取遠端設定",
     },
-    "RedFlag.SimpleFetch.NewerWins": {
-        def: "How should files that were deleted on other devices be handled?\n\n- **${deleteRemote}**: Delete local files if they were deleted on remote.\n  This is useful if you want to keep your vault clean and consistent across devices, but please make sure you have a backup if there is already any important data in your vault.\n- **${keepLocal}**: Recreate remote files even if they were deleted on remote.\n  This option will keep all your local files, but it may cause duplicates if there are files that exist on local but not on remote. You can clean up these duplicates manually after the synchronisation.",
-        ja: "ほかのデバイスで削除されたファイルをどのように扱いますか？\n\n- **${deleteRemote}**：リモートで削除されたローカルファイルも削除します。\n  デバイス間でVaultを整理された一貫した状態に保てます。重要なデータがある場合は必ずバックアップしてください。\n- **${keepLocal}**：リモートで削除されていても、ローカルファイルから再作成します。\n  ローカルファイルは保持されますが、重複が発生する可能性があります。同期後に手動で整理できます。",
-    },
-    "RedFlag.SimpleFetch.RemoteWins": {
-        def: "Since you have chosen to overwrite all local files with remote data, **how would you like to handle local files that are not present in the remote database?**\n\n- **${deleteAll}**: Local-only files and remote-deleted files will be removed.\n  This option will make your local vault exactly the same as the remote database, but please make sure you have a backup if there is any important data in your vault.\n- **${keepAll}**: All existing local files will be preserved.\n  This option will keep all your local files, but it may cause duplicates if there are files that exist on local but not on remote. You can clean up these duplicates manually after the synchronisation.",
-        ja: "ローカルファイルをリモートデータで上書きする場合、**リモートデータベースに存在しないローカルファイルをどのように扱いますか？**\n\n- **${deleteAll}**：ローカルにのみ存在するファイルと、リモートで削除されたファイルを削除します。\n  ローカルVaultはリモートデータベースと同じ状態になります。重要なデータがある場合は必ずバックアップしてください。\n- **${keepAll}**：既存のローカルファイルをすべて保持します。\n  ローカルファイルは保持されますが、リモートに存在しないファイルがあると重複が発生する可能性があります。同期後に手動で整理できます。",
-    },
-    "RedFlag.SimpleFetch.Stage1": {
-        def: "We are about to retrieve the remote data.\n\nFirstly, how shall we handle the data retrieved from this remote source?\n\n- **${newerWins}**: Compares the modified time of files and takes the newer one.\n  If you have been using Self-hosted LiveSync and have made changes on multiple devices, this option may be suitable for you as it tries to merge changes based on modified time.\n- **${remoteWins}**: Remote data is the source of truth.\n  If you are new to using Self-hosted LiveSync, this option may be easiest to understand and get started with.\n  It will overwrite all your local files with the remote data, so please make sure you have a backup if there is any important data in your vault.\n- **${detailed}**: Opens the detailed setup wizard.\n  If you want to have more control over the synchronisation process, or want to review the changes before applying, you can choose this option to use the detailed flow.",
-        ja: "リモートデータを取得します。\n\n最初に、リモートから取得するデータの扱い方を選択してください。\n\n- **${newerWins}**：ファイルの更新日時を比較し、新しい方を採用します。\n  複数のデバイスで変更していた場合に、更新日時に基づいて変更を統合できます。\n- **${remoteWins}**：リモートデータを正として扱います。\n  ローカルファイルはリモートデータで上書きされるため、重要なデータがある場合は必ずバックアップしてください。\n- **${detailed}**：詳細なセットアップウィザードを開きます。\n  同期処理を細かく制御したい場合や、適用前に変更を確認したい場合に選択してください。",
-    },
     "Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.":
         {
             def: "Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.",
@@ -9692,14 +8079,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "修复设置已更改",
         "zh-tw": "修復設定已變更",
     },
-    Remote: {
-        def: "Remote",
-        ja: "リモート",
-    },
-    "Remote configuration: ${NAME}": {
-        def: "Remote configuration: ${NAME}",
-        ja: "リモート設定：${NAME}",
-    },
     "Remote Database Tweak (In sunset)": {
         def: "Remote Database Tweak (In sunset)",
         es: "Ajustes de base de datos remota (en retirada)",
@@ -9765,44 +8144,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "重命名",
         "zh-tw": "重新命名",
     },
-    "Repair failed before the source was removed. Run inspection again before retrying.": {
-        def: "Repair failed before the source was removed. Run inspection again before retrying.",
-        ja: "移動元を削除する前に修復に失敗しました。再試行する前にもう一度点検を実行してください。",
-    },
-    "Repair is available for this entry.": {
-        def: "Repair is available for this entry.",
-        ja: "この項目は修復できます。",
-    },
-    "Repair Metadata document ID": {
-        def: "Repair Metadata document ID",
-        ja: "メタデータドキュメントIDを修復",
-    },
-    "Repair Metadata ID": {
-        def: "Repair Metadata ID",
-        ja: "メタデータIDを修復",
-    },
-    "Repair stopped after creating the target. The source was retained. Run inspection again before retrying.": {
-        def: "Repair stopped after creating the target. The source was retained. Run inspection again before retrying.",
-        ja: "移動先を作成した後に修復が停止しました。移動元は保持されています。再試行する前にもう一度点検を実行してください。",
-    },
-    "Repair this Metadata document ID": {
-        def: "Repair this Metadata document ID",
-        ja: "このメタデータドキュメントIDを修復",
-    },
     "Replicate now": {
         def: "Replicate now",
         es: "Replicar ahora",
         ja: "今すぐ同期",
         ko: "지금 복제",
         "zh-tw": "立即複寫",
-    },
-    "Replicate now by P2P": {
-        def: "Replicate now by P2P",
-        ja: "P2Pで今すぐ同期",
-    },
-    "Replicate P2P to default peer": {
-        def: "Replicate P2P to default peer",
-        ja: "既定のピアへP2P同期",
     },
     Replicating: {
         def: "Replicating",
@@ -9817,26 +8164,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "同期中...",
         ko: "복제 중입니다...",
         "zh-tw": "複寫中⋯",
-    },
-    "Replicator.Dialogue.Cleaned.Action.Cleanup": {
-        def: "Cleanup",
-        ja: "クリーンアップ",
-    },
-    "Replicator.Dialogue.Cleaned.Action.Dismiss": {
-        def: "Dismiss",
-        ja: "閉じる",
-    },
-    "Replicator.Dialogue.Cleaned.Action.Fetch": {
-        def: "Fetch again",
-        ja: "再取得",
-    },
-    "Replicator.Dialogue.Cleaned.Message": {
-        def: "The remote database has been cleaned up.\nTo synchronise, this device must also be cleaned up. ${count} chunk(s) will be erased from this device.\nHowever, if there are many chunks to be deleted, fetching again may be faster.\nWe will lose the history of this device if we fetch the remote database again.\nEven if you choose to clean up, you will see this option again if you exit Obsidian and then synchronise again.",
-        ja: "リモートデータベースはクリーンアップされています。\n同期するには、このデバイス側もクリーンアップする必要があります。このデバイスから ${count} 個のチャンクが削除されます。\nただし、削除対象のチャンクが多い場合は、リモートデータベースを再取得する方が速い場合があります。\nリモートデータベースを再取得すると、このデバイスの履歴は失われます。\nクリーンアップを選択しても、Obsidian を終了してから再度同期すると、この選択肢は再び表示されます。",
-    },
-    "Replicator.Dialogue.Cleaned.Title": {
-        def: "Cleaned",
-        ja: "クリーンアップ済み",
     },
     "Replicator.Dialogue.Locked.Action.Dismiss": {
         def: "Cancel for reconfirmation",
@@ -9961,7 +8288,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         "zh-tw": "複寫因某個模組失敗而取消",
     },
     "Replicator.Message.VersionUpFlash": {
-        def: "An update has been detected. Please open the Settings dialogue and check the Change Log. Replication has been cancelled.",
+        def: "Remote synchronisation is paused for compatibility review. Run the 'Review why synchronisation is paused' command for details and available actions.",
         es: "Se ha detectado una actualización. Abre el diálogo de ajustes y consulta el registro de cambios. La replicación se ha cancelado.",
         fr: "Une mise à jour a été détectée. Veuillez ouvrir la boîte de dialogue des paramètres et consulter le journal des modifications. La réplication a été annulée.",
         he: "זוהה עדכון. אנא פתח את דיאלוג ההגדרות ובדוק את יומן השינויים. השכפול בוטל.",
@@ -10191,19 +8518,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "将所有冲突文件统一保留较新的版本。注意：这会覆盖较旧的版本，且被覆盖的内容无法恢复。",
             "zh-tw": "將所有衝突檔案統一保留較新的版本。注意：這會覆寫較舊的版本，且被覆寫的內容無法復原。",
         },
-    "Resolve all conflicts by the newest version": {
-        def: "Resolve all conflicts by the newest version",
-        ja: "最新バージョンですべての競合を解決",
-    },
-    "Resolve every conflict by modification time? This logically deletes every version except the newest one and cannot recover content which is already unavailable.":
-        {
-            def: "Resolve every conflict by modification time? This logically deletes every version except the newest one and cannot recover content which is already unavailable.",
-            ja: "更新日時に基づいてすべての競合を解決しますか？最新以外のすべてのバージョンを論理削除します。すでに利用できない内容は復元できません。",
-        },
-    "Resolve if conflicted.": {
-        def: "Resolve if conflicted.",
-        ja: "競合している場合に解決",
-    },
     "Restart and Fetch Data": {
         def: "Restart and Fetch Data",
         es: "Reiniciar y obtener los datos",
@@ -10218,10 +8532,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "재시작 후 서버 초기화",
         "zh-tw": "重新啟動並初始化伺服器",
     },
-    "Restart and Select Source Device": {
-        def: "Restart and Select Source Device",
-        ja: "再起動して取得元デバイスを選択",
-    },
     "Restart Now": {
         def: "Restart Now",
         es: "Reiniciar ahora",
@@ -10230,10 +8540,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Перезапустить сейчас",
         zh: "立即重启",
         "zh-tw": "立即重新啟動",
-    },
-    "Restart this device, then choose the source device when P2P Rebuild opens.": {
-        def: "Restart this device, then choose the source device when P2P Rebuild opens.",
-        ja: "このデバイスを再起動し、P2P再構築が開いたら取得元デバイスを選択してください。",
     },
     "Restarting Obsidian is strongly recommended. Until restart, some changes may not take effect, and display may be inconsistent. Are you sure to restart now?":
         {
@@ -10253,22 +8559,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "从远端恢复或重建本地数据库。",
         "zh-tw": "從遠端還原或重建本機資料庫。",
     },
-    "Resume file and database processing, and restart Obsidian now?": {
-        def: "Resume file and database processing, and restart Obsidian now?",
-        ja: "ファイルとデータベースの処理を再開し、Obsidianを今すぐ再起動しますか？",
-    },
-    Retry: {
-        def: "Retry",
-        ja: "再試行",
-    },
-    "Retry (recommended)": {
-        def: "Retry (recommended)",
-        ja: "再試行（推奨）",
-    },
-    "Retry reading revision": {
-        def: "Retry reading revision",
-        ja: "リビジョンの読み込みを再試行",
-    },
     Rev: {
         def: "Rev",
         es: "Rev",
@@ -10282,330 +8572,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "変更を元に戻す",
         ko: "변경 사항 되돌리기",
         "zh-tw": "還原變更",
-    },
-    "Review why": {
-        def: "Review why",
-        ja: "理由を確認",
-    },
-    "Review why synchronisation is paused": {
-        def: "Review why synchronisation is paused",
-        ja: "同期が一時停止している理由を確認",
-    },
-    "ReviewHarness.Access.DedicatedVaultFixtures": {
-        def: "dedicated-vault-fixtures",
-        ja: "専用Vault内のテスト用ファイル",
-    },
-    "ReviewHarness.Access.DeviceLocalState": {
-        def: "device-local-state",
-        ja: "このデバイス内の状態",
-    },
-    "ReviewHarness.Access.ReadOnly": {
-        def: "read-only",
-        ja: "読み取り専用",
-    },
-    "ReviewHarness.Action.Automatic": {
-        def: "Automatic",
-        ja: "自動テスト",
-    },
-    "ReviewHarness.Action.CopyMarkdownReport": {
-        def: "Copy Markdown report",
-        ja: "Markdownレポートをコピー",
-    },
-    "ReviewHarness.Action.FullReview": {
-        def: "Full review",
-        ja: "すべて確認",
-    },
-    "ReviewHarness.Action.OpenCompatibilityReview": {
-        def: "Open compatibility review",
-        ja: "互換性レビューを開く",
-    },
-    "ReviewHarness.Action.RestartAndReturn": {
-        def: "Restart and return",
-        ja: "再起動して戻る",
-    },
-    "ReviewHarness.Action.Run": {
-        def: "Run",
-        ja: "実行",
-    },
-    "ReviewHarness.Action.StartReview": {
-        def: "Start review",
-        ja: "レビューを開始",
-    },
-    "ReviewHarness.Command.Open": {
-        def: "Open review harness",
-        ja: "レビューハーネスを開く",
-    },
-    "ReviewHarness.ContinuationConsumed": {
-        def: "The one-shot restart continuation was consumed. Complete the guided review below.",
-        ja: "再起動後の一度限りの継続情報を読み込みました。以下のガイド付きレビューを完了してください。",
-    },
-    "ReviewHarness.ContinuationError": {
-        def: "Continuation error: ${error}",
-        ja: "継続情報のエラー：${error}",
-    },
-    "ReviewHarness.Description": {
-        def: "Automatic scenarios inspect local contracts. The guided compatibility review uses the same device-local pause and explicit action as normal start-up. Real P2P transport remains covered by the Compose E2E suite.",
-        ja: "自動テストではローカルの契約を検査します。ガイド付き互換性レビューでは、通常の起動時と同じデバイス内の一時停止と明示的な操作を使用します。実際のP2P通信はCompose E2Eテストで引き続き確認されます。",
-    },
-    "ReviewHarness.Error.ClipboardUnavailable": {
-        def: "Clipboard access is unavailable on this device.",
-        ja: "このデバイスではクリップボードを利用できません。",
-    },
-    "ReviewHarness.Error.InvalidContinuation": {
-        def: "The Review Harness continuation was invalid.",
-        ja: "レビューハーネスの継続情報が無効です。",
-    },
-    "ReviewHarness.Error.InvalidJson": {
-        def: "Review Harness continuation is not valid JSON",
-        ja: "レビューハーネスの継続情報が有効なJSONではありません",
-    },
-    "ReviewHarness.Error.InvalidRequestId": {
-        def: "Review Harness request ID does not match the fixed continuation format",
-        ja: "レビューハーネスのリクエストIDが所定の継続形式と一致しません",
-    },
-    "ReviewHarness.Error.InvalidRequestTime": {
-        def: "Review Harness request time must be an ISO date",
-        ja: "レビューハーネスのリクエスト時刻はISO形式の日付である必要があります",
-    },
-    "ReviewHarness.Error.MustBeObject": {
-        def: "Review Harness continuation must be an object",
-        ja: "レビューハーネスの継続情報はオブジェクトである必要があります",
-    },
-    "ReviewHarness.Error.UnknownScenario": {
-        def: "Unknown Review Harness scenario: ${scenario}",
-        ja: "不明なレビューハーネスのシナリオ：${scenario}",
-    },
-    "ReviewHarness.Error.UnknownStage": {
-        def: "Unknown Review Harness continuation stage: ${stage}",
-        ja: "不明なレビューハーネスの継続段階：${stage}",
-    },
-    "ReviewHarness.Error.UnsupportedVersion": {
-        def: "Unsupported Review Harness continuation version: ${version}",
-        ja: "未対応のレビューハーネス継続情報バージョン：${version}",
-    },
-    "ReviewHarness.Mode.Automatic": {
-        def: "automatic",
-        ja: "自動",
-    },
-    "ReviewHarness.Mode.Guided": {
-        def: "guided",
-        ja: "ガイド付き",
-    },
-    "ReviewHarness.Privacy": {
-        def: "Reports are copied locally and are not transmitted. They omit Vault identifiers, paths, contents, remote configuration, and secrets.",
-        ja: "レポートはローカルでコピーされ、送信されません。Vaultの識別子、パス、内容、リモート設定、機密情報は含まれません。",
-    },
-    "ReviewHarness.ReportCopied": {
-        def: "Review Harness Markdown report copied.",
-        ja: "レビューハーネスのMarkdownレポートをコピーしました。",
-    },
-    "ReviewHarness.Result.CompatibilityPauseCleared": {
-        def: "The device-local compatibility pause was reviewed and cleared.",
-        ja: "このデバイスの互換性確認を実施し、一時停止を解除しました。",
-    },
-    "ReviewHarness.Result.CompatibilityReviewNotInitialised": {
-        def: "The settings migration requires review, but the compatibility review was not initialised.",
-        ja: "設定の移行には確認が必要ですが、互換性レビューが初期化されていません。",
-    },
-    "ReviewHarness.Result.CompatibilityReviewPending": {
-        def: "A device-local compatibility review is pending.",
-        ja: "このデバイスで互換性レビューが保留されています。",
-    },
-    "ReviewHarness.Result.CompatibilityReviewRemainsPending": {
-        def: "The device-local compatibility review remains pending.",
-        ja: "このデバイスの互換性レビューは引き続き保留中です。",
-    },
-    "ReviewHarness.Result.DifferentP2PReplicators": {
-        def: "Two consecutive reads resolved different P2P replicators without a lifecycle transition.",
-        ja: "ライフサイクルの移行がないにもかかわらず、連続した2回の読み取りで異なるP2Pレプリケーターが返されました。",
-    },
-    "ReviewHarness.Result.ExistingVaultLoaded": {
-        def: "Loaded an existing Vault from settings schema ${source} to ${target}.",
-        ja: "既存のVaultを設定スキーマ${source}から${target}へ読み込みました。",
-    },
-    "ReviewHarness.Result.InvalidContinuationRemoved": {
-        def: "The stored continuation was invalid and was removed.",
-        ja: "保存されていた継続情報が無効だったため削除しました。",
-    },
-    "ReviewHarness.Result.InvalidSyncChoices": {
-        def: "Synchronisation choices are missing or invalid: ${choices}",
-        ja: "同期項目がないか無効です：${choices}",
-    },
-    "ReviewHarness.Result.NewVaultRecommendationsLoaded": {
-        def: "Loaded the current new Vault recommendations without enabling a remote connection.",
-        ja: "リモート接続を有効にせず、現在の新規Vault向け推奨設定を読み込みました。",
-    },
-    "ReviewHarness.Result.NoCompatibilityReviewPending": {
-        def: "No compatibility review is pending on this device.",
-        ja: "このデバイスで保留中の互換性レビューはありません。",
-    },
-    "ReviewHarness.Result.NoCurrentP2PReplicator": {
-        def: "The P2P composition did not expose a current replicator.",
-        ja: "P2P構成から現在のレプリケーターを取得できませんでした。",
-    },
-    "ReviewHarness.Result.NoMigrationEvidence": {
-        def: "The settings service did not expose migration evidence.",
-        ja: "設定サービスから移行情報を取得できませんでした。",
-    },
-    "ReviewHarness.Result.OpenCompatibilityReview": {
-        def: "Open the device-local compatibility review and complete its explicit action.",
-        ja: "このデバイスの互換性レビューを開き、明示された操作を完了してください。",
-    },
-    "ReviewHarness.Result.P2PCompositionValid": {
-        def: "The live P2P result resolves the current replicator and active Obsidian services.",
-        ja: "現在のレプリケーターと有効なObsidianサービスをP2P構成から取得できました。",
-    },
-    "ReviewHarness.Result.P2PServicesMismatch": {
-        def: "The current P2P replicator is not bound to the active Obsidian services.",
-        ja: "現在のP2Pレプリケーターが有効なObsidianサービスに接続されていません。",
-    },
-    "ReviewHarness.Result.RecommendationsDiffer": {
-        def: "The new Vault recommendations differ for: ${settings}",
-        ja: "新規Vault向け推奨設定と異なる項目：${settings}",
-    },
-    "ReviewHarness.Result.RestartRequested": {
-        def: "Restart requested. The one-shot continuation will be removed before the review resumes.",
-        ja: "再起動を要求しました。レビュー再開前に一度限りの継続情報を削除します。",
-    },
-    "ReviewHarness.Result.RestartReturned": {
-        def: "Obsidian returned after the requested restart. Open the compatibility review to continue.",
-        ja: "要求した再起動後にObsidianへ戻りました。続行するには互換性レビューを開いてください。",
-    },
-    "ReviewHarness.Result.UnexpectedFailure": {
-        def: "The scenario failed unexpectedly. Review the in-app logs for diagnostic details.",
-        ja: "シナリオが予期せず失敗しました。診断情報はアプリ内ログで確認してください。",
-    },
-    "ReviewHarness.Scenario.CompatibilityReview.Description": {
-        def: "Checks the current device-local compatibility pause, then guides the reviewer through its explicit review and restart boundary.",
-        ja: "このデバイスの互換性確認による一時停止を検査し、明示的なレビューと再起動の境界を順に確認します。",
-    },
-    "ReviewHarness.Scenario.CompatibilityReview.Title": {
-        def: "Compatibility review boundary",
-        ja: "互換性レビューの境界",
-    },
-    "ReviewHarness.Scenario.P2PComposition.Description": {
-        def: "Checks that the Obsidian host and P2P interface still resolve the current Commonlib replicator.",
-        ja: "ObsidianホストとP2Pインターフェースが現在のCommonlibレプリケーターを取得できることを確認します。",
-    },
-    "ReviewHarness.Scenario.P2PComposition.Title": {
-        def: "P2P composition",
-        ja: "P2P構成",
-    },
-    "ReviewHarness.Scenario.SettingsLifecycle.Description": {
-        def: "Checks whether loaded settings expose the seven synchronisation choices and apply new-Vault recommendations only to a genuinely new Vault.",
-        ja: "読み込んだ設定に7つの同期項目があり、新規Vault向け推奨設定が実際の新規Vaultだけに適用されることを確認します。",
-    },
-    "ReviewHarness.Scenario.SettingsLifecycle.Title": {
-        def: "Settings lifecycle",
-        ja: "設定のライフサイクル",
-    },
-    "ReviewHarness.Scenario.VaultRoundTrip.Description": {
-        def: "Creates, reads, modifies, renames, and removes a fixed owned fixture tree after explicit confirmation.",
-        ja: "明示的な確認後、管理対象の固定テスト用ツリーを作成、読み取り、変更、名前変更、削除します。",
-    },
-    "ReviewHarness.Scenario.VaultRoundTrip.Title": {
-        def: "Vault fixture round trip",
-        ja: "Vaultテスト用ファイルの往復確認",
-    },
-    "ReviewHarness.Scenarios": {
-        def: "Scenarios",
-        ja: "シナリオ",
-    },
-    "ReviewHarness.ScenarioSummary": {
-        def: "${description} Mode: ${mode}. Access: ${access}.",
-        ja: "${description} モード：${mode}。アクセス：${access}。",
-    },
-    "ReviewHarness.Status.Cancelled": {
-        def: "Cancelled",
-        ja: "キャンセル",
-    },
-    "ReviewHarness.Status.Failed": {
-        def: "Failed",
-        ja: "失敗",
-    },
-    "ReviewHarness.Status.NotRun": {
-        def: "Not run",
-        ja: "未実行",
-    },
-    "ReviewHarness.Status.Passed": {
-        def: "Passed",
-        ja: "成功",
-    },
-    "ReviewHarness.Status.Queued": {
-        def: "Queued",
-        ja: "待機中",
-    },
-    "ReviewHarness.Status.Running": {
-        def: "Running",
-        ja: "実行中",
-    },
-    "ReviewHarness.Status.WaitingForReview": {
-        def: "Waiting for review",
-        ja: "レビュー待ち",
-    },
-    "ReviewHarness.Suite.ChooseScope": {
-        def: "Choose the scope to run.",
-        ja: "実行する範囲を選択してください。",
-    },
-    "ReviewHarness.Suite.Running": {
-        def: "Running ${scenario}.",
-        ja: "${scenario}を実行中です。",
-    },
-    "ReviewHarness.Suite.Scenario": {
-        def: "scenario",
-        ja: "シナリオ",
-    },
-    "ReviewHarness.Suite.Title": {
-        def: "Review suite",
-        ja: "レビュー一式",
-    },
-    "ReviewHarness.Title": {
-        def: "Self-hosted LiveSync review harness",
-        ja: "Self-hosted LiveSyncレビューハーネス",
-    },
-    "ReviewHarness.VaultFixture.AlreadyExists": {
-        def: "The owned fixture root already exists. It was left untouched.",
-        ja: "管理対象のテスト用ルートがすでに存在するため、変更せずに残しました。",
-    },
-    "ReviewHarness.VaultFixture.Completed": {
-        def: "The owned fixture tree completed its round trip and was removed.",
-        ja: "管理対象のテスト用ツリーの往復確認が完了し、削除しました。",
-    },
-    "ReviewHarness.VaultFixture.Error.CreatedContent": {
-        def: "Created fixture content did not round-trip.",
-        ja: "作成したテスト内容を正しく読み戻せませんでした。",
-    },
-    "ReviewHarness.VaultFixture.Error.ModifiedContent": {
-        def: "Modified fixture content did not round-trip.",
-        ja: "変更したテスト内容を正しく読み戻せませんでした。",
-    },
-    "ReviewHarness.VaultFixture.Error.RenamedContent": {
-        def: "Renamed fixture content was not preserved.",
-        ja: "名前変更後のテスト内容が保持されていませんでした。",
-    },
-    "ReviewHarness.VaultFixture.Error.RenamePath": {
-        def: "The fixture rename did not update its path.",
-        ja: "テスト用ファイルの名前変更がパスに反映されませんでした。",
-    },
-    "ReviewHarness.VaultFixture.NotApproved": {
-        def: "Vault fixture access was not approved.",
-        ja: "Vault内のテスト用ファイルへのアクセスが承認されませんでした。",
-    },
-    "ReviewHarness.VaultFixture.Prompt": {
-        def: "This scenario creates, reads, modifies, renames, and removes one owned fixture tree. Use a dedicated test Vault. Continue?",
-        ja: "このシナリオでは、管理対象のテスト用ツリーを1つ作成、読み取り、変更、名前変更、削除します。専用のテストVaultを使用してください。続行しますか？",
-    },
-    "ReviewHarness.VaultFixture.PromptTitle": {
-        def: "Review Harness: Vault fixture access",
-        ja: "レビューハーネス：Vaultテスト用ファイルへのアクセス",
-    },
-    "ReviewHarness.Warning": {
-        def: "Use a dedicated test Vault. Read-only scenarios are labelled. The Vault round-trip scenario writes only after confirmation, owns one fixed fixture tree, and removes it in a finally block. The Harness never accepts arbitrary commands, paths, code, or remote credentials.",
-        ja: "専用のテストVaultを使用してください。読み取り専用のシナリオにはその旨が表示されます。Vaultの往復確認は、確認後に固定のテスト用ツリーへ書き込み、処理の終了時に削除します。任意のコマンド、パス、コード、リモート認証情報を受け付けることはありません。",
-    },
-    "Revision metadata is unavailable on this device": {
-        def: "Revision metadata is unavailable on this device",
-        ja: "このデバイスではリビジョンのメタデータを利用できません",
     },
     Revoke: {
         def: "Revoke",
@@ -10627,10 +8593,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "ルーム ID サフィックス:",
         ko: "룸 ID 접미사:",
         "zh-tw": "房間 ID 後綴：",
-    },
-    "Rotation Duration": {
-        def: "Rotation Duration",
-        ja: "ローテーション期間",
     },
     "Run Doctor": {
         def: "Run Doctor",
@@ -10692,14 +8654,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "将设置保存到一个 Markdown 文件中。当新设置到达时,您将收到通知。您可以根据平台设置不同的文件 ",
             "zh-tw": "將設定儲存到 Markdown 檔案中。有新設定送達時會通知你，可依平台設定不同的檔案。",
         },
-    "Save without connecting": {
-        def: "Save without connecting",
-        ja: "接続せずに保存",
-    },
-    "Saved connections": {
-        def: "Saved connections",
-        ja: "保存済みの接続",
-    },
     "Saving will be performed forcefully after this number of seconds.": {
         def: "Saving will be performed forcefully after this number of seconds.",
         es: "Guardado forzado tras esta cantidad de segundos",
@@ -10711,11 +8665,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "在此秒数后将强制执行保存 ",
         "zh-tw": "經過這個秒數後，會強制執行儲存。",
     },
-    "Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected.":
-        {
-            def: "Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected.",
-            ja: "接続テストに成功せず保存した場合もこのプロファイルは保持されますが、接続を修正するまで自動同期に失敗する可能性があります。",
-        },
     "Scan a QR Code (Recommended for mobile)": {
         def: "Scan a QR Code (Recommended for mobile)",
         es: "Escanear un código QR (recomendado para móviles)",
@@ -10724,10 +8673,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Сканировать QR-код (рекомендуется для мобильных устройств)",
         zh: "扫描二维码（移动端推荐）",
         "zh-tw": "掃描 QR Code（行動裝置推薦）",
-    },
-    "Scan and apply all offline hidden-file changes": {
-        def: "Scan and apply all offline hidden-file changes",
-        ja: "オフライン中の隠しファイル変更をすべてスキャンして適用",
     },
     "Scan changes": {
         def: "Scan changes",
@@ -10791,11 +8736,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "定期扫描自定义设置",
         "zh-tw": "定期掃描自訂內容",
     },
-    "Scan every Vault file and live local-database revision for conflicts, missing chunks, and differences. Each result provides actions for the exact revision.":
-        {
-            def: "Scan every Vault file and live local-database revision for conflicts, missing chunks, and differences. Each result provides actions for the exact revision.",
-            ja: "すべてのVaultファイルと有効なローカルデータベースリビジョンを対象に、競合、不足チャンク、および差異を調べます。各結果から対象リビジョンに対する操作を実行できます。",
-        },
     "Scan for Broken files": {
         def: "Scan for Broken files",
         es: "Buscar archivos dañados",
@@ -10815,14 +8755,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "复制前扫描隐藏文件",
         "zh-tw": "複寫前掃描隱藏檔案",
     },
-    "Scan hidden file changes on the local database": {
-        def: "Scan hidden file changes on the local database",
-        ja: "ローカルデータベース上の隠しファイルの変更をスキャン",
-    },
-    "Scan hidden file changes on the storage": {
-        def: "Scan hidden file changes on the storage",
-        ja: "ストレージ上の隠しファイルの変更をスキャン",
-    },
     "Scan hidden files periodically": {
         def: "Scan hidden files periodically",
         es: "Escanear archivos ocultos periódicamente",
@@ -10841,10 +8773,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "QR 코드 스캔",
         "zh-tw": "掃描 QR 碼",
     },
-    "Scan storage and database again": {
-        def: "Scan storage and database again",
-        ja: "ストレージとデータベースを再スキャン",
-    },
     "Scan the QR code displayed on an active device using this device's camera.": {
         def: "Scan the QR code displayed on an active device using this device's camera.",
         es: "Escanee con la cámara de este dispositivo el código QR mostrado en un dispositivo activo。",
@@ -10854,11 +8782,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "使用当前设备的摄像头扫描另一台已在使用设备上显示的二维码。",
         "zh-tw": "使用目前裝置的相機掃描另一台已在使用裝置上顯示的 QR Code。",
     },
-    "Scan Vault files and local-database Metadata for conflicts, missing chunks, identity mismatches, and differences. Each result provides actions for one exact entry or revision.":
-        {
-            def: "Scan Vault files and local-database Metadata for conflicts, missing chunks, identity mismatches, and differences. Each result provides actions for one exact entry or revision.",
-            ja: "Vaultファイルとローカルデータベースのメタデータを対象に、競合、不足チャンク、IDの不一致、および差異を調べます。各結果から、対象の項目またはリビジョンに対する操作を実行できます。",
-        },
     "Schedule and Restart": {
         def: "Schedule and Restart",
         es: "Programar y reiniciar",
@@ -10953,10 +8876,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "P2P 원격 선택...",
         "zh-tw": "選擇 P2P 遠端⋯",
     },
-    "Select Remote Configuration": {
-        def: "Select Remote Configuration",
-        ja: "リモート設定を選択",
-    },
     "Select the database adapter to use.": {
         def: "Select the database adapter to use.",
         es: "Selecciona el adaptador de base de datos que se usará.",
@@ -10965,14 +8884,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Выберите используемый адаптер базы данных.",
         zh: "选择要使用的数据库适配器。",
         "zh-tw": "選擇要使用的資料庫轉接器。",
-    },
-    "Select the database adapter to use. ": {
-        def: "Select the database adapter to use. ",
-        ja: "使用するデータベースアダプターを選択します。",
-    },
-    "Select the WebRTC route automatically or require a configured TURN relay.": {
-        def: "Select the WebRTC route automatically or require a configured TURN relay.",
-        ja: "WebRTCの経路を自動的に選択するか、設定済みのTURNリレーを必須にします。",
     },
     "Selecting this option will result in the current data on this device being used to initialise the server. Any existing data on the server will be completely overwritten.":
         {
@@ -10996,10 +8907,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "選択",
         ko: "선택적",
         "zh-tw": "選擇性",
-    },
-    "Self-hosted LiveSync has paused remote synchronisation for compatibility review. ": {
-        def: "Self-hosted LiveSync has paused remote synchronisation for compatibility review. ",
-        ja: "互換性を確認するため、Self-hosted LiveSyncはリモート同期を一時停止しました。",
     },
     Send: {
         def: "Send",
@@ -11122,14 +9029,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "扫描数据库中未正确存储的文件。",
         "zh-tw": "掃描未正確儲存在資料庫中的檔案。",
     },
-    "Settings QR Code": {
-        def: "Settings QR Code",
-        ja: "設定QRコード",
-    },
-    "Settings QR Code (Aggregated)": {
-        def: "Settings QR Code (Aggregated)",
-        ja: "設定QRコード（分割）",
-    },
     "SettingTab.Message.AskRebuild": {
         def: "Your changes require fetching from the remote database. Do you want to proceed?",
         es: "Tus cambios requieren obtener los datos de la base de datos remota. ¿Quieres continuar?",
@@ -11140,10 +9039,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Ваши изменения требуют загрузки из удалённой базы данных. Хотите продолжить?",
         zh: "Your changes require fetching from the remote database. Do you want to proceed?",
         "zh-tw": "你的變更需要從遠端資料庫抓取，要繼續嗎？",
-    },
-    "Setup Complete: Preparing to Fetch from Another Device": {
-        def: "Setup Complete: Preparing to Fetch from Another Device",
-        ja: "セットアップ完了：別のデバイスからの取得準備",
     },
     "Setup Complete: Preparing to Fetch Synchronisation Data": {
         def: "Setup Complete: Preparing to Fetch Synchronisation Data",
@@ -11158,10 +9053,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "セットアップの完了: サーバーの初期化の準備中",
         ko: "설정 완료: 서버를 초기화할 준비 중",
         "zh-tw": "設定完成：準備初始化伺服器",
-    },
-    "Setup URI": {
-        def: "Setup URI",
-        ja: "Setup URI",
     },
     "Setup URI dialog cancelled.": {
         def: "Setup URI dialog cancelled.",
@@ -11357,38 +9248,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Загрузить конфигурацию с удалённой базы данных?",
         zh: "Fetch configuration from remote database?",
         "zh-tw": "要從遠端資料庫抓取設定嗎？",
-    },
-    "Setup.Notice.E2eeConfigurationCancelled": {
-        def: "E2EE configuration cancelled.",
-        ja: "E2EE設定をキャンセルしました。",
-    },
-    "Setup.Notice.ManualConfigurationCancelled": {
-        def: "Manual configuration cancelled.",
-        ja: "手動設定をキャンセルしました。",
-    },
-    "Setup.Notice.NoChanges": {
-        def: "No changes in settings were detected. Settings from the wizard were not applied.",
-        ja: "設定の変更が検出されなかったため、ウィザードの設定を適用しませんでした。",
-    },
-    "Setup.Notice.OnboardingCancelled": {
-        def: "Onboarding cancelled by the user.",
-        ja: "オンボーディングをキャンセルしました。",
-    },
-    "Setup.Notice.SettingApplied": {
-        def: "Setting applied.",
-        ja: "設定を適用しました。",
-    },
-    "Setup.Notice.SetupUriCancelled": {
-        def: "Setup URI dialogue cancelled.",
-        ja: "Setup URIダイアログをキャンセルしました。",
-    },
-    "Setup.Notice.WizardApplyCancelled": {
-        def: "The user cancelled applying settings from the wizard.",
-        ja: "ウィザードの設定適用をキャンセルしました。",
-    },
-    "Setup.Notice.WizardSettingsApplied": {
-        def: "Settings from the wizard were applied.",
-        ja: "ウィザードの設定を適用しました。",
     },
     "Setup.QRCode": {
         def: 'We have generated a QR code to transfer the settings. Please scan the QR code with your phone or other device.\nNote: The QR code is not encrypted, so be careful to open this.\n\n>[!FOR YOUR EYES ONLY]-\n> <div class="sls-qr">${qr_image}</div>',
@@ -11763,11 +9622,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "Setup URI 有效，可以使用。",
         "zh-tw": "Setup URI 有效，可以使用。",
     },
-    "Shared ancestor ${REVISION} is not readable on this device. Automatic three-way merging may be unavailable, but the live revisions remain available for explicit review.":
-        {
-            def: "Shared ancestor ${REVISION} is not readable on this device. Automatic three-way merging may be unavailable, but the live revisions remain available for explicit review.",
-            ja: "共通の祖先${REVISION}をこのデバイスで読み込めません。自動3方向マージは利用できない可能性がありますが、有効なリビジョンは個別に確認できます。",
-        },
     "Should we keep folders that don't have any files inside?": {
         def: "Should we keep folders that don't have any files inside?",
         es: "¿Mantener carpetas vacías?",
@@ -11812,10 +9666,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "即使我们可以安全地自动合并,是否也应该为每一次合并提示您？",
         "zh-tw": "即使可以安全地自動合併，是否仍要在每次合併時提示你？",
     },
-    "Show customization sync dialog": {
-        def: "Show customization sync dialog",
-        ja: "カスタマイズ同期ダイアログを表示",
-    },
     "Show full banner": {
         def: "Show full banner",
         es: "Mostrar banner completo",
@@ -11840,10 +9690,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "仅显示图标",
         "zh-tw": "僅顯示圖示",
     },
-    "Show log": {
-        def: "Show log",
-        ja: "ログを表示",
-    },
     "Show only notifications": {
         def: "Show only notifications",
         es: "Mostrar solo notificaciones",
@@ -11854,14 +9700,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Показывать только уведомления",
         zh: "仅显示通知",
         "zh-tw": "僅顯示通知",
-    },
-    "Show revision history": {
-        def: "Show revision history",
-        ja: "リビジョン履歴を表示",
-    },
-    "Show settings as a QR code": {
-        def: "Show settings as a QR code",
-        ja: "設定をQRコードで表示",
     },
     "Show status as icons only": {
         def: "Show status as icons only",
@@ -11925,14 +9763,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "시그널링 서버 연결",
         "zh-tw": "訊號伺服器連線",
     },
-    "Signalling relay URLs": {
-        def: "Signalling relay URLs",
-        ja: "シグナリングリレーURL",
-    },
-    "Signalling Relays": {
-        def: "Signalling Relays",
-        ja: "シグナリングリレー",
-    },
     "Signalling Status": {
         def: "Signalling Status",
         es: "Estado de la señalización",
@@ -11947,24 +9777,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "건너뛰고 닫기",
         "zh-tw": "略過並關閉",
     },
-    "Skip and proceed": {
-        def: "Skip and proceed",
-        ja: "スキップして続行",
-    },
-    "Skips checking and applying synchronisation settings from the remote.": {
-        def: "Skips checking and applying synchronisation settings from the remote.",
-        ja: "リモートの同期設定の確認と適用を省略します。",
-    },
     Snippets: {
         def: "Snippets",
         es: "Fragmentos",
         ja: "CSSスニペット",
         ko: "스니펫",
         "zh-tw": "程式碼片段",
-    },
-    "Some configuration has arrived. Select ": {
-        def: "Some configuration has arrived. Select ",
-        ja: "設定の変更を受信しました。",
     },
     "Some devices have differing progress values (max: ${maxProgress}, min: ${minProgress}).\nThis may indicate that some devices have not completed synchronisation, which could lead to conflicts. Strongly recommend confirming that all devices are synchronised before proceeding.":
         {
@@ -11977,18 +9795,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "某些裝置的進度值不同（最大：${maxProgress}，最小：${minProgress}）。\n這可能表示某些裝置尚未完成同步，進而可能導致衝突。強烈建議在繼續之前先確認所有裝置都已同步。",
         },
-    "Some files failed to synchronise. What would you like to do?": {
-        def: "Some files failed to synchronise. What would you like to do?",
-        ja: "一部のファイルを同期できませんでした。どうしますか？",
-    },
-    "Source revision: ${REVISION}": {
-        def: "Source revision: ${REVISION}",
-        ja: "元のリビジョン：${REVISION}",
-    },
-    "Start announcing changes": {
-        def: "Start announcing changes",
-        ja: "変更の通知を開始",
-    },
     "Start Broadcasting": {
         def: "Start Broadcasting",
         es: "Iniciar difusión",
@@ -12042,20 +9848,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "중지 ⚡",
         "zh-tw": "停止 ⚡",
     },
-    "Stop announcing changes": {
-        def: "Stop announcing changes",
-        ja: "変更の通知を停止",
-    },
     "Stop Broadcasting": {
         def: "Stop Broadcasting",
         es: "Detener difusión",
         ja: "変更の通知を停止",
         ko: "브로드캐스트 중지",
         "zh-tw": "停止廣播",
-    },
-    "Stop following changes from this device": {
-        def: "Stop following changes from this device",
-        ja: "この端末からの変更追跡を停止",
     },
     "Stop reflecting database changes to storage files.": {
         def: "Stop reflecting database changes to storage files.",
@@ -12086,28 +9884,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "스토리지 -> 데이터베이스",
         "zh-tw": "儲存空間 -> 資料庫",
     },
-    "Store Vault file as a child of this revision": {
-        def: "Store Vault file as a child of this revision",
-        ja: "Vaultファイルをこのリビジョンの子として保存",
-    },
-    "Store Vault file as a new local database document": {
-        def: "Store Vault file as a new local database document",
-        ja: "Vaultファイルを新しいローカルデータベース文書として保存",
-    },
-    "Stored document ID: ${ID}": {
-        def: "Stored document ID: ${ID}",
-        ja: "保存済みドキュメントID：${ID}",
-    },
     "Strongly Recommended": {
         def: "Strongly Recommended",
         es: "Muy recomendado",
         ja: "強く推奨",
         ko: "적극 권장",
         "zh-tw": "強烈建議",
-    },
-    "Subject (whoami)": {
-        def: "Subject (whoami)",
-        ja: "サブジェクト（whoami）",
     },
     "Suppress notification of hidden files change": {
         def: "Suppress notification of hidden files change",
@@ -12200,10 +9982,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "同步模式",
         "zh-tw": "同步模式",
     },
-    "Sync now": {
-        def: "Sync now",
-        ja: "今すぐ同期",
-    },
     "Sync on Editor Save": {
         def: "Sync on Editor Save",
         es: "Sincronizar al guardar en editor",
@@ -12255,10 +10033,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "한 번 동기화",
         "zh-tw": "同步一次",
     },
-    "Synchronisation Issues Detected": {
-        def: "Synchronisation Issues Detected",
-        ja: "同期の問題を検出",
-    },
     "Synchronisation utilising journal files. You must have set up an S3/MinIO/R2 compatible object storage.": {
         def: "Synchronisation utilising journal files. You must have set up an S3/MinIO/R2 compatible object storage.",
         es: "Sincronización mediante archivos de registro. Debe haber configurado un almacenamiento de objetos compatible con S3/MinIO/R2。",
@@ -12267,10 +10041,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Синхронизация с использованием файлов журнала. Необходимо заранее настроить объектное хранилище, совместимое с S3/MinIO/R2。",
         zh: "通过日志文件进行同步。你需要事先部署好兼容 S3/MinIO/R2 的对象存储服务。",
         "zh-tw": "透過日誌檔進行同步。你需要事先部署好相容 S3/MinIO/R2 的物件儲存服務。",
-    },
-    "Synchronise when this device connects": {
-        def: "Synchronise when this device connects",
-        ja: "この端末の接続時に同期",
     },
     "Synchronising files": {
         def: "Synchronising files",
@@ -12306,10 +10076,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "目标模式",
         "zh-tw": "目標模式",
     },
-    "Test connection and save": {
-        def: "Test connection and save",
-        ja: "接続をテストして保存",
-    },
     "Test Settings and Continue": {
         def: "Test Settings and Continue",
         es: "Probar los ajustes y continuar",
@@ -12329,25 +10095,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "仅供测试 - 通过同步文件的较新副本来解决文件冲突,这可能会覆盖修改过的文件。请注意 ",
             "zh-tw": "僅供測試 —— 透過同步較新的檔案版本解決衝突，這可能會覆寫已修改的檔案，請注意。",
         },
-    "The algorithm used for JWT authentication.": {
-        def: "The algorithm used for JWT authentication.",
-        ja: "JWT認証に使用するアルゴリズムです。",
-    },
-    "The Application ID for P2P connection. This should be same among your devices. Default is 'self-hosted-livesync' and could not be modified from the UI.":
-        {
-            def: "The Application ID for P2P connection. This should be same among your devices. Default is 'self-hosted-livesync' and could not be modified from the UI.",
-            ja: "P2P接続のアプリケーションIDです。すべてのデバイスで同じ値にする必要があります。既定値は「self-hosted-livesync」で、UIからは変更できません。",
-        },
     "The connection to the server has been configured successfully. As the next step,": {
         def: "The connection to the server has been configured successfully. As the next step,",
         es: "La conexión con el servidor se ha configurado correctamente. Como paso siguiente,",
         ja: "サーバーへの接続は正常に構成されました。次のステップとして、",
         ko: "서버 연결이 성공적으로 구성되었습니다. 다음 단계로,",
         "zh-tw": "與伺服器的連線已成功設定完成。接下來，",
-    },
-    "The credential/password for the TURN servers.": {
-        def: "The credential/password for the TURN servers.",
-        ja: "TURNサーバーの認証情報またはパスワードです。",
     },
     "The delay for consecutive on-demand fetches": {
         def: "The delay for consecutive on-demand fetches",
@@ -12406,18 +10159,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "IndexedDB 轉接器在某些情況下通常能提供較佳效能，但在 LiveSync 模式下已發現可能導致記憶體洩漏。使用 LiveSync 模式時，請改用 IDB 轉接器。",
         },
-    "The inspected state changed. No repair was performed; run inspection again.": {
-        def: "The inspected state changed. No repair was performed; run inspection again.",
-        ja: "点検後に状態が変化しました。修復は行われていません。もう一度点検を実行してください。",
-    },
-    "The key (PSK in HSxxx in base64, or private key in ESxxx in PEM) used for JWT authentication.": {
-        def: "The key (PSK in HSxxx in base64, or private key in ESxxx in PEM) used for JWT authentication.",
-        ja: "JWT認証に使用する鍵です（HSxxxではBase64形式のPSK、ESxxxではPEM形式の秘密鍵）。",
-    },
-    "The key ID. this should be matched with CouchDB->jwt_keys->ALG:_`kid`.": {
-        def: "The key ID. this should be matched with CouchDB->jwt_keys->ALG:_`kid`.",
-        ja: "キーIDです。CouchDBのjwt_keysにあるALG:_`kid`と一致させてください。",
-    },
     "the latest synchronisation data will be downloaded from the server to this device.": {
         def: "the latest synchronisation data will be downloaded from the server to this device.",
         es: "se descargarán a este dispositivo los datos de sincronización más recientes del servidor.",
@@ -12456,10 +10197,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "文档中可以孵化的数据块的最大数量。超过此数量的数据块将立即成为独立数据块 ",
             "zh-tw": "文件中可暫存的 chunks 最大數量。超過此數量的 chunks 會立即成為獨立 chunks。",
         },
-    "The maximum outgoing RPC wire payload before Commonlib splits it for the P2P transport.": {
-        def: "The maximum outgoing RPC wire payload before Commonlib splits it for the P2P transport.",
-        ja: "CommonlibがP2P転送用に分割する前の、送信RPCワイヤーペイロードの最大サイズ。",
-    },
     "The maximum total size of chunks that can be incubated within the document. Chunks exceeding this size will immediately graduate to independent chunks.":
         {
             def: "The maximum total size of chunks that can be incubated within the document. Chunks exceeding this size will immediately graduate to independent chunks.",
@@ -12483,29 +10220,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "基于事件自动同步的最小间隔。",
         "zh-tw": "事件觸發自動同步的最小間隔。",
     },
-    "The Nostr relay servers to establish connections for P2P connections. Multiple servers can be separated by commas.":
-        {
-            def: "The Nostr relay servers to establish connections for P2P connections. Multiple servers can be separated by commas.",
-            ja: "P2P接続を確立するためのNostrリレーサーバーです。複数のサーバーはカンマで区切ります。",
-        },
-    "The P2P connection has been configured successfully. The initial synchronisation data must now be fetched from an online source device.":
-        {
-            def: "The P2P connection has been configured successfully. The initial synchronisation data must now be fetched from an online source device.",
-            ja: "P2P接続の設定が完了しました。次に、オンラインの取得元デバイスから初期同期データを取得します。",
-        },
-    "The Passphrase for P2P connection. This should be same among your devices.": {
-        def: "The Passphrase for P2P connection. This should be same among your devices.",
-        ja: "P2P接続のパスフレーズです。すべてのデバイスで同じ値にする必要があります。",
-    },
-    "The passphrase to encrypt the setup URI": {
-        def: "The passphrase to encrypt the setup URI",
-        ja: "Setup URIを暗号化するパスフレーズ",
-    },
-    "The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay.":
-        {
-            def: "The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay.",
-            ja: "プロジェクトの公開シグナリングリレーは、作者がベストエフォートで運用する便宜的なサービスです。Vaultの内容は保存しませんが、シグナリングのメタデータはリレーから見える場合があります。可用性やログ保持は保証されません。独自のNostr互換リレーへ置き換えることもできます。",
-        },
     "The remote is already set up, and the configuration is compatible (or got compatible by this operation).": {
         def: "The remote is already set up, and the configuration is compatible (or got compatible by this operation).",
         es: "El remoto ya está configurado y la configuración es compatible (o pasa a serlo con esta operación).",
@@ -12513,24 +10227,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "원격은 이미 설정되어 있으며, 구성도 호환됩니다(또는 이번 작업으로 호환되었습니다).",
         "zh-tw": "遠端已經設定完成，且設定相容（或透過此操作變得相容）。",
     },
-    "The Room ID for P2P connection. This should be same among your devices.": {
-        def: "The Room ID for P2P connection. This should be same among your devices.",
-        ja: "P2P接続のルームIDです。すべてのデバイスで同じ値にする必要があります。",
-    },
-    "The Rotation duration of token in minutes. Each generated tokens will be valid only within this duration.": {
-        def: "The Rotation duration of token in minutes. Each generated tokens will be valid only within this duration.",
-        ja: "トークンのローテーション期間を分単位で指定します。生成された各トークンはこの期間内だけ有効です。",
-    },
-    "The selected remote has no saved synchronisation settings. This is normal for a new remote. Use this device's settings, or cancel if you expected existing settings.":
-        {
-            def: "The selected remote has no saved synchronisation settings. This is normal for a new remote. Use this device's settings, or cancel if you expected existing settings.",
-            ja: "選択したリモートには保存済みの同期設定がありません。新しいリモートでは正常な状態です。このデバイスの設定を使用するか、既存の設定があるはずの場合はキャンセルしてください。",
-        },
-    "The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}":
-        {
-            def: "The settings are too large for one QR code, so multiple QR codes will be combined. Your settings are processed only on this device and are not sent to a server. Scan this QR code with your mobile camera and open the page in a browser. After all parts are collected, the page will return to Obsidian with the combined settings. Progress: ${CURRENT} / ${TOTAL}",
-            ja: "設定が1つのQRコードに収まらないため、複数のQRコードを結合します。設定はこのデバイス内だけで処理され、サーバーへ送信されません。モバイルのカメラでQRコードを読み取り、ブラウザーでページを開いてください。すべての部分を収集すると、結合した設定を使ってObsidianへ戻ります。進捗：${CURRENT} / ${TOTAL}",
-        },
     "The Setup-URI does not appear to be valid. Please check that you have copied it correctly.": {
         def: "The Setup-URI does not appear to be valid. Please check that you have copied it correctly.",
         es: "El Setup-URI no parece válido. Comprueba que lo hayas copiado correctamente.",
@@ -12552,32 +10248,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "유일하고 확실한 원본이 됩니다",
         "zh-tw": "唯一且具權威性的主要複本",
     },
-    "The stored document ID and recorded path are handled by different synchronisation features.": {
-        def: "The stored document ID and recorded path are handled by different synchronisation features.",
-        ja: "保存されているドキュメントIDと記録されたパスは、異なる同期機能で処理されます。",
-    },
-    "The stored document ID does not match the ID derived from its recorded path.": {
-        def: "The stored document ID does not match the ID derived from its recorded path.",
-        ja: "保存されているドキュメントIDが、記録されたパスから導出されるIDと一致しません。",
-    },
-    "The subject for JWT authentication. Mostly username.": {
-        def: "The subject for JWT authentication. Mostly username.",
-        ja: "JWT認証のサブジェクトです。通常はユーザー名を指定します。",
-    },
     "the synchronisation data on the server will be built based on the current data on this device.": {
         def: "the synchronisation data on the server will be built based on the current data on this device.",
         es: "los datos de sincronización del servidor se construirán a partir de los datos actuales de este dispositivo.",
         ja: "サーバー上の同期データは、このデバイス上の現在のデータに基づいて構築されます。",
         ko: "이 기기의 현재 데이터를 바탕으로 서버의 동기화 데이터를 구축합니다.",
         "zh-tw": "伺服器上的同步資料將依此裝置目前的資料建立。",
-    },
-    "The TURN servers to use for P2P connections. Multiple servers can be separated by commas.": {
-        def: "The TURN servers to use for P2P connections. Multiple servers can be separated by commas.",
-        ja: "P2P接続に使用するTURNサーバーです。複数のサーバーはカンマで区切ります。",
-    },
-    "The username for the TURN servers.": {
-        def: "The username for the TURN servers.",
-        ja: "TURNサーバーのユーザー名です。",
     },
     Themes: {
         def: "Themes",
@@ -12640,19 +10316,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "此功能可在裝置之間直接同步，無需伺服器；但同步時兩台裝置必須同時在線，且部分功能可能受限。網際網路連線僅用於訊號交換（偵測對端），不用於資料傳輸。",
         },
-    "This file has ${COUNT} unresolved versions. They will be reviewed one pair at a time.": {
-        def: "This file has ${COUNT} unresolved versions. They will be reviewed one pair at a time.",
-        ja: "このファイルには未解決のバージョンが${COUNT}件あります。2つずつ順番に確認します。",
-    },
-    "This file has unresolved conflicts.": {
-        def: "This file has unresolved conflicts.",
-        ja: "このファイルには未解決の競合があります。",
-    },
-    "This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI.":
-        {
-            def: "This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI.",
-            ja: "初回セットアップでは、暗号化、接続方法、および初期データを提供するデバイスを確認するため、いくつかの短い手順を行います。完了後は、追加のデバイスでSetup URIを再利用できます。",
-        },
     "This is an advanced option for users who do not have a URI or who wish to configure detailed settings.": {
         def: "This is an advanced option for users who do not have a URI or who wish to configure detailed settings.",
         es: "Esta es una opción avanzada para usuarios que no disponen de un URI o que desean configurar parámetros detallados。",
@@ -12679,16 +10342,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             ru: "Это наиболее подходящий для данной архитектуры способ синхронизации. Доступны все функции. Необходимо заранее развернуть экземпляр CouchDB。",
             zh: "这是最符合当前设计的同步方式，所有功能均可用。你需要事先部署好 CouchDB 实例。",
             "zh-tw": "這是最符合目前設計的同步方式，所有功能皆可使用。你需要事先部署好 CouchDB 實例。",
-        },
-    "This moves one local Metadata entry to the ID derived from its recorded path.\n\n**File:** `${FILE}`<br>\n**Source:** `${SOURCE}@${REVISION}`<br>\n**Target:** `${TARGET}`\n\nThe target is verified before the source is removed. Its CouchDB revision ancestry cannot be preserved.\n\n> [!warning] Before repairing\n> - Back up this device.\n> - If file-name case or path obfuscation was intentionally changed for the whole database, use Rebuild instead.\n> - If other devices share this database, pause them, allow this device to upload the repair, then resume them one at a time.":
-        {
-            def: "This moves one local Metadata entry to the ID derived from its recorded path.\n\n**File:** `${FILE}`<br>\n**Source:** `${SOURCE}@${REVISION}`<br>\n**Target:** `${TARGET}`\n\nThe target is verified before the source is removed. Its CouchDB revision ancestry cannot be preserved.\n\n> [!warning] Before repairing\n> - Back up this device.\n> - If file-name case or path obfuscation was intentionally changed for the whole database, use Rebuild instead.\n> - If other devices share this database, pause them, allow this device to upload the repair, then resume them one at a time.",
-            ja: "記録されたパスから導出したIDへ、ローカルのメタデータ項目を1件移動します。\n\n**ファイル：** `${FILE}`<br>\n**移動元：** `${SOURCE}@${REVISION}`<br>\n**移動先：** `${TARGET}`\n\n移動元を削除する前に、移動先を書き込み、検証します。CouchDBのリビジョン履歴は維持できません。\n\n> [!warning] 修復前の注意\n> - この端末をバックアップしてください。\n> - データベース全体に対してファイル名の大文字・小文字またはパスの難読化を意図的に変更した場合は、代わりに再構築を行ってください。\n> - このデータベースをほかの端末と共有している場合は、それらを停止し、この端末から修復をアップロードしてから、1台ずつ再開してください。",
-        },
-    "This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required.":
-        {
-            def: "This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required.",
-            ja: "この任意の確認ではObsidianの内部リクエストAPIを使用し、上記の認証情報をCouchDBサーバーへ送信します。信頼できるサーバーでのみ使用してください。管理者権限が必要になる場合があります。",
         },
     "This passphrase will not be copied to another device. It will be set to `Default` until you configure it again.": {
         def: "This passphrase will not be copied to another device. It will be set to `Default` until you configure it again.",
@@ -12749,28 +10402,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "这会为所有文件重新生成 chunks。如果之前存在缺失的 chunks，这可能修复相关错误。",
         "zh-tw": "這會為所有檔案重新建立 chunks。若先前有遺失的 chunks，這可能修復相關錯誤。",
     },
-    "Timestamp comparison unavailable": {
-        def: "Timestamp comparison unavailable",
-        ja: "タイムスタンプを比較できません",
-    },
-    Title: {
-        def: "Title",
-        ja: "タイトル",
-    },
     "To minimise the creation of new conflicts": {
         def: "To minimise the creation of new conflicts",
         es: "Para minimizar la creación de nuevos conflictos",
         ja: "新たな競合の発生を最小限に抑えるため",
         ko: "새로운 충돌 발생을 최소화하기 위해",
         "zh-tw": "為了盡量減少新增衝突",
-    },
-    "Toggle All Sync.": {
-        def: "Toggle All Sync.",
-        ja: "すべての同期を切り替え",
-    },
-    "Toggle LiveSync": {
-        def: "Toggle LiveSync",
-        ja: "LiveSyncを切り替え",
     },
     "Transfer Tweak": {
         def: "Transfer Tweak",
@@ -12787,11 +10424,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "TURN 자격 증명",
         "zh-tw": "TURN 憑證",
     },
-    "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust.":
-        {
-            def: "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust.",
-            ja: "TURNは直接経路を確立できない場合にのみ、暗号化されたWebRTC接続を中継します。TURNプロバイダーは暗号化されたVaultの内容を読み取れませんが、接続メタデータと通信量は観測できます。信頼できるプロバイダーを使用してください。",
-        },
     "TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P connections. In most cases, you can leave these fields blank.":
         {
             def: "TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P connections. In most cases, you can leave these fields blank.",
@@ -12808,20 +10440,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "TURN 서버 URL (쉼표로 구분)",
         "zh-tw": "TURN 伺服器網址（以逗號分隔）",
     },
-    "TURN Servers": {
-        def: "TURN Servers",
-        ja: "TURNサーバー",
-    },
     "TURN Username": {
         def: "TURN Username",
         es: "Usuario de TURN",
         ja: "TURNユーザー名",
         ko: "TURN 사용자 이름",
         "zh-tw": "TURN 使用者名稱",
-    },
-    "turn:turn1.example.com,turn:turn2.example.com": {
-        def: "turn:turn1.example.com,turn:turn2.example.com",
-        ja: "turn:turn1.example.com,turn:turn2.example.com",
     },
     "TweakMismatchResolve.Action.DisableAutoAcceptCompatible": {
         def: "Disable auto-accept",
@@ -12933,10 +10557,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         "zh-tw":
             "\n看起來各裝置的設定並不相同。現在可以讓相容的變更自動套用到這些設定。\n你要啟用這個「自動接受」設定嗎？",
     },
-    "TweakMismatchResolve.Message.FetchPreferredValuesFailed": {
-        def: "Failed to get the preferred tweak values from the remote server.",
-        ja: "リモートサーバーから優先する調整値を取得できませんでした。",
-    },
     "TweakMismatchResolve.Message.Main": {
         def: "\nThe settings in the remote database are as follows. These values are configured by other devices, which are synchronised with this device at least once.\n\nIf you want to use these settings, please select Use configured settings.\nIf you want to keep the settings of this device, please select Dismiss.\n\n${table}\n\n>[!TIP]\n> If you want to synchronise all settings, please use `Sync settings via markdown` after applying minimal configuration with this feature.\n\n${additionalMessage}",
         es: "\nLos ajustes de la base de datos remota son los siguientes. Los han configurado otros dispositivos que se han sincronizado con este al menos una vez.\n\nSi quieres usar estos ajustes, selecciona Usar los ajustes configurados.\nSi prefieres conservar los de este dispositivo, selecciona Descartar.\n\n${table}\n\n>[!TIP]\n> Si quieres sincronizar todos los ajustes, usa «Sync settings via markdown» después de aplicar la configuración mínima con esta función.\n\n${additionalMessage}",
@@ -12968,24 +10588,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "이 기기의 구성이 조정되었습니다.",
         "zh-tw": "此裝置的設定已調整。",
     },
-    "TweakMismatchResolve.Message.RemoteConnectionFailed": {
-        def: "Failed to connect to the remote server.",
-        ja: "リモートサーバーへ接続できませんでした。",
-    },
     "TweakMismatchResolve.Message.remoteUpdated": {
         def: "The configuration stored remotely has been updated.",
         es: "Se ha actualizado la configuración almacenada en el remoto.",
         ja: "リモートに保存されている設定を更新しました。",
         ko: "원격에 저장된 구성이 업데이트되었습니다.",
         "zh-tw": "遠端儲存的設定已更新。",
-    },
-    "TweakMismatchResolve.Message.SettingsAlreadyMatch": {
-        def: "The settings in the remote database are the same as the local database.",
-        ja: "リモートデータベースとローカルデータベースの設定は同じです。",
-    },
-    "TweakMismatchResolve.Message.UnsupportedRemoteType": {
-        def: "The remote type is not supported for fetching preferred tweak values.",
-        ja: "このリモート種別では優先する調整値を取得できません。",
     },
     "TweakMismatchResolve.Message.UseRemote.WarningRebuildRecommended": {
         def: "\n>[!NOTICE]\n> Some changes are compatible but may consume extra storage and transfer volumes. A rebuild is recommended. However, a rebuild may not be performed at present, but may be implemented in future maintenance.\n> ***Please ensure that you have time and are connected to a stable network to apply!***",
@@ -13353,26 +10961,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "返回未配置状态",
         "zh-tw": "恢復為未設定狀態",
     },
-    "Ui.Settings.Hatch.ComparisonUnavailable": {
-        def: "Could not compare ${path} revision ${revision}; the Vault file or selected live revision is no longer readable",
-        ja: "${path} のリビジョン ${revision} を比較できませんでした。Vaultファイルまたは選択したリビジョンを読み取れなくなっています",
-    },
-    "Ui.Settings.Hatch.ConversionError": {
-        def: "Something went wrong while converting ${path}",
-        ja: "${path} の変換中に問題が発生しました",
-    },
-    "Ui.Settings.Hatch.ConversionFailed": {
-        def: "Converting ${path} failed!",
-        ja: "${path} の変換に失敗しました",
-    },
-    "Ui.Settings.Hatch.ConversionFinished": {
-        def: "Converting finished",
-        ja: "変換が完了しました",
-    },
-    "Ui.Settings.Hatch.ConvertedAsConflictedDocument": {
-        def: "${path} has been converted as a conflicted document",
-        ja: "${path} を競合ドキュメントとして変換しました",
-    },
     "Ui.Settings.Hatch.ConvertNonObfuscated": {
         def: "Check and convert non-path-obfuscated files",
         es: "Comprobar y convertir los archivos sin ruta ofuscada",
@@ -13396,14 +10984,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "보고서를 클립보드에 복사",
         zh: "复制报告到剪贴板",
         "zh-tw": "將報告複製到剪貼簿",
-    },
-    "Ui.Settings.Hatch.CustomizationSyncItemsRemoved": {
-        def: "${count} items have been removed. To confirm how many items remain, run this operation again.",
-        ja: "${count}件を削除しました。残りの件数を確認するには、この操作をもう一度実行してください。",
-    },
-    "Ui.Settings.Hatch.DatabaseBranchDiscarded": {
-        def: "Discarded database branch ${revision} of ${path}",
-        ja: "${path} のデータベースブランチ ${revision} を破棄しました",
     },
     "Ui.Settings.Hatch.DatabaseLabel": {
         def: "Database: ${details}",
@@ -13429,14 +11009,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "删除所有自定义同步数据",
         "zh-tw": "刪除所有自訂同步資料",
     },
-    "Ui.Settings.Hatch.DeletingCustomizationSyncData": {
-        def: "Deleting customisation sync data",
-        ja: "カスタマイズ同期データを削除しています",
-    },
-    "Ui.Settings.Hatch.DocumentConverted": {
-        def: "${path} has been converted",
-        ja: "${path} を変換しました",
-    },
     "Ui.Settings.Hatch.GeneratedReport": {
         def: "Generated report",
         es: "Informe generado",
@@ -13444,30 +11016,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "생성된 보고서",
         zh: "已生成的报告",
         "zh-tw": "已產生的報告",
-    },
-    "Ui.Settings.Hatch.InspectionDone": {
-        def: "Inspection completed",
-        ja: "検査が完了しました",
-    },
-    "Ui.Settings.Hatch.InspectionError": {
-        def: "Error while processing ${path}",
-        ja: "${path} の処理中にエラーが発生しました",
-    },
-    "Ui.Settings.Hatch.InspectionErrorWithoutSemaphore": {
-        def: "Error while processing ${path} before acquiring the processing slot",
-        ja: "処理枠を取得する前に ${path} の処理中にエラーが発生しました",
-    },
-    "Ui.Settings.Hatch.InspectionProgress": {
-        def: "Checking ${current}/${total} files",
-        ja: "ファイルを確認中: ${current}/${total}",
-    },
-    "Ui.Settings.Hatch.InspectionStarted": {
-        def: "Start inspecting file/database state",
-        ja: "ファイルとデータベースの状態の検査を開始します",
-    },
-    "Ui.Settings.Hatch.InternalFileNotFound": {
-        def: "Failed to find the file in the internal files: ${path}",
-        ja: "内部ファイルから ${path} を見つけられませんでした",
     },
     "Ui.Settings.Hatch.Missing": {
         def: "Missing",
@@ -13492,10 +11040,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "수정: ${modified}, 크기: ${size} (실제 크기: ${actualSize})",
         zh: "修改时间：${modified}，大小：${size}（实际大小：${actualSize}）",
         "zh-tw": "修改時間：${modified}，大小：${size}（實際大小：${actualSize}）",
-    },
-    "Ui.Settings.Hatch.OldDocumentDeleted": {
-        def: "Old ${path} has been deleted",
-        ja: "古い ${path} を削除しました",
     },
     "Ui.Settings.Hatch.PrepareIssueReport": {
         def: "Prepare the 'report' to create an issue",
@@ -13537,14 +11081,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "此操作会为所有文件重新创建数据块。如果存在缺失的数据块，可能会修复相关错误。",
         "zh-tw": "這會為所有檔案重新建立 chunks。若先前有遺失的 chunks，這可能修復相關錯誤。",
     },
-    "Ui.Settings.Hatch.RepairActionFailed": {
-        def: "Repair action '${action}' failed",
-        ja: "修復操作「${action}」に失敗しました",
-    },
-    "Ui.Settings.Hatch.RepairOperationFailed": {
-        def: "${description} failed: ${path}",
-        ja: "${description}に失敗しました: ${path}",
-    },
     "Ui.Settings.Hatch.ResetPanel": {
         def: "Reset",
         es: "Restablecer",
@@ -13584,14 +11120,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "충돌한 모든 파일을 더 최신 버전으로 해결합니다. 주의: 이전 버전은 덮어써지며 복원할 수 없습니다.",
         zh: "使用较新的版本解决所有冲突文件。注意：此操作会覆盖较旧版本，且无法恢复被覆盖的内容。",
         "zh-tw": "將所有衝突檔案統一保留較新的版本。注意：這會覆寫較舊的版本，且被覆寫的內容無法復原。",
-    },
-    "Ui.Settings.Hatch.RevisionReadableAfterRetry": {
-        def: "Revision ${revision} of ${path} is readable after retry",
-        ja: "再試行後、${path} のリビジョン ${revision} を読み取れました",
-    },
-    "Ui.Settings.Hatch.RevisionStillUnreadable": {
-        def: "Revision ${revision} of ${path} remains unreadable",
-        ja: "${path} のリビジョン ${revision} は再試行後も読み取れません",
     },
     "Ui.Settings.Hatch.RunDoctor": {
         def: "Run Doctor",
@@ -13641,14 +11169,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "存储 -> 数据库",
         "zh-tw": "儲存空間 -> 資料庫",
     },
-    "Ui.Settings.Hatch.UnreadableRevisionDiscarded": {
-        def: "Discarded unreadable revision ${revision} of ${path}",
-        ja: "${path} の読み取れないリビジョン ${revision} を破棄しました",
-    },
-    "Ui.Settings.Hatch.VerificationProblemGone": {
-        def: "Verification no longer reports a problem for ${path}",
-        ja: "${path} は再検証で問題が検出されなくなりました",
-    },
     "Ui.Settings.Hatch.VerifyAndRepairAllFiles": {
         def: "Verify and repair all files",
         es: "Verificar y reparar todos los archivos",
@@ -13673,10 +11193,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "执行清理",
         "zh-tw": "執行清理",
     },
-    "Ui.Settings.Maintenance.CleanupCompleted": {
-        def: "Cleanup has been completed!",
-        ja: "クリーンアップが完了しました。",
-    },
     "Ui.Settings.Maintenance.CleanupDesc": {
         def: "Reduces storage space by discarding all non-latest revisions. This requires the same amount of free space on the remote server and the local client.",
         es: "Reduce el espacio de almacenamiento descartando todas las revisiones que no sean la última. Requiere la misma cantidad de espacio libre en el servidor remoto y en el cliente local.",
@@ -13685,14 +11201,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "丢弃所有非最新修订版本，以减少存储空间占用。此操作要求远程服务器和本地客户端都具备同等大小的可用空间。",
         "zh-tw":
             "透過捨棄所有非最新版本減少儲存空間占用。執行此操作時，遠端伺服器與本機用戶端都需要具備相同數量的可用空間。",
-    },
-    "Ui.Settings.Maintenance.CleanupFailed": {
-        def: "Cleanup has failed!",
-        ja: "クリーンアップに失敗しました。",
-    },
-    "Ui.Settings.Maintenance.CleanupStarted": {
-        def: "Cleanup has begun.",
-        ja: "クリーンアップを開始しました。",
     },
     "Ui.Settings.Maintenance.DeleteLocalDatabase": {
         def: "Delete local database to reset or uninstall Self-hosted LiveSync",
@@ -13757,22 +11265,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "사용하지 않는 청크를 제거하고 데이터베이스 크기를 줄이기 위해 가비지 컬렉션을 실행합니다.",
         zh: "执行垃圾回收以移除未使用的数据块并减少数据库大小。",
         "zh-tw": "執行垃圾回收以移除未使用的 chunks 並減少資料庫大小。",
-    },
-    "Ui.Settings.Maintenance.JournalCacheCleared": {
-        def: "Journal download/upload cache has been cleared.",
-        ja: "ジャーナルのダウンロード・アップロードキャッシュを消去しました。",
-    },
-    "Ui.Settings.Maintenance.JournalExchangeCleared": {
-        def: "Journal exchange history has been cleared.",
-        ja: "ジャーナルの交換履歴を消去しました。",
-    },
-    "Ui.Settings.Maintenance.JournalReceivedCleared": {
-        def: "Journal received history has been cleared.",
-        ja: "ジャーナルの受信履歴を消去しました。",
-    },
-    "Ui.Settings.Maintenance.JournalSentCleared": {
-        def: "Journal sent history has been cleared.",
-        ja: "ジャーナルの送信履歴を消去しました。",
     },
     "Ui.Settings.Maintenance.LockServer": {
         def: "Lock Server",
@@ -13845,10 +11337,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "재구축 작업 (원격 전용)",
         zh: "重建操作（仅远程端）",
         "zh-tw": "重建作業（僅遠端）",
-    },
-    "Ui.Settings.Maintenance.RemoteDataDeleted": {
-        def: "Deleted all data on the remote server.",
-        ja: "リモートサーバー上のすべてのデータを削除しました。",
     },
     "Ui.Settings.Maintenance.Resend": {
         def: "Resend",
@@ -14758,6 +12246,94 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "覆盖",
         "zh-tw": "覆寫",
     },
+    "Ui.SetupWizard.ApplySettingsInitialisation.ApplyWithoutInitialisation": {
+        def: "Apply without Initialisation",
+        ja: "初期化せずに適用",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.Back": {
+        def: "Review another way to apply these settings",
+        ja: "別の適用方法を確認",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.BypassGuidance": {
+        def: "Applying these settings alone can make this device incompatible with its existing synchronisation data. Use this only when you have confirmed that reconstruction is unnecessary.",
+        ja: "これらの設定のみを適用すると、このデバイスが既存の同期データと互換性を失う場合があります。再構築が不要であることを確認した場合のみ使用してください。",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.BypassTitle": {
+        def: "Apply Settings without Initialisation?",
+        ja: "初期化せずに設定を適用しますか？",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.ContinueFetch": {
+        def: "Continue with Fetch",
+        ja: "取得を続行",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.FetchOption": {
+        def: "Reset Synchronisation on This Device",
+        ja: "このデバイスの同期をリセット",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.FetchOptionDesc": {
+        def: "After restarting, rebuild this device's local database from the current remote synchronisation data. Files in the Vault will then be reconciled with that data.",
+        ja: "再起動後、このデバイスのローカルデータベースを現在のリモート同期データから再構築します。その後、Vault 内のファイルをそのデータと照合します。",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.FetchOptionP2PDesc": {
+        def: "After restarting, select an online source device. This device's local LiveSync database will be rebuilt from that source.",
+        ja: "再起動後、オンラインの取得元デバイスを選択してください。このデバイスのローカル LiveSync データベースを取得元から再構築します。",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.Guidance": {
+        def: "These setting changes alter how synchronisation data is interpreted. Apply them together with an initialisation operation after restart.",
+        ja: "これらの設定変更は同期データの解釈方法を変更します。再起動後に初期化操作と合わせて適用してください。",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.KeepEditing": {
+        def: "Keep Editing",
+        ja: "編集を続ける",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.ProceedFetch": {
+        def: "Restart and Fetch Synchronisation Data",
+        ja: "再起動して同期データを取得",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.ProceedFetchP2P": {
+        def: "Restart and Select a Source Device",
+        ja: "再起動して取得元デバイスを選択",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.ProceedRebuild": {
+        def: "Restart and Overwrite Server Data",
+        ja: "再起動してサーバーデータを上書き",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.ProceedRebuildP2P": {
+        def: "Restart and Prepare This Device",
+        ja: "再起動してこのデバイスを準備",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.Question": {
+        def: "Which existing data should be used after restart?",
+        ja: "再起動後、どの既存データを使用しますか？",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.RebuildOption": {
+        def: "Overwrite Server Data with This Device's Files",
+        ja: "このデバイスのファイルでサーバーデータを上書き",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.RebuildOptionDesc": {
+        def: "Rebuild the local and remote databases from the files currently in this Vault. Other synchronising devices must reset their local synchronisation afterwards.",
+        ja: "現在この Vault にあるファイルからローカルおよびリモートのデータベースを再構築します。その後、ほかの同期デバイスではローカル同期をリセットする必要があります。",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.RebuildOptionP2P": {
+        def: "Prepare This Device from This Vault",
+        ja: "この Vault からこのデバイスを準備",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.RebuildOptionP2PDesc": {
+        def: "Rebuild this device's local LiveSync database from the files currently in this Vault. This does not overwrite another device.",
+        ja: "現在この Vault にあるファイルから、このデバイスのローカル LiveSync データベースを再構築します。他のデバイスは上書きしません。",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.RemoteVerificationGuidance": {
+        def: "The configured remote could not be verified with the current credentials and encryption settings. Continuing may make the Fetch fail after restart.",
+        ja: "現在の認証情報と暗号化設定では、設定済みリモートを検証できませんでした。続行すると、再起動後の取得に失敗する場合があります。",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.RemoteVerificationTitle": {
+        def: "Remote Synchronisation Data Could Not Be Verified",
+        ja: "リモート同期データを検証できませんでした",
+    },
+    "Ui.SetupWizard.ApplySettingsInitialisation.Title": {
+        def: "Apply Settings and Reinitialise Synchronisation",
+        ja: "設定を適用して同期を再初期化",
+    },
     "Ui.SetupWizard.Common.Back": {
         def: "No, please take me back",
         es: "No, volver atrás",
@@ -14950,30 +12526,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "即将完成：还需要做出选择",
         "zh-tw": "大致完成：需要你做出決定",
     },
-    "Ui.SetupWizard.OutroExistingUser.GuidancePrimary": {
-        def: "The connection to the server has been configured successfully. As the next step, the latest synchronisation data will be downloaded from the server to this device.",
-        ja: "サーバーへの接続設定が完了しました。次の手順として、最新の同期データをサーバーからこのデバイスへダウンロードします。",
-    },
-    "Ui.SetupWizard.OutroExistingUser.GuidanceWarning": {
-        def: "After restarting, the database on this device will be rebuilt using data from the server. If there are any unsynchronised files in this Vault, conflicts may occur with the server data.",
-        ja: "再起動後、このデバイスのデータベースはサーバーのデータを使って再構築されます。このVaultに未同期のファイルがある場合、サーバーのデータと競合する可能性があります。",
-    },
-    "Ui.SetupWizard.OutroExistingUser.Important": {
-        def: "PLEASE NOTE",
-        ja: "注意してください",
-    },
-    "Ui.SetupWizard.OutroExistingUser.Proceed": {
-        def: "Restart and Fetch Data",
-        ja: "再起動してデータを取得",
-    },
-    "Ui.SetupWizard.OutroExistingUser.Question": {
-        def: "Please select the button below to restart and proceed to the data fetching confirmation.",
-        ja: "再起動してデータ取得の確認へ進むには、下のボタンを選択してください。",
-    },
-    "Ui.SetupWizard.OutroExistingUser.Title": {
-        def: "Setup Complete: Preparing to Fetch Synchronisation Data",
-        ja: "セットアップ完了: 同期データ取得の準備",
-    },
     "Ui.SetupWizard.OutroNewP2PUser.GuidanceNotice": {
         def: "P2P has no central server copy to overwrite. This step prepares only this device; keep it online when another device fetches its initial data.",
         es: "En P2P no hay una copia en un servidor central que sobrescribir. Este paso prepara solo este dispositivo; mantenlo conectado cuando otro dispositivo obtenga sus datos iniciales.",
@@ -15065,78 +12617,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "설정 완료: 서버 초기화 준비",
         zh: "设置完成：准备初始化服务器",
         "zh-tw": "設定完成：準備初始化伺服器",
-    },
-    "Ui.SetupWizard.RebuildEverything.Advanced": {
-        def: "Advanced",
-        ja: "詳細設定",
-    },
-    "Ui.SetupWizard.RebuildEverything.BackupDone": {
-        def: "I have created a backup of my Vault.",
-        ja: "Vaultのバックアップを作成しました。",
-    },
-    "Ui.SetupWizard.RebuildEverything.BackupQuestion": {
-        def: "Have you created a backup before proceeding?",
-        ja: "続行する前にバックアップを作成しましたか？",
-    },
-    "Ui.SetupWizard.RebuildEverything.BackupSkipped": {
-        def: "I understand the risks and will proceed without a backup.",
-        ja: "リスクを理解し、バックアップなしで続行します。",
-    },
-    "Ui.SetupWizard.RebuildEverything.BackupUnable": {
-        def: "I am unable to create a backup of my Vault.",
-        ja: "Vaultのバックアップを作成できません。",
-    },
-    "Ui.SetupWizard.RebuildEverything.BackupUnableNote": {
-        def: "You should create a new synchronisation destination and rebuild your data there. After that, synchronise to a brand-new Vault on each other device with the new remote one by one.",
-        ja: "新しい同期先を作成し、そこでデータを再構築してください。その後、ほかの各デバイスでは新しいVaultを作成し、新しいリモートと1台ずつ同期してください。",
-    },
-    "Ui.SetupWizard.RebuildEverything.BackupWarning": {
-        def: "This is an extremely powerful operation. We strongly recommend that you copy your Vault folder to a safe location.",
-        ja: "この操作は非常に強力です。Vaultフォルダーを安全な場所へコピーしておくことを強く推奨します。",
-    },
-    "Ui.SetupWizard.RebuildEverything.ConfirmIrreversible": {
-        def: "I understand that this action is irreversible once performed.",
-        ja: "実行後はこの操作を取り消せないことを理解しました。",
-    },
-    "Ui.SetupWizard.RebuildEverything.ConfirmOtherChanges": {
-        def: "I understand that changes made on other smartphones or computers could be lost.",
-        ja: "ほかのスマートフォンやPCで行った変更が失われる可能性があることを理解しました。",
-    },
-    "Ui.SetupWizard.RebuildEverything.ConfirmOtherChangesNote": {
-        def: "You can protect those changes by backing up the other devices before proceeding.",
-        ja: "続行前にほかのデバイスをバックアップすると、それらの変更を保護できます。",
-    },
-    "Ui.SetupWizard.RebuildEverything.ConfirmOtherDevices": {
-        def: "I understand that other devices will no longer be able to synchronise and will need their synchronisation settings reset.",
-        ja: "ほかのデバイスは同期できなくなり、同期設定のリセットが必要になることを理解しました。",
-    },
-    "Ui.SetupWizard.RebuildEverything.ConfirmOtherDevicesNote": {
-        def: "Resetting the remote will notify the other devices.",
-        ja: "リモートをリセットすると、ほかのデバイスへ通知されます。",
-    },
-    "Ui.SetupWizard.RebuildEverything.ConfirmTitle": {
-        def: "⚠️ Please Confirm the Following",
-        ja: "⚠️ 以下を確認してください",
-    },
-    "Ui.SetupWizard.RebuildEverything.Guidance": {
-        def: "This procedure first deletes all existing synchronisation data from the server. It then completely rebuilds the server data from the current state of this Vault on this device, including its local database, as the single authoritative master copy.",
-        ja: "この手順では、まずサーバー上の既存の同期データをすべて削除します。その後、このデバイスの現在のVaultとローカルデータベースを唯一の正規マスターとして、サーバーのデータを完全に再構築します。",
-    },
-    "Ui.SetupWizard.RebuildEverything.Note": {
-        def: "Perform this operation only in exceptional circumstances, such as when the server data is completely corrupted, changes on all other devices are no longer needed, or the database has become unusually large compared with the Vault.",
-        ja: "サーバーのデータが完全に破損した、ほかのすべてのデバイスの変更が不要になった、またはデータベースがVaultに比べて異常に大きくなった場合など、例外的な状況でのみ実行してください。",
-    },
-    "Ui.SetupWizard.RebuildEverything.PreventFetchingConfig": {
-        def: "Prevent fetching configuration from server",
-        ja: "サーバーから設定を取得しない",
-    },
-    "Ui.SetupWizard.RebuildEverything.Proceed": {
-        def: "I Understand, Overwrite Server",
-        ja: "理解した上で、サーバーを上書き",
-    },
-    "Ui.SetupWizard.RebuildEverything.Title": {
-        def: "Final Confirmation: Overwrite Server Data with This Device's Files",
-        ja: "最終確認: このデバイスのファイルでサーバーのデータを上書き",
     },
     "Ui.SetupWizard.RebuildEverythingP2P.ConfirmLocalReset": {
         def: "I understand that this resets only this device's local synchronisation database.",
@@ -15450,10 +12930,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "所有同步设备之间的唯一名称。要编辑此设置,请首先禁用自定义同步",
         "zh-tw": "所有同步裝置之間的唯一名稱。若要編輯此設定，請先停用自訂同步一次。",
     },
-    "Unknown revision": {
-        def: "Unknown revision",
-        ja: "不明なリビジョン",
-    },
     "Unless you are certain, selecting this options is bit dangerous. It assumes that the server configuration is compatible with this device. If this is not the case, data loss may occur. Please ensure you know what you are doing.":
         {
             def: "Unless you are certain, selecting this options is bit dangerous. It assumes that the server configuration is compatible with this device. If this is not the case, data loss may occur. Please ensure you know what you are doing.",
@@ -15477,10 +12953,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "URL",
         "zh-tw": "URL",
     },
-    "Use ${NAME}": {
-        def: "Use ${NAME}",
-        ja: "${NAME}を使用",
-    },
     "Use a custom passphrase": {
         def: "Use a custom passphrase",
         es: "Usar una frase de contraseña personalizada",
@@ -15498,10 +12970,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Использовать Setup URI (рекомендуется)",
         zh: "使用 Setup URI（推荐）",
         "zh-tw": "使用 Setup URI（推薦）",
-    },
-    "Use active remote": {
-        def: "Use active remote",
-        ja: "使用中のリモートを使う",
     },
     "Use Custom HTTP Handler": {
         def: "Use Custom HTTP Handler",
@@ -15553,14 +13021,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "JWT 인증 사용",
         "zh-tw": "使用 JWT 驗證",
     },
-    "Use JWT instead of Basic Authentication": {
-        def: "Use JWT instead of Basic Authentication",
-        ja: "Basic認証の代わりにJWTを使用",
-    },
-    "Use Only Local Chunks": {
-        def: "Use Only Local Chunks",
-        ja: "ローカルチャンクのみを使用",
-    },
     "Use Path-Style Access": {
         def: "Use Path-Style Access",
         es: "Usar acceso de tipo ruta (path-style)",
@@ -15574,10 +13034,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "乱数を使用する",
         ko: "임의의 숫자 사용",
         "zh-tw": "使用隨機數字",
-    },
-    "Use Request API to avoid `inevitable` CORS problem": {
-        def: "Use Request API to avoid `inevitable` CORS problem",
-        ja: "避けられないCORS問題を回避するためRequest APIを使用",
     },
     "Use Segmented-splitter": {
         def: "Use Segmented-splitter",
@@ -15601,18 +13057,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "使用分割限制上限的块分割器",
         "zh-tw": "使用有分割上限的 chunk 分割器",
     },
-    "Use the copied setup URI (Formerly Open setup URI)": {
-        def: "Use the copied setup URI (Formerly Open setup URI)",
-        ja: "コピーしたSetup URIを使用（旧「Setup URIを開く」）",
-    },
-    "Use the detailed flow": {
-        def: "Use the detailed flow",
-        ja: "詳細な手順を使用",
-    },
-    "Use the project's public signalling relay": {
-        def: "Use the project's public signalling relay",
-        ja: "プロジェクトの公開シグナリングリレーを使用",
-    },
     "Use the trash bin": {
         def: "Use the trash bin",
         es: "Usar papelera",
@@ -15623,10 +13067,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Использовать корзину",
         zh: "使用回收站",
         "zh-tw": "使用垃圾桶",
-    },
-    "Use this device's settings": {
-        def: "Use this device's settings",
-        ja: "このデバイスの設定を使用",
     },
     "Use timeouts instead of heartbeats": {
         def: "Use timeouts instead of heartbeats",
@@ -15667,18 +13107,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Имя пользователя",
         zh: "用户名",
         "zh-tw": "使用者名稱",
-    },
-    "Vault and database revision": {
-        def: "Vault and database revision",
-        ja: "Vaultとデータベースのリビジョン",
-    },
-    "Vault file": {
-        def: "Vault file",
-        ja: "Vaultのファイル",
-    },
-    "Vault file is newer": {
-        def: "Vault file is newer",
-        ja: "Vaultのファイルの方が新しい",
     },
     "Verbose Log": {
         def: "Verbose Log",
@@ -15796,11 +13224,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "欢迎使用 Self-hosted LiveSync",
         "zh-tw": "歡迎使用 Self-hosted LiveSync",
     },
-    "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection.":
-        {
-            def: "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection.",
-            ja: "有効にすると、ローカルで変更が発生した後に接続済みのピアへ通知します。通知にはVaultのデータは含まれません。このデバイスを追跡するピアは、暗号化されたP2P接続を通じて変更を取得します。",
-        },
     "When you save a file in the editor, start a sync automatically": {
         def: "When you save a file in the editor, start a sync automatically",
         es: "Iniciar sincronización automática al guardar en editor",
@@ -15811,19 +13234,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Когда вы сохраняете файл в редакторе, автоматически запускать синхронизацию",
         zh: "当您在编辑器中保存文件时,自动开始同步",
         "zh-tw": "在編輯器中儲存檔案時，自動開始同步",
-    },
-    "While enabled, it causes very performance impact but debugging replication testing and other features will be enabled. Please disable this if you have not read the source code. Requires restart of Obsidian. Sometimes there is no implementation.":
-        {
-            def: "While enabled, it causes very performance impact but debugging replication testing and other features will be enabled. Please disable this if you have not read the source code. Requires restart of Obsidian. Sometimes there is no implementation.",
-            ja: "有効にするとパフォーマンスへ大きく影響しますが、レプリケーションテストなどのデバッグ機能が有効になります。ソースコードを確認していない場合は無効にしてください。Obsidianの再起動が必要です。機能が実装されていない場合もあります。",
-        },
-    "Winner revision": {
-        def: "Winner revision",
-        ja: "採用リビジョン",
-    },
-    "Within the two-second comparison window": {
-        def: "Within the two-second comparison window",
-        ja: "比較差が2秒以内",
     },
     "Write credentials in the file": {
         def: "Write credentials in the file",
@@ -15847,18 +13257,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "将日志写入文件",
         "zh-tw": "將日誌寫入檔案",
     },
-    "Write setting markdown manually": {
-        def: "Write setting markdown manually",
-        ja: "設定Markdownを手動で書き出す",
-    },
-    "wss://relay1.example.com,wss://relay2.example.com": {
-        def: "wss://relay1.example.com,wss://relay2.example.com",
-        ja: "wss://relay1.example.com,wss://relay2.example.com",
-    },
-    "x-custom-header1: value1\n x-custom-header2: value2": {
-        def: "x-custom-header1: value1\n x-custom-header2: value2",
-        ja: "x-custom-header1: value1\n x-custom-header2: value2",
-    },
     "xxhash32 (Fast but less collision resistance)": {
         def: "xxhash32 (Fast but less collision resistance)",
         es: "xxhash32 (rápido, pero con menor resistencia a colisiones)",
@@ -15876,10 +13274,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "xxhash64 (самый быстрый)",
         zh: "xxhash64（最快）",
         "zh-tw": "xxhash64（最快）",
-    },
-    "xxhash64 is the current default.": {
-        def: "xxhash64 is the current default.",
-        ja: "現在の既定値はxxhash64です。",
     },
     "Yes, I want to add this device to my existing synchronisation": {
         def: "Yes, I want to add this device to my existing synchronisation",
@@ -15915,11 +13309,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "Obsidian 플러그인 설정에서 구성할 수 있습니다.",
         "zh-tw": "你可以在 Obsidian 外掛設定中進行設定。",
     },
-    "You can enable this setting to process the files with size mismatches, these files can be created by some APIs or integrations.":
-        {
-            def: "You can enable this setting to process the files with size mismatches, these files can be created by some APIs or integrations.",
-            ja: "サイズ不一致のあるファイルを処理します。このようなファイルは一部のAPIや連携機能によって作成されることがあります。",
-        },
     "You should create a new synchronisation destination and rebuild your data there.": {
         def: "You should create a new synchronisation destination and rebuild your data there.",
         es: "Deberías crear un nuevo destino de sincronización y reconstruir allí tus datos.",
@@ -15935,16 +13324,6 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             ko: "이 작업은 서버 데이터가 완전히 손상된 경우, 다른 모든 기기의 변경 사항이 더 이상 필요하지 않은 경우, 또는 데이터베이스 크기가 보관함 크기에 비해 비정상적으로 커진 경우처럼 예외적인 상황에서만 수행해야 합니다.",
             "zh-tw":
                 "只有在特殊情況下才應執行此操作，例如伺服器資料已完全損毀、其他所有裝置上的變更都已不再需要，或資料庫大小相對於 Vault 大小已變得異常龐大時。",
-        },
-    "Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings.":
-        {
-            def: "Your settings differed slightly from the server settings. The plug-in replaced the incompatible parts with the server settings.",
-            ja: "このデバイスの設定がサーバー設定と一部異なっていたため、互換性のない部分をサーバー設定で置き換えました。",
-        },
-    "Your settings differed slightly from the server's. The plug-in has supplemented the incompatible parts with the server settings!":
-        {
-            def: "Your settings differed slightly from the server's. The plug-in has supplemented the incompatible parts with the server settings!",
-            ja: "このデバイスの設定がサーバー設定と一部異なっていたため、互換性のない部分をサーバー設定で補完しました。",
         },
     "Compute revisions for chunks (Previous behaviour)": {
         es: "Calcular revisiones para chunks (comportamiento anterior)",
