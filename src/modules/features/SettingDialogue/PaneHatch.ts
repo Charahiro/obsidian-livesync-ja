@@ -11,7 +11,8 @@ import { createBlob, escapeMarkdownValue, readAsBlob } from "@vrtmrz/livesync-co
 import { Logger } from "@vrtmrz/livesync-commonlib/compat/common/logger";
 import { shouldBeIgnored } from "@vrtmrz/livesync-commonlib/compat/string_and_binary/path";
 import { Menu, diff_match_patch, setIcon } from "@/deps.ts";
-import { $msg } from "@/common/translation";
+import { $msg as catalogueMessage } from "@/common/translation";
+import { uiTextFromMap } from "@/common/uiText";
 import { Semaphore } from "octagonal-wheels/concurrency/semaphore";
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
 import {
@@ -59,16 +60,130 @@ import {
     executeMetadataIdentityRepair,
     MetadataIdentityRepairExecutions,
 } from "@/serviceFeatures/metadataIdentityRepair.ts";
+
+// Upstream currently exposes these Hatch-interface messages only through its
+// English provisional list. Keep their Japanese text in this source-owned map
+// until upstream promotes each message to the catalogue.
+const hatchJapaneseText: Readonly<Record<string, string>> = {
+    "Copy database information for a file": "ファイルのデータベース情報をコピー",
+    "Copy revision, conflict, and local chunk availability information, including document and chunk identifiers but not file contents.":
+        "ファイル内容を除き、ドキュメント ID、チャンク ID、リビジョン、競合、ローカルチャンクの有無を含むデータベース情報をコピーします。",
+    "Choose file": "ファイルを選択",
+    "Metadata entry requires review and was left unchanged": "メタデータ項目は確認が必要なため変更しませんでした",
+    "The stored document ID does not match the ID derived from its recorded path.":
+        "保存されたドキュメント ID が、記録されたパスから導かれる ID と一致しません。",
+    "The stored document ID and recorded path are handled by different synchronisation features.":
+        "保存されたドキュメント ID と記録されたパスは、異なる同期機能によって処理されています。",
+    "Stored document ID: ${ID}": "保存されたドキュメント ID: ${ID}",
+    "Expected document ID: ${ID}": "想定されるドキュメント ID: ${ID}",
+    "Source revision: ${REVISION}": "元のリビジョン: ${REVISION}",
+    "Unknown revision": "不明なリビジョン",
+    "🗑️ Logical deletion": "🗑️ 論理削除",
+    "⚠️ Conflicts: ${COUNT}": "⚠️ 競合: ${COUNT}",
+    "One-step repair is unavailable because this entry is ambiguous, no longer current, or unsafe to change.":
+        "この項目は曖昧であるか、すでに最新ではないか、安全に変更できないため、一段階での修復はできません。",
+    "An exact target is already present; repair can remove the obsolete ID.":
+        "一致する対象がすでに存在するため、修復により古い ID を削除できます。",
+    "Repair is available for this entry.": "この項目は修復できます。",
+    "Repair Metadata ID": "メタデータ ID を修復",
+    "Keep unchanged": "変更しない",
+    "More actions for ${FILE}": "${FILE} のその他の操作",
+    "Repair this Metadata document ID": "このメタデータドキュメント ID を修復",
+    "Repair Metadata document ID": "メタデータドキュメント ID を修復",
+    "Metadata document ID repair and the ordinary Vault scan completed. Run this inspection again after synchronisation.":
+        "メタデータドキュメント ID の修復と通常の Vault スキャンが完了しました。同期後にもう一度この検査を実行してください。",
+    "Metadata document ID repair completed, but the ordinary Vault scan did not run. Keep synchronisation paused, resolve the scan condition, then run 'Scan storage and database again'.":
+        "メタデータドキュメント ID の修復は完了しましたが、通常の Vault スキャンは実行されませんでした。同期を一時停止したままスキャン条件を解決し、「ストレージとデータベースを再スキャン」を実行してください。",
+    "The inspected state changed. No repair was performed; run inspection again.":
+        "検査対象の状態が変化しました。修復は実行されていません。もう一度検査してください。",
+    "Repair stopped after creating the target. The source was retained. Run inspection again before retrying.":
+        "対象の作成後に修復が停止しました。元の項目は保持されています。再試行する前にもう一度検査してください。",
+    "Repair failed before the source was removed. Run inspection again before retrying.":
+        "元の項目を削除する前に修復が失敗しました。再試行する前にもう一度検査してください。",
+    "Vault and database revision": "Vault とデータベースのリビジョン",
+    "Vault file": "Vault ファイル",
+    "Database revision": "データベースのリビジョン",
+    "Vault file is newer": "Vault ファイルの方が新しい",
+    "Database revision is newer": "データベースのリビジョンの方が新しい",
+    "Within the two-second comparison window": "2 秒の比較範囲内",
+    "Timestamp comparison unavailable": "タイムスタンプを比較できません",
+    "Discard this branch": "このブランチを破棄",
+    "Discard database branch ${REVISION} of ${FILE}? This creates a logical deletion for that exact live branch. The current Vault file will not be changed.":
+        "${FILE} のデータベースブランチ ${REVISION} を破棄しますか？この操作は対象の有効ブランチに論理削除を作成します。現在の Vault ファイルは変更されません。",
+    "Discard branch": "ブランチを破棄",
+    "📁 Vault: ${SIZE} B · ${TIME}": "📁 Vault: ${SIZE} B · ${TIME}",
+    "📁 Vault: missing": "📁 Vault: なし",
+    "🗄️ Local DB: missing": "🗄️ ローカル DB: なし",
+    "✅ Vault matches winner": "✅ Vault は勝者リビジョンと一致",
+    "${ROLE}: ${REVISION}": "${ROLE}: ${REVISION}",
+    "Winner revision": "勝者リビジョン",
+    "Conflict revision": "競合リビジョン",
+    "📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B":
+        "📦 DB: 記録値 ${RECORDED} B · 復号値 ${DECODED} B · サイズ差 ${DIFFERENCE} B",
+    "🧩 Missing chunks: ${COUNT}": "🧩 不足チャンク: ${COUNT}",
+    "📦 DB: recorded ${RECORDED} B · decoded unavailable": "📦 DB: 記録値 ${RECORDED} B · 復号値は取得不可",
+    "📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B": "📁 Vault: ${VAULT} B · DB との差 ${DIFFERENCE} B",
+    "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})":
+        "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · 時刻差 ${DIFFERENCE} ms（${RELATION}）",
+    "✅ Matches Vault": "✅ Vault と一致",
+    "⚠️ Differs from Vault": "⚠️ Vault と不一致",
+    "Compare with Vault": "Vault と比較",
+    "Apply this revision to Vault": "このリビジョンを Vault に適用",
+    "Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.":
+        "データベースのリビジョン ${REVISION} を ${FILE} に適用しますか？現在の Vault ファイルは上書きされます。",
+    "Apply database revision to Vault": "データベースのリビジョンを Vault に適用",
+    "Mark this revision as the Vault version": "このリビジョンを Vault の版としてマーク",
+    "Store Vault file as a child of this revision": "Vault ファイルをこのリビジョンの子として保存",
+    "Apply logical deletion to Vault": "論理削除を Vault に適用",
+    "Apply logical deletion ${REVISION} to ${FILE}? The current Vault file will be removed.":
+        "論理削除 ${REVISION} を ${FILE} に適用しますか？現在の Vault ファイルは削除されます。",
+    "Retry reading revision": "リビジョンの読み取りを再試行",
+    "Discard unreadable revision": "読み取れないリビジョンを破棄",
+    "Discard database revision ${REVISION} of ${FILE}? This creates a logical deletion for that exact live revision. Missing content cannot be recovered by this action.":
+        "${FILE} のデータベースリビジョン ${REVISION} を破棄しますか？この操作は対象の有効リビジョンに論理削除を作成します。不足している内容は復元できません。",
+    "More actions for revision ${REVISION}": "リビジョン ${REVISION} のその他の操作",
+    "Revision metadata is unavailable on this device": "このデバイスではリビジョンのメタデータを取得できません",
+    "Shared ancestor ${REVISION} is not readable on this device. Automatic three-way merging may be unavailable, but the live revisions remain available for explicit review.":
+        "共通祖先 ${REVISION} はこのデバイスで読み取れません。自動三方向マージは利用できない可能性がありますが、有効なリビジョンは個別に確認できます。",
+    "No shared ancestor is available for this conflict. The live revisions remain available for explicit review.":
+        "この競合には利用可能な共通祖先がありません。有効なリビジョンは個別に確認できます。",
+    "Show revision history": "リビジョン履歴を表示",
+    "Store Vault file as a new local database document": "Vault ファイルを新しいローカルデータベース文書として保存",
+    "Copy database information": "データベース情報をコピー",
+    "Recreate chunks for current Vault files": "現在の Vault ファイルのチャンクを再作成",
+    "Recreate chunks from the files currently present in this Vault. This cannot reconstruct unavailable historical or conflict content.":
+        "現在この Vault にあるファイルからチャンクを再作成します。取得できない履歴や競合内容は再構築できません。",
+    "Recreate current chunks": "現在のチャンクを再作成",
+    "Inspect conflicts and file/database differences": "競合とファイル／データベースの差分を検査",
+    "Scan Vault files and local-database Metadata for conflicts, missing chunks, identity mismatches, and differences. Each result provides actions for one exact entry or revision.":
+        "Vault ファイルとローカルデータベースのメタデータをスキャンし、競合、不足チャンク、ID の不一致、差分を検出します。各結果では、特定の項目またはリビジョンに対する操作を行えます。",
+    "Begin inspection": "検査を開始",
+    "Resolve every conflict by modification time? This logically deletes every version except the newest one and cannot recover content which is already unavailable.":
+        "更新時刻によりすべての競合を解決しますか？最新以外のすべての版を論理削除し、すでに取得できない内容は復元できません。",
+    "Resolve all conflicts by the newest version": "最新の版ですべての競合を解決",
+};
+
+function hatchText(key: Parameters<typeof catalogueMessage>[0], params: Record<string, string> = {}): string {
+    const japanese = hatchJapaneseText[key];
+    if (japanese === undefined) return catalogueMessage(key, params);
+
+    let message = uiTextFromMap(key, japanese);
+    for (const [placeholder, value] of Object.entries(params)) {
+        message = message.replace(new RegExp(`\\\${${placeholder}}`, "g"), value);
+    }
+    return message;
+}
+
 export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, { addPanel }: PageFunctions): void {
     // const hatchWarn = this.createEl(paneEl, "div", { text: `To stop the boot up sequence for fixing problems on databases, you can put redflag.md on top of your vault (Rebooting obsidian is required).` });
     // hatchWarn.addClass("op-warn-info");
-    void addPanel(paneEl, $msg("Setting.TroubleShooting")).then((paneEl) => {
+    void addPanel(paneEl, hatchText("Setting.TroubleShooting")).then((paneEl) => {
         new Setting(paneEl)
-            .setName($msg("Setting.TroubleShooting.Doctor"))
-            .setDesc($msg("Setting.TroubleShooting.Doctor.Desc"))
+            .setName(hatchText("Setting.TroubleShooting.Doctor"))
+            .setDesc(hatchText("Setting.TroubleShooting.Doctor.Desc"))
             .addButton((button) =>
                 button
-                    .setButtonText($msg("Run Doctor"))
+                    .setButtonText(hatchText("Run Doctor"))
                     .setCta()
                     .setDisabled(false)
                     .onClick(() => {
@@ -77,11 +192,11 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
         new Setting(paneEl)
-            .setName($msg("Setting.TroubleShooting.ScanBrokenFiles"))
-            .setDesc($msg("Setting.TroubleShooting.ScanBrokenFiles.Desc"))
+            .setName(hatchText("Setting.TroubleShooting.ScanBrokenFiles"))
+            .setDesc(hatchText("Setting.TroubleShooting.ScanBrokenFiles.Desc"))
             .addButton((button) =>
                 button
-                    .setButtonText("Scan for Broken files")
+                    .setButtonText(catalogueMessage("Scan for Broken files"))
                     .setCta()
                     .setDisabled(false)
                     .onClick(() => {
@@ -90,9 +205,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
 
-        new Setting(paneEl).setName($msg("Prepare the 'report' to create an issue")).addButton((button) =>
+        new Setting(paneEl).setName(hatchText("Prepare the 'report' to create an issue")).addButton((button) =>
             button
-                .setButtonText($msg("Copy Report to clipboard"))
+                .setButtonText(hatchText("Copy Report to clipboard"))
                 .setCta()
                 .setDisabled(false)
                 .onClick(async () => {
@@ -100,41 +215,41 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 })
         );
         new Setting(paneEl)
-            .setName($msg("Copy database information for a file"))
+            .setName(hatchText("Copy database information for a file"))
             .setDesc(
-                $msg(
+                hatchText(
                     "Copy revision, conflict, and local chunk availability information, including document and chunk identifiers but not file contents."
                 )
             )
             .addButton((button) =>
-                button.setButtonText($msg("Choose file")).onClick(async () => {
+                button.setButtonText(hatchText("Choose file")).onClick(async () => {
                     await chooseAndCopyFileDatabaseInfo(this.core);
                 })
             );
         new Setting(paneEl)
-            .setName($msg("Analyse database usage"))
+            .setName(hatchText("Analyse database usage"))
             .setDesc(
-                $msg(
+                hatchText(
                     "Analyse database usage and generate a TSV report for diagnosis yourself. You can paste the generated report with any spreadsheet you like."
                 )
             )
             .addButton((button) =>
-                button.setButtonText($msg("Analyse")).onClick(() => {
+                button.setButtonText(hatchText("Analyse")).onClick(() => {
                     eventHub.emitEvent(EVENT_ANALYSE_DB_USAGE);
                 })
             );
         new Setting(paneEl)
-            .setName($msg("Reset notification threshold and check the remote database usage"))
-            .setDesc($msg("Reset the remote storage size threshold and check the remote storage size again."))
+            .setName(hatchText("Reset notification threshold and check the remote database usage"))
+            .setDesc(hatchText("Reset the remote storage size threshold and check the remote storage size again."))
             .addButton((button) =>
-                button.setButtonText($msg("Check")).onClick(() => {
+                button.setButtonText(hatchText("Check")).onClick(() => {
                     eventHub.emitEvent(EVENT_REQUEST_CHECK_REMOTE_SIZE);
                 })
             );
         new Setting(paneEl).autoWireToggle("writeLogToTheFile");
     });
 
-    void addPanel(paneEl, "Scram Switches").then((paneEl) => {
+    void addPanel(paneEl, catalogueMessage("Scram Switches")).then((paneEl) => {
         new Setting(paneEl).autoWireToggle("suspendFileWatching");
         this.addOnSaved("suspendFileWatching", () => this.services.appLifecycle.askRestart());
 
@@ -142,18 +257,14 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
         this.addOnSaved("suspendParseReplicationResult", () => this.services.appLifecycle.askRestart());
     });
 
-    void addPanel(paneEl, "Recovery and Repair").then((paneEl) => {
+    void addPanel(paneEl, catalogueMessage("Recovery and Repair")).then((paneEl) => {
         const resultArea = paneEl.createDiv({ text: "", cls: "sls-repair-results" });
         type RepairMenuAction = {
             title: string;
             run: () => Promise<void> | void;
             warning?: boolean;
         };
-        const addActionMenu = (
-            parent: HTMLElement,
-            label: string,
-            actions: RepairMenuAction[]
-        ) => {
+        const addActionMenu = (parent: HTMLElement, label: string, actions: RepairMenuAction[]) => {
             if (actions.length === 0) {
                 return;
             }
@@ -175,10 +286,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                     .then(() => action.run())
                                     .catch((error) => {
                                         Logger(error, LOG_LEVEL_VERBOSE);
-                                        Logger(
-                                            `Repair action '${action.title}' failed`,
-                                            LOG_LEVEL_NOTICE
-                                        );
+                                        Logger(`Repair action '${action.title}' failed`, LOG_LEVEL_NOTICE);
                                     })
                                     .finally(() => {
                                         if (button.isConnected) {
@@ -198,43 +306,43 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             const card = this.createEl(resultArea, "div", { cls: "sls-repair-result" });
             this.createEl(card, "h6", { text: diagnostic.declaredPath });
             this.createEl(card, "div", {
-                text: $msg("Metadata entry requires review and was left unchanged"),
+                text: hatchText("Metadata entry requires review and was left unchanged"),
                 cls: "sls-repair-status-warning",
             });
             this.createEl(card, "div", {
                 text:
                     diagnostic.reason === OfflineScanUnresolvedReasons.DOCUMENT_ID_MISMATCH
-                        ? $msg("The stored document ID does not match the ID derived from its recorded path.")
-                        : $msg(
+                        ? hatchText("The stored document ID does not match the ID derived from its recorded path.")
+                        : hatchText(
                               "The stored document ID and recorded path are handled by different synchronisation features."
                           ),
                 cls: "sls-repair-metric",
             });
             this.createEl(card, "div", {
-                text: $msg("Stored document ID: ${ID}", { ID: diagnostic.actualDocumentId }),
+                text: hatchText("Stored document ID: ${ID}", { ID: diagnostic.actualDocumentId }),
                 cls: "sls-repair-metric",
             });
             if (diagnostic.expectedDocumentId !== undefined) {
                 this.createEl(card, "div", {
-                    text: $msg("Expected document ID: ${ID}", { ID: diagnostic.expectedDocumentId }),
+                    text: hatchText("Expected document ID: ${ID}", { ID: diagnostic.expectedDocumentId }),
                     cls: "sls-repair-metric",
                 });
             }
             this.createEl(card, "div", {
-                text: $msg("Source revision: ${REVISION}", {
-                    REVISION: entry.sourceRevision ?? $msg("Unknown revision"),
+                text: hatchText("Source revision: ${REVISION}", {
+                    REVISION: entry.sourceRevision ?? hatchText("Unknown revision"),
                 }),
                 cls: "sls-repair-metric",
             });
             if (entry.logicallyDeleted) {
                 this.createEl(card, "div", {
-                    text: $msg("🗑️ Logical deletion"),
+                    text: hatchText("🗑️ Logical deletion"),
                     cls: "sls-repair-metric mod-warning",
                 });
             }
             if (entry.conflictRevisions.length > 0) {
                 this.createEl(card, "div", {
-                    text: $msg("⚠️ Conflicts: ${COUNT}", { COUNT: `${entry.conflictRevisions.length}` }),
+                    text: hatchText("⚠️ Conflicts: ${COUNT}", { COUNT: `${entry.conflictRevisions.length}` }),
                     cls: "sls-repair-metric mod-warning",
                 });
             }
@@ -245,7 +353,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 entry.sourceRevision === null
             ) {
                 this.createEl(card, "div", {
-                    text: $msg(
+                    text: hatchText(
                         "One-step repair is unavailable because this entry is ambiguous, no longer current, or unsafe to change."
                     ),
                     cls: "sls-repair-metric mod-warning",
@@ -255,8 +363,8 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
 
             this.createEl(card, "div", {
                 text: entry.targetAlreadyPresent
-                    ? $msg("An exact target is already present; repair can remove the obsolete ID.")
-                    : $msg("Repair is available for this entry."),
+                    ? hatchText("An exact target is already present; repair can remove the obsolete ID.")
+                    : hatchText("Repair is available for this entry."),
                 cls: "sls-repair-status-ok",
             });
             const request = {
@@ -264,17 +372,17 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 expectedDocumentId: diagnostic.expectedDocumentId,
                 sourceRevision: entry.sourceRevision,
             };
-            const repairAction = $msg("Repair Metadata ID");
-            const keepAction = $msg("Keep unchanged");
-            addActionMenu(card, $msg("More actions for ${FILE}", { FILE: diagnostic.declaredPath }), [
+            const repairAction = hatchText("Repair Metadata ID");
+            const keepAction = hatchText("Keep unchanged");
+            addActionMenu(card, hatchText("More actions for ${FILE}", { FILE: diagnostic.declaredPath }), [
                 {
-                    title: $msg("Repair this Metadata document ID"),
+                    title: hatchText("Repair this Metadata document ID"),
                     warning: true,
                     run: async () => {
                         const execution = await executeMetadataIdentityRepair(request, {
                             confirm: async () =>
                                 (await this.core.confirm.confirmWithMessage(
-                                    $msg("Repair Metadata document ID"),
+                                    hatchText("Repair Metadata document ID"),
                                     `この操作は、記録されたパスから導出した ID へ、ローカルの Metadata エントリを1件移動します。\n\n**ファイル:** \`${escapeMarkdownValue(diagnostic.declaredPath)}\`  \n**移動元:** \`${escapeMarkdownValue(diagnostic.actualDocumentId)}@${escapeMarkdownValue(entry.sourceRevision!)}\`  \n**移動先:** \`${escapeMarkdownValue(diagnostic.expectedDocumentId!)}\`\n\n移動元を削除する前に移動先を検証します。CouchDB のリビジョン祖先は保持できません。\n\n> [!warning] 修復前に\n> - このデバイスをバックアップしてください。\n> - ファイル名の大文字・小文字、またはパス難読化をデータベース全体で意図的に変更した場合は、代わりに再構築を使用してください。\n> - 他のデバイスがこのデータベースを共有している場合は、それらを一時停止し、このデバイスで修復をアップロードしてから、1台ずつ再開してください。`,
                                     [repairAction, keepAction],
                                     keepAction,
@@ -297,15 +405,13 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                             resultArea.replaceChildren();
                             this.createEl(resultArea, "div", {
                                 text: execution.scanCompleted
-                                    ? $msg(
+                                    ? hatchText(
                                           "Metadata document ID repair and the ordinary Vault scan completed. Run this inspection again after synchronisation."
                                       )
-                                    : $msg(
+                                    : hatchText(
                                           "Metadata document ID repair completed, but the ordinary Vault scan did not run. Keep synchronisation paused, resolve the scan condition, then run 'Scan storage and database again'."
                                       ),
-                                cls: execution.scanCompleted
-                                    ? "sls-repair-status-ok"
-                                    : "sls-repair-metric mod-warning",
+                                cls: execution.scanCompleted ? "sls-repair-status-ok" : "sls-repair-metric mod-warning",
                             });
                             return;
                         }
@@ -313,12 +419,14 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                         const resultMessage =
                             result.status === MetadataDocumentRepairResults.STALE ||
                             result.status === MetadataDocumentRepairResults.BLOCKED
-                                ? $msg("The inspected state changed. No repair was performed; run inspection again.")
+                                ? hatchText(
+                                      "The inspected state changed. No repair was performed; run inspection again."
+                                  )
                                 : result.targetCreated
-                                  ? $msg(
+                                  ? hatchText(
                                         "Repair stopped after creating the target. The source was retained. Run inspection again before retrying."
                                     )
-                                  : $msg(
+                                  : hatchText(
                                         "Repair failed before the source was removed. Run inspection again before retrying."
                                     );
                         this.createEl(card, "div", {
@@ -344,9 +452,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
         const storeStorageInDatabase = async (path: string): Promise<boolean> => {
             if (path.startsWith(".")) {
                 const hidden = await findHiddenFile(path);
-                return hidden
-                    ? Boolean(await hidden.addOn.storeInternalFileToDatabase(hidden.file, true))
-                    : false;
+                return hidden ? Boolean(await hidden.addOn.storeInternalFileToDatabase(hidden.file, true)) : false;
             }
             return Boolean(await this.core.fileHandler.storeFileToDB(path as FilePath, true));
         };
@@ -368,60 +474,29 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     : false;
             }
             return Boolean(
-                await this.core.fileHandler.storeFileToDBWithBaseRevision(
-                    path as FilePath,
-                    revision,
-                    createIfDifferent
-                )
+                await this.core.fileHandler.storeFileToDBWithBaseRevision(path as FilePath, revision, createIfDifferent)
             );
         };
-        const applyRevisionToStorage = async (
-            path: string,
-            revision: string,
-            force: boolean
-        ): Promise<boolean> => {
+        const applyRevisionToStorage = async (path: string, revision: string, force: boolean): Promise<boolean> => {
             if (path.startsWith(".")) {
                 const addOn = this.core.getAddOn<HiddenFileSync>(HiddenFileSync.name);
                 return addOn
-                    ? Boolean(
-                          await addOn.extractInternalFileRevisionFromDatabase(
-                              path as FilePath,
-                              revision,
-                              force
-                          )
-                      )
+                    ? Boolean(await addOn.extractInternalFileRevisionFromDatabase(path as FilePath, revision, force))
                     : false;
             }
-            return Boolean(
-                await this.core.fileHandler.dbToStorageWithSpecificRev(
-                    path as FilePath,
-                    revision,
-                    force
-                )
-            );
+            return Boolean(await this.core.fileHandler.dbToStorageWithSpecificRev(path as FilePath, revision, force));
         };
-        const openRevisionComparison = async (
-            path: string,
-            selectedRevision: string
-        ): Promise<boolean> => {
+        const openRevisionComparison = async (path: string, selectedRevision: string): Promise<boolean> => {
             const latest = await inspectFileRepair(this.core, path);
-            const revision = latest.revisions.find(
-                ({ metadata }) => metadata.revision === selectedRevision
-            );
-            if (
-                !latest.information.storage.exists ||
-                !revision ||
-                revision.loadedEntry === false
-            ) {
+            const revision = latest.revisions.find(({ metadata }) => metadata.revision === selectedRevision);
+            if (!latest.information.storage.exists || !revision || revision.loadedEntry === false) {
                 Logger(
                     `Could not compare ${path} revision ${selectedRevision}; the Vault file or selected live revision is no longer readable`,
                     LOG_LEVEL_NOTICE
                 );
                 return false;
             }
-            const vaultText = await createBlob(
-                await this.core.storageAccess.readHiddenFileBinary(path)
-            ).text();
+            const vaultText = await createBlob(await this.core.storageAccess.readHiddenFileBinary(path)).text();
             const databaseText = await readAsBlob(revision.loadedEntry).text();
             const dmp = new diff_match_patch();
             const diff = dmp.diff_main(vaultText, databaseText);
@@ -441,19 +516,12 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 },
                 diff,
             };
-            new ConflictResolveModal(
-                this.app,
-                path as FilePathWithPrefix,
-                result,
-                false,
-                undefined,
-                {
-                    readOnly: true,
-                    title: $msg("Vault and database revision"),
-                    localName: $msg("Vault file"),
-                    remoteName: $msg("Database revision"),
-                }
-            ).open();
+            new ConflictResolveModal(this.app, path as FilePathWithPrefix, result, false, undefined, {
+                readOnly: true,
+                title: hatchText("Vault and database revision"),
+                localName: hatchText("Vault file"),
+                remoteName: hatchText("Database revision"),
+            }).open();
             return true;
         };
         const formatSigned = (value: number) => `${value >= 0 ? "+" : ""}${value}`;
@@ -462,13 +530,13 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
         ) => {
             switch (relation) {
                 case "vault-newer":
-                    return $msg("Vault file is newer");
+                    return hatchText("Vault file is newer");
                 case "database-newer":
-                    return $msg("Database revision is newer");
+                    return hatchText("Database revision is newer");
                 case "same-window":
-                    return $msg("Within the two-second comparison window");
+                    return hatchText("Within the two-second comparison window");
                 default:
-                    return $msg("Timestamp comparison unavailable");
+                    return hatchText("Timestamp comparison unavailable");
             }
         };
         const addRepairResult = (inspection: FileRepairInspection) => {
@@ -484,10 +552,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     Logger(`Verification no longer reports a problem for ${path}`, LOG_LEVEL_NOTICE);
                 }
             };
-            const runMutation = async (
-                description: string,
-                mutation: () => Promise<boolean>
-            ) => {
+            const runMutation = async (description: string, mutation: () => Promise<boolean>) => {
                 try {
                     const succeeded = await mutation();
                     if (!succeeded) {
@@ -498,12 +563,12 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 }
             };
             const discardLiveBranchAction = (revision: string): RepairMenuAction => ({
-                title: $msg("Discard this branch"),
+                title: hatchText("Discard this branch"),
                 warning: true,
                 run: async () => {
                     const confirmed =
                         (await this.core.confirm.askYesNoDialog(
-                            $msg(
+                            hatchText(
                                 "Discard database branch ${REVISION} of ${FILE}? This creates a logical deletion for that exact live branch. The current Vault file will not be changed.",
                                 {
                                     REVISION: revision,
@@ -511,7 +576,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                 }
                             ),
                             {
-                                title: $msg("Discard branch"),
+                                title: hatchText("Discard branch"),
                                 defaultOption: "No",
                             }
                         )) === "yes";
@@ -532,7 +597,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             const fileMenuHost = this.createEl(fileHeader, "div");
             if (information.storage.exists) {
                 this.createEl(card, "div", {
-                    text: $msg("📁 Vault: ${SIZE} B · ${TIME}", {
+                    text: hatchText("📁 Vault: ${SIZE} B · ${TIME}", {
                         TIME: new Date(information.storage.mtime ?? 0).toLocaleString(),
                         SIZE: `${information.storage.size ?? 0}`,
                     }),
@@ -540,13 +605,13 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 });
             } else {
                 this.createEl(card, "div", {
-                    text: $msg("📁 Vault: missing"),
+                    text: hatchText("📁 Vault: missing"),
                     cls: "sls-repair-metric",
                 });
             }
             if (!information.database.exists) {
                 this.createEl(card, "div", {
-                    text: $msg("🗄️ Local DB: missing"),
+                    text: hatchText("🗄️ Local DB: missing"),
                     cls: "sls-repair-metric",
                 });
             }
@@ -556,17 +621,16 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     winner !== undefined &&
                     (winner.metadata.deleted
                         ? !information.storage.exists
-                        : information.storage.exists &&
-                          winner.contentMatchesStorage === true);
+                        : information.storage.exists && winner.contentMatchesStorage === true);
                 const status = this.createEl(card, "div", { cls: "sls-repair-status" });
                 if (vaultMatchesWinner) {
                     this.createEl(status, "span", {
-                        text: $msg("✅ Vault matches winner"),
+                        text: hatchText("✅ Vault matches winner"),
                         cls: "sls-repair-status-ok",
                     });
                 }
                 this.createEl(status, "span", {
-                    text: $msg("⚠️ Conflicts: ${COUNT}", {
+                    text: hatchText("⚠️ Conflicts: ${COUNT}", {
                         COUNT: `${information.database.conflictCount}`,
                     }),
                     cls: "sls-repair-status-warning",
@@ -580,9 +644,10 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     cls: "sls-repair-header",
                 });
                 this.createEl(revisionHeader, "div", {
-                    text: $msg("${ROLE}: ${REVISION}", {
-                        ROLE: revision.role === "winner" ? $msg("Winner revision") : $msg("Conflict revision"),
-                        REVISION: metadata.revision ?? $msg("Unknown revision"),
+                    text: hatchText("${ROLE}: ${REVISION}", {
+                        ROLE:
+                            revision.role === "winner" ? hatchText("Winner revision") : hatchText("Conflict revision"),
+                        REVISION: metadata.revision ?? hatchText("Unknown revision"),
                     }),
                     cls: "sls-repair-revision-title",
                 });
@@ -590,83 +655,65 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 const comparison = getFileRepairRevisionComparison(inspection, revision);
                 if (metadata.deleted) {
                     this.createEl(revisionEl, "div", {
-                        text: $msg("🗑️ Logical deletion"),
+                        text: hatchText("🗑️ Logical deletion"),
                         cls: "sls-repair-metric",
                     });
                 } else if (revision.contentReadable) {
                     this.createEl(revisionEl, "div", {
-                        text: $msg(
+                        text: hatchText(
                             "📦 DB: recorded ${RECORDED} B · decoded ${DECODED} B · Δsize ${DIFFERENCE} B",
                             {
                                 RECORDED: `${comparison.recordedSize}`,
                                 DECODED: `${comparison.decodedSize ?? 0}`,
-                                DIFFERENCE: formatSigned(
-                                    comparison.recordedToDecodedSizeDifference ?? 0
-                                ),
+                                DIFFERENCE: formatSigned(comparison.recordedToDecodedSizeDifference ?? 0),
                             }
                         ),
                         cls: "sls-repair-metric",
                     });
                 } else {
                     const missing = metadata.chunks.filter(
-                        ({ embedded, localDatabaseState }) =>
-                            !embedded && localDatabaseState !== "available"
+                        ({ embedded, localDatabaseState }) => !embedded && localDatabaseState !== "available"
                     );
                     this.createEl(revisionEl, "div", {
-                        text: $msg("🧩 Missing chunks: ${COUNT}", {
+                        text: hatchText("🧩 Missing chunks: ${COUNT}", {
                             COUNT: `${missing.length}`,
                         }),
                         cls: "sls-repair-metric mod-warning",
                     });
                     this.createEl(revisionEl, "div", {
-                        text: $msg("📦 DB: recorded ${RECORDED} B · decoded unavailable", {
+                        text: hatchText("📦 DB: recorded ${RECORDED} B · decoded unavailable", {
                             RECORDED: `${comparison.recordedSize}`,
                         }),
                         cls: "sls-repair-metric",
                     });
                     if (missing.length > 0) {
                         this.createEl(revisionEl, "code", {
-                            text: missing
-                                .slice(0, 3)
-                                .map(({ id }) => id)
-                                .join(", ") + (missing.length > 3 ? ", …" : ""),
+                            text:
+                                missing
+                                    .slice(0, 3)
+                                    .map(({ id }) => id)
+                                    .join(", ") + (missing.length > 3 ? ", …" : ""),
                         });
                     }
                 }
-                if (
-                    comparison.vaultSize !== null &&
-                    comparison.databaseToVaultSizeDifference !== null
-                ) {
+                if (comparison.vaultSize !== null && comparison.databaseToVaultSizeDifference !== null) {
                     this.createEl(revisionEl, "div", {
-                        text: $msg("📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B", {
+                        text: hatchText("📁 Vault: ${VAULT} B · Δsize vs DB ${DIFFERENCE} B", {
                             VAULT: `${comparison.vaultSize}`,
-                            DIFFERENCE: formatSigned(
-                                comparison.databaseToVaultSizeDifference
-                            ),
+                            DIFFERENCE: formatSigned(comparison.databaseToVaultSizeDifference),
                         }),
                         cls: "sls-repair-metric",
                     });
                 }
-                if (
-                    comparison.vaultMtime !== null &&
-                    comparison.timestampDifferenceMs !== null
-                ) {
+                if (comparison.vaultMtime !== null && comparison.timestampDifferenceMs !== null) {
                     this.createEl(revisionEl, "div", {
-                        text: $msg(
+                        text: hatchText(
                             "🕒 DB ${DATABASE_TIME} · Vault ${VAULT_TIME} · Δtime ${DIFFERENCE} ms (${RELATION})",
                             {
-                                DATABASE_TIME: new Date(
-                                    comparison.databaseMtime
-                                ).toLocaleString(),
-                                VAULT_TIME: new Date(
-                                    comparison.vaultMtime
-                                ).toLocaleString(),
-                                DIFFERENCE: formatSigned(
-                                    comparison.timestampDifferenceMs
-                                ),
-                                RELATION: timestampRelationLabel(
-                                    comparison.timestampRelation
-                                ),
+                                DATABASE_TIME: new Date(comparison.databaseMtime).toLocaleString(),
+                                VAULT_TIME: new Date(comparison.vaultMtime).toLocaleString(),
+                                DIFFERENCE: formatSigned(comparison.timestampDifferenceMs),
+                                RELATION: timestampRelationLabel(comparison.timestampRelation),
                             }
                         ),
                         cls: "sls-repair-metric",
@@ -674,12 +721,12 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 }
                 if (revision.contentMatchesStorage === true) {
                     this.createEl(revisionEl, "div", {
-                        text: $msg("✅ Matches Vault"),
+                        text: hatchText("✅ Matches Vault"),
                         cls: "sls-repair-metric",
                     });
                 } else if (revision.contentMatchesStorage === false) {
                     this.createEl(revisionEl, "div", {
-                        text: $msg("⚠️ Differs from Vault"),
+                        text: hatchText("⚠️ Differs from Vault"),
                         cls: "sls-repair-metric mod-warning",
                     });
                 }
@@ -688,7 +735,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 const revisionActions: RepairMenuAction[] = [];
                 if (metadata.revision && policy.compareWithVault) {
                     revisionActions.push({
-                        title: $msg("Compare with Vault"),
+                        title: hatchText("Compare with Vault"),
                         run: async () => {
                             await openRevisionComparison(path, metadata.revision!);
                         },
@@ -696,12 +743,12 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 }
                 if (metadata.revision && policy.applyRevisionToVault) {
                     revisionActions.push({
-                        title: $msg("Apply this revision to Vault"),
+                        title: hatchText("Apply this revision to Vault"),
                         run: async () => {
                             if (await this.core.storageAccess.isExistsIncludeHidden(path)) {
                                 const confirmed =
                                     (await this.core.confirm.askYesNoDialog(
-                                        $msg(
+                                        hatchText(
                                             "Apply database revision ${REVISION} to ${FILE}? The current Vault file will be overwritten.",
                                             {
                                                 REVISION: metadata.revision!,
@@ -709,7 +756,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                             }
                                         ),
                                         {
-                                            title: $msg("Apply database revision to Vault"),
+                                            title: hatchText("Apply database revision to Vault"),
                                             defaultOption: "No",
                                         }
                                     )) === "yes";
@@ -717,58 +764,41 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                     return;
                                 }
                             }
-                            await runMutation(
-                                `Apply database revision ${metadata.revision} to the Vault`,
-                                () =>
-                                    applyRevisionToStorage(
-                                        path,
-                                        metadata.revision!,
-                                        true
-                                    )
+                            await runMutation(`Apply database revision ${metadata.revision} to the Vault`, () =>
+                                applyRevisionToStorage(path, metadata.revision!, true)
                             );
                         },
                     });
                 }
                 if (metadata.revision && policy.markAsVaultRevision) {
                     revisionActions.push({
-                        title: $msg("Mark this revision as the Vault version"),
+                        title: hatchText("Mark this revision as the Vault version"),
                         run: async () => {
-                            await runMutation(
-                                `Mark database revision ${metadata.revision} as the Vault version`,
-                                () =>
-                                    storeStorageOnRevision(
-                                        path,
-                                        metadata.revision!,
-                                        false
-                                    )
+                            await runMutation(`Mark database revision ${metadata.revision} as the Vault version`, () =>
+                                storeStorageOnRevision(path, metadata.revision!, false)
                             );
                         },
                     });
                 }
                 if (metadata.revision && policy.storeVaultOnBranch) {
                     revisionActions.push({
-                        title: $msg("Store Vault file as a child of this revision"),
+                        title: hatchText("Store Vault file as a child of this revision"),
                         run: async () => {
-                            await runMutation(
-                                `Store the Vault file on database revision ${metadata.revision}`,
-                                () =>
-                                    storeStorageOnRevision(
-                                        path,
-                                        metadata.revision!
-                                    )
+                            await runMutation(`Store the Vault file on database revision ${metadata.revision}`, () =>
+                                storeStorageOnRevision(path, metadata.revision!)
                             );
                         },
                     });
                 }
                 if (metadata.revision && policy.applyLogicalDeletionToVault) {
                     revisionActions.push({
-                        title: $msg("Apply logical deletion to Vault"),
+                        title: hatchText("Apply logical deletion to Vault"),
                         warning: true,
                         run: async () => {
                             if (await this.core.storageAccess.isExistsIncludeHidden(path)) {
                                 const confirmed =
                                     (await this.core.confirm.askYesNoDialog(
-                                        $msg(
+                                        hatchText(
                                             "Apply logical deletion ${REVISION} to ${FILE}? The current Vault file will be removed.",
                                             {
                                                 REVISION: metadata.revision!,
@@ -776,7 +806,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                             }
                                         ),
                                         {
-                                            title: $msg("Apply logical deletion to Vault"),
+                                            title: hatchText("Apply logical deletion to Vault"),
                                             defaultOption: "No",
                                         }
                                     )) === "yes";
@@ -784,27 +814,17 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                     return;
                                 }
                             }
-                            await runMutation(
-                                `Apply logical deletion ${metadata.revision} to the Vault`,
-                                () =>
-                                    applyRevisionToStorage(
-                                        path,
-                                        metadata.revision!,
-                                        true
-                                    )
+                            await runMutation(`Apply logical deletion ${metadata.revision} to the Vault`, () =>
+                                applyRevisionToStorage(path, metadata.revision!, true)
                             );
                         },
                     });
                 }
                 if (metadata.revision && policy.retryRevision) {
                     revisionActions.push({
-                        title: $msg("Retry reading revision"),
+                        title: hatchText("Retry reading revision"),
                         run: async () => {
-                            const loaded = await retryReadFileDatabaseRevision(
-                                this.core,
-                                path,
-                                metadata.revision!
-                            );
+                            const loaded = await retryReadFileDatabaseRevision(this.core, path, metadata.revision!);
                             Logger(
                                 loaded
                                     ? `Revision ${metadata.revision} of ${path} is readable after retry`
@@ -820,12 +840,12 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 }
                 if (metadata.revision && policy.discardRevision) {
                     revisionActions.push({
-                        title: $msg("Discard unreadable revision"),
+                        title: hatchText("Discard unreadable revision"),
                         warning: true,
                         run: async () => {
                             const confirmed =
                                 (await this.core.confirm.askYesNoDialog(
-                                    $msg(
+                                    hatchText(
                                         "Discard database revision ${REVISION} of ${FILE}? This creates a logical deletion for that exact live revision. Missing content cannot be recovered by this action.",
                                         {
                                             REVISION: metadata.revision!,
@@ -833,18 +853,14 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                         }
                                     ),
                                     {
-                                        title: $msg("Discard unreadable revision"),
+                                        title: hatchText("Discard unreadable revision"),
                                         defaultOption: "No",
                                     }
                                 )) === "yes";
                             if (!confirmed) {
                                 return;
                             }
-                            const result = await discardUnreadableLiveRevision(
-                                this.core,
-                                path,
-                                metadata.revision!
-                            );
+                            const result = await discardUnreadableLiveRevision(this.core, path, metadata.revision!);
                             Logger(
                                 `Discard unreadable revision ${metadata.revision} of ${path}: ${result}`,
                                 result === "discarded" ? LOG_LEVEL_NOTICE : LOG_LEVEL_VERBOSE
@@ -855,8 +871,8 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 }
                 addActionMenu(
                     revisionMenuHost,
-                    $msg("More actions for revision ${REVISION}", {
-                        REVISION: metadata.revision ?? $msg("Unknown revision"),
+                    hatchText("More actions for revision ${REVISION}", {
+                        REVISION: metadata.revision ?? hatchText("Unknown revision"),
                     }),
                     revisionActions
                 );
@@ -869,31 +885,27 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     cls: "sls-repair-header",
                 });
                 this.createEl(revisionHeader, "div", {
-                    text: $msg("${ROLE}: ${REVISION}", {
-                        ROLE: $msg("Conflict revision"),
+                    text: hatchText("${ROLE}: ${REVISION}", {
+                        ROLE: hatchText("Conflict revision"),
                         REVISION: revision,
                     }),
                     cls: "sls-repair-revision-title",
                 });
                 const revisionMenuHost = this.createEl(revisionHeader, "div");
                 this.createEl(revisionEl, "div", {
-                    text: $msg("Revision metadata is unavailable on this device"),
+                    text: hatchText("Revision metadata is unavailable on this device"),
                     cls: "mod-warning",
                 });
                 addActionMenu(
                     revisionMenuHost,
-                    $msg("More actions for revision ${REVISION}", {
+                    hatchText("More actions for revision ${REVISION}", {
                         REVISION: revision,
                     }),
                     [
                         {
-                            title: $msg("Retry reading revision"),
+                            title: hatchText("Retry reading revision"),
                             run: async () => {
-                                await retryReadFileDatabaseRevision(
-                                    this.core,
-                                    path,
-                                    revision
-                                );
+                                await retryReadFileDatabaseRevision(this.core, path, revision);
                                 await refresh();
                             },
                         },
@@ -908,13 +920,13 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 }
                 this.createEl(card, "div", {
                     text: base.revision
-                        ? $msg(
+                        ? hatchText(
                               "Shared ancestor ${REVISION} is not readable on this device. Automatic three-way merging may be unavailable, but the live revisions remain available for explicit review.",
                               {
                                   REVISION: base.revision,
                               }
                           )
-                        : $msg(
+                        : hatchText(
                               "No shared ancestor is available for this conflict. The live revisions remain available for explicit review."
                           ),
                     cls: "sls-repair-ancestor-warning",
@@ -926,7 +938,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             if (winner?.loadedEntry) {
                 const winnerEntry = winner.loadedEntry;
                 fileActions.push({
-                    title: $msg("Show revision history"),
+                    title: hatchText("Show revision history"),
                     run: () => {
                         eventHub.emitEvent(EVENT_REQUEST_SHOW_HISTORY, {
                             file: path as FilePathWithPrefix,
@@ -937,53 +949,48 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
             }
             if (information.storage.exists && !information.database.exists) {
                 fileActions.push({
-                    title: $msg("Store Vault file as a new local database document"),
+                    title: hatchText("Store Vault file as a new local database document"),
                     run: async () => {
-                        await runMutation(
-                            "Store the Vault file as a new local database document",
-                            () => storeStorageInDatabase(path)
+                        await runMutation("Store the Vault file as a new local database document", () =>
+                            storeStorageInDatabase(path)
                         );
                     },
                 });
             }
             fileActions.push({
-                title: $msg("Copy database information"),
+                title: hatchText("Copy database information"),
                 run: async () => {
                     await copyFileDatabaseInfo(this.core, path);
                 },
             });
-            addActionMenu(
-                fileMenuHost,
-                $msg("More actions for ${FILE}", { FILE: path }),
-                fileActions
-            );
+            addActionMenu(fileMenuHost, hatchText("More actions for ${FILE}", { FILE: path }), fileActions);
         };
 
         new Setting(paneEl)
-            .setName($msg("Recreate chunks for current Vault files"))
+            .setName(hatchText("Recreate chunks for current Vault files"))
             .setDesc(
-                $msg(
+                hatchText(
                     "Recreate chunks from the files currently present in this Vault. This cannot reconstruct unavailable historical or conflict content."
                 )
             )
             .addButton((button) =>
                 button
-                    .setButtonText($msg("Recreate current chunks"))
+                    .setButtonText(hatchText("Recreate current chunks"))
                     .setCta()
                     .onClick(async () => {
                         await this.core.fileHandler.createAllChunks(true);
                     })
             );
         new Setting(paneEl)
-            .setName($msg("Inspect conflicts and file/database differences"))
+            .setName(hatchText("Inspect conflicts and file/database differences"))
             .setDesc(
-                $msg(
+                hatchText(
                     "Scan Vault files and local-database Metadata for conflicts, missing chunks, identity mismatches, and differences. Each result provides actions for one exact entry or revision."
                 )
             )
             .addButton((button) =>
                 button
-                    .setButtonText($msg("Begin inspection"))
+                    .setButtonText(hatchText("Begin inspection"))
                     .setDisabled(false)
                     .setCta()
                     .onClick(async () => {
@@ -1032,10 +1039,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                                 try {
                                     const inspection = await inspectFileRepair(this.core, path);
                                     const winner = inspection.revisions.find(({ role }) => role === "winner");
-                                    if (
-                                        winner &&
-                                        this.services.vault.isFileSizeTooLarge(winner.metadata.recordedSize)
-                                    )
+                                    if (winner && this.services.vault.isFileSizeTooLarge(winner.metadata.recordedSize))
                                         return incProc();
                                     if (inspection.requiresAttention) {
                                         addRepairResult(inspection);
@@ -1060,22 +1064,24 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
         new Setting(paneEl)
-            .setName("Resolve All conflicted files by the newer one")
+            .setName(catalogueMessage("Resolve All conflicted files by the newer one"))
             .setDesc(
-                "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
+                catalogueMessage(
+                    "Resolve all conflicted files by the newer one. Caution: This will overwrite the older one, and cannot resurrect the overwritten one."
+                )
             )
             .addButton((button) =>
                 button
-                    .setButtonText("Resolve All")
+                    .setButtonText(catalogueMessage("Resolve All"))
                     .setCta()
                     .onClick(async () => {
                         const confirmed =
                             (await this.core.confirm.askYesNoDialog(
-                                $msg(
+                                hatchText(
                                     "Resolve every conflict by modification time? This logically deletes every version except the newest one and cannot recover content which is already unavailable."
                                 ),
                                 {
-                                    title: $msg("Resolve all conflicts by the newest version"),
+                                    title: hatchText("Resolve all conflicts by the newest version"),
                                     defaultOption: "No",
                                 }
                             )) === "yes";
@@ -1086,11 +1092,11 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
         new Setting(paneEl)
-            .setName("Check and convert non-path-obfuscated files")
+            .setName(catalogueMessage("Check and convert non-path-obfuscated files"))
             .setDesc("")
             .addButton((button) =>
                 setButtonDestructiveState(button)
-                    .setButtonText("Perform")
+                    .setButtonText(catalogueMessage("Perform"))
                     .setDisabled(false)
                     .onClick(async () => {
                         for await (const docName of this.core.localDatabase.findAllDocNames()) {
@@ -1163,10 +1169,10 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     })
             );
     });
-    void addPanel(paneEl, "Reset").then((paneEl) => {
-        new Setting(paneEl).setName("Back to non-configured").addButton((button) =>
+    void addPanel(paneEl, catalogueMessage("Reset")).then((paneEl) => {
+        new Setting(paneEl).setName(catalogueMessage("Back to non-configured")).addButton((button) =>
             button
-                .setButtonText("Back")
+                .setButtonText(catalogueMessage("Back"))
                 .setDisabled(false)
                 .onClick(async () => {
                     this.editingSettings.isConfigured = false;
@@ -1175,9 +1181,9 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                 })
         );
 
-        new Setting(paneEl).setName("Delete all customization sync data").addButton((button) =>
+        new Setting(paneEl).setName(catalogueMessage("Delete all customization sync data")).addButton((button) =>
             setButtonDestructiveState(button)
-                .setButtonText("Delete")
+                .setButtonText(catalogueMessage("Delete"))
                 .setDisabled(false)
                 .onClick(async () => {
                     Logger(`Deleting customization sync data`, LOG_LEVEL_NOTICE);

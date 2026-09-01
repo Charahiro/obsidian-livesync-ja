@@ -9,6 +9,7 @@ import {
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import { Menu, type ButtonComponent } from "@/deps.ts";
 import { $msg } from "@/common/translation";
+import { uiText } from "@/common/uiText";
 import { LiveSyncSetting as Setting } from "./LiveSyncSetting.ts";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts";
 import { setButtonDestructiveState, type PageFunctions } from "./SettingPane.ts";
@@ -77,13 +78,13 @@ function suggestRemoteConfigurationName(parsed: RemoteConfigurationResult): stri
             const url = new URL(parsed.settings.couchDB_URI);
             return `CouchDB ${url.host}`;
         } catch {
-            return "Imported CouchDB";
+            return uiText("Imported CouchDB", "インポートした CouchDB");
         }
     }
     if (parsed.type === "s3") {
         return `S3 ${parsed.settings.bucket || parsed.settings.endpoint}`;
     }
-    return `P2P ${parsed.settings.P2P_roomID || "Remote"}`;
+    return `P2P ${parsed.settings.P2P_roomID || uiText("Remote", "リモート")}`;
 }
 
 export function paneRemoteConfig(
@@ -102,10 +103,10 @@ export function paneRemoteConfig(
                 info: getE2EEConfigSummary(this.editingSettings),
             });
         };
-        void addPanel(paneEl, "E2EE Configuration", () => {}).then((paneEl) => {
+        void addPanel(paneEl, $msg("E2EE Configuration"), () => {}).then((paneEl) => {
             const infoPanel = new SveltePanel(InfoPanel, paneEl, E2EESummaryWritable);
             this.lifetimeComponent.register(() => infoPanel.destroy());
-            const setupButton = new Setting(paneEl).setName("Configure E2EE");
+            const setupButton = new Setting(paneEl).setName($msg("Configure E2EE"));
             setupButton
                 .addButton((button) =>
                     setButtonDestructiveState(button)
@@ -115,7 +116,7 @@ export function paneRemoteConfig(
                             await setupManager.onlyE2EEConfiguration(UserMode.Update, originalSettings);
                             updateE2EESummary();
                         })
-                        .setButtonText("Configure")
+                        .setButtonText($msg("Configure"))
                 )
                 .addButton((button) =>
                     setButtonDestructiveState(button)
@@ -125,15 +126,15 @@ export function paneRemoteConfig(
                             await setupManager.onConfigureManually(originalSettings, UserMode.Update);
                             updateE2EESummary();
                         })
-                        .setButtonText("Configure And Change Remote")
+                        .setButtonText($msg("Configure And Change Remote"))
                 );
             updateE2EESummary();
         });
     }
     {
         // TODO: very WIP. need to refactor the UI.
-        void addPanel(paneEl, $msg("Connection settings"), () => {}).then((paneEl) => {
-            const actions = new Setting(paneEl).setName($msg("Saved connections"));
+        void addPanel(paneEl, uiText("Connection settings", "接続設定"), () => {}).then((paneEl) => {
+            const actions = new Setting(paneEl).setName(uiText("Saved connections", "保存済みの接続"));
             // actions.addButton((button) =>
             //     button
             //         .setButtonText("Change Remote and Setup")
@@ -243,7 +244,11 @@ export function paneRemoteConfig(
                 configPassphraseStore: this.editingSettings.configPassphraseStore,
             });
             const addRemoteConfiguration = async () => {
-                const name = await this.services.UI.confirm.askString("Remote name", "Display name", "New Remote");
+                const name = await this.services.UI.confirm.askString(
+                    $msg("Remote name"),
+                    $msg("Display name"),
+                    $msg("New Remote")
+                );
                 if (name === false) {
                     return;
                 }
@@ -255,7 +260,7 @@ export function paneRemoteConfig(
                 const configs = cloneRemoteConfigurations(this.editingSettings.remoteConfigurations);
                 configs[id] = {
                     id,
-                    name: name.trim() || "New Remote",
+                    name: name.trim() || $msg("New Remote"),
                     uri: serializeRemoteConfiguration(nextSettings),
                     isEncrypted: false,
                 };
@@ -268,8 +273,8 @@ export function paneRemoteConfig(
             };
             const importRemoteConfiguration = async () => {
                 const importedURI = await this.services.UI.confirm.askString(
-                    "Import connection",
-                    "Paste a connection string",
+                    $msg("Import connection"),
+                    $msg("Paste a connection string"),
                     ""
                 );
                 if (importedURI === false) {
@@ -291,7 +296,11 @@ export function paneRemoteConfig(
                 }
 
                 const defaultName = suggestRemoteConfigurationName(parsed);
-                const name = await this.services.UI.confirm.askString("Remote name", "Display name", defaultName);
+                const name = await this.services.UI.confirm.askString(
+                    $msg("Remote name"),
+                    $msg("Display name"),
+                    defaultName
+                );
                 if (name === false) {
                     return;
                 }
@@ -312,12 +321,12 @@ export function paneRemoteConfig(
                 refreshList();
             };
             actions.addButton((button) =>
-                setEmojiButton(button, "➕", "Add new connection").onClick(async () => {
+                setEmojiButton(button, "➕", $msg("Add new connection")).onClick(async () => {
                     await addRemoteConfiguration();
                 })
             );
             actions.addButton((button) =>
-                setEmojiButton(button, "📥", "Import connection").onClick(async () => {
+                setEmojiButton(button, "📥", $msg("Import connection")).onClick(async () => {
                     await importRemoteConfiguration();
                 })
             );
@@ -335,7 +344,7 @@ export function paneRemoteConfig(
                     }
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "🔧", "Configure").onClick(async () => {
+                        setEmojiButton(btn, "🔧", $msg("Configure")).onClick(async () => {
                             let parsed: RemoteConfigurationResult;
                             try {
                                 parsed = ConnectionStringParser.parse(config.uri);
@@ -376,7 +385,7 @@ export function paneRemoteConfig(
                     row.addButton((btn) =>
                         btn
                             .setButtonText("✅")
-                            .setTooltip("Activate", { delay: 10, placement: "top" })
+                            .setTooltip($msg("Activate"), { delay: 10, placement: "top" })
                             .setDisabled(config.id === this.editingSettings.activeConfigurationId)
                             .onClick(async () => {
                                 this.editingSettings.activeConfigurationId = config.id;
@@ -386,13 +395,13 @@ export function paneRemoteConfig(
                     );
 
                     row.addButton((btn) =>
-                        setEmojiButton(btn, "…", "More actions").onClick(() => {
+                        setEmojiButton(btn, "…", $msg("More actions")).onClick(() => {
                             const menu = new Menu()
                                 .addItem((item) => {
-                                    item.setTitle("🪪 Rename").onClick(async () => {
+                                    item.setTitle(uiText("🪪 Rename", "🪪 名前を変更")).onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            "Remote name",
-                                            "Display name",
+                                            $msg("Remote name"),
+                                            $msg("Display name"),
                                             config.name
                                         );
                                         if (nextName === false) {
@@ -411,18 +420,18 @@ export function paneRemoteConfig(
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle("📤 Export").onClick(async () => {
+                                    item.setTitle(uiText("📤 Export", "📤 エクスポート")).onClick(async () => {
                                         await this.services.UI.promptCopyToClipboard(
-                                            `Remote configuration: ${config.name}`,
+                                            `${uiText("Remote configuration", "リモート設定")}: ${config.name}`,
                                             config.uri
                                         );
                                     });
                                 })
                                 .addItem((item) => {
-                                    item.setTitle("🧬 Duplicate").onClick(async () => {
+                                    item.setTitle(uiText("🧬 Duplicate", "🧬 複製")).onClick(async () => {
                                         const nextName = await this.services.UI.confirm.askString(
-                                            "Duplicate remote",
-                                            "Display name",
+                                            $msg("Duplicate remote"),
+                                            $msg("Display name"),
                                             `${config.name} (Copy)`
                                         );
                                         if (nextName === false) {
@@ -445,36 +454,38 @@ export function paneRemoteConfig(
                                 })
                                 .addSeparator()
                                 .addItem((item) => {
-                                    item.setTitle("📡 Fetch remote settings").onClick(async () => {
-                                        let parsed: RemoteConfigurationResult;
-                                        try {
-                                            parsed = ConnectionStringParser.parse(config.uri);
-                                        } catch (ex) {
-                                            this.services.API.addLog(
-                                                `Failed to parse remote configuration '${config.id}' for fetching settings!`,
-                                                LOG_LEVEL_NOTICE
-                                            );
-                                            this.services.API.addLog(ex, LOG_LEVEL_VERBOSE);
-                                            return;
+                                    item.setTitle(uiText("📡 Fetch remote settings", "📡 リモート設定を取得")).onClick(
+                                        async () => {
+                                            let parsed: RemoteConfigurationResult;
+                                            try {
+                                                parsed = ConnectionStringParser.parse(config.uri);
+                                            } catch (ex) {
+                                                this.services.API.addLog(
+                                                    `Failed to parse remote configuration '${config.id}' for fetching settings!`,
+                                                    LOG_LEVEL_NOTICE
+                                                );
+                                                this.services.API.addLog(ex, LOG_LEVEL_VERBOSE);
+                                                return;
+                                            }
+                                            const workSettings = createBaseRemoteSettings();
+                                            if (parsed.type === "couchdb") {
+                                                workSettings.remoteType = REMOTE_COUCHDB;
+                                            } else if (parsed.type === "s3") {
+                                                workSettings.remoteType = REMOTE_MINIO;
+                                            } else {
+                                                workSettings.remoteType = REMOTE_P2P;
+                                            }
+                                            Object.assign(workSettings, parsed.settings);
+                                            const newTweaks =
+                                                await this.services.tweakValue.checkAndAskUseRemoteConfiguration(
+                                                    workSettings
+                                                );
+                                            if (newTweaks.result !== false) {
+                                                this.editingSettings = { ...this.editingSettings, ...newTweaks.result };
+                                                this.requestUpdate();
+                                            }
                                         }
-                                        const workSettings = createBaseRemoteSettings();
-                                        if (parsed.type === "couchdb") {
-                                            workSettings.remoteType = REMOTE_COUCHDB;
-                                        } else if (parsed.type === "s3") {
-                                            workSettings.remoteType = REMOTE_MINIO;
-                                        } else {
-                                            workSettings.remoteType = REMOTE_P2P;
-                                        }
-                                        Object.assign(workSettings, parsed.settings);
-                                        const newTweaks =
-                                            await this.services.tweakValue.checkAndAskUseRemoteConfiguration(
-                                                workSettings
-                                            );
-                                        if (newTweaks.result !== false) {
-                                            this.editingSettings = { ...this.editingSettings, ...newTweaks.result };
-                                            this.requestUpdate();
-                                        }
-                                    });
+                                    );
                                 })
                                 .addSeparator()
                                 .addItem((item) => {

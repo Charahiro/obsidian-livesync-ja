@@ -62,7 +62,30 @@ function provisionalKeys(): Set<string> {
             if (ts.isObjectLiteralExpression(value)) {
                 for (const property of value.properties) {
                     if (!ts.isPropertyAssignment(property)) continue;
-                    if (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name)) keys.add(property.name.text);
+                    if (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name))
+                        keys.add(property.name.text);
+                }
+            }
+        }
+        ts.forEachChild(node, visit);
+    };
+    visit(source);
+    return keys;
+}
+
+function objectLiteralKeys(filename: string, variableName: string): Set<string> {
+    const sourceText = fs.readFileSync(filename, "utf8");
+    const source = ts.createSourceFile(filename, sourceText, ts.ScriptTarget.Latest, true);
+    const keys = new Set<string>();
+    const visit = (node: ts.Node): void => {
+        if (ts.isVariableDeclaration(node) && node.name.getText(source) === variableName && node.initializer) {
+            let value = node.initializer;
+            while (ts.isAsExpression(value) || ts.isParenthesizedExpression(value)) value = value.expression;
+            if (ts.isObjectLiteralExpression(value)) {
+                for (const property of value.properties) {
+                    if (!ts.isPropertyAssignment(property)) continue;
+                    if (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name))
+                        keys.add(property.name.text);
                 }
             }
         }
@@ -85,7 +108,9 @@ const errors: string[] = [];
 const missingJapanese = [...english.keys()].filter((key) => !japanese.has(key));
 const japaneseOnly = [...japanese.keys()].filter((key) => !english.has(key));
 if (missingJapanese.length > 0) {
-    errors.push(`English catalogue entries missing from Japanese (${missingJapanese.length}):\n${missingJapanese.join("\n")}`);
+    errors.push(
+        `English catalogue entries missing from Japanese (${missingJapanese.length}):\n${missingJapanese.join("\n")}`
+    );
 }
 if (japaneseOnly.length > 0) {
     errors.push(`Japanese-only catalogue entries (${japaneseOnly.length}):\n${japaneseOnly.join("\n")}`);
@@ -118,11 +143,15 @@ for (const [key, englishValue] of english) {
         .map(([placeholder]) => canonicalisePlaceholder(placeholder))
         .sort();
     if (englishPlaceholders.join("\0") !== japanesePlaceholders.join("\0")) {
-        placeholderMismatches.push(`${key}: English [${englishPlaceholders.join(", ")}], Japanese [${japanesePlaceholders.join(", ")}]`);
+        placeholderMismatches.push(
+            `${key}: English [${englishPlaceholders.join(", ")}], Japanese [${japanesePlaceholders.join(", ")}]`
+        );
     }
 }
 if (placeholderMismatches.length > 0) {
-    errors.push(`Catalogue entries with mismatched placeholders (${placeholderMismatches.length}):\n${placeholderMismatches.join("\n")}`);
+    errors.push(
+        `Catalogue entries with mismatched placeholders (${placeholderMismatches.length}):\n${placeholderMismatches.join("\n")}`
+    );
 }
 
 for (const locale of ["en", "ja"]) {
@@ -138,15 +167,45 @@ for (const locale of ["en", "ja"]) {
     }
 }
 
-const provisionalSource = fs.readFileSync(path.join(root, "src/common/messages/LiveSyncProvisionalMessages.ts"), "utf8");
+const provisionalSource = fs.readFileSync(
+    path.join(root, "src/common/messages/LiveSyncProvisionalMessages.ts"),
+    "utf8"
+);
 if (containsJapanese(provisionalSource)) {
-    errors.push("LiveSyncProvisionalMessages.ts contains Japanese text. Provisional messages must remain English fallbacks.");
+    errors.push(
+        "LiveSyncProvisionalMessages.ts contains Japanese text. Provisional messages must remain English fallbacks."
+    );
 }
 
-const knownKeys = new Set([...english.keys(), ...provisionalKeys(), ...Object.keys(commonlibEnglishMessages)]);
+const provisional = provisionalKeys();
+const hatchJapaneseText = objectLiteralKeys(
+    path.join(root, "src/modules/features/SettingDialogue/PaneHatch.ts"),
+    "hatchJapaneseText"
+);
+const knownKeys = new Set([...english.keys(), ...provisional, ...Object.keys(commonlibEnglishMessages)]);
 const forkOnlyCalls: string[] = [];
+const provisionalSettingsCalls: string[] = [];
+const invalidDirectUiTextCalls: string[] = [];
+const sourceOwnedTextWithUpstreamKey: string[] = [];
+const untranslatedHatchProvisionalCalls: string[] = [];
+
+function staticString(node: ts.Expression | undefined): string | undefined {
+    return node && ts.isStringLiteral(node) ? node.text : undefined;
+}
+
+function callName(node: ts.CallExpression): string | undefined {
+    if (ts.isIdentifier(node.expression)) return node.expression.text;
+    if (ts.isPropertyAccessExpression(node.expression)) return node.expression.name.text;
+    return undefined;
+}
+
+function lineOf(source: ts.SourceFile, node: ts.Node): number {
+    return source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1;
+}
+
 for (const filename of collectSourceFiles(path.join(root, "src"))) {
     const source = fs.readFileSync(filename, "utf8");
+    const parsed = ts.createSourceFile(filename, source, ts.ScriptTarget.Latest, true);
     const translationCall = /(?:\$msg|translateMessage)\(\s*(["'])(.*?)\1/g;
     for (const match of source.matchAll(translationCall)) {
         const key = match[2];
@@ -154,10 +213,76 @@ for (const filename of collectSourceFiles(path.join(root, "src"))) {
         const line = source.slice(0, match.index).split(/\r?\n/).length;
         forkOnlyCalls.push(`${path.relative(root, filename)}:${line}: ${key}`);
     }
+
+    const relativeFilename = path.relative(root, filename).split(path.sep).join("/");
+    const visit = (node: ts.Node): void => {
+        if (!ts.isCallExpression(node)) {
+            ts.forEachChild(node, visit);
+            return;
+        }
+
+        const name = callName(node);
+        if (name === "uiText" && relativeFilename !== "src/common/uiText.ts") {
+            const englishText = staticString(node.arguments[0]);
+            const japaneseText = staticString(node.arguments[1]);
+            const location = `${relativeFilename}:${lineOf(parsed, node)}`;
+            if (!englishText || !japaneseText || node.arguments.length !== 2 || !containsJapanese(japaneseText)) {
+                invalidDirectUiTextCalls.push(
+                    `${location}: uiText must have one static English literal and one static Japanese literal.`
+                );
+            } else if (english.has(englishText)) {
+                sourceOwnedTextWithUpstreamKey.push(`${location}: ${englishText}`);
+            }
+        }
+
+        // The settings dialogue is the currently audited UI boundary. An
+        // upstream provisional message is deliberately English-only, so it
+        // must not be rendered through $msg in this Japanese interface.
+        if (
+            relativeFilename.startsWith("src/modules/features/SettingDialogue/") &&
+            (name === "$msg" || name === "catalogueMessage")
+        ) {
+            const key = staticString(node.arguments[0]);
+            if (key && provisional.has(key)) {
+                provisionalSettingsCalls.push(`${relativeFilename}:${lineOf(parsed, node)}: ${key}`);
+            }
+        }
+        if (relativeFilename === "src/modules/features/SettingDialogue/PaneHatch.ts" && name === "hatchText") {
+            const key = staticString(node.arguments[0]);
+            if (key && provisional.has(key) && !hatchJapaneseText.has(key)) {
+                untranslatedHatchProvisionalCalls.push(`${relativeFilename}:${lineOf(parsed, node)}: ${key}`);
+            }
+        }
+        ts.forEachChild(node, visit);
+    };
+    visit(parsed);
 }
 if (forkOnlyCalls.length > 0) {
+    errors.push(`Translation calls with a fork-only key (${forkOnlyCalls.length}):\n${forkOnlyCalls.join("\n")}`);
+}
+if (provisionalSettingsCalls.length > 0) {
     errors.push(
-        `Translation calls with a fork-only key (${forkOnlyCalls.length}):\n${forkOnlyCalls.join("\n")}`
+        `Settings UI calls using an English-only provisional message (${provisionalSettingsCalls.length}):\n` +
+            provisionalSettingsCalls.join("\n") +
+            "\nUse uiText(english, japanese) until upstream adds a catalogue key."
+    );
+}
+if (invalidDirectUiTextCalls.length > 0) {
+    errors.push(
+        `Invalid direct UI translations (${invalidDirectUiTextCalls.length}):\n${invalidDirectUiTextCalls.join("\n")}`
+    );
+}
+if (sourceOwnedTextWithUpstreamKey.length > 0) {
+    errors.push(
+        `Direct UI translations now have an upstream catalogue key (${sourceOwnedTextWithUpstreamKey.length}):\n` +
+            sourceOwnedTextWithUpstreamKey.join("\n") +
+            "\nRemove uiText and use the upstream $msg key instead."
+    );
+}
+if (untranslatedHatchProvisionalCalls.length > 0) {
+    errors.push(
+        `Hatch UI provisional messages missing a direct Japanese translation (${untranslatedHatchProvisionalCalls.length}):\n` +
+            untranslatedHatchProvisionalCalls.join("\n")
     );
 }
 
@@ -165,5 +290,7 @@ if (errors.length > 0) {
     process.stderr.write(`${errors.join("\n\n")}\n`);
     process.exitCode = 1;
 } else {
-    process.stdout.write("Japanese catalogue parity, generated resources, placeholders, and message ownership are valid.\n");
+    process.stdout.write(
+        "Japanese catalogue parity, generated resources, placeholders, and message ownership are valid.\n"
+    );
 }

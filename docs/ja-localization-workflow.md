@@ -55,33 +55,69 @@ npm run i18n:bake
 
 Do not place Japanese text in `LiveSyncProvisionalMessages.ts`. That map is the
 English fallback for every language, not a Japanese catalogue. A provisional
-English message remains English in this fork until upstream gives it a
-catalogue key.
+English message is not an upstream catalogue key. It exists to keep an
+English-only upstream message within the `$msg` type and fallback boundary.
+Do not edit, remove, or add entries to that upstream-owned map in this fork.
+
+An English-only provisional message is permitted for log-only diagnostics, but
+it must not be rendered directly in the Japanese settings interface. Until
+upstream gives the text a catalogue key, render it with `uiText` as described
+below.
 
 ### Direct user-interface text
 
-Upstream still contains user-facing English literals in TypeScript and Svelte
-files. For an English literal which upstream has not made translatable, replace
-that literal directly with Japanese in this fork. This is the intended way to
-localise such text.
+Upstream still contains user-facing English literals and English-only
+provisional messages in TypeScript and Svelte files. For text which upstream
+has not made translatable, use `uiText` in this fork. This is a direct source
+translation, not a catalogue key:
 
-- Change only the displayed text. Keep control flow, data, identifiers,
-  function shape, and message construction unchanged.
-- Do not introduce `$msg(...)`, a new catalogue key, or a provisional message
-  merely to translate an upstream literal.
+```ts
+uiText("Connection settings", "接続設定");
+```
+
+`uiText` returns the Japanese literal only when the display language is
+Japanese; it returns the upstream English literal for every other language.
+Keeping both values at the call site makes the upstream source and the
+temporary Japanese wording traceable.
+
+When one coherent interface panel contains many English-only provisional
+messages, a source-owned English-to-Japanese map may be clearer than repeating
+many pairs inline. Its rendering helper must return the normal `$msg(...)`
+result for messages outside the map, and the translation audit must require a
+Japanese map entry for every static provisional message it renders. Keep this
+map beside that panel; do not move it into the upstream provisional map or a
+fork catalogue.
+
+- Change only the displayed text. Keep control flow, data, identifiers, and
+  message construction unchanged.
+- Do not introduce a new catalogue key or a provisional message merely to
+  translate an upstream literal.
+- Do not call `$msg(...)` for an English-only provisional message in the
+  settings interface. Use `uiText` instead.
 - Do not translate protocol values, URLs, code identifiers, command names
   which must be typed verbatim, product names, or cryptographic algorithm
   names unless upstream already translates them.
 - Include dialogues, Notices, commands, menus, tooltips, placeholders, and
   accessibility text when they are user-facing.
 
-When upstream later replaces a literal with an existing or new `$msg(...)` key:
+`npm run i18n:audit-ja` enforces this rule for the settings interface. It
+rejects a provisional `$msg(...)` call there, validates that every `uiText`
+call contains static English and Japanese literals, rejects a direct pair once
+its English text becomes an upstream catalogue key, and checks the Hatch
+panel's provisional-message map for complete coverage. Extend the same audit
+boundary before adding a new settings or interface renderer; do not rely on a
+manual search alone.
 
-1. Remove the fork's direct Japanese literal.
+When upstream later replaces a direct text with an existing or new `$msg(...)`
+key:
+
+1. Remove the fork's `uiText(...)` call.
 2. Keep the upstream call and implementation unchanged.
-3. Add the Japanese value to `ja.yaml` only if upstream has not already done
+3. Remove the corresponding entry from a source-owned direct-text map, if one
+   is used.
+4. Add the Japanese value to `ja.yaml` only if upstream has not already done
    so.
-4. Regenerate the catalogue artefacts.
+5. Regenerate the catalogue artefacts.
 
 This rule deliberately makes a temporary source diff disappear when upstream
 adopts the message into its translation system.
@@ -122,36 +158,35 @@ Use upstream release tags as the comparison unit.
 
 1. Fetch upstream tags.
 
-   ```powershell
-   git fetch upstream --tags
-   ```
+    ```powershell
+    git fetch upstream --tags
+    ```
 
 2. Compare the previous and new tags, concentrating first on user-visible
    source, YAML catalogues, Markdown, manifest metadata, and build files.
 
-   ```powershell
-   git diff --name-status <old-tag>..<new-tag>
-   git diff <old-tag>..<new-tag> -- src updates.md docs vite.config.ts manifest.json package.json
-   ```
+    ```powershell
+    git diff --name-status <old-tag>..<new-tag>
+    git diff <old-tag>..<new-tag> -- src updates.md docs vite.config.ts manifest.json package.json
+    ```
 
 3. Create an integration branch and merge the new tag.
 
-   ```powershell
-   git switch -c codex/ja-<version>-integration
-   git merge --no-ff <new-tag>
-   ```
+    ```powershell
+    git switch -c codex/ja-<version>-integration
+    git merge --no-ff <new-tag>
+    ```
 
 4. Resolve implementation conflicts in favour of upstream. Preserve only the
    intentional fork differences: Japanese wording, Japanese Markdown
    selection, Japanese manifest metadata, fork release assets, and fork URLs.
 
 5. Review every changed user-facing string.
-
-   - For an upstream `$msg(...)` key, update `ja.yaml` if required.
-   - For an upstream literal, translate the literal directly without changing
-     its structure.
-   - If upstream has promoted a previously direct literal to a key, remove the
-     direct translation and use the YAML rule above.
+    - For an upstream `$msg(...)` key, update `ja.yaml` if required.
+    - For an upstream literal, translate the literal directly without changing
+      its structure.
+    - If upstream has promoted a previously direct literal to a key, remove the
+      direct translation and use the YAML rule above.
 
 6. Compare `en.yaml` and `ja.yaml`. The Japanese catalogue must contain every
    upstream English key and no Japanese-only key. Check placeholders for every
@@ -159,18 +194,18 @@ Use upstream release tags as the comparison unit.
 
 7. Regenerate and validate translations.
 
-   ```powershell
-   npm run i18n:bake
-   npm run i18n:audit-ja
-   ```
+    ```powershell
+    npm run i18n:bake
+    npm run i18n:audit-ja
+    ```
 
 8. Run repository checks.
 
-   ```powershell
-   npm run check
-   npm run test:unit
-   npm run build
-   ```
+    ```powershell
+    npm run check
+    npm run test:unit
+    npm run build
+    ```
 
 9. Inspect the main Obsidian flows manually: initial and additional-device
    setup, CouchDB, Object Storage, and P2P configuration, Fast Setup, rebuild,

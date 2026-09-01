@@ -17,6 +17,7 @@ vi.mock("@/deps.ts", () => ({
 }));
 vi.mock("@/common/translation", () => ({
     $msg: (message: string) => message,
+    currentLang: "def",
 }));
 vi.mock("./LiveSyncSetting.ts", () => ({
     LiveSyncSetting: class {
