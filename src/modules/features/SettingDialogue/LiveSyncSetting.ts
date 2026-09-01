@@ -61,7 +61,7 @@ export class LiveSyncSetting extends Setting {
     override addButton(callback: (button: ButtonComponent) => unknown): this {
         super.addButton((button) => {
             const setButtonText = button.setButtonText.bind(button);
-            button.setButtonText = ((text: string) => setButtonText(localiseUnkeyedSettingsText(text))) as ButtonComponent["setButtonText"];
+            button.setButtonText = (text: string) => setButtonText(localiseUnkeyedSettingsText(text));
             callback(button);
         });
         return this;
@@ -247,7 +247,7 @@ export class LiveSyncSetting extends Setting {
                         key,
                         localiseUnkeyedSettingsText(label as string),
                     ])
-                ) as Record<T, string>
+                )
             );
 
             this.invalidateValue = () => setValue(LiveSyncSetting.env.editingSettings[key] || "");
