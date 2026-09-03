@@ -245,7 +245,9 @@ ja-<upstream-version>
 
 Before tagging:
 
-1. Update `.github/release-notes/ja-release.md`.
+1. Update `.github/release-notes/ja-release.md`. Its first line must be
+   `# Self-hosted LiveSync 日本語版 <upstream-version>`; the release workflow
+   rejects a mismatched title.
 2. Confirm that `manifest.json` contains the upstream version and intended
    Japanese-fork metadata.
 3. Confirm a clean working tree and passing validation.

@@ -63,6 +63,18 @@ jobs:
           ref: ${{ steps.version.outputs.tag }}
           fetch-depth: 0
 
+      - name: Verify release note version
+        shell: bash
+        run: |
+          version="${{ steps.version.outputs.tag }}"
+          version="${version#ja-}"
+          expected="# Self-hosted LiveSync 日本語版 ${version}"
+          actual="$(head -n 1 .github/release-notes/ja-release.md)"
+          if [[ "${actual}" != "${expected}" ]]; then
+            echo "Release-note title must be '${expected}', but was '${actual}'." >&2
+            exit 1
+          fi
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
