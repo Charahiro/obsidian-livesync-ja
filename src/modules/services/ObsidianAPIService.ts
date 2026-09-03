@@ -6,6 +6,7 @@ import { ObsidianConfirm } from "./ObsidianConfirm";
 import type { Confirm } from "@vrtmrz/livesync-commonlib/compat/interfaces/Confirm";
 import { requestUrl, type RequestUrlParam } from "@/deps";
 import { compatGlobal } from "@vrtmrz/livesync-commonlib/compat/common/coreEnvFunctions";
+import { localiseCommandName } from "@/common/commandText.ts";
 // All Services will be migrated to be based on Plain Services, not Injectable Services.
 // This is a migration step.
 
@@ -19,6 +20,9 @@ declare module "obsidian" {
 export class ObsidianAPIService extends InjectableAPIService<ObsidianServiceContext> {
     _customHandler: ObsHttpHandler | undefined;
     _confirmInstance: Confirm;
+    private commandCatalogueReady = false;
+    private readonly pendingCommands: Command[] = [];
+    private readonly registeredCommandNames = new Map<Command, string>();
     constructor(context: ObsidianServiceContext) {
         super(context);
         this._confirmInstance = new ObsidianConfirm(context);
@@ -119,7 +123,34 @@ export class ObsidianAPIService extends InjectableAPIService<ObsidianServiceCont
     }
 
     addCommand<TCommand extends Command>(command: TCommand): TCommand {
-        return this.context.plugin.addCommand(command) as TCommand;
+        if (!this.commandCatalogueReady) {
+            this.pendingCommands.push(command);
+            return command;
+        }
+        return this.registerCommand(command);
+    }
+
+    /**
+     * Finish registering queued commands after persisted display-language
+     * settings have been loaded, then update already registered command names
+     * when the user changes the display language.
+     */
+    activateCommandCatalogue(): void {
+        this.commandCatalogueReady = true;
+        for (const command of this.pendingCommands.splice(0)) {
+            this.registerCommand(command);
+        }
+        for (const [command, englishName] of this.registeredCommandNames) {
+            command.name = localiseCommandName(englishName);
+        }
+    }
+
+    private registerCommand<TCommand extends Command>(command: TCommand): TCommand {
+        const englishName = command.name;
+        command.name = localiseCommandName(englishName);
+        const registered = this.context.plugin.addCommand(command) as TCommand;
+        this.registeredCommandNames.set(command, englishName);
+        return registered;
     }
 
     registerWindow<T>(type: string, factory: (leaf: T) => unknown): void {

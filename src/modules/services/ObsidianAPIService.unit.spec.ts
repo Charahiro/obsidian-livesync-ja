@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
     platform: {
@@ -26,17 +26,23 @@ vi.mock("./ObsidianConfirm", () => ({
 
 import { ObsidianAPIService } from "./ObsidianAPIService";
 import type { ObsidianServiceContext } from "./ObsidianServiceContext";
+import { setLang } from "@/common/translation";
 
-function createService(workspace: Record<string, unknown>, isMobile = false): ObsidianAPIService {
-    return new ObsidianAPIService({
+function createService(workspace: Record<string, unknown>, isMobile = false) {
+    const addCommand = vi.fn((command) => command);
+    const service = new ObsidianAPIService({
         app: { workspace, isMobile },
+        plugin: { addCommand },
     } as unknown as ObsidianServiceContext);
+    return Object.assign(service, { __testAddCommand: addCommand });
 }
 
 beforeEach(() => {
     mocks.platform.isMobile = false;
     vi.clearAllMocks();
 });
+
+afterEach(() => setLang("def"));
 
 describe("ObsidianAPIService.showWindowOnRight", () => {
     it("keeps the status view in the right leaf on mobile", async () => {
@@ -63,5 +69,35 @@ describe("ObsidianAPIService.showWindowOnRight", () => {
             active: false,
         });
         expect(workspace.revealLeaf).toHaveBeenCalledWith(rightLeaf);
+    });
+});
+
+describe("ObsidianAPIService command localisation", () => {
+    it("waits for the saved display language before registering a command", () => {
+        const service = createService({});
+        const command = { id: "view-log", name: "Show log", callback: vi.fn() };
+
+        service.addCommand(command);
+        expect(service.__testAddCommand).not.toHaveBeenCalled();
+
+        setLang("ja");
+        service.activateCommandCatalogue();
+
+        expect(command.name).toBe("ログを表示");
+        expect(service.__testAddCommand).toHaveBeenCalledOnce();
+    });
+
+    it("uses the catalogue for keyed command names and updates them after a language change", () => {
+        const service = createService({});
+        const command = { id: "resolve", name: "Pick a file to resolve conflict", callback: vi.fn() };
+
+        service.addCommand(command);
+        setLang("ja");
+        service.activateCommandCatalogue();
+        expect(command.name).toBe("競合を解決するファイルを選択");
+
+        setLang("def");
+        service.activateCommandCatalogue();
+        expect(command.name).toBe("Pick a file to resolve conflict");
     });
 });

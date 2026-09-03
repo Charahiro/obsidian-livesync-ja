@@ -45,6 +45,18 @@ function collectSourceFiles(directory: string, files: string[] = []): string[] {
     return files;
 }
 
+function collectJavaScriptFiles(directory: string, files: string[] = []): string[] {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+        const filename = path.join(directory, entry.name);
+        if (entry.isDirectory()) {
+            if (!entry.name.startsWith(".")) collectJavaScriptFiles(filename, files);
+        } else if (/\.js$/.test(entry.name)) {
+            files.push(filename);
+        }
+    }
+    return files;
+}
+
 function provisionalKeys(): Set<string> {
     const filename = path.join(root, "src/common/messages/LiveSyncProvisionalMessages.ts");
     const sourceText = fs.readFileSync(filename, "utf8");
@@ -239,6 +251,10 @@ const settingsJapaneseText = objectLiteralKeys(
     path.join(root, "src/modules/features/SettingDialogue/settingConstants.ts"),
     "unkeyedJapaneseSettingsText"
 );
+const commandJapaneseText = objectLiteralKeys(
+    path.join(root, "src/common/commandText.ts"),
+    "unkeyedJapaneseCommandText"
+);
 const commonlibSettingText = commonlibSettingTextByKey();
 const untranslatedCommonlibSettingsText: string[] = [];
 for (const settingKey of commonlibSettingsRenderedInDialogue()) {
@@ -253,9 +269,10 @@ const provisionalSettingsCalls: string[] = [];
 const invalidDirectUiTextCalls: string[] = [];
 const sourceOwnedTextWithUpstreamKey: string[] = [];
 const untranslatedHatchProvisionalCalls: string[] = [];
+const untranslatedCommandNames: string[] = [];
 
 function staticString(node: ts.Expression | undefined): string | undefined {
-    return node && ts.isStringLiteral(node) ? node.text : undefined;
+    return node && (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) ? node.text : undefined;
 }
 
 function callName(node: ts.CallExpression): string | undefined {
@@ -266,6 +283,38 @@ function callName(node: ts.CallExpression): string | undefined {
 
 function lineOf(source: ts.SourceFile, node: ts.Node): number {
     return source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1;
+}
+
+function commandName(node: ts.CallExpression): string | undefined {
+    if (callName(node) !== "addCommand") return undefined;
+    const definition = node.arguments[0];
+    if (!definition || !ts.isObjectLiteralExpression(definition)) return undefined;
+    for (const property of definition.properties) {
+        if (!ts.isPropertyAssignment(property)) continue;
+        if (!ts.isIdentifier(property.name) && !ts.isStringLiteral(property.name)) continue;
+        if (property.name.text !== "name") continue;
+        const direct = staticString(property.initializer);
+        if (direct) return direct;
+        if (ts.isCallExpression(property.initializer) && callName(property.initializer) === "$msg") {
+            return staticString(property.initializer.arguments[0]);
+        }
+    }
+    return undefined;
+}
+
+function collectCommandNames(filename: string): string[] {
+    const sourceText = fs.readFileSync(filename, "utf8");
+    const source = ts.createSourceFile(filename, sourceText, ts.ScriptTarget.Latest, true);
+    const names: string[] = [];
+    const visit = (node: ts.Node): void => {
+        if (ts.isCallExpression(node)) {
+            const name = commandName(node);
+            if (name) names.push(name);
+        }
+        ts.forEachChild(node, visit);
+    };
+    visit(source);
+    return names;
 }
 
 for (const filename of collectSourceFiles(path.join(root, "src"))) {
@@ -354,6 +403,24 @@ if (untranslatedCommonlibSettingsText.length > 0) {
     errors.push(
         `Visible Commonlib settings missing a Japanese source translation (${untranslatedCommonlibSettingsText.length}):\n` +
             untranslatedCommonlibSettingsText.join("\n")
+    );
+}
+
+const commandSourceFiles = [
+    ...collectSourceFiles(path.join(root, "src")),
+    ...collectJavaScriptFiles(path.join(root, "node_modules/@vrtmrz/livesync-commonlib/dist")),
+];
+for (const filename of commandSourceFiles) {
+    for (const name of collectCommandNames(filename)) {
+        if (containsJapanese(name) || english.has(name) || commandJapaneseText.has(name)) continue;
+        untranslatedCommandNames.push(`${path.relative(root, filename)}: ${name}`);
+    }
+}
+if (untranslatedCommandNames.length > 0) {
+    errors.push(
+        `User-facing command names missing a Japanese source translation (${untranslatedCommandNames.length}):\n` +
+            untranslatedCommandNames.join("\n") +
+            "\nAdd a source-owned entry to unkeyedJapaneseCommandText, or use an upstream catalogue key."
     );
 }
 

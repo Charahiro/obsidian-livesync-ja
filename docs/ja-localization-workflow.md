@@ -97,6 +97,15 @@ Settings dialogue, and fails if an unkeyed visible name or description has no
 entry in that source-owned map. When upstream or Commonlib assigns a catalogue
 key, remove the map entry and use that key instead.
 
+Commands are another separate boundary. Commands may be registered before
+persisted settings are loaded, including commands registered by Commonlib. The
+Obsidian API service therefore queues registrations until `displayLanguage` is
+known, then resolves a catalogue key where one exists. English-only command
+literals are kept in `src/common/commandText.ts` as a source-owned map. Do not
+change Commonlib to carry fork wording, and do not add a YAML key for these
+names. When upstream provides a key, remove the map entry and let the normal
+catalogue path handle it.
+
 - Change only the displayed text. Keep control flow, data, identifiers, and
   message construction unchanged.
 - Do not introduce a new catalogue key or a provisional message merely to
@@ -109,13 +118,15 @@ key, remove the map entry and use that key instead.
 - Include dialogues, Notices, commands, menus, tooltips, placeholders, and
   accessibility text when they are user-facing.
 
-`npm run i18n:audit-ja` enforces this rule for the settings interface. It
-rejects a provisional `$msg(...)` call there, validates that every `uiText`
+`npm run i18n:audit-ja` enforces this rule for the settings interface and
+registered commands. It rejects a provisional `$msg(...)` call there, validates that every `uiText`
 call contains static English and Japanese literals, rejects a direct pair once
 its English text becomes an upstream catalogue key, and checks the Hatch
-panel's provisional-message map for complete coverage. Extend the same audit
-boundary before adding a new settings or interface renderer; do not rely on a
-manual search alone.
+panel's provisional-message map for complete coverage. It also inspects this
+repository's and the installed Commonlib's static command registrations, and
+fails when an unkeyed English command name lacks a source-owned Japanese map
+entry. Extend the same audit boundary before adding a new settings or interface
+renderer; do not rely on a manual search alone.
 
 When upstream later replaces a direct text with an existing or new `$msg(...)`
 key:
@@ -241,9 +252,12 @@ Before tagging:
 4. Build once locally and confirm that `main.js`, `manifest.json`, and
    `styles.css` exist.
 
-The workflow at `.github/workflows/release.yml` runs for `ja-*` tags. It
-installs dependencies, builds, attests the artefacts, verifies the BRAT files,
-creates a ZIP package, and publishes the GitHub Release.
+The workflow at `.github/workflows/release.yml` runs for `ja-*` tags. It first
+calls the complete `unit-ci` workflow against the exact tagged commit. Only
+after every verification job succeeds does it install dependencies, build,
+attest the artefacts, verify the BRAT files, create a ZIP package, and publish
+the GitHub Release. A normal push to `ja-localization` continues to run CI
+only and does not publish a release.
 
 Suggested sequence after review and approval:
 

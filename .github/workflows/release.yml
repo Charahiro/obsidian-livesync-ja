@@ -16,11 +16,19 @@ permissions:
   attestations: write
 
 concurrency:
-  group: release-${{ github.ref_name || inputs.tag }}
+  group: release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
+  verify:
+    uses: ./.github/workflows/unit-ci.yml
+    with:
+      ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.ref }}
+    permissions:
+      contents: read
+
   release:
+    needs: verify
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -39,6 +47,11 @@ jobs:
 
           if [[ -z "${tag}" ]]; then
             echo "Release tag is required." >&2
+            exit 1
+          fi
+
+          if [[ "${tag}" != ja-* ]]; then
+            echo "Release tag must start with 'ja-'." >&2
             exit 1
           fi
 

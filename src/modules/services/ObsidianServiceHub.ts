@@ -45,7 +45,10 @@ export class ObsidianServiceHub extends InjectableServiceHub<ObsidianServiceCont
 
         const setting = new ObsidianSettingService(context, {
             APIService: API,
-            onDisplayLanguageChanged: setLang,
+            onDisplayLanguageChanged: (language) => {
+                setLang(language);
+                API.activateCommandCatalogue();
+            },
         });
         const appLifecycle = new ObsidianAppLifecycleService(context, {
             settingService: setting,
