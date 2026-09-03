@@ -50,12 +50,13 @@ jobs:
             exit 1
           fi
 
-          if [[ "${tag}" != ja-* ]]; then
-            echo "Release tag must start with 'ja-'." >&2
+          if [[ ! "${tag}" =~ ^ja-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must use the stable form 'ja-X.Y.Z'." >&2
             exit 1
           fi
 
           echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
+          echo "upstream_version=${tag#ja-}" >> "${GITHUB_OUTPUT}"
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,6 +75,22 @@ jobs:
             echo "Release-note title must be '${expected}', but was '${actual}'." >&2
             exit 1
           fi
+
+      - name: Mirror upstream pre-release status
+        id: upstream_release
+        shell: bash
+        env:
+          UPSTREAM_VERSION: ${{ steps.version.outputs.upstream_version }}
+        run: |
+          response="$(curl --fail --silent --show-error --location --retry 3 \
+            --header 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/vrtmrz/obsidian-livesync/releases/tags/${UPSTREAM_VERSION}")"
+          prerelease="$(jq -r '.prerelease' <<< "${response}")"
+          if [[ "${prerelease}" != 'true' && "${prerelease}" != 'false' ]]; then
+            echo "Upstream release metadata has no valid prerelease value." >&2
+            exit 1
+          fi
+          echo "prerelease=${prerelease}" >> "${GITHUB_OUTPUT}"
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -138,4 +155,5 @@ jobs:
           tag_name: ${{ steps.version.outputs.tag }}
           body_path: .github/release-notes/ja-release.md
           draft: false
+          prerelease: ${{ steps.upstream_release.outputs.prerelease }}
           fail_on_unmatched_files: true

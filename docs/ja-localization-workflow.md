@@ -243,6 +243,12 @@ Use a Japanese tag in this form:
 ja-<upstream-version>
 ```
 
+Only upstream tags in the exact numeric form `X.Y.Z` are release candidates.
+Process them in version order. A candidate whose upstream GitHub Release is
+marked as a pre-release is published as the corresponding Japanese pre-release.
+Skip beta, release-candidate, patch, and other suffix-tagged versions such as
+`X.Y.Z-beta.1`, `X.Y.Z-rc.1`, and `X.Y.Z-patch.1`.
+
 Before tagging:
 
 1. Update `.github/release-notes/ja-release.md`. Its first line must be
@@ -259,7 +265,9 @@ calls the complete `unit-ci` workflow against the exact tagged commit. Only
 after every verification job succeeds does it install dependencies, build,
 attest the artefacts, verify the BRAT files, create a ZIP package, and publish
 the GitHub Release. A normal push to `ja-localization` continues to run CI
-only and does not publish a release.
+only and does not publish a release. The release workflow reads the upstream
+GitHub Release metadata and mirrors its pre-release status; it rejects a fork
+tag that is not exactly `ja-X.Y.Z`.
 
 Suggested sequence after review and approval:
 
