@@ -189,7 +189,7 @@ export function paneHatch(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement,
                     .setDisabled(false)
                     .onClick(() => {
                         this.closeSetting();
-                        eventHub.emitEvent(EVENT_REQUEST_RUN_DOCTOR, "you wanted(Thank you)!");
+                        eventHub.emitEvent(EVENT_REQUEST_RUN_DOCTOR, catalogueMessage("you wanted(Thank you)!"));
                     })
             );
         new Setting(paneEl)

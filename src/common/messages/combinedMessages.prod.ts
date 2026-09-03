@@ -153,16 +153,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "（正则表达式）如果已设置，则所有匹配此模式的本地和远端文件变更都会被跳过。",
         "zh-tw": "（正則表示式）若已設定，所有符合此模式的本機與遠端檔案變更都會被略過。",
     },
-    "(Select this if you are already using synchronisation on another computer or smartphone.) This option is suitable if you are new to LiveSync and want to set it up from scratch.":
+    "(Select this if you already have another synchronising device.) This option adds this device to the same synchronisation.":
         {
-            def: "(Select this if you are already using synchronisation on another computer or smartphone.) This option is suitable if you are new to LiveSync and want to set it up from scratch.",
-            es: "(Seleccione esto si ya utiliza la sincronización en otro ordenador o teléfono). Esta opción es adecuada si desea añadir este dispositivo a una configuración de LiveSync existente。",
-            ja: "（別の PC やスマートフォンですでに同期を利用している場合に選択してください。）この端末を既存の LiveSync 構成に追加する場合に適しています。",
-            ko: "(다른 컴퓨터나 스마트폰에서 이미 동기화를 사용 중이라면 선택하세요.) 이 기기를 기존 LiveSync 구성에 추가하려는 경우에 적합합니다.",
-            ru: "(Выберите этот вариант, если вы уже используете синхронизацию на другом компьютере или смартфоне.) Он подходит, если вы хотите добавить это устройство к уже существующей конфигурации LiveSync。",
-            zh: "（如果你已经在另一台电脑或手机上使用同步，请选择此项。）此选项适合将当前设备加入现有 LiveSync 配置的用户。",
-            "zh-tw":
-                "（如果你已經在另一台電腦或手機上使用同步，請選擇此項。）此選項適合將目前裝置加入既有 LiveSync 設定的使用者。",
+            def: "(Select this if you already have another synchronising device.) This option adds this device to the same synchronisation.",
+            ja: "（別の同期済み端末がある場合に選択してください。）この端末を同じ同期構成に追加します。",
         },
     "(Select this if you are configuring this device as the first synchronisation device.) This option is suitable if you are new to LiveSync and want to set it up from scratch.":
         {
@@ -792,6 +786,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "检查尚未转换为路径混淆 ID 的文档，并在需要时将其转换。",
         "zh-tw": "檢查尚未轉換為路徑混淆 ID 的文件，並在需要時進行轉換。",
     },
+    "Check server requirements": {
+        def: "Check server requirements",
+        es: "Comprobar los requisitos del servidor",
+        ja: "サーバー要件を確認",
+    },
     "Checking connection... Please wait.": {
         def: "Checking connection... Please wait.",
         es: "Comprobando la conexión... Espera un momento.",
@@ -1056,6 +1055,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "연결",
         "zh-tw": "連線",
     },
+    "Connect to existing database and continue": {
+        def: "Connect to existing database and continue",
+        es: "Conectar a la base de datos existente y continuar",
+        ja: "既存のデータベースに接続して続行",
+    },
     "Connected to Signaling Server (as Peer ID: ${peerId})": {
         def: "Connected to Signaling Server (as Peer ID: ${peerId})",
         es: "Conectado al servidor de señalización (como ID de par: ${peerId})",
@@ -1162,6 +1166,16 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ru: "Настройки подключения CouchDB",
         zh: "CouchDB 连接调优",
         "zh-tw": "CouchDB 連線調校",
+    },
+    "CouchDB validates the database name when you connect. The name must not be empty.": {
+        def: "CouchDB validates the database name when you connect. The name must not be empty.",
+        es: "CouchDB valida el nombre de la base de datos al conectar. El nombre no puede estar vacío.",
+        ja: "CouchDB は接続時にデータベース名を検証します。名前を空にすることはできません。",
+    },
+    "Create or connect to database and continue": {
+        def: "Create or connect to database and continue",
+        es: "Crear o conectar a la base de datos y continuar",
+        ja: "データベースを作成または接続して続行",
     },
     "Create P2P remote": {
         def: "Create P2P remote",
@@ -1521,7 +1535,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "dialog.yourLanguageAvailable": {
         def: "Self-hosted LiveSync had translations for your language, so the %{Display language} setting was enabled.\n\nNote: Not all messages are translated. We are waiting for your contributions!\nNote 2: If you create an Issue, **please revert to Default** and then take screenshots, messages and logs. This can be done in the setting dialogue.\nMay you find it easy to use!",
-        es: "Self-hosted LiveSync tenía traducciones para tu idioma, así que se ha activado el ajuste %{Display language}.\n\nNota: no todos los mensajes están traducidos. ¡Esperamos tus contribuciones!\nNota 2: si abres una incidencia, **vuelve antes a Predeterminado** y luego haz las capturas de pantalla y recoge los mensajes y registros. Puedes hacerlo desde el diálogo de ajustes.\n¡Que lo disfrutes!",
+        es: "Self-hosted LiveSync tenía traducciones para tu idioma, así que se ha activado el ajuste Idioma de visualización.\n\nNota: no todos los mensajes están traducidos. ¡Esperamos tus contribuciones!\nNota 2: si abres una incidencia, **vuelve antes a Predeterminado** y luego haz las capturas de pantalla y recoge los mensajes y registros. Puedes hacerlo desde el diálogo de ajustes.\n¡Que lo disfrutes!",
         fr: "Self-hosted LiveSync dispose d'une traduction pour votre langue, le paramètre %{Display language} a donc été activé.\n\nNote : Tous les messages ne sont pas traduits. Nous attendons vos contributions !\nNote 2 : Si vous créez un ticket, **veuillez revenir à Par défaut** puis prendre des captures d'écran, messages et journaux. Cela peut être fait dans la boîte de dialogue des paramètres.\nBonne utilisation !",
         he: "ל-Self-hosted LiveSync יש תרגום לשפתך, ולכן הגדרת %{Display language} הופעלה.\n\nהערה: לא כל ההודעות מתורגמות. אנחנו ממתינים לתרומותיך!\nהערה 2: אם אתה פותח Issue, **אנא חזור ל-%{lang-def}** ואז צלם צילומי מסך, הודעות ויומנים. ניתן לעשות זאת בדיאלוג ההגדרות.\nנקווה שתמצא/י את הפלאגין נוח לשימוש!",
         ja: "Self-hosted LiveSync に設定されている言語の翻訳があったため、インターフェースの表示言語設定を有効にしました。\n\n注意： 全てのメッセージは翻訳されていません。あなたの貢献をお待ちしています！\nGithubにIssueを作成する際には、表示言語設定を一旦 Default に戻してから、スクショやメッセージ、ログを収集してください。これは設定から変更できます。\n\n便利に使用できれば幸いです。",
@@ -2132,6 +2146,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "增大块大小",
         "zh-tw": "擴大 chunk 大小",
     },
+    "Enter a complete HTTP or HTTPS URL.": {
+        def: "Enter a complete HTTP or HTTPS URL.",
+        es: "Introduce una URL HTTP o HTTPS completa.",
+        ja: "完全な HTTP または HTTPS URL を入力してください。",
+    },
     "Enter a folder prefix (optional)": {
         def: "Enter a folder prefix (optional)",
         es: "Introduce un prefijo de carpeta (opcional)",
@@ -2667,6 +2686,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ja: "該当しない項目を非表示にする",
         ko: "해당 없는 항목 숨기기",
         "zh-tw": "隱藏不適用的項目",
+    },
+    "Hide password": {
+        def: "Hide password",
+        es: "Ocultar contraseña",
+        ja: "パスワードを隠す",
     },
     "Higher (${local} > ${remote})": {
         def: "Higher (${local} > ${remote})",
@@ -5572,7 +5596,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.logConfiguredLiveSync": {
         def: "Configured synchronization mode: LiveSync",
-        es: "Modo de sincronización configurado: Sincronización en Vivo",
+        es: "Modo de sincronización configurado: Sincronización en vivo",
         fr: "Mode de synchronisation configuré : LiveSync",
         he: "מצב סנכרון שהוגדר: LiveSync",
         ja: "設定された同期モード: LiveSync",
@@ -6185,7 +6209,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.nameTestDatabaseConnection": {
         def: "Test Database Connection",
-        es: "Probar Conexión de Base de Datos",
+        es: "Probar conexión de base de datos",
         fr: "Tester la connexion à la base de données",
         he: "בדוק חיבור למסד נתונים",
         ja: "データベース接続テスト",
@@ -6196,7 +6220,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.nameValidateDatabaseConfig": {
         def: "Validate Database Configuration",
-        es: "Validar Configuración de la Base de Datos",
+        es: "Validar configuración de la base de datos",
         fr: "Valider la configuration de la base de données",
         he: "אמת תצורת מסד נתונים",
         ja: "データベース設定を検証",
@@ -6504,7 +6528,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.panelGeneralSettings": {
         def: "General Settings",
-        es: "Configuraciones Generales",
+        es: "Configuraciones generales",
         fr: "Paramètres généraux",
         he: "הגדרות כלליות",
         ja: "一般設定",
@@ -6515,7 +6539,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.panelPrivacyEncryption": {
         def: "Privacy & Encryption",
-        es: "Privacidad y Cifrado",
+        es: "Privacidad y cifrado",
         fr: "Confidentialité et chiffrement",
         he: "פרטיות והצפנה",
         ja: "プライバシーと暗号化",
@@ -6851,7 +6875,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
     },
     "obsidianLiveSyncSettingTab.titleSyncSettings": {
         def: "Sync Settings",
-        es: "Configuraciones de Sincronización",
+        es: "Configuraciones de sincronización",
         fr: "Paramètres de synchronisation",
         he: "הגדרות סנכרון",
         ja: "同期設定",
@@ -8654,6 +8678,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             zh: "将设置保存到一个 Markdown 文件中。当新设置到达时,您将收到通知。您可以根据平台设置不同的文件 ",
             "zh-tw": "將設定儲存到 Markdown 檔案中。有新設定送達時會通知你，可依平台設定不同的檔案。",
         },
+    "Save without connecting": {
+        def: "Save without connecting",
+        es: "Guardar sin conectar",
+        ja: "接続せずに保存",
+    },
     "Saving will be performed forcefully after this number of seconds.": {
         def: "Saving will be performed forcefully after this number of seconds.",
         es: "Guardado forzado tras esta cantidad de segundos",
@@ -8665,6 +8694,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "在此秒数后将强制执行保存 ",
         "zh-tw": "經過這個秒數後，會強制執行儲存。",
     },
+    "Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected.":
+        {
+            def: "Saving without a successful connection test keeps this profile, but automatic synchronisation may fail until the connection is corrected.",
+            es: "Guardar sin una prueba de conexión correcta conserva este perfil, pero la sincronización automática puede fallar hasta que se corrija la conexión.",
+            ja: "接続テストに成功せずに保存しても、このプロファイルは保持されます。ただし、接続を修正するまで自動同期に失敗する可能性があります。",
+        },
     "Scan a QR Code (Recommended for mobile)": {
         def: "Scan a QR Code (Recommended for mobile)",
         es: "Escanear un código QR (recomendado para móviles)",
@@ -9701,6 +9736,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "仅显示通知",
         "zh-tw": "僅顯示通知",
     },
+    "Show password": {
+        def: "Show password",
+        es: "Mostrar contraseña",
+        ja: "パスワードを表示",
+    },
     "Show status as icons only": {
         def: "Show status as icons only",
         es: "Mostrar estado solo con íconos",
@@ -10076,6 +10116,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "目标模式",
         "zh-tw": "目標模式",
     },
+    "Test connection and save": {
+        def: "Test connection and save",
+        es: "Probar la conexión y guardar",
+        ja: "接続をテストして保存",
+    },
     "Test Settings and Continue": {
         def: "Test Settings and Continue",
         es: "Probar los ajustes y continuar",
@@ -10321,6 +10366,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             "zh-tw":
                 "此功能可在裝置之間直接同步，無需伺服器；但同步時兩台裝置必須同時在線，且部分功能可能受限。網際網路連線僅用於訊號交換（偵測對端），不用於資料傳輸。",
         },
+    "This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI.":
+        {
+            def: "This first setup has several short steps because it confirms encryption, the connection method, and which device provides the initial data. Once it is complete, additional devices can reuse a Setup URI.",
+            es: "Esta primera configuración consta de varios pasos breves, ya que confirma el cifrado, el método de conexión y qué dispositivo aporta los datos iniciales. Una vez completada, los demás dispositivos podrán reutilizar un Setup URI.",
+            ja: "最初の設定には、暗号化、接続方法、初期データを提供する端末を確認するための短い手順がいくつかあります。完了後は、追加する端末で Setup URI を再利用できます。",
+        },
     "This is an advanced option for users who do not have a URI or who wish to configure detailed settings.": {
         def: "This is an advanced option for users who do not have a URI or who wish to configure detailed settings.",
         es: "Esta es una opción avanzada para usuarios que no disponen de un URI o que desean configurar parámetros detallados。",
@@ -10347,6 +10398,12 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             ru: "Это наиболее подходящий для данной архитектуры способ синхронизации. Доступны все функции. Необходимо заранее развернуть экземпляр CouchDB。",
             zh: "这是最符合当前设计的同步方式，所有功能均可用。你需要事先部署好 CouchDB 实例。",
             "zh-tw": "這是最符合目前設計的同步方式，所有功能皆可使用。你需要事先部署好 CouchDB 實例。",
+        },
+    "This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required.":
+        {
+            def: "This optional check uses Obsidian's internal request API and sends the credentials above to the CouchDB server. Use it only with a server you trust; administrator access may be required.",
+            es: "Esta comprobación opcional usa la API interna de solicitudes de Obsidian y envía las credenciales anteriores al servidor CouchDB. Utilízala solo con un servidor de confianza; puede requerir acceso de administrador.",
+            ja: "この任意の確認では Obsidian の内部リクエスト API を使用し、上記の認証情報を CouchDB サーバーへ送信します。信頼できるサーバーでのみ使用してください。管理者アクセスが必要となる場合があります。",
         },
     "This passphrase will not be copied to another device. It will be set to `Default` until you configure it again.": {
         def: "This passphrase will not be copied to another device. It will be set to `Default` until you configure it again.",
@@ -13329,6 +13386,20 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             ko: "이 작업은 서버 데이터가 완전히 손상된 경우, 다른 모든 기기의 변경 사항이 더 이상 필요하지 않은 경우, 또는 데이터베이스 크기가 보관함 크기에 비해 비정상적으로 커진 경우처럼 예외적인 상황에서만 수행해야 합니다.",
             "zh-tw":
                 "只有在特殊情況下才應執行此操作，例如伺服器資料已完全損毀、其他所有裝置上的變更都已不再需要，或資料庫大小相對於 Vault 大小已變得異常龐大時。",
+        },
+    "you wanted(Thank you)!": {
+        def: "you wanted(Thank you)!",
+        es: "tu solicitud (¡gracias!)",
+        ja: "ご希望どおりです（ありがとうございます）！",
+    },
+    "(Select this if another device is already using LiveSync.) This option adds this device to that existing synchronisation setup.":
+        {
+            es: "(Seleccione esto si ya utiliza la sincronización en otro ordenador o teléfono). Esta opción es adecuada si desea añadir este dispositivo a una configuración de LiveSync existente。",
+            ko: "(다른 컴퓨터나 스마트폰에서 이미 동기화를 사용 중이라면 선택하세요.) 이 기기를 기존 LiveSync 구성에 추가하려는 경우에 적합합니다.",
+            ru: "(Выберите этот вариант, если вы уже используете синхронизацию на другом компьютере или смартфоне.) Он подходит, если вы хотите добавить это устройство к уже существующей конфигурации LiveSync。",
+            zh: "（如果你已经在另一台电脑或手机上使用同步，请选择此项。）此选项适合将当前设备加入现有 LiveSync 配置的用户。",
+            "zh-tw":
+                "（如果你已經在另一台電腦或手機上使用同步，請選擇此項。）此選項適合將目前裝置加入既有 LiveSync 設定的使用者。",
         },
     "Compute revisions for chunks (Previous behaviour)": {
         es: "Calcular revisiones para chunks (comportamiento anterior)",
