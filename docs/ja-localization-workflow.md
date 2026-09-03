@@ -274,6 +274,22 @@ git push origin ja-<version>
 Do not create or push a release tag until the release notes and tagged commit
 are final.
 
+### Correcting a published release body
+
+If only the published GitHub Release text is incorrect, update
+`.github/release-notes/ja-release.md`, commit and push the correction to
+`ja-localization`, then update the existing release without moving its tag or
+rebuilding its assets:
+
+```powershell
+gh release edit ja-<upstream-version> --notes-file .github/release-notes/ja-release.md
+gh release view ja-<upstream-version> --json tagName,body,url
+```
+
+Confirm that the returned `tagName` and the first line of `body` contain the
+same upstream version. Do not recreate the release, force-move the tag, or
+upload replacement artefacts for a text-only correction.
+
 ## Fork completion
 
 At each upstream release, check whether the fork still has a purpose. Archive
