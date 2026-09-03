@@ -3,10 +3,9 @@ import { compatGlobal } from "@vrtmrz/livesync-commonlib/compat/common/coreEnvFu
 import { EVENT_LAYOUT_READY } from "@vrtmrz/livesync-commonlib/compat/events/coreEvents";
 import type { PeerStatus } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/P2PReplicatorPaneCommon";
 import { P2PLogCollector } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/P2PLogCollector";
-import type { LiveSyncTrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/LiveSyncTrysteroReplicator";
-import type { UseP2PReplicatorResult } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/UseP2PReplicatorResult";
 import { useP2PReplicatorFeature } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/useP2PReplicatorFeature";
 import { ServiceContext, type LiveSyncEventHub } from "@vrtmrz/livesync-commonlib/context";
+import type { P2PServiceViews } from "@vrtmrz/livesync-commonlib/p2p";
 import { unique } from "octagonal-wheels/collection";
 import type { SimpleStore } from "octagonal-wheels/databases/SimpleStoreBase";
 
@@ -48,7 +47,7 @@ function removeFromList(item: string, list: string): string {
 export class WebPeerRuntime {
     readonly context: ServiceContext;
     readonly services: LiveSyncBrowserServiceHub<ServiceContext>;
-    readonly p2p: UseP2PReplicatorResult;
+    readonly p2p: P2PServiceViews;
     readonly p2pLogCollector: P2PLogCollector;
     readonly paneHost: P2PReplicatorPaneHost;
 
@@ -87,10 +86,6 @@ export class WebPeerRuntime {
         return this.context.events;
     }
 
-    get currentReplicator(): LiveSyncTrysteroReplicator {
-        return this.p2p.replicator;
-    }
-
     get settings(): P2PSyncSetting {
         return this.services.setting.currentSettings();
     }
@@ -119,9 +114,7 @@ export class WebPeerRuntime {
         }
         this.services.appLifecycle.markIsReady();
         this.events.emitEvent(EVENT_LAYOUT_READY);
-        if (this.settings.P2P_AutoStart && this.settings.P2P_Enabled) {
-            compatGlobal.setTimeout(() => void this.currentReplicator.open(), 100);
-        }
+        await this.services.appLifecycle.onResumed();
         return this;
     }
 
@@ -150,28 +143,28 @@ export class WebPeerRuntime {
         this.menu?.hide();
         this.menu = new Menu()
             .addItem((item) =>
-                item.setTitle("📥 取得のみ").onClick(async () => {
-                    await this.currentReplicator.replicateFrom(peer.peerId);
+                item.setTitle("📥 Only fetch").onClick(async () => {
+                    await this.p2p.targetedTransfer.pullFromPeer(peer.peerId);
                 })
             )
             .addItem((item) =>
-                item.setTitle("📤 送信のみ").onClick(async () => {
-                    await this.currentReplicator.requestSynchroniseToPeer(peer.peerId);
+                item.setTitle("📤 Only send").onClick(async () => {
+                    await this.p2p.targetedTransfer.requestPushToPeer(peer.peerId);
                 })
             )
             .addSeparator()
             .addItem((item) => {
-                item.setTitle("接続時の同期を切り替え")
+                item.setTitle("Toggle sync on connect")
                     .onClick(() => this.togglePeerSetting(peer, "syncOnConnect"))
                     .setIcon(peer.syncOnConnect ? "checkmark" : null);
             })
             .addItem((item) => {
-                item.setTitle("接続時の監視を切り替え")
+                item.setTitle("Toggle watch on connect")
                     .onClick(() => this.togglePeerSetting(peer, "watchOnConnect"))
                     .setIcon(peer.watchOnConnect ? "checkmark" : null);
             })
             .addItem((item) => {
-                item.setTitle("`Replicate now` コマンドでの同期を切り替え")
+                item.setTitle("Toggle sync on `Replicate now` command")
                     .onClick(() => this.togglePeerSetting(peer, "syncOnReplicationCommand"))
                     .setIcon(peer.syncOnReplicationCommand ? "checkmark" : null);
             });

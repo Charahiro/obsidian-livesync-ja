@@ -45,4 +45,31 @@ describe("setting manifest labels", () => {
         expect(localiseUnkeyedSettingsText("Selector")).toBe("選択ルール");
         expect(localiseUnkeyedSettingsText("Scan for Broken files")).toBe("破損ファイルをスキャン");
     });
+
+    it("covers visible Commonlib settings that have no LiveSync catalogue key", () => {
+        setLang("ja");
+
+        expect(getConfig("keepReplicationActiveInBackground")).toMatchObject({
+            name: "バックグラウンドで同期を維持",
+            desc: "デスクトップのみ。バッテリーとネットワークをより多く使用します。",
+        });
+        expect(getConfig("allowSleepDuringSynchronisation")).toMatchObject({
+            name: "同期中のスリープを許可",
+        });
+        expect(getConfig("allowSleepDuringSynchronisationOnDesktop")).toMatchObject({
+            name: "デスクトップで同期中のスリープを許可",
+        });
+        expect(getConfig("enableDebugTools")).toMatchObject({
+            name: "開発者向けデバッグツールを有効にする（利用可能な場合）",
+        });
+        expect(getConfig("E2EEAlgorithm")).toMatchObject({
+            name: "エンドツーエンド暗号化アルゴリズム",
+        });
+        expect(getConfig("processSizeMismatchedFiles")).toMatchObject({
+            name: "破損しているように見えるファイルも処理する",
+        });
+        expect(getConfig("maxMTimeForReflectEvents")).toMatchObject({
+            name: "反映するファイルイベントの最大更新時刻",
+        });
+    });
 });

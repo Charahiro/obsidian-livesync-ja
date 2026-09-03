@@ -1,5 +1,5 @@
 import { MarkdownRenderer, request } from "@/deps.ts";
-import { $msg } from "@/common/translation";
+import { $msg, currentLang } from "@/common/translation";
 import { LiveSyncError } from "@vrtmrz/livesync-commonlib/compat/common/LSError";
 import { fireAndForget } from "octagonal-wheels/promises";
 import type { ObsidianLiveSyncSettingTab } from "./ObsidianLiveSyncSettingTab.ts";
@@ -13,12 +13,14 @@ export function paneHelp(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElement, 
         lifetimeComponent.register(() => {
             pageDisposed = true;
         });
-        const repo = "vrtmrz/obsidian-livesync";
+        const isJapanese = currentLang === "ja";
+        const repo = isJapanese ? "Charahiro/obsidian-livesync-ja" : "vrtmrz/obsidian-livesync";
+        const branch = isJapanese ? "ja-localization" : "main";
         const topPath = $msg("obsidianLiveSyncSettingTab.linkTroubleshooting");
-        const rawRepoURI = `https://raw.githubusercontent.com/${repo}/main`;
+        const rawRepoURI = `https://raw.githubusercontent.com/${repo}/${branch}`;
         this.createEl(panelEl, "div", "", (el) => {
             el.createEl("a", { text: $msg("obsidianLiveSyncSettingTab.linkOpenInBrowser") }, (anchor) => {
-                anchor.href = `https://github.com/${repo}/blob/main${topPath}`;
+                anchor.href = `https://github.com/${repo}/blob/${branch}${topPath}`;
                 anchor.target = "_blank";
                 anchor.rel = "noopener";
             });

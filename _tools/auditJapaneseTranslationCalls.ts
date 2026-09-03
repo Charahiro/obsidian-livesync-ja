@@ -95,6 +95,59 @@ function objectLiteralKeys(filename: string, variableName: string): Set<string> 
     return keys;
 }
 
+function commonlibSettingTextByKey(): Map<string, string[]> {
+    const filename = path.join(root, "node_modules/@vrtmrz/livesync-commonlib/dist/common/settingConstants.js");
+    const sourceText = fs.readFileSync(filename, "utf8");
+    const source = ts.createSourceFile(filename, sourceText, ts.ScriptTarget.Latest, true);
+    const settings = new Map<string, string[]>();
+
+    const visit = (node: ts.Node): void => {
+        if (
+            ts.isVariableDeclaration(node) &&
+            node.name.getText(source) === "SettingInformation" &&
+            node.initializer &&
+            ts.isObjectLiteralExpression(node.initializer)
+        ) {
+            for (const setting of node.initializer.properties) {
+                if (!ts.isPropertyAssignment(setting)) continue;
+                if (!ts.isIdentifier(setting.name) && !ts.isStringLiteral(setting.name)) continue;
+                if (!ts.isObjectLiteralExpression(setting.initializer)) continue;
+                const text = setting.initializer.properties.flatMap((property) => {
+                    if (!ts.isPropertyAssignment(property)) return [];
+                    if (!ts.isIdentifier(property.name) && !ts.isStringLiteral(property.name)) return [];
+                    if (property.name.text !== "name" && property.name.text !== "desc") return [];
+                    return ts.isStringLiteral(property.initializer) ? [property.initializer.text] : [];
+                });
+                settings.set(setting.name.text, text);
+            }
+        }
+        ts.forEachChild(node, visit);
+    };
+    visit(source);
+    return settings;
+}
+
+function commonlibSettingsRenderedInDialogue(): Set<string> {
+    const settings = new Set<string>();
+    const dialogueRoot = path.join(root, "src/modules/features/SettingDialogue");
+    for (const filename of collectSourceFiles(dialogueRoot)) {
+        const sourceText = fs.readFileSync(filename, "utf8");
+        const source = ts.createSourceFile(filename, sourceText, ts.ScriptTarget.Latest, true);
+        const visit = (node: ts.Node): void => {
+            if (ts.isCallExpression(node)) {
+                const name = callName(node);
+                if (name?.startsWith("autoWire") || name === "setAuto") {
+                    const key = staticString(node.arguments[0]);
+                    if (key) settings.add(key);
+                }
+            }
+            ts.forEachChild(node, visit);
+        };
+        visit(source);
+    }
+    return settings;
+}
+
 function containsJapanese(text: string): boolean {
     return /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u.test(text);
 }
@@ -182,6 +235,18 @@ const hatchJapaneseText = objectLiteralKeys(
     path.join(root, "src/modules/features/SettingDialogue/PaneHatch.ts"),
     "hatchJapaneseText"
 );
+const settingsJapaneseText = objectLiteralKeys(
+    path.join(root, "src/modules/features/SettingDialogue/settingConstants.ts"),
+    "unkeyedJapaneseSettingsText"
+);
+const commonlibSettingText = commonlibSettingTextByKey();
+const untranslatedCommonlibSettingsText: string[] = [];
+for (const settingKey of commonlibSettingsRenderedInDialogue()) {
+    for (const text of commonlibSettingText.get(settingKey) ?? []) {
+        if (english.has(text) || settingsJapaneseText.has(text)) continue;
+        untranslatedCommonlibSettingsText.push(`${settingKey}: ${text}`);
+    }
+}
 const knownKeys = new Set([...english.keys(), ...provisional, ...Object.keys(commonlibEnglishMessages)]);
 const forkOnlyCalls: string[] = [];
 const provisionalSettingsCalls: string[] = [];
@@ -283,6 +348,12 @@ if (untranslatedHatchProvisionalCalls.length > 0) {
     errors.push(
         `Hatch UI provisional messages missing a direct Japanese translation (${untranslatedHatchProvisionalCalls.length}):\n` +
             untranslatedHatchProvisionalCalls.join("\n")
+    );
+}
+if (untranslatedCommonlibSettingsText.length > 0) {
+    errors.push(
+        `Visible Commonlib settings missing a Japanese source translation (${untranslatedCommonlibSettingsText.length}):\n` +
+            untranslatedCommonlibSettingsText.join("\n")
     );
 }
 

@@ -43,8 +43,6 @@ function createRuntime(): ReviewHarnessRuntime & {
     continuation: string | null;
     events: string[];
 } {
-    const services = {};
-    const replicator = { env: { services } };
     const runtime: ReviewHarnessRuntime & {
         compatibilityReviewInitialised: boolean;
         compatibilityPause: CompatibilityPause | undefined;
@@ -77,7 +75,6 @@ function createRuntime(): ReviewHarnessRuntime & {
             runtime.events.push("open-compatibility-review");
             runtime.compatibilityPause = undefined;
         }),
-        getP2PComposition: () => ({ first: replicator, second: replicator, expectedServices: services }),
         runVaultRoundTrip: vi.fn(async () => ({
             status: "passed" as const,
             detail: "The owned fixture tree was exercised and removed.",
@@ -117,7 +114,6 @@ describe("ReviewHarnessController", () => {
         await controller.runAutomaticScenarios();
 
         expect(controller.snapshot().results["settings-lifecycle"].status).toBe("passed");
-        expect(controller.snapshot().results["p2p-composition"].status).toBe("passed");
         expect(controller.snapshot().results["vault-round-trip"].status).toBe("idle");
         expect(controller.snapshot().results["compatibility-review"].status).toBe("idle");
     });

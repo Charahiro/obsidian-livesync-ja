@@ -23,13 +23,6 @@ export const REVIEW_HARNESS_SCENARIOS = [
         access: "device-local-state",
     },
     {
-        id: "p2p-composition",
-        title: `P2P構成`,
-        description: `ObsidianホストとP2Pインターフェースが現在のCommonlibレプリケーターを取得できることを確認します。`,
-        mode: "automatic",
-        access: "read-only",
-    },
-    {
         id: "vault-round-trip",
         title: `Vaultテスト用ファイルの往復確認`,
         description: `明示的な確認後、管理対象の固定テスト用ツリーを作成、読み取り、変更、名前変更、削除します。`,

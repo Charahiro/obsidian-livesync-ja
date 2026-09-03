@@ -5499,7 +5499,7 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         es: "/docs/es/troubleshooting.md",
         fr: "/docs/troubleshooting.md",
         he: "/docs/troubleshooting.md",
-        ja: "/docs/troubleshooting.md",
+        ja: "/docs/troubleshooting_ja.md",
         ko: "/docs/troubleshooting.md",
         ru: "/docs/troubleshooting.md",
         zh: "/docs/troubleshooting.md",
@@ -10094,6 +10094,11 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
             ru: "Только для тестирования - разрешать конфликты файлов синхронизацией новых копий.",
             zh: "仅供测试 - 通过同步文件的较新副本来解决文件冲突,这可能会覆盖修改过的文件。请注意 ",
             "zh-tw": "僅供測試 —— 透過同步較新的檔案版本解決衝突，這可能會覆寫已修改的檔案，請注意。",
+        },
+    "The connection test cannot add a signalling relay while P2P is active. Use the active relay settings, or disconnect P2P before testing.":
+        {
+            def: "The connection test cannot add a signalling relay while P2P is active. Use the active relay settings, or disconnect P2P before testing.",
+            ja: "P2P が有効な間は、接続テストでシグナリングリレーを追加できません。使用中のリレー設定を使うか、P2P を切断してからテストしてください。",
         },
     "The connection to the server has been configured successfully. As the next step,": {
         def: "The connection to the server has been configured successfully. As the next step,",

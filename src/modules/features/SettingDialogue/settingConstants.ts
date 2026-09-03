@@ -57,6 +57,14 @@ const unkeyedJapaneseSettingsText: Readonly<Record<string, string>> = {
     "Enable advanced features": "高度な機能を有効化",
     "Enable poweruser features": "パワーユーザー向け機能を有効化",
     "Enable edge case treatment features": "例外的な状況向け機能を有効化",
+    "Keep replication active in the background": "バックグラウンドで同期を維持",
+    "Desktop only; uses more battery and network.": "デスクトップのみ。バッテリーとネットワークをより多く使用します。",
+    "Allow sleep during synchronisation": "同期中のスリープを許可",
+    "Allow the operating system to sleep while finite synchronisation operations are in progress.":
+        "有限の同期処理の実行中に、オペレーティングシステムのスリープを許可します。",
+    "Allow sleep during synchronisation on the desktop": "デスクトップで同期中のスリープを許可",
+    "Desktop only. Allow sleep on this device even when the general option is disabled.":
+        "デスクトップのみ。全般の設定が無効でも、このデバイスでのスリープを許可します。",
     "Memory cache": "メモリーキャッシュ",
     "Memory cache size (by total items)": "メモリーキャッシュのサイズ（項目数）",
     "Local Database Tweak": "ローカルデータベースの調整",
@@ -79,8 +87,12 @@ const unkeyedJapaneseSettingsText: Readonly<Record<string, string>> = {
     "Remote Database Tweak": "リモートデータベースの調整",
     "Enable compression": "圧縮を有効化",
     "Data Compression": "データ圧縮",
+    "xxhash64 is the current default.": "xxhash64 が現在の既定値です。",
     Selector: "選択ルール",
     "Customisation sync": "カスタマイズ同期",
+    "Enable per-file customization sync": "ファイル単位のカスタマイズ同期を有効にする",
+    "If enabled, efficient per-file customization sync will be used. A minor migration is required when enabling this feature, and all devices must be updated to v0.23.18. Enabling this feature will result in losing compatibility with older versions.":
+        "有効にすると、効率的なファイル単位のカスタマイズ同期を使用します。有効化時には小規模な移行が必要で、すべてのデバイスを v0.23.18 以降へ更新する必要があります。有効にすると、古いバージョンとの互換性は失われます。",
     Hatch: "緊急対応",
     Advanced: "高度な設定",
     "Power users": "パワーユーザー",
@@ -107,9 +119,15 @@ const unkeyedJapaneseSettingsText: Readonly<Record<string, string>> = {
         "IBM Cloudant でペイロードサイズの上限に達した場合は、バッチサイズとバッチ上限を小さくしてください。",
     "Configuration Encryption": "設定の暗号化",
     "Encrypting sensitive configuration items": "機微な設定項目を暗号化",
+    "Passphrase of sensitive configuration items": "機微な設定項目のパスフレーズ",
+    "This passphrase will not be copied to another device. It will be set to `Default` until you configure it again.":
+        "このパスフレーズは他のデバイスにはコピーされません。再設定するまで「既定」に設定されます。",
     "Use a custom passphrase": "カスタムパスフレーズを使用",
     "Ask an passphrase at every launch": "起動のたびにパスフレーズを尋ねる",
     Developer: "開発者向け",
+    "Enable Developers' Debug Tools (If available).": "開発者向けデバッグツールを有効にする（利用可能な場合）",
+    "While enabled, it causes very performance impact but debugging replication testing and other features will be enabled. Please disable this if you have not read the source code. Requires restart of Obsidian. Sometimes there is no implementation.":
+        "有効にすると性能への影響は大きくなりますが、レプリケーションテスト用のデバッグ機能などを利用できます。ソースコードを確認していない場合は有効にしないでください。Obsidian の再起動が必要です。実装されていない場合もあります。",
     "E2EE Configuration": "エンドツーエンド暗号化の設定",
     "Configure E2EE": "エンドツーエンド暗号化を設定",
     Configure: "設定",
@@ -139,6 +157,15 @@ const unkeyedJapaneseSettingsText: Readonly<Record<string, string>> = {
     "Edge case addressing (Behaviour)": "例外的な状況への対応（動作）",
     "Edge case addressing (Processing)": "例外的な状況への対応（処理）",
     Remediation: "対処",
+    "End-to-End Encryption Algorithm": "エンドツーエンド暗号化アルゴリズム",
+    "Please use V2, V1 is deprecated and will be removed in the future, It was not a very appropriate algorithm. Only for compatibility V1 is kept.":
+        "V2 を使用してください。V1 は非推奨で、将来削除されます。適切なアルゴリズムではなかったため、互換性のためだけに V1 を残しています。",
+    "Process files even if seems to be corrupted": "破損しているように見えるファイルも処理する",
+    "You can enable this setting to process the files with size mismatches, these files can be created by some APIs or integrations.":
+        "この設定を有効にすると、サイズが一致しないファイルも処理します。このようなファイルは、一部の API や統合によって作成されることがあります。",
+    "Maximum file modification time for reflected file events": "反映するファイルイベントの最大更新時刻",
+    "Files with modification times greater than this value (in seconds since the Unix epoch) will not have their events reflected. Set to 0 to disable this limit.":
+        "更新時刻がこの値（Unix エポックからの秒数）より大きいファイルは、そのイベントを反映しません。0 に設定するとこの上限を無効にします。",
     "Database Adapter": "データベースアダプター",
     "Select the database adapter to use. ": "使用するデータベースアダプターを選択します。",
     "Switch to IndexedDB": "IndexedDB に切り替え",

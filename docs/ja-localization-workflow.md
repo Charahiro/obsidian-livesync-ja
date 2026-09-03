@@ -88,6 +88,15 @@ Japanese map entry for every static provisional message it renders. Keep this
 map beside that panel; do not move it into the upstream provisional map or a
 fork catalogue.
 
+Commonlib settings are a separate instance of this rule. Commonlib supplies
+their English `name` and `desc` values without LiveSync catalogue keys. Keep
+Japanese counterparts only in
+`src/modules/features/SettingDialogue/settingConstants.ts`. The Japanese audit
+reads the Commonlib setting metadata and every setting rendered by the
+Settings dialogue, and fails if an unkeyed visible name or description has no
+entry in that source-owned map. When upstream or Commonlib assigns a catalogue
+key, remove the map entry and use that key instead.
+
 - Change only the displayed text. Keep control flow, data, identifiers, and
   message construction unchanged.
 - Do not introduce a new catalogue key or a provisional message merely to
@@ -140,7 +149,9 @@ The fork may maintain Japanese counterparts for Markdown which the plug-in
 shows to users:
 
 - `updates_ja.md` is embedded for the Change Log pane when present.
-- `docs/troubleshooting_ja.md` is fetched by the Setup pane's online tips.
+- `docs/troubleshooting_ja.md` is fetched by the Setup pane's online tips
+  when the display language is Japanese. It is read from this fork's
+  `ja-localization` branch; other languages continue to use upstream.
 - Documents linked from those tips, including `docs/recovery_ja.md`, are part
   of the same user path.
 

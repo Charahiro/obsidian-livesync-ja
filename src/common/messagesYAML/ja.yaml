@@ -315,6 +315,7 @@ Failed to connect to remote for compaction. ${reason}: リモートデータベ�
 "Failed to connect to the server: ${reason}": "サーバーに接続できませんでした: ${reason}"
 Failed to connect to the server. Please check your settings.: サーバーに接続できませんでした。設定を確認してください。
 "Failed to connect to the signalling relay: ${reason}": "信号リレーへの接続に失敗しました: ${reason}"
+The connection test cannot add a signalling relay while P2P is active. Use the active relay settings, or disconnect P2P before testing.: P2P が有効な間は、接続テストでシグナリングリレーを追加できません。使用中のリレー設定を使うか、P2P を切断してからテストしてください。
 Failed to create replicator instance.: レプリケーターインスタンスを作成できませんでした。
 Failed to parse Setup-URI.: セットアップURIを解析できませんでした。
 Failed to start one-shot replication before Garbage Collection. Garbage Collection Cancelled.: Garbage Collection 前にワンショットレプリケーションを開始できませんでした。Garbage Collection はキャンセルされました。
@@ -767,7 +768,7 @@ obsidianLiveSyncSettingTab:
     linkOpenInBrowser: ブラウザで開く
     linkPageTop: ページトップ
     linkTipsAndTroubleshooting: ヒントとトラブルシューティング
-    linkTroubleshooting: /docs/troubleshooting.md
+    linkTroubleshooting: /docs/troubleshooting_ja.md
     logCannotUseCloudant: この機能はIBM Cloudantでは使用できません。
     logCheckingConfigDone: 設定の確認が完了しました
     logCheckingConfigFailed: 設定の確認に失敗しました
