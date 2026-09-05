@@ -607,6 +607,8 @@ moduleLiveSyncMain:
 moduleLocalDatabase:
     logWaitingForReady: しばらくお待ちください...
 moduleLog:
+    pathComponentTooLong: >-
+        このパスには ${maxBytes} UTF-8 バイトを超えるファイル名またはフォルダー名が含まれています。一部の Android および Linux のファイルシステムでは動作しない可能性があります。
     showLog: ログを表示
 moduleMigration:
     fix0256:
@@ -1581,6 +1583,8 @@ TweakMismatchResolve:
         UseRemoteConfig: リモート設定を使用
 Ui:
     Common:
+        LocalDatabaseInitialisationFailed: Self-hosted LiveSync は同期できません。詳細ログを確認するためにレポートを生成してください。
+        SomeFilesCouldNotBeSynchronised: すべてのファイルを同期できませんでした。影響を受けたファイルを確認し、詳細ログを確認するためにレポートを生成してください。
         Signal:
             Caution: 注意
             Danger: 危険

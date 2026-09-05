@@ -81,11 +81,15 @@ export function panePatches(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElemen
             const useIndexedDBAdapter = usesLegacyIndexedDBAdapter(this.editingSettings);
             const infoClass = useIndexedDBAdapter ? "op-warn" : "op-warn-info";
             paneEl.createDiv({
-                text: $msg("Ui.Settings.Patches.IndexedDbWarning"),
+                text: localiseUnkeyedSettingsText(
+                    "The IndexedDB adapter often offers superior performance in certain scenarios, but it has been found to cause memory leaks when used with LiveSync mode. When using LiveSync mode, please use IDB adapter instead."
+                ),
                 cls: infoClass,
             });
             paneEl.createDiv({
-                text: $msg("Ui.Settings.Patches.MigrationWarning"),
+                text: localiseUnkeyedSettingsText(
+                    "Changing this setting requires migrating existing data (a bit time may be taken) and restarting Obsidian. Please make sure to back up your data before proceeding."
+                ),
                 cls: "op-warn-info",
             });
             const setting = new Setting(paneEl)
@@ -144,7 +148,9 @@ export function panePatches(this: ObsidianLiveSyncSettingTab, paneEl: HTMLElemen
 
         this.addOnSaved("additionalSuffixOfDatabaseName", async (key) => {
             Logger("Suffix has been changed. Reopening database...", LOG_LEVEL_NOTICE);
-            await this.services.databaseEvents.initialiseDatabase();
+            if (!(await this.services.databaseEvents.initialiseDatabase())) {
+                Logger($msg("Ui.Common.LocalDatabaseInitialisationFailed"), LOG_LEVEL_NOTICE);
+            }
         });
 
         new Setting(paneEl).autoWireDropDown("hashAlg", {

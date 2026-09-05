@@ -6,13 +6,13 @@ import {
     type diff_result,
     type FilePathWithPrefix,
 } from "@vrtmrz/livesync-commonlib/compat/common/types";
-import { EVENT_CONFLICT_CANCELLED, eventHub } from "@/common/events.ts";
+import { EVENT_CONFLICT_CANCELLED, EVENT_PLUGIN_UNLOADED, eventHub } from "@/common/events.ts";
+import { $msg } from "@/common/translation.ts";
+import { uiText } from "@/common/uiText.ts";
 import { promiseWithResolvers } from "octagonal-wheels/promises";
-import { $msg } from "@/common/translation";
+import { POSTPONED, type MergeDialogResult } from "@/serviceFeatures/interactiveConflictResolution/types";
 
-export const POSTPONED = Symbol("postponed");
-
-export type MergeDialogResult = typeof CANCELLED | typeof POSTPONED | typeof LEAVE_TO_SUBSEQUENT | string;
+export { POSTPONED, type MergeDialogResult };
 
 export type ConflictResolveModalOptions = {
     readOnly?: boolean;
@@ -30,13 +30,13 @@ export class ConflictResolveModal extends Modal {
     consumed = false;
     private readonly resultPromise = promiseWithResolvers<MergeDialogResult>();
 
-    title: string = "Conflicting changes";
+    title: string = uiText("Conflicting changes", "競合した変更");
 
     pluginPickMode: boolean = false;
     readOnly: boolean = false;
-    localName: string = "Base";
-    remoteName: string = "Conflicted";
-    offEvent?: ReturnType<typeof eventHub.onEvent>;
+    localName: string = uiText("Base", "基準");
+    remoteName: string = uiText("Conflicted", "競合");
+    private eventSubscriptions?: AbortController;
     currentDiffIndex = -1;
     diffView!: HTMLDivElement;
     diffNavIndicator!: HTMLSpanElement;
@@ -55,13 +55,13 @@ export class ConflictResolveModal extends Modal {
         this.pluginPickMode = pluginPickMode || false;
         this.readOnly = options?.readOnly ?? false;
         if (this.pluginPickMode) {
-            this.title = "Pick a version";
-            this.remoteName = `${remoteName || "Remote"}`;
-            this.localName = "Local";
+            this.title = uiText("Pick a version", "バージョンを選択");
+            this.remoteName = `${remoteName || uiText("Remote", "リモート")}`;
+            this.localName = uiText("Local", "ローカル");
         } else if (this.readOnly) {
-            this.title = options?.title ?? "Vault and database revision";
-            this.localName = options?.localName ?? "Vault file";
-            this.remoteName = options?.remoteName ?? "Database revision";
+            this.title = options?.title ?? uiText("Vault and database revision", "Vault とデータベースのリビジョン");
+            this.localName = options?.localName ?? uiText("Vault file", "Vault ファイル");
+            this.remoteName = options?.remoteName ?? uiText("Database revision", "データベースのリビジョン");
         }
     }
 
@@ -113,20 +113,31 @@ export class ConflictResolveModal extends Modal {
 
     override onOpen() {
         const { contentEl } = this;
-        if (this.offEvent) {
-            this.offEvent();
-        }
+        this.eventSubscriptions?.abort();
+        const eventSubscriptions = new AbortController();
+        this.eventSubscriptions = eventSubscriptions;
+        eventHub.onceEvent(
+            EVENT_PLUGIN_UNLOADED,
+            () => {
+                this.sendResponse(CANCELLED);
+            },
+            { signal: eventSubscriptions.signal }
+        );
         if (!this.readOnly) {
             // Cancel an older dialogue for this path before subscribing this
             // instance. Emitting after subscription would close the replacement
             // itself; the instance-owned result promise then completes the older
             // caller even when it only begins waiting after this event.
             eventHub.emitEvent(EVENT_CONFLICT_CANCELLED, this.filename);
-            this.offEvent = eventHub.onEvent(EVENT_CONFLICT_CANCELLED, (path) => {
-                if (path === this.filename) {
-                    this.sendResponse(CANCELLED);
-                }
-            });
+            eventHub.onEvent(
+                EVENT_CONFLICT_CANCELLED,
+                (path) => {
+                    if (path === this.filename) {
+                        this.sendResponse(CANCELLED);
+                    }
+                },
+                { signal: eventSubscriptions.signal }
+            );
         }
         this.titleEl.setText(this.title);
         contentEl.empty();
@@ -136,11 +147,11 @@ export class ConflictResolveModal extends Modal {
 
         const diffNavContainer = diffOptionsRow.createDiv("");
         diffNavContainer.addClass("diff-nav");
-        diffNavContainer.createEl("button", { text: `\u25B2 ${`前へ`}` }, (e) => {
+        diffNavContainer.createEl("button", { text: `\u25B2 ${uiText("Prev", "前へ")}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => this.navigateDiff("prev"));
         });
-        diffNavContainer.createEl("button", { text: `\u25BC ${`次へ`}` }, (e) => {
+        diffNavContainer.createEl("button", { text: `\u25BC ${uiText("Next", "次へ")}` }, (e) => {
             e.addClass("diff-nav-btn");
             e.addEventListener("click", () => this.navigateDiff("next"));
         });
@@ -170,9 +181,9 @@ export class ConflictResolveModal extends Modal {
         const div2 = contentEl.createDiv("");
         div2.addClass("ls-dialog");
         const date1 =
-            new Date(this.result.left.mtime).toLocaleString() + (this.result.left.deleted ? `（削除済み）` : "");
+            new Date(this.result.left.mtime).toLocaleString() + (this.result.left.deleted ? ` (${uiText("Deleted", "削除済み")})` : "");
         const date2 =
-            new Date(this.result.right.mtime).toLocaleString() + (this.result.right.deleted ? `（削除済み）` : "");
+            new Date(this.result.right.mtime).toLocaleString() + (this.result.right.deleted ? ` (${uiText("Deleted", "削除済み")})` : "");
         this.appendVersionInfo(div2, "deleted", this.localName, date1);
         this.appendVersionInfo(div2, "added", this.remoteName, date2);
         const actionContainer = contentEl.createDiv("conflict-action-container");
@@ -182,16 +193,16 @@ export class ConflictResolveModal extends Modal {
                 e.addEventListener("click", () => this.sendResponse(CANCELLED));
             });
         } else {
-            actionContainer.createEl("button", { text: `${this.localName}を使用` }, (e) => {
+            actionContainer.createEl("button", { text: `${uiText("Use this version", "このバージョンを使用")}: ${this.localName}` }, (e) => {
                 e.addClass("conflict-action-button");
                 e.addEventListener("click", () => this.sendResponse(this.result.right.rev));
             });
-            actionContainer.createEl("button", { text: `${this.remoteName}を使用` }, (e) => {
+            actionContainer.createEl("button", { text: `${uiText("Use this version", "このバージョンを使用")}: ${this.remoteName}` }, (e) => {
                 e.addClass("conflict-action-button");
                 e.addEventListener("click", () => this.sendResponse(this.result.left.rev));
             });
             if (!this.pluginPickMode) {
-                actionContainer.createEl("button", { text: `両方を連結` }, (e) => {
+                actionContainer.createEl("button", { text: uiText("Concat both", "両方を連結") }, (e) => {
                     e.addClass("conflict-action-button");
                     e.addEventListener("click", () => this.sendResponse(LEAVE_TO_SUBSEQUENT));
                 });
@@ -207,7 +218,7 @@ export class ConflictResolveModal extends Modal {
         }
         if (diffLength > 100 * 1024) {
             this.diffView.empty();
-            this.diffView.setText(`（差分が大きすぎるため表示できません）`);
+            this.diffView.setText(uiText("(Too large diff to display)", "（差分が大きすぎるため表示できません）"));
         }
         this.resetDiffNavigation();
         this.navigateDiff("next");
@@ -221,9 +232,8 @@ export class ConflictResolveModal extends Modal {
     override onClose() {
         const { contentEl } = this;
         contentEl.empty();
-        if (this.offEvent) {
-            this.offEvent();
-        }
+        this.eventSubscriptions?.abort();
+        this.eventSubscriptions = undefined;
         if (this.consumed) {
             return;
         }

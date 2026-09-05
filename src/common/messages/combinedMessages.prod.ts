@@ -4406,6 +4406,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "等待就绪...",
         "zh-tw": "正在等待就緒⋯",
     },
+    "moduleLog.pathComponentTooLong": {
+        def: "This path contains a file or folder name longer than ${maxBytes} UTF-8 bytes. It may not work on some Android and Linux file systems.",
+        ja: "このパスには ${maxBytes} UTF-8 バイトを超えるファイル名またはフォルダー名が含まれています。一部の Android および Linux のファイルシステムでは動作しない可能性があります。",
+    },
     "moduleLog.showLog": {
         def: "Show Log",
         es: "Mostrar registro",
@@ -10767,6 +10771,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         zh: "Use Remote Configuration",
         "zh-tw": "使用遠端設定",
     },
+    "Ui.Common.LocalDatabaseInitialisationFailed": {
+        def: "Self-hosted LiveSync cannot synchronise. Generate a report to review the detailed log.",
+        ja: "Self-hosted LiveSync は同期できません。詳細ログを確認するためにレポートを生成してください。",
+    },
     "Ui.Common.Signal.Caution": {
         def: "CAUTION",
         es: "PRECAUCIÓN",
@@ -10798,6 +10806,10 @@ export const allMessages: Readonly<Record<string, Readonly<Record<string, string
         ko: "경고",
         zh: "警告",
         "zh-tw": "警告",
+    },
+    "Ui.Common.SomeFilesCouldNotBeSynchronised": {
+        def: "Not all files could be synchronised. Check the affected files. Generate a report to review the detailed log.",
+        ja: "すべてのファイルを同期できませんでした。影響を受けたファイルを確認し、詳細ログを確認するためにレポートを生成してください。",
     },
     "Ui.Settings.Advanced.LocalDatabaseTweak": {
         def: "Local Database Tweak",

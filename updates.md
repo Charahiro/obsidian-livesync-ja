@@ -12,6 +12,21 @@ Earlier releases remain available in the 1.0 release history, the 1.0 preview hi
 
 ## Unreleased
 
+## 1.0.25
+
+4th September, 2026
+
+### Fixed
+
+- A file that cannot be processed during start-up no longer prevents every other file from synchronising. LiveSync completes ordinary start-up, warns about the affected files, and allows them to be retried during a later scan. Fetch and Rebuild still stop rather than treating an incomplete operation as successful. (#1164)
+- When local database initialisation cannot finish, LiveSync no longer leaves the failure at 'Not ready'. It states that synchronisation is unavailable and directs you to generate a report, where the failed preparation stage is recorded. (#1164)
+
+### Improved
+
+- New or unconfigured Vaults no longer run Config Doctor or incomplete-document repair before setup. If a configured Vault is returned to an unconfigured state, those checks remain paused until the requested restart. (#1161)
+- Conflict dialogue clean-up is now more robust when repeated checks overlap, a waiting conflict is resolved elsewhere, or the plug-in unloads. (#1162)
+- When the active file's path contains a file or folder name longer than 255 UTF-8 bytes, LiveSync now warns that the path may not work on some Android and Linux file systems. The path is neither renamed nor rejected, so you can decide how to handle the compatibility risk. (#1164)
+
 ## 1.0.24
 
 3rd September, 2026

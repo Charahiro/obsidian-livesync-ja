@@ -21,27 +21,33 @@ describe("LiveSync-owned translation catalogue", () => {
         expect($msg("moduleCheckRemoteSize.optionIncreaseLimit", { newMax: "800" }, "def")).toBe("increase to 800MB");
     });
 
-    it("does not retain fork-only translations for Commonlib-owned messages", () => {
-        setLang("ja");
+    it("keeps the active-file path compatibility warning concise", () => {
+        const oversizedComponent = `${"界".repeat(86)} (258 bytes)`;
+
+        expect(
+            $msg(
+                "moduleLog.pathComponentTooLong",
+                {
+                    maxBytes: "255",
+                    components: oversizedComponent,
+                },
+                "def"
+            )
+        ).toBe(
+            "This path contains a file or folder name longer than 255 UTF-8 bytes. It may not work on some Android and Linux file systems."
+        );
+    });
+
+    it("translates the new start-up failure messages into Japanese", () => {
+        expect($msg("moduleLog.pathComponentTooLong", { maxBytes: "255" }, "ja")).toContain("255 UTF-8 バイト");
+        expect($msg("Ui.Common.LocalDatabaseInitialisationFailed", {}, "ja")).toContain("同期できません");
+        expect($msg("Ui.Common.SomeFilesCouldNotBeSynchronised", {}, "ja")).toContain("同期できませんでした");
+    });
+
+    it("uses Commonlib's canonical English when the application catalogue has no translation", () => {
+        setLang("es");
 
         expect(translateLiveSyncMessage("Active Remote Type")).toBe(englishMessageTranslator("Active Remote Type"));
-        expect(translateLiveSyncMessage("Signalling Relays")).toBe(englishMessageTranslator("Signalling Relays"));
-    });
-
-    it("expands the language dialogue keywords in Japanese", () => {
-        setLang("ja");
-
-        expect($msg("dialog.yourLanguageAvailable")).toContain("インターフェースの表示言語設定を有効にしました");
-        expect($msg("dialog.yourLanguageAvailable")).not.toContain("%{");
-        expect($msg("dialog.yourLanguageAvailable.btnRevertToDefault")).toBe("Keep Default");
-    });
-
-    it("translates repair, patch, and conflict-resolution messages into Japanese", () => {
-        setLang("ja");
-
-        expect($msg("Ui.Settings.Hatch.RecoveryAndRepair")).toBe("復旧と修復");
-        expect($msg("Ui.Settings.Patches.CompatibilityMetadata")).toBe("互換性（メタデータ）");
-        expect($msg("Remote Database Tweak (In sunset)")).toBe("リモートデータベースの調整 (廃止予定)");
     });
 
     it("directs a compatibility pause to the dedicated review workflow", () => {

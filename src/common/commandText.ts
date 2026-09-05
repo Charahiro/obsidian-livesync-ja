@@ -25,6 +25,11 @@ export const unkeyedJapaneseCommandText = {
         "設定を新しいSetup URIとしてコピー（カスタマイズ同期を含む）",
     "Copy settings as a new setup URI (Full)": "設定を新しいSetup URIとしてコピー（すべて）",
     "Create conflict": "競合を作成",
+    "Toggle LiveSync": "LiveSync を切り替え",
+    "Toggle All Sync.": "すべての同期を切り替え",
+    "Scan storage and database again": "ストレージとデータベースを再スキャン",
+    "Abort synchronization immediately": "同期を直ちに中止",
+    "Resolve if conflicted.": "競合している場合に解決",
 } as const;
 
 /**
