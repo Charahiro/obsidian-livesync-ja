@@ -12,20 +12,36 @@ Earlier releases remain available in the 1.0 release history, the 1.0 preview hi
 
 ## Unreleased
 
-## 1.0.25
+## 1.0.26
 
-4th September, 2026
+~~1.0.25~~ was cancelled because pre-release validation found that LiveSync could appear to finish synchronising even though Android had not written a received file to the Vault; the warning appeared only after restart.
 
-### Fixed
+6th September, 2026
 
-- A file that cannot be processed during start-up no longer prevents every other file from synchronising. LiveSync completes ordinary start-up, warns about the affected files, and allows them to be retried during a later scan. Fetch and Rebuild still stop rather than treating an incomplete operation as successful. (#1164)
-- When local database initialisation cannot finish, LiveSync no longer leaves the failure at 'Not ready'. It states that synchronisation is unavailable and directs you to generate a report, where the failed preparation stage is recorded. (#1164)
+### Synchronisation and storage
 
-### Improved
+#### Fixed
 
-- New or unconfigured Vaults no longer run Config Doctor or incomplete-document repair before setup. If a configured Vault is returned to an unconfigured state, those checks remain paused until the requested restart. (#1161)
-- Conflict dialogue clean-up is now more robust when repeated checks overlap, a waiting conflict is resolved elsewhere, or the plug-in unloads. (#1162)
-- When the active file's path contains a file or folder name longer than 255 UTF-8 bytes, LiveSync now warns that the path may not work on some Android and Linux file systems. The path is neither renamed nor rejected, so you can decide how to handle the compatibility risk. (#1164)
+- Files inside a folder are no longer silently removed from synchronisation when an external tool changes only the letter case of that folder while Obsidian is running. This prevents the stale deletion from reaching other devices or later removing the local file. Moving files into ignored or otherwise excluded locations retains the existing behaviour, and the folder-name case itself may still differ between devices. (#1168)
+- A problem processing one file during ordinary start-up no longer prevents every other file from synchronising. LiveSync warns about the affected files and can retry them later; Fetch and Rebuild still stop if they cannot finish safely. (#1164)
+- When LiveSync cannot finish preparing this device for synchronisation, it now says that synchronisation is unavailable and directs you to generate a report, instead of remaining at 'Not ready'. (#1164)
+
+#### Improved
+
+- When LiveSync cannot write a received file to the Vault, it now warns immediately instead of appearing to have synchronised it successfully. The generated report identifies the affected path, and a later scan can try it again.
+
+### Conflict handling and recovery
+
+#### Improved
+
+- Conflict resolution dialogues now close when the same file is resolved elsewhere or when the plug-in unloads. Requests for different files are shown one at a time, while a newer request for the same file replaces the older one.
+
+### Setup and compatibility
+
+#### Improved
+
+- Unconfigured Vaults now stay focused on setup instead of running Config Doctor or incomplete-document checks before they can be used. Returning a configured Vault to an unconfigured state also stops those checks until the requested restart. (#1161)
+- When the active file contains a file or folder name longer than 255 UTF-8 bytes, LiveSync now explains that the path may not work on some Android and Linux file systems. It does not rename or reject the file. (#1164)
 
 ## 1.0.24
 
