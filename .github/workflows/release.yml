@@ -59,7 +59,7 @@ jobs:
           echo "upstream_version=${tag#ja-}" >> "${GITHUB_OUTPUT}"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ steps.version.outputs.tag }}
           fetch-depth: 0
@@ -93,7 +93,7 @@ jobs:
           echo "prerelease=${prerelease}" >> "${GITHUB_OUTPUT}"
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "24.x"
           cache: npm
@@ -144,7 +144,7 @@ jobs:
           echo "ZIP_NAME=${zip_name}" >> "${GITHUB_ENV}"
 
       - name: Create release and upload assets
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             ${{ env.ZIP_NAME }}
