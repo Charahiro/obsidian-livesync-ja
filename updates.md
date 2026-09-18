@@ -12,6 +12,19 @@ Earlier releases remain available in the 1.0 release history, the 1.0 preview hi
 
 ## Unreleased
 
+## 1.0.30
+
+18th September, 2026
+
+### Synchronisation
+
+#### Fixed
+
+- After a restart, unchanged local files no longer overwrite newer synchronised content. (#994)
+    - When LiveSync cannot establish a local file's origin, it keeps the file as a conflict for you to review. This also applies to ordinary file synchronisation in the command-line tool.
+- Fast Fetch completes initial setup with fewer remote requests.
+- Object Storage synchronisation makes fewer remote requests while still checking its parameters before writing.
+
 ## 1.0.29
 
 16th September, 2026
