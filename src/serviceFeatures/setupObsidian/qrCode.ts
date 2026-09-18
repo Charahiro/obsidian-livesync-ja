@@ -10,7 +10,8 @@ import type { SetupFeatureHost } from "./types";
 import { $msg } from "@/common/translation";
 
 export async function encodeSetupSettingsAsQR(host: SetupFeatureHost) {
-    const settingString = encodeSettingsToQRCodeData(host.services.setting.currentSettings());
+    const settings = host.services.setting.currentSettings();
+    const settingString = encodeSettingsToQRCodeData(settings);
     const result = encodeQR(settingString, OutputFormat.SVG);
     if (result === "") {
         return "";

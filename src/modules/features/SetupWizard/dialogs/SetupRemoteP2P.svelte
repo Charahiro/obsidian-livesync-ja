@@ -1,4 +1,8 @@
 <script lang="ts">
+    import { uiText } from "@/common/uiText";
+    import { localiseTurnError } from "@/features/P2PSync/turnErrorText";
+    import TurnConfiguration from "@/features/P2PSync/TurnConfiguration.svelte";
+    import { validateManagedTurnSettings } from "@/integrations/turnSettings";
     // import { delay } from "octagonal-wheels/promises";
     import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
     import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
@@ -15,7 +19,7 @@
         P2PMessageSizePresets,
         PREFERRED_BASE,
         RemoteTypes,
-        hasValidP2PTurnServerUrl,
+        hasP2PTurnConfiguration,
         normaliseP2PConnectionPath,
         normaliseP2PMaxWirePayloadBytes,
         type EntryDoc,
@@ -27,7 +31,6 @@
     import { TrysteroReplicator } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/TrysteroReplicator";
     import type { ReplicatorHostEnv } from "@vrtmrz/livesync-commonlib/compat/replication/trystero/types";
     import {
-        copyTo,
         generateP2PRoomId,
         pickP2PSyncSettings,
         type SimpleStore,
@@ -51,7 +54,7 @@
     const context = getDialogContext();
     let error = $state("");
     let connectionPathResetNotice = $state(false);
-    const hasValidTurnServer = $derived(hasValidP2PTurnServerUrl(syncSetting.P2P_turnServers ?? ""));
+    const hasValidTurnServer = $derived(hasP2PTurnConfiguration(syncSetting));
     type Props = GuestDialogProps<SetupRemoteP2PResultType, SetupRemoteP2PInitialData>;
 
     const { setResult, getInitialData }: Props = $props();
@@ -61,7 +64,7 @@
         connectionProbe = initialData?.connectionProbe;
         const initialSettings = initialData?.settings;
         if (initialSettings) {
-            copyTo(initialSettings, syncSetting);
+            syncSetting = pickP2PSyncSettings(initialSettings);
         }
         const initialPeerName = (initialSettings?.P2P_DevicePeerName ?? "").trim();
         if (initialPeerName !== "") {
@@ -100,12 +103,14 @@
     async function checkConnection() {
         try {
             processing = true;
+            const sourceError = validateManagedTurnSettings(syncSetting);
+            if (sourceError) return sourceError;
             const trialRemoteSetting = generateSetting();
             const admission = connectionProbe;
             if (!admission) {
                 throw new Error("The P2P Setup connection probe is not available.");
             }
-            const result = await coordinateP2PSetupConnectionProbe(admission, trialRemoteSetting, async () => {
+            const result = await coordinateP2PSetupConnectionProbe(admission, trialRemoteSetting, async (signallingSettings) => {
                 const map = new Map<string, unknown>();
                 const store = {
                     get: (key: string) => {
@@ -133,7 +138,7 @@
                     const env: ReplicatorHostEnv = {
                         events: context.context.events,
                         translate: context.context.translate,
-                        settings: trialRemoteSetting,
+                        settings: signallingSettings,
                         processReplicatedDocs: async (_docs: PouchDB.Core.ExistingDocument<EntryDoc>[]) => {
                             return;
                         },
@@ -204,6 +209,8 @@
         }
     }
     function commit() {
+        error = validateManagedTurnSettings(syncSetting) ?? "";
+        if (error) return;
         const setting = pickP2PSyncSettings(generateSetting());
         setResult(setting);
     }
@@ -215,7 +222,8 @@
             syncSetting.P2P_relays.trim() !== "" &&
             syncSetting.P2P_roomID.trim() !== "" &&
             syncSetting.P2P_passphrase.trim() !== "" &&
-            (syncSetting.P2P_DevicePeerName ?? "").trim() !== ""
+            (syncSetting.P2P_DevicePeerName ?? "").trim() !== "" &&
+            validateManagedTurnSettings(syncSetting) === undefined
         );
     });
 </script>
@@ -225,7 +233,7 @@
 <InputRow label={translateMessage("Enabled")}>
     <input type="checkbox" name="p2p-enabled" bind:checked={syncSetting.P2P_Enabled} />
 </InputRow>
-<InputRow label={translateMessage("Signalling relay URLs")}>
+<InputRow label={uiText("Signalling relay URLs", "シグナリングリレーのURL")}>
     <input
         type="text"
         name="p2p-relay-url"
@@ -236,18 +244,16 @@
         bind:value={syncSetting.P2P_relays}
     />
     <button class="button" onclick={() => setDefaultRelay()}>
-        {translateMessage("Use the project's public signalling relay")}
+        {uiText("Use the project's public signalling relay", "プロジェクトの公開シグナリングリレーを使用")}
     </button>
 </InputRow>
 <InfoNote>
-    {translateMessage("Peer discovery uses Nostr-compatible signalling relays.")}
-    {translateMessage(
-        "The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay."
-    )}
+    {uiText("Peer discovery uses Nostr-compatible signalling relays.", "ピアの検出にはNostr互換のシグナリングリレーを使用します。")}
+    {uiText("The project's public signalling relay is a best-effort convenience operated by the project author. It does not store Vault contents, but signalling metadata may be visible to the relay. Availability and log retention are not guaranteed. You can replace it with your own Nostr-compatible relay.", "プロジェクトの公開シグナリングリレーは、作者がベストエフォートで運営するサービスです。Vaultの内容は保存しませんが、シグナリングのメタデータはリレーから見える場合があります。可用性やログの保持は保証されません。独自のNostr互換リレーに変更できます。")}
     <a
         href="https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/p2p.md"
         target="_blank"
-        rel="noopener noreferrer">{translateMessage("Learn more about P2P connections")}</a
+        rel="noopener noreferrer">{uiText("Learn more about P2P connections", "P2P接続について詳しく見る")}</a
     >.
 </InfoNote>
 <InputRow label={translateMessage("Group ID")}>
@@ -296,13 +302,11 @@
         'If "Auto Start P2P Connection" is enabled, the P2P connection will be started automatically when the plug-in launches.'
     )}
 </InfoNote>
-<InputRow label={translateMessage("Announce changes automatically after connecting")}>
+<InputRow label={uiText("Announce changes automatically after connecting", "接続後に変更を自動通知")}>
     <input type="checkbox" name="p2p-auto-broadcast" bind:checked={syncSetting.P2P_AutoBroadcast} />
 </InputRow>
 <InfoNote>
-    {translateMessage(
-        "When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection."
-    )}
+    {uiText("When enabled, this device notifies connected peers after a local change. The notification contains no Vault data; a peer which follows this device then fetches the change through the encrypted P2P connection.", "有効にすると、この端末で変更があった際に接続済みのピアへ通知します。通知にVaultのデータは含まれません。この端末をフォローしているピアが、暗号化されたP2P接続を通じて変更を取得します。")}
 </InfoNote>
 <ExtraItems title="接続の互換性">
     <InputRow label="P2Pメッセージサイズ">
@@ -336,59 +340,28 @@
         </select>
     </InputRow>
     <InfoNote>
-        TURNリレーのみは、詳細設定で有効なTURNサーバーURLを少なくとも1つ設定している場合に利用できます。
+        {uiText("TURN relay only requires a TURN server or a configured credential source under Advanced Settings.", "TURNリレーのみを使用するには、詳細設定でTURNサーバーまたは認証情報の取得元を設定してください。")}
     </InfoNote>
     <InfoNote notice visible={connectionPathResetNotice}>
-        TURNリレーのみには、有効なTURNサーバーURLが少なくとも1つ必要です。接続経路を自動に戻しました。
+        {uiText("TURN relay only requires TURN configuration. Connection path has been restored to Automatic.", "TURNリレーのみを使用するにはTURN設定が必要です。接続経路を自動に戻しました。")}
     </InfoNote>
 </ExtraItems>
 <ExtraItems title={translateMessage("Advanced Settings")}>
     <InfoNote>
-        {translateMessage(
-            "TURN server settings are only necessary if you are behind a strict NAT or firewall that prevents direct P2P connections. In most cases, you can leave these fields blank."
-        )}
+        {uiText("Configure TURN when a direct connection cannot be established or when you select TURN relay only.", "直接接続を確立できない場合や、TURNリレーのみを選択する場合は、TURNを設定してください。")}
     </InfoNote>
-    <InfoNote warning>
-        {translateMessage(
-            "TURN relays the encrypted WebRTC connection only when a direct path cannot be established. A TURN provider cannot read encrypted Vault contents, but it can observe connection metadata and traffic volume. Use a provider you trust."
-        )}
+    <InfoNote>
+        {uiText("WebRTC encrypts data between your devices, including when it passes through TURN. The TURN provider cannot read the transferred data. It can see network addresses and traffic volume.", "WebRTCは、TURNを経由する場合も端末間のデータを暗号化します。TURNプロバイダーは転送データを読み取れませんが、ネットワークアドレスと通信量は確認できます。")}
         <a
             href="https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/p2p.md#signalling-relay-and-turn-server"
             target="_blank"
-            rel="noopener noreferrer">{translateMessage("Learn more about signalling and TURN")}</a
+            rel="noopener noreferrer">{uiText("Learn more about signalling and TURN", "シグナリングとTURNについて詳しく見る")}</a
         >.
     </InfoNote>
-    <InputRow label={translateMessage("TURN Server URLs (comma-separated)")}>
-        <textarea
-            name="p2p-turn-servers"
-            placeholder="turn:turn.example.com:3478,turn:turn.example.com:443"
-            autocapitalize="off"
-            spellcheck="false"
-            bind:value={syncSetting.P2P_turnServers}
-            rows="5"
-        ></textarea>
-    </InputRow>
-    <InputRow label={translateMessage("TURN Username")}>
-        <input
-            type="text"
-            name="p2p-turn-username"
-            placeholder={translateMessage("Enter TURN username")}
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-            bind:value={syncSetting.P2P_turnUsername}
-        />
-    </InputRow>
-    <InputRow label={translateMessage("TURN Credential")}>
-        <Password
-            name="p2p-turn-credential"
-            placeholder={translateMessage("Enter TURN credential")}
-            bind:value={syncSetting.P2P_turnCredential}
-        />
-    </InputRow>
+    <TurnConfiguration bind:settings={syncSetting} />
 </ExtraItems>
 <InfoNote error visible={error !== ""}>
-    {error}
+    {localiseTurnError(error)}
 </InfoNote>
 {#if processing}
     {translateMessage("Checking connection... Please wait.")}

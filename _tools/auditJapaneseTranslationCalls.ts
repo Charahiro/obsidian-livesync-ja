@@ -329,6 +329,20 @@ for (const filename of collectSourceFiles(path.join(root, "src"))) {
     }
 
     const relativeFilename = path.relative(root, filename).split(path.sep).join("/");
+    if (
+        relativeFilename === "src/features/P2PSync/TurnConfiguration.svelte" ||
+        relativeFilename === "src/modules/features/SetupWizard/dialogs/SetupRemoteP2P.svelte"
+    ) {
+        // Inspect template expressions as well as the TypeScript script block.
+        for (const match of source.matchAll(/(?:translate|translateMessage)\(\s*(["'])(.*?)\1/g)) {
+            const key = match[2];
+            if (provisional.has(key)) {
+                provisionalSettingsCalls.push(`${relativeFilename}: ${key}`);
+            } else if (!knownKeys.has(key)) {
+                forkOnlyCalls.push(`${relativeFilename}: ${key}`);
+            }
+        }
+    }
     const visit = (node: ts.Node): void => {
         if (!ts.isCallExpression(node)) {
             ts.forEachChild(node, visit);
@@ -370,6 +384,17 @@ for (const filename of collectSourceFiles(path.join(root, "src"))) {
         ts.forEachChild(node, visit);
     };
     visit(parsed);
+}
+
+const turnErrorSource = fs.readFileSync(path.join(root, "src/features/P2PSync/turnErrorText.ts"), "utf8");
+const translatedTurnErrors = new Set([...turnErrorSource.matchAll(/case "([^"]+)":/g)].map((match) => match[1]));
+for (const filename of ["src/integrations/turnSettings.ts", "src/integrations/cloudflare/settings.ts"]) {
+    const source = fs.readFileSync(path.join(root, filename), "utf8");
+    for (const match of source.matchAll(/return "([^"]+)";/g)) {
+        if (!translatedTurnErrors.has(match[1])) {
+            errors.push(`${filename}: TURN validation message lacks a Japanese UI translation: ${match[1]}`);
+        }
+    }
 }
 if (forkOnlyCalls.length > 0) {
     errors.push(`Translation calls with a fork-only key (${forkOnlyCalls.length}):\n${forkOnlyCalls.join("\n")}`);
