@@ -203,6 +203,12 @@ Use upstream release tags as the comparison unit.
    intentional fork differences: Japanese wording, Japanese Markdown
    selection, Japanese manifest metadata, fork release assets, and fork URLs.
 
+   A conflict limited to `manifest.json` fields `name` and `version` is
+   expected: retain `Self-hosted LiveSync 日本語版` as the name and use the
+   target upstream tag's version. Resolve it automatically, including in a
+   retained integration merge. Other conflicts and unrelated local changes
+   still require review under the automation's stop rules.
+
 5. Review every changed user-facing string.
     - For an upstream `$msg(...)` key, update `ja.yaml` if required.
     - For an upstream literal, translate the literal directly without changing
