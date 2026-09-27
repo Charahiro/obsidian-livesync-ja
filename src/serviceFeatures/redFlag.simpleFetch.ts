@@ -16,6 +16,7 @@ import {
     processVaultInitialisation,
 } from "./redFlag";
 import { $msg } from "@/common/translation";
+import { uiText } from "@/common/uiText";
 
 export const SIMPLE_FETCH_STAGE1_REMOTE_WINS = `すべてをリモートファイルで上書き`;
 export const SIMPLE_FETCH_STAGE1_NEWER_WINS = `更新日時を比較して新しい方を採用`;
@@ -192,6 +193,23 @@ export async function askAndPerformFastSetupOnScheduledFetchAll(
     log: LogFunction,
     cleanupFlag: () => Promise<void>
 ): Promise<boolean | undefined> {
+    if (host.services.setting.currentSettings().maxMTimeForReflectEvents > 0) {
+        // Simple Fetch reconciles storage with the local database after fetching, past the check which
+        // refuses that scan in remediation mode. Skipping only the scan would restore nothing from most
+        // remotes: reflection of received documents stays suspended while Simple Fetch fetches, so Object
+        // Storage and P2P remotes discard them, and CouchDB Fast Fetch writes them straight into the
+        // database. The detailed flow at least states the restriction and offers to clear it before
+        // rebuilding, instead of quietly reconciling past it.
+        log(
+            uiText(
+                "Remediation mode is active, so the detailed fetch flow is used instead of Simple Fetch.",
+                "是正モードが有効なため、Simple Fetch の代わりに詳細な取得手順を使用します。"
+            ),
+            LOG_LEVEL_NOTICE
+        );
+        clearRememberedSimpleFetchMode(host);
+        return undefined;
+    }
     const result = await askSimpleFetchMode(host);
     if (result === "cancelled") {
         log("Fetch cancelled by user.", LOG_LEVEL_NOTICE);
