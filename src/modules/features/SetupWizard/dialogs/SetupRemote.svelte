@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { uiText } from "@/common/uiText";
     import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
     import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
     import Question from "@/modules/services/LiveSyncUI/components/Question.svelte";
@@ -55,9 +56,7 @@
             title={translateMessage("Ui.SetupWizard.SetupRemote.P2POption")}
             bind:value={userType}
         >
-            {translateMessage(
-                "No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited."
-            )}
+            {uiText("No central data-storage server is required, but a signalling relay is required for peer discovery. Both devices must be online at the same time. Vault data travels through the encrypted P2P connection, not through the signalling relay. Some features may be limited.", "中央のデータ保存サーバーは不要ですが、接続相手の検出にはシグナリングリレーが必要です。両方のデバイスが同時にオンラインである必要があります。Vaultデータはシグナリングリレーではなく、暗号化されたP2P接続を通ります。一部の機能が制限される場合があります。")}
         </Option>
     </Options>
 </Instruction>

@@ -28,14 +28,13 @@ const resumablePause: CompatibilityPause = {
 
 describe("Obsidian compatibility review", () => {
     afterEach(() => setLang("def"));
-
-    it("explains why a configured Vault can be missing its device-local acknowledgement", async () => {
+    it("explains an invalid device-local acknowledgement", () => {
         const pause: CompatibilityPause = {
             resumable: true,
             reasons: [
                 {
                     source: "database-version",
-                    state: "missing",
+                    state: "invalid",
                     currentVersion: 12,
                     resumable: true,
                 },
@@ -43,9 +42,8 @@ describe("Obsidian compatibility review", () => {
         };
 
         const details = compatibilityReviewDetailsMarkdown(pause);
-        expect(details).toContain("コピーまたは復元");
-        expect(details).toContain("新しいObsidianプロファイル");
-        expect(details).toContain("自動的に同期を再開して安全であるとは限りません");
+        expect(details).toContain("保存されている内部データベースのバージョン情報が不正");
+        expect(details).toContain("**12**");
     });
 
     it("offers the generic resume action in a vertical action dialogue", async () => {

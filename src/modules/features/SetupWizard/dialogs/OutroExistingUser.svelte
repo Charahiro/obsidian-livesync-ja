@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { uiText } from "@/common/uiText";
     import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
     import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
     import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
@@ -17,29 +18,25 @@
 </script>
 
 {#if isP2P}
-    <DialogHeader title={translateMessage("Setup Complete: Preparing to Fetch from Another Device")} />
+    <DialogHeader title={uiText("Setup Complete: Preparing to Fetch from Another Device", "設定完了：別のデバイスから取得する準備")} />
     <Guidance>
         <p>
-            {translateMessage(
-                "The P2P connection has been configured successfully. The initial synchronisation data must now be fetched from an online source device."
-            )}
+            {uiText("The P2P connection has been configured successfully. The initial synchronisation data must now be fetched from an online source device.", "P2P接続を設定しました。オンラインの取得元デバイスから初期同期データを取得する必要があります。")}
         </p>
         <p>
             <strong>{translateMessage("PLEASE NOTE")}</strong>
             <br />
-            {translateMessage(
-                "After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data."
-            )}
+            {uiText("After restarting, select an online source device for the initial Fetch. The local LiveSync database on this device will be rebuilt from that source. Unsynchronised files in this Vault may conflict with the fetched data.", "再起動後、初回取得用にオンラインの取得元デバイスを選択してください。このデバイスのローカルデータベースは取得元から再構築されます。このVault内の未同期ファイルは、取得したデータと競合する場合があります。")}
         </p>
     </Guidance>
     <Instruction>
         <Question>
-            {translateMessage("Restart this device, then choose the source device when P2P Rebuild opens.")}
+            {uiText("Restart this device, then choose the source device when P2P Rebuild opens.", "このデバイスを再起動し、P2P再構築画面が開いたら取得元デバイスを選択してください。")}
         </Question>
     </Instruction>
     <UserDecisions>
         <Decision
-            title={translateMessage("Restart and Select Source Device")}
+            title={uiText("Restart and Select Source Device", "再起動して取得元デバイスを選択")}
             important={true}
             commit={() => setResult(TYPE_APPLY)}
         />

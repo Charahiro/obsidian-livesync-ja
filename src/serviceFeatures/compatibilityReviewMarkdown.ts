@@ -19,10 +19,7 @@ function reasonMarkdown(reason: CompatibilityPauseReason): string {
         if (reason.state === "downgrade") {
             return `- このバージョンが使用する内部データベースのバージョンは**${`${reason.currentVersion}`}**ですが、このデバイスでは新しいバージョン**${`${reason.acknowledgedVersion}`}**が以前に確認されています。古いバージョンから同期を再開することはできません。`;
         }
-        if (reason.state === "missing") {
-            return `- この既存Vaultで、以前に確認した内部データベースのバージョンが見つかりません。Vaultをコピーまたは復元した場合や、新しいObsidianプロファイルで開いた場合に発生します。このバージョンでは**${`${reason.currentVersion}`}**を使用します。ローカルデータベースが空でも、自動的に同期を再開して安全であるとは限りません。`;
-        }
-        return `- 保存されている内部データベースのバージョン情報が不正です。このバージョンでは**${`${reason.currentVersion}`}**を使用します。`;
+        return `- 保存されている内部データベースのバージョン情報が不正です。このバージョンでは**${reason.currentVersion}**を使用します。`;
     }
     if (reason.source === "settings-schema") {
         if (reason.isFromFutureSchema) {

@@ -1,7 +1,14 @@
+import { uiText } from "@/common/uiText";
+import { $msg } from "@/common/translation";
 import { LOG_LEVEL_NOTICE, type ObsidianLiveSyncSettings } from "@vrtmrz/livesync-commonlib/compat/common/types";
 import type { LogFunction } from "@vrtmrz/livesync-commonlib/compat/services/lib/logUtils";
 import { createInstanceLogFunction } from "@vrtmrz/livesync-commonlib/compat/services/lib/logUtils";
-import { encodeSettingsToSetupURI } from "@vrtmrz/livesync-commonlib/compat/API/processSetting";
+import {
+    encodeTimeBoundSetupURI,
+    getTimeBoundSetupURIUsableUntil,
+    isTimeBoundSetupURIUsableNow,
+    type TimeBoundSetupURIMode,
+} from "@vrtmrz/livesync-commonlib/setup-uri";
 import { EVENT_REQUEST_COPY_SETUP_URI } from "@vrtmrz/livesync-commonlib/compat/events/coreEvents";
 import { fireAndForget } from "@vrtmrz/livesync-commonlib/compat/common/utils";
 import type { NecessaryServices } from "@vrtmrz/livesync-commonlib/compat/interfaces/ServiceModule";
@@ -9,39 +16,102 @@ import type { SetupFeatureHost } from "./types";
 
 export async function askEncryptingPassphrase(host: SetupFeatureHost): Promise<string | false> {
     return await host.services.UI.confirm.askString(
-        `設定を暗号化`,
-        `Setup URIを暗号化するパスフレーズ`,
+        uiText("Encrypt your settings", "設定を暗号化"),
+        uiText("The passphrase to encrypt the setup URI", "Setup URIを暗号化するパスフレーズ"),
         "",
         true
     );
 }
 
-export async function copySetupURI(host: SetupFeatureHost, log: LogFunction, stripExtra = true) {
-    const encryptingPassphrase = await askEncryptingPassphrase(host);
-    if (encryptingPassphrase === false) return;
-    const encryptedURI = await encodeSettingsToSetupURI(
-        host.services.setting.currentSettings(),
-        encryptingPassphrase,
-        [...((stripExtra ? ["pluginSyncExtendedSetting"] : []) as (keyof ObsidianLiveSyncSettings)[])],
-        true
-    );
-    if (await host.services.UI.promptCopyToClipboard(`Setup URI`, encryptedURI)) {
-        log("Setup URI copied to clipboard", LOG_LEVEL_NOTICE);
+function formatWindowEnd(usableUntil: number): string {
+    return new Intl.DateTimeFormat(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        weekday: "short",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZoneName: "short",
+    }).format(new Date(usableUntil));
+}
+
+async function askSetupURIMode(
+    host: SetupFeatureHost
+): Promise<{ mode: TimeBoundSetupURIMode; usableUntil: number | null } | false> {
+    let usableUntil: number | null = null;
+    try {
+        usableUntil = getTimeBoundSetupURIUsableUntil();
+    } catch {
+        // Compatible generation remains available when the device clock is invalid.
+    }
+    const timeBound = uiText("Time-bound", "期限付き");
+    const compatible = uiText("Compatible (no time limit)", "互換（期限なし）");
+    const cancel = $msg("Cancel");
+    const buttons = usableUntil === null ? [compatible, cancel] : [timeBound, compatible, cancel];
+    const message =
+        usableUntil === null
+            ? uiText(
+                  "Time-bound Setup URIs require a valid device clock. Compatible URIs have no time limit and work with older clients.",
+                  "期限付きSetup URIには正しいデバイス時刻が必要です。互換URIには期限がなく、従来のクライアントでも使用できます。"
+              )
+            : uiText(
+                  "Time-bound Setup URIs can be opened until {until}. This is the end of the current fixed seven-day UTC window, not seven days from now. Compatible URIs have no time limit and work with older clients.",
+                  "期限付きSetup URIは{until}まで開くことができます。これはUTC基準で区切られた現在の7日間の終了時刻であり、今から7日後ではありません。互換URIには期限がなく、従来のクライアントでも使用できます。"
+              ).replace("{until}", formatWindowEnd(usableUntil));
+    const selected = await host.services.UI.confirm.askSelectStringDialogue(message, buttons, {
+        title: uiText("Setup URI availability", "Setup URIの有効期限"),
+        defaultAction: usableUntil === null ? compatible : timeBound,
+    });
+    if (selected === timeBound && usableUntil !== null) return { mode: "ephemeral", usableUntil };
+    if (selected === compatible) return { mode: "persistent", usableUntil: null };
+    return false;
+}
+
+async function generateAndCopySetupURI(
+    host: SetupFeatureHost,
+    log: LogFunction,
+    removeProperties: (keyof ObsidianLiveSyncSettings)[],
+    skipDefaultValue: boolean
+) {
+    const passphrase = await askEncryptingPassphrase(host);
+    if (passphrase === false) return;
+    while (true) {
+        const choice = await askSetupURIMode(host);
+        if (choice === false) return;
+        let result;
+        try {
+            result = await encodeTimeBoundSetupURI(host.services.setting.currentSettings(), passphrase, {
+                mode: choice.mode,
+                removeProperties,
+                skipDefaultValue,
+            });
+        } catch (error) {
+            if (
+                choice.mode === "ephemeral" &&
+                error instanceof Error &&
+                error.message === "Setup URI window changed during generation"
+            ) {
+                continue;
+            }
+            throw error;
+        }
+        if (result.usableUntil !== choice.usableUntil || !isTimeBoundSetupURIUsableNow(result.usableUntil)) {
+            continue;
+        }
+        if (await host.services.UI.promptCopyToClipboard("Setup URI", result.uri)) {
+            log("Setup URI copied to clipboard", LOG_LEVEL_NOTICE);
+        }
+        return;
     }
 }
 
+export async function copySetupURI(host: SetupFeatureHost, log: LogFunction, stripExtra = true) {
+    await generateAndCopySetupURI(host, log, stripExtra ? ["pluginSyncExtendedSetting"] : [], true);
+}
+
 export async function copySetupURIFull(host: SetupFeatureHost, log: LogFunction) {
-    const encryptingPassphrase = await askEncryptingPassphrase(host);
-    if (encryptingPassphrase === false) return;
-    const encryptedURI = await encodeSettingsToSetupURI(
-        host.services.setting.currentSettings(),
-        encryptingPassphrase,
-        [],
-        false
-    );
-    if (await host.services.UI.promptCopyToClipboard(`Setup URI`, encryptedURI)) {
-        log("Setup URI copied to clipboard", LOG_LEVEL_NOTICE);
-    }
+    await generateAndCopySetupURI(host, log, [], false);
 }
 
 export function useSetupURIFeature(host: NecessaryServices<"API" | "UI" | "setting" | "appLifecycle", never>) {

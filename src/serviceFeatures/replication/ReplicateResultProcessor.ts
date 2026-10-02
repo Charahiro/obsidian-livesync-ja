@@ -1,6 +1,9 @@
+import { uiText } from "@/common/uiText";
+import { remoteFeatureRejectionText } from "@/common/remoteFeatureText";
+import { assessRemoteFeatureDocument } from "@vrtmrz/livesync-commonlib/replication";
 import {
     SYNCINFO_ID,
-    VER,
+    VERSIONING_DOCID,
     type AnyEntry,
     type EntryDoc,
     type EntryLeaf,
@@ -107,8 +110,15 @@ export class ReplicateResultProcessor {
     }
     public resume() {
         this._suspended = false;
+        this.continueHeldDocuments();
+    }
+    /**
+     * Continue the queued documents which were held, for example while the application was not ready.
+     * An explicit suspension, by `suspend()` or by the settings, remains in effect.
+     */
+    public continueHeldDocuments() {
         this.updateProcessingActivity();
-        fireAndForget(() => this.runProcessQueue());
+        this.triggerProcessQueue();
     }
 
     // Whether the processing is suspended
@@ -274,13 +284,17 @@ export class ReplicateResultProcessor {
             this.log(`Processed chunk: ${shortenId(change._id)}`, LOG_LEVEL_DEBUG);
             return true;
         }
-        if (change.type == "versioninfo") {
+        if (change._id === VERSIONING_DOCID || change.type === "versioninfo") {
             this.log(`Version info document received: ${change._id}`, LOG_LEVEL_VERBOSE);
-            if (change.version > VER) {
+            const assessment = assessRemoteFeatureDocument(change);
+            if (assessment.status !== "supported" && assessment.status !== "older-generation") {
                 // Fence and retire the active publication through its owner.
                 this.context.requestActiveReplicatorRetirement();
                 this.log(
-                    `Remote database updated to incompatible version. update your Self-hosted LiveSync plugin.`,
+                    uiText(
+                        "{reason} Update Self-hosted LiveSync before synchronising.",
+                        "{reason} 同期する前にSelf-hosted LiveSyncを更新してください。"
+                    ).replace("{reason}", remoteFeatureRejectionText(assessment)),
                     LOG_LEVEL_NOTICE
                 );
             }

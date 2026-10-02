@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { uiText } from "@/common/uiText";
     import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
     import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
     import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
@@ -52,9 +53,7 @@
             bind:value={userType}
         >
             {translateMessage("Ui.SetupWizard.SelectNew.ManualOptionDesc")}
-            {translateMessage(
-                "P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery."
-            )}
+            {uiText("P2P requires no central data-storage server, but it still uses a signalling relay for peer discovery.", "P2Pには中央のデータ保存サーバーは不要ですが、接続相手の検出にはシグナリングリレーを使用します。")}
         </Option>
     </Options>
 </Instruction>

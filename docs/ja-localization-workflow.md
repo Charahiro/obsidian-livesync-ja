@@ -206,8 +206,14 @@ Use upstream release tags as the comparison unit.
    A conflict limited to `manifest.json` fields `name` and `version` is
    expected: retain `Self-hosted LiveSync 日本語版` as the name and use the
    target upstream tag's version. Resolve it automatically, including in a
-   retained integration merge. Other conflicts and unrelated local changes
-   still require review under the automation's stop rules.
+   retained integration merge. Resolve other routine conflicts under the same
+   upstream-authoritative policy: regenerate translation artefacts, remove
+   obsolete translated branches, and align tests with the upstream behaviour.
+   A conflict alone is not a reason to stop. Preserve unrelated user changes.
+   Ask for a decision only when destructive consequences, ambiguous migration
+   choices, or user-owned changes cannot be handled safely under this policy.
+   Repair validation failures within this scope and rerun the affected checks;
+   do not publish while a required check fails or cannot be verified.
 
 5. Review every changed user-facing string.
     - For an upstream `$msg(...)` key, update `ja.yaml` if required.
@@ -275,7 +281,8 @@ only and does not publish a release. The release workflow reads the upstream
 GitHub Release metadata and mirrors its pre-release status; it rejects a fork
 tag that is not exactly `ja-X.Y.Z`.
 
-Suggested sequence after review and approval:
+For the authorised automatic update, publish after review and successful
+validation without requesting another approval:
 
 ```powershell
 git switch ja-localization

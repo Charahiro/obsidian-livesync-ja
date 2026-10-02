@@ -12,6 +12,84 @@ Earlier releases remain available in the 1.0 release history, the 1.0 preview hi
 
 ## Unreleased
 
+## 1.0.33
+
+1st October, 2026
+
+This has turned into quite a substantial release, and I think it brings meaningful improvements to the core of Self-hosted LiveSync. If you notice anything, please feel free to let me know.
+
+### Privacy and compatibility
+
+#### New Feature
+
+- An optional saved ID key can generate encrypted Chunk IDs and obfuscated Metadata document IDs independently of the current E2EE passphrase.
+    - New Vaults use a random key by default; existing Vaults keep their current ID configuration by default. You can also derive a key from the current E2EE passphrase, enter a separate source, or import a recovery code. The source is not retained; the saved key can be revealed locally as a recovery code.
+    - The saved key stays in place when the E2EE passphrase changes or E2EE is turned off. Share it with another device through a protected Setup URI. Changing document IDs on an existing remote requires the usual Rebuild and Fetch procedure.
+- We can now keep the file properties used by Hidden File Sync and Customisation Sync private in CouchDB.
+    - **Encrypt internal file Properties** extends E2EE V2 and Property Encryption to their paths, times, sizes, and Chunk references.
+    - Existing configurations keep this preference disabled. New Vaults enable it for use when the required encryption settings are active.
+    - Update every synchronising device before enabling it. It protects future writes; a manual remote Rebuild is strongly recommended to protect existing properties.
+- We can now see which unsupported feature prevents a client from synchronising with CouchDB.
+    - Clients check the features required by the remote before transferring data or resetting the local database for Fast Fetch. Receiving an unsupported requirement also stops active replication.
+
+- We can now compare ID generation performance on a desktop or mobile device through **Open review harness**, available with the developers' debug tools enabled.
+    - The copied report includes legacy and independent ID timings and, where available, approximate JavaScript heap samples. The measurement uses fixed test data and keeps our Vault and settings unchanged.
+
+#### Fixed
+
+- Updated `brace-expansion` and `markdown-it` to include upstream security fixes.
+- We can now keep using an E2EE passphrase beginning with `%` after restarting Obsidian. (#1221)
+    - This plug-in encrypts it before saving the settings. If an earlier version saved it in plain text, re-enter the passphrase used to encrypt the existing data after updating. Treat that passphrase as exposed if the affected `data.json` was shared.
+- A receiving device now retries an unavailable CouchDB Chunk when file Metadata arrives before that Chunk is visible, helping rapid edits reach the Vault after an initial on-demand lookup misses it. (#1224)
+    - Retries start after two seconds and continue with increasing delays while finite replication is active. When it ends, this plug-in checks locally and makes a final lookup if needed, without waiting out the remaining retry delay.
+- We can now distinguish initial on-demand Chunk requests (`🛄`) from retries (`🔁`) in the status bar. These replace `🧩`; each pending Chunk appears in one category, including while a retry is waiting.
+
+### Synchronisation and storage
+
+#### Fixed
+
+- Received changes held during start-up or a fetch are applied when this plug-in becomes ready, without waiting for another change or a settings save. **Suspend database reflecting** continues to hold changes (#1200).
+- Customisation Sync now compares full millisecond timestamps, so the freshness labels and **Select All Shiny** no longer mistake an older copy for a newer one because of timestamp truncation. (#1194)
+- **Hide not applicable items** now hides identical Customisation Sync items and refreshes the list when toggled. Items with applicable differences stay visible. (#1193)
+
+### Interface and translation
+
+#### Improved
+
+- More settings and messages are now available in Russian. (#1187)
+    - Dialogues show generated QR codes, key pairs, and database sizes again.
+- We can now use updated Spanish translations for settings and messages. (#1212)
+
+### Setup
+
+#### New Feature
+
+- We can now share a Setup URI with a displayed time limit, or choose **Compatible** for reuse without a time limit.
+    - **Time-bound** uses the current fixed seven-day UTC window, so the displayed end may be less than seven days away. Compatible retains the existing URI format; receiving devices still need to support the shared settings.
+    - The time condition applies when opening the URI. It does not revoke imported credentials or prevent reuse after rolling the device clock back.
+
+#### Improved
+
+- We can now distinguish the three Setup URI and QR code choices by their short labels and icons: initialise or overwrite the remote, join this device, or apply settings only.
+
+#### Fixed
+
+- We can now add a device or open a copied Vault without a compatibility pause solely because its device-local version record is absent.
+    - Existing version or settings incompatibilities still require review. A pause already saved by an earlier release still needs one explicit resume action.
+
+### Acknowledgements
+
+Thank you for your contributions!
+
+- @kimjansheden (#1219)
+- @Immick (#1195, #1196)
+- @bolikcraft (#1187)
+- @speedy-axolotl (#1212)
+
+### Issue replies
+
+I am a little behind on replying to issues, but I am reading them and will respond as I work through them. I have had little uninterrupted time recently, and that should improve soon.
+
 ## 1.0.32
 
 27th September, 2026
@@ -81,30 +159,3 @@ Unusually for this project, I have added a feature that relies on a particular i
 ### Miscellaneous
 
 In general, I would prefer to avoid features that depend on a particular service. Still, I think there is room for them when they are entirely optional, clearly explained, and maintainable. Even then, I would want open alternatives to remain available. I will write more about this principle separately.
-
-## 1.0.28
-
-9th September, 2026
-
-I came across an article online that put its finger on something fundamental. Writing up the details in what seemed the most fitting format helped me organise my thoughts considerably.
-
-The resulting manuscript and citation information are now available in the project's GitHub repository for researchers and practitioners who would like to cite Self-hosted LiveSync.
-
-### Setup and compatibility
-
-#### Fixed
-
-- A missing legacy file-name case setting no longer makes the configuration mismatch dialogue require a database rebuild when this device already uses case-insensitive handling. Case-sensitive handling now correctly requires a compatibility decision when the remote omits that setting.
-- Configuration review now compares the selected remote profile's trial settings, and discards a pending decision if its settings or active connection change before it can be applied.
-
-## 1.0.27
-
-7th September, 2026
-
-For now, I am addressing the issues I can resolve first. I hope this helps.
-
-### Synchronisation and storage
-
-#### Fixed
-
-- First-time Object Storage setup now completes when **Use Custom HTTP Handler** is enabled for an empty remote, including a new Cloudflare R2 bucket. LiveSync can now create the remote state required to begin synchronisation. (#1166)

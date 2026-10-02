@@ -1,3 +1,4 @@
+import { uiText } from "@/common/uiText";
 import { Logger, LOG_LEVEL_NOTICE } from "octagonal-wheels/common/logger";
 import { extractObject } from "octagonal-wheels/object";
 import {
@@ -99,6 +100,22 @@ function resolutionSettingsSignature(settings: ObsidianLiveSyncSettings): string
 }
 
 export class ModuleResolvingMismatchedTweaks extends AbstractModule {
+    private requiresIdConfigurationReview(assessment: TweakAssessment): boolean {
+        if (
+            !assessment.entries.some(({ key, relation }) => key === "idDerivationVersion" && relation === "different")
+        ) {
+            return false;
+        }
+        Logger(
+            uiText(
+                "The document ID configurations differ. Import the correct Setup URI, or configure the matching ID key, before synchronising.",
+                "ドキュメントIDの設定が一致しません。同期する前に、正しいSetup URIをインポートするか、同じIDキーを設定してください。"
+            ),
+            LOG_LEVEL_NOTICE
+        );
+        return true;
+    }
+
     private _selectNewerTweakSide(current: TweakValues, preferred: Partial<TweakValues>): "REMOTE" | "CURRENT" {
         Logger(`Modified: ${current.tweakModified} (current) vs ${preferred.tweakModified} (preferred)`);
         const currentModified = current.tweakModified;
@@ -196,6 +213,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
         assessment = assessTweakCompatibility(this.settings, preferred)
     ): Promise<[TweakValues | boolean, boolean]> {
         if (assessment.alignment === "matched") return [false, false];
+        if (this.requiresIdConfigurationReview(assessment)) return [false, false];
         const acceptedSettings = settingsAfterAdoption(assessment, "adoptPreferred");
         const autoAcceptSide = await this._shouldAutoAcceptCompatibleLossy(assessment);
         if (autoAcceptSide === "REMOTE") return [acceptedSettings, false];
@@ -363,6 +381,7 @@ export class ModuleResolvingMismatchedTweaks extends AbstractModule {
         const trialSignature = JSON.stringify(trialSetting);
         const currentSignature = resolutionSettingsSignature(this.settings);
         const assessment = assessTweakCompatibility(trialSetting, preferred);
+        if (this.requiresIdConfigurationReview(assessment)) return { result: false, requireFetch: false };
         if (assessment.alignment === "matched") {
             this._log("The settings in the remote database are the same as the local database.", LOG_LEVEL_NOTICE);
             return { result: false, requireFetch: false };

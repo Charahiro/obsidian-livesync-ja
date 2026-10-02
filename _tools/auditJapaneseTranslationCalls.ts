@@ -331,7 +331,7 @@ for (const filename of collectSourceFiles(path.join(root, "src"))) {
     const relativeFilename = path.relative(root, filename).split(path.sep).join("/");
     if (
         relativeFilename === "src/features/P2PSync/TurnConfiguration.svelte" ||
-        relativeFilename === "src/modules/features/SetupWizard/dialogs/SetupRemoteP2P.svelte"
+        relativeFilename.startsWith("src/modules/features/SetupWizard/dialogs/")
     ) {
         // Inspect template expressions as well as the TypeScript script block.
         for (const match of source.matchAll(/(?:translate|translateMessage)\(\s*(["'])(.*?)\1/g)) {

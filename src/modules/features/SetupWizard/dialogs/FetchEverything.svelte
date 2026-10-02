@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { uiText } from "@/common/uiText";
     import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
     import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
     import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
@@ -141,9 +142,9 @@
 </Instruction>
 <Instruction>
     <ExtraItems title={translateMessage("Advanced")}>
-        <Check title={translateMessage("Use this device's settings")} bind:value={preventFetchingConfig}>
+        <Check title={uiText("Use this device's settings", "このデバイスの設定を使用")} bind:value={preventFetchingConfig}>
             <InfoNote>
-                {translateMessage("Skips checking and applying synchronisation settings from the remote.")}
+                {uiText("Skips checking and applying synchronisation settings from the remote.", "リモートの同期設定の確認と適用を省略します。")}
             </InfoNote>
         </Check>
     </ExtraItems>

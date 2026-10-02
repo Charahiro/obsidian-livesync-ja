@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { uiText } from "@/common/uiText";
     import DialogHeader from "@/modules/services/LiveSyncUI/components/DialogHeader.svelte";
     import Guidance from "@/modules/services/LiveSyncUI/components/Guidance.svelte";
     import Decision from "@/modules/services/LiveSyncUI/components/Decision.svelte";
@@ -48,9 +49,7 @@
 <Instruction>
     <Question>{translateMessage("Please select your situation.")}</Question>
     <Option
-        title={translateMessage(
-            "I am setting up a new server for the first time / I want to reset my existing server."
-        )}
+        title={uiText("⚠️ Initialise or overwrite the remote", "⚠️ リモートを初期化または上書き")}
         bind:value={userType}
         selectedValue={TYPE_NEW}
     >
@@ -61,7 +60,7 @@
         </InfoNote>
     </Option>
     <Option
-        title={translateMessage("My remote server is already set up. I want to join this device.")}
+        title={uiText("🔗 Join this device", "🔗 このデバイスを参加させる")}
         bind:value={userType}
         selectedValue={TYPE_EXISTING}
     >
@@ -72,9 +71,7 @@
         </InfoNote>
     </Option>
     <Option
-        title={translateMessage(
-            "The remote is already set up, and the configuration is compatible (or got compatible by this operation)."
-        )}
+        title={uiText("⚙️ Apply settings only (advanced)", "⚙️ 設定のみ適用（上級者向け）")}
         bind:value={userType}
         selectedValue={TYPE_COMPATIBLE_EXISTING}
     >

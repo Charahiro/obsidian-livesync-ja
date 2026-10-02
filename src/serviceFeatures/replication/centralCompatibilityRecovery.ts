@@ -1,4 +1,10 @@
-import type { ObsidianLiveSyncSettings } from "@vrtmrz/livesync-commonlib/compat/common/types";
+import { remoteFeatureRejectionText } from "@/common/remoteFeatureText";
+import { uiText } from "@/common/uiText";
+import {
+    VERSIONING_DOCID,
+    type EntryDoc,
+    type ObsidianLiveSyncSettings,
+} from "@vrtmrz/livesync-commonlib/compat/common/types";
 import { assessTweakCompatibility } from "@vrtmrz/livesync-commonlib/settings";
 import { LOG_LEVEL_INFO, LOG_LEVEL_NOTICE, Logger } from "octagonal-wheels/common/logger";
 import { skipIfDuplicated } from "octagonal-wheels/concurrency/lock";
@@ -7,12 +13,38 @@ import { LiveSyncCouchDBReplicator } from "@vrtmrz/livesync-commonlib/compat/rep
 import {
     CENTRAL_COMPATIBILITY_REJECTION_REASONS,
     REPLICATION_PROGRESS_PRESENTATIONS,
+    assessRemoteFeatureDocument,
     type ReplicatorInstance,
     type ReplicationFailureRequest,
 } from "@vrtmrz/livesync-commonlib/replication";
 import { $msg } from "@/common/translation";
 import { usesLegacyIndexedDBAdapter } from "@/common/compatibilitySettings";
 import type { LiveSyncBaseCore } from "@/LiveSyncBaseCore";
+import type PouchDB from "pouchdb-core";
+
+async function canInterpretCleanupDatabase(db: PouchDB.Database<EntryDoc>): Promise<boolean> {
+    try {
+        const assessment = assessRemoteFeatureDocument(await db.get(VERSIONING_DOCID));
+        if (assessment.status === "supported" || assessment.status === "older-generation") return true;
+        Logger(
+            uiText(
+                "Database cleanup cancelled: {reason}",
+                "データベースのクリーンアップを中止しました：{reason}"
+            ).replace("{reason}", remoteFeatureRejectionText(assessment)),
+            LOG_LEVEL_NOTICE
+        );
+    } catch (error) {
+        Logger(
+            uiText(
+                "Database cleanup cancelled: feature compatibility could not be checked.",
+                "データベースのクリーンアップを中止しました。機能の互換性を確認できませんでした。"
+            ),
+            LOG_LEVEL_NOTICE
+        );
+        Logger(error, LOG_LEVEL_INFO);
+    }
+    return false;
+}
 
 type CentralCompatibilityRecoveryServices = Pick<
     LiveSyncBaseCore["services"],
@@ -60,6 +92,7 @@ export function createCentralCompatibilityRecovery(context: CentralCompatibility
     ) {
         Logger("The remote database has been cleaned.", showProgress ? LOG_LEVEL_NOTICE : LOG_LEVEL_INFO);
         await skipIfDuplicated("cleanup", async () => {
+            if (!(await canInterpretCleanupDatabase(context.getLocalDatabase().localDatabase))) return;
             const count = await purgeUnreferencedChunks(context.getLocalDatabase().localDatabase, true);
             const message = `The remote database has been cleaned up.
 To synchronize, this device must be also cleaned up. ${count} chunk(s) will be erased from this device.
